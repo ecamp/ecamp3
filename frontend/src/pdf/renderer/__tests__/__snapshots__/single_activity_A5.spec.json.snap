@@ -511,8 +511,10 @@
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
+                                        "paddingBottom": "2pt",
                                         "paddingRight": "2pt",
-                                        "width": "28pt",
+                                        "paddingTop": "2pt",
+                                        "width": "42pt",
                                       },
                                       "type": "VIEW",
                                     },
@@ -544,7 +546,9 @@
                                         "flexGrow": "1",
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
+                                        "paddingBottom": "2pt",
                                         "paddingHorizontal": "2pt",
+                                        "paddingTop": "2pt",
                                       },
                                       "type": "VIEW",
                                     },
@@ -578,7 +582,9 @@
                                         "fontWeight": "600",
                                         "lineHeight": "0.8",
                                         "overflow": "hidden",
+                                        "paddingBottom": "2pt",
                                         "paddingLeft": "2pt",
+                                        "paddingTop": "2pt",
                                       },
                                       "type": "VIEW",
                                     },
@@ -612,7 +618,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "storyboard-cell storyboard-column-1",
+                                        "class": "storyboard-cell storyboard-column-1 storyboard-cell-compact",
                                       },
                                       "style": {
                                         "flexGrow": "0",
@@ -625,7 +631,7 @@
                                         "paddingBottom": "3pt",
                                         "paddingRight": "2pt",
                                         "paddingTop": "1pt",
-                                        "width": "28pt",
+                                        "width": "42pt",
                                       },
                                       "type": "VIEW",
                                     },
@@ -713,7 +719,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "storyboard-cell storyboard-column-2",
+                                        "class": "storyboard-cell storyboard-column-2 storyboard-cell-compact",
                                       },
                                       "style": {
                                         "borderLeft": "0.75pt solid #94A3B8",
@@ -740,7 +746,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "storyboard-cell storyboard-column-3",
+                                        "class": "storyboard-cell storyboard-column-3 storyboard-cell-compact",
                                       },
                                       "style": {
                                         "borderLeft": "0.75pt solid #94A3B8",
@@ -783,7 +789,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "storyboard-cell storyboard-column-1",
+                                        "class": "storyboard-cell storyboard-column-1 storyboard-cell-compact",
                                       },
                                       "style": {
                                         "flexGrow": "0",
@@ -796,7 +802,7 @@
                                         "paddingBottom": "3pt",
                                         "paddingRight": "2pt",
                                         "paddingTop": "1pt",
-                                        "width": "28pt",
+                                        "width": "42pt",
                                       },
                                       "type": "VIEW",
                                     },
@@ -866,7 +872,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "storyboard-cell storyboard-column-2",
+                                        "class": "storyboard-cell storyboard-column-2 storyboard-cell-compact",
                                       },
                                       "style": {
                                         "borderLeft": "0.75pt solid #94A3B8",
@@ -893,7 +899,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "storyboard-cell storyboard-column-3",
+                                        "class": "storyboard-cell storyboard-column-3 storyboard-cell-compact",
                                       },
                                       "style": {
                                         "borderLeft": "0.75pt solid #94A3B8",
@@ -936,7 +942,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "storyboard-cell storyboard-column-1",
+                                        "class": "storyboard-cell storyboard-column-1 storyboard-cell-compact",
                                       },
                                       "style": {
                                         "flexGrow": "0",
@@ -949,7 +955,7 @@
                                         "paddingBottom": "3pt",
                                         "paddingRight": "2pt",
                                         "paddingTop": "1pt",
-                                        "width": "28pt",
+                                        "width": "42pt",
                                       },
                                       "type": "VIEW",
                                     },
@@ -1013,7 +1019,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "storyboard-cell storyboard-column-2",
+                                        "class": "storyboard-cell storyboard-column-2 storyboard-cell-compact",
                                       },
                                       "style": {
                                         "borderLeft": "0.75pt solid #94A3B8",
@@ -1040,7 +1046,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "storyboard-cell storyboard-column-3",
+                                        "class": "storyboard-cell storyboard-column-3 storyboard-cell-compact",
                                       },
                                       "style": {
                                         "borderLeft": "0.75pt solid #94A3B8",
@@ -1083,7 +1089,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "storyboard-cell storyboard-column-1",
+                                        "class": "storyboard-cell storyboard-column-1 storyboard-cell-compact",
                                       },
                                       "style": {
                                         "flexGrow": "0",
@@ -1096,7 +1102,7 @@
                                         "paddingBottom": "3pt",
                                         "paddingRight": "2pt",
                                         "paddingTop": "1pt",
-                                        "width": "28pt",
+                                        "width": "42pt",
                                       },
                                       "type": "VIEW",
                                     },
@@ -1124,7 +1130,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "storyboard-cell storyboard-column-2",
+                                        "class": "storyboard-cell storyboard-column-2 storyboard-cell-compact",
                                       },
                                       "style": {
                                         "borderLeft": "0.75pt solid #94A3B8",
@@ -1151,7 +1157,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "storyboard-cell storyboard-column-3",
+                                        "class": "storyboard-cell storyboard-column-3 storyboard-cell-compact",
                                       },
                                       "style": {
                                         "borderLeft": "0.75pt solid #94A3B8",
