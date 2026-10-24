@@ -71,9 +71,17 @@ export default {
   text-decoration: none;
   width: 100%;
   margin-bottom: 6pt;
+  font-weight: 600;
 }
 .toc-sub-entry {
-  padding-left: 10pt;
+  padding-left: 14pt;
   margin-bottom: 4pt;
+  font-weight: normal;
+}
+.toc-day-entry {
+  margin-top: 2pt;
+}
+.toc-activity-entry {
+  padding-left: 28pt;
 }
 </style>
