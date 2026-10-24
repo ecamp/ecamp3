@@ -50,8 +50,7 @@ Comments in code mostly age poorly. Please use the following framework to decide
    Behaviour covered by a test needs no prose.
 2. Prefer commit messages to code comments, because a git blame is more telling and easier to research than
    figuring out the repo code state back when a comment was written. Match the style and length of other,
-   human-made commits. No figures of speech, just objective facts in short form. NEVER more than 1 commit
-   line + 3 lines of commit message.
+   human-made commits. No figures of speech, just objective facts in short form.
 3. Only if the information is directly about the class / method being commented, only if it can't be expressed
    through the above means of documentation adequately, and only if it is relevant every single time a piece of
    code is read, forever: Only then create a comment. Even then, only include the information that isn't
