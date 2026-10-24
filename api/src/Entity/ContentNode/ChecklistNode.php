@@ -67,7 +67,7 @@ class ChecklistNode extends ContentNode {
     #[ORM\JoinTable(name: 'checklistnode_checklistitem')]
     #[ORM\JoinColumn(name: 'checklistnode_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'checklistitem_id', referencedColumnName: 'id', onDelete: 'RESTRICT')]
-    #[ORM\OrderBy(['position' => \SortDirection::Ascending])]
+    #[ORM\OrderBy(['position' => \SortDirection::Ascending, 'id' => \SortDirection::Ascending])]
     public Collection $checklistItems;
 
     #[AssertBelongsToSameCamp(groups: ['update'])]
