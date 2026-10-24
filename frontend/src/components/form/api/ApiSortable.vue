@@ -1,19 +1,16 @@
 <template>
   <draggable
-    :model-value="localSortedItems"
+    v-model="localSortedItems"
+    :item-key="(item) => item._meta.self"
     ghost-class="ghost"
     handle=".drag-and-drop-handle"
-    tag="transition-group"
-    :component-data="{ name: !dragging ? 'flip-list' : null }"
     :animation="200"
     :force-fallback="true"
     :disabled="disabled"
-    @start="dragging = true"
-    @end="dragging = false"
     @update="finishDrag"
   >
     <template #item="{ element, index }">
-      <div :key="element._meta.self" :data-href="element._meta.self">
+      <div :data-href="element._meta.self">
         <slot :item-position="index" :item="element" />
       </div>
     </template>
@@ -41,7 +38,6 @@ export default {
   },
   data() {
     return {
-      dragging: false,
       dirty: false,
       savingRequest: 0,
       localSortedItems: [],
@@ -100,13 +96,6 @@ export default {
 </script>
 
 <style scoped>
-/* eslint-disable-next-line vue-scoped-css/no-unused-selector */
-.flip-list-move {
-  transition: transform 0.5s;
-  opacity: 0.5;
-  background: #c8ebfb;
-}
-
 /* eslint-disable-next-line vue-scoped-css/no-unused-selector */
 .ghost {
   opacity: 0.5;
