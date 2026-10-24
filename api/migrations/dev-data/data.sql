@@ -51,7 +51,8 @@ Port Asiaton, MN 44798-0182', '10529', 'New Kaylinfort', '2022-01-23 16:19:10', 
 	('9c2447aefe38', 'e5027d852487', false, 'Lorem ipsum', 'Lorem ipsum dolor sit amet', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Lorem ipsum', 'Mainstreet 123', '1234', 'Kongo', '2023-08-12 17:41:55', '2023-08-12 17:45:10', '9145944210a7', '9145944210a7', 'Testinator', 'Summer Tent', 'Max Mustermann', NULL, NULL, NULL, false, false, NULL, NULL, false, false, NULL, NULL),
 	('5d28f99890bc', 'e5027d852487', false, 'PBS CH 361-25', 'Basiskurs Wolfsstufe 2025', 'Auf den Spuren von BiPi', 'Oskar Hugentobler', 'Rainweg 23', '1999', 'Les Bois', '2023-08-08 09:22:58', '2024-09-28 16:14:25', '9145944210a7', '9145944210a7', 'Pfadi Gryfenberg', 'Sommerlager', 'Andrea Schneider', 'JS-CH PBS CH 361-25', 'Basiskurs', 'Sandro Bodruzzi', true, false, NULL, NULL, false, false, NULL, NULL),
 	('25a82475e0b7', '5d28f99890bc', true, NULL, 'J+S Kurs', '', NULL, NULL, NULL, NULL, '2024-09-28 21:19:13', '2024-09-28 21:23:05', '3b41dca5c568', '3b41dca5c568', '', NULL, NULL, NULL, NULL, NULL, true, false, NULL, NULL, true, false, NULL, NULL),
-	('dec53345b953', 'e5027d852487', false, NULL, 'MiData Testlager', '', NULL, NULL, NULL, NULL, '2026-09-24 12:15:56', '2026-09-24 12:15:56', '9145944210a7', '9145944210a7', NULL, NULL, NULL, NULL, NULL, NULL, false, false, NULL, NULL, false, false, 'pbsmidata', '123456');
+	('dec53345b953', 'e5027d852487', false, NULL, 'MiData Testlager', '', NULL, NULL, NULL, NULL, '2026-09-24 12:15:56', '2026-09-24 12:15:56', '9145944210a7', '9145944210a7', NULL, NULL, NULL, NULL, NULL, NULL, false, false, NULL, NULL, false, false, 'pbsmidata', '123456'),
+	('57b36f776137', 'e5027d852487', true, NULL, 'J+S Lager ab 2027', '', NULL, NULL, NULL, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '3b41dca5c568', '3b41dca5c568', '', NULL, NULL, NULL, NULL, NULL, true, false, NULL, NULL, true, false, NULL, NULL);
 
 
 
@@ -91,7 +92,11 @@ INSERT INTO public.activity_progress_label (id, "position", title, createtime, u
 	('5fb19be02571', 1, 'In Planung', '2026-09-24 12:15:56', '2026-09-24 12:15:56', 'dec53345b953'),
 	('700063db71e5', 2, 'Geplant', '2026-09-24 12:15:56', '2026-09-24 12:15:56', 'dec53345b953'),
 	('12721c48e2e2', 3, 'Lagerleitung OK', '2026-09-24 12:15:56', '2026-09-24 12:15:56', 'dec53345b953'),
-	('22fa2f0f418c', 4, 'Coach OK', '2026-09-24 12:15:56', '2026-09-24 12:15:56', 'dec53345b953');
+	('22fa2f0f418c', 4, 'Coach OK', '2026-09-24 12:15:56', '2026-09-24 12:15:56', 'dec53345b953'),
+	('81a0a067f750', 1, 'In Planung', '2026-10-24 18:55:27', '2026-10-24 18:55:27', '57b36f776137'),
+	('9e4f17b6769d', 2, 'Geplant', '2026-10-24 18:55:27', '2026-10-24 18:55:27', '57b36f776137'),
+	('9cbbbaaad67f', 3, 'Lagerleitung OK', '2026-10-24 18:55:27', '2026-10-24 18:55:27', '57b36f776137'),
+	('836d922d11fc', 4, 'Coach OK', '2026-10-24 18:55:27', '2026-10-24 18:55:27', '57b36f776137');
 
 
 
@@ -1276,7 +1281,25 @@ INSERT INTO public.content_node (id, slot, "position", instancename, createtime,
 	('fb2e5cf0ebe0', '1', 1, NULL, '2026-09-24 12:15:56', '2026-09-24 12:15:56', '5f512186b7ca', '5f512186b7ca', 'cfccaecd4bad', 'storyboard', '{"sections": {"7412b417-389b-4458-b3dc-af3626a34b30": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
 	('146ff50b3dec', '1', 2, NULL, '2026-09-24 12:15:56', '2026-09-24 12:15:56', '5f512186b7ca', '5f512186b7ca', 'f17470519474', 'columnlayout', '{"columns": [{"slot": "1", "width": 9}, {"slot": "2", "width": 3}]}'),
 	('0bfaeab0731f', '1', 0, NULL, '2026-09-24 12:15:56', '2026-09-24 12:15:56', '5f512186b7ca', '146ff50b3dec', '3ef17bd1df72', 'materialnode', NULL),
-	('987dbb8a3edf', '2', 0, NULL, '2026-09-24 12:15:56', '2026-09-24 12:15:56', '5f512186b7ca', '146ff50b3dec', '4f0c657fecef', 'singletext', '{"html": ""}');
+	('987dbb8a3edf', '2', 0, NULL, '2026-09-24 12:15:56', '2026-09-24 12:15:56', '5f512186b7ca', '146ff50b3dec', '4f0c657fecef', 'singletext', '{"html": ""}'),
+	('b4159cda7a1a', NULL, 0, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', 'b4159cda7a1a', NULL, 'f17470519474', 'columnlayout', '{"columns": [{"slot": "1", "width": 12}]}'),
+	('4704eedfc4d6', NULL, 0, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '4704eedfc4d6', NULL, 'f17470519474', 'columnlayout', '{"columns": [{"slot": "1", "width": 12}]}'),
+	('ec7919e55683', '1', 0, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '4704eedfc4d6', '4704eedfc4d6', 'a4211c112939', 'responsivelayout', '{"items": [{"slot": "main"}, {"slot": "aside-top"}, {"slot": "aside-bottom"}]}'),
+	('ea22abcad46f', 'aside-bottom', 0, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '4704eedfc4d6', 'ec7919e55683', '4f0c657fecef', 'singletext', '{"html": ""}'),
+	('b388c2e56eed', 'main', 0, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '4704eedfc4d6', 'ec7919e55683', 'cfccaecd4bad', 'storyboard', '{"sections": {"4c126a50-f729-46a7-8326-811586922995": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('90992b608a2d', 'main', 1, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '4704eedfc4d6', 'ec7919e55683', '3ef17bd1df72', 'materialnode', NULL),
+	('87d6ce740e29', NULL, 0, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '87d6ce740e29', NULL, 'f17470519474', 'columnlayout', '{"columns": [{"slot": "1", "width": 12}]}'),
+	('f52ab62db245', '1', 0, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '87d6ce740e29', '87d6ce740e29', 'f17470519474', 'columnlayout', '{"columns": [{"slot": "1", "width": 5}, {"slot": "2", "width": 7}]}'),
+	('e5e65a7d7737', '1', 0, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '87d6ce740e29', 'f52ab62db245', '318e064ea0c9', 'singletext', '{"html": ""}'),
+	('15601ee15ab5', '2', 0, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '87d6ce740e29', 'f52ab62db245', '44dcc7493c65', 'singletext', '{"html": ""}'),
+	('4f8e00096add', '1', 1, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '87d6ce740e29', '87d6ce740e29', 'cfccaecd4bad', 'storyboard', '{"sections": {"effa3fa5-cd07-4e82-a8aa-198ed9a7c1d4": {"column1": "", "column3": "", "position": 1, "column2Html": ""}}}'),
+	('99a5bb4dbd5c', '1', 2, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '87d6ce740e29', '87d6ce740e29', 'f17470519474', 'columnlayout', '{"columns": [{"slot": "1", "width": 9}, {"slot": "2", "width": 3}]}'),
+	('c2340e38e29b', '1', 0, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '87d6ce740e29', '99a5bb4dbd5c', '3ef17bd1df72', 'materialnode', NULL),
+	('73e4d1fc52d4', '2', 0, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '87d6ce740e29', '99a5bb4dbd5c', '4f0c657fecef', 'singletext', '{"html": ""}'),
+	('f71f9ece5831', 'aside-top', 0, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '4704eedfc4d6', 'ec7919e55683', '318e064ea0c9', 'singletext', '{"html": ""}'),
+	('c3d0ff06aca9', 'aside-top', 3, NULL, '2026-10-24 18:57:21', '2026-10-24 18:59:55', '4704eedfc4d6', 'ec7919e55683', 'e87751a6291b', 'nodata', NULL),
+	('73e53341ee85', 'aside-top', 2, NULL, '2026-10-24 18:56:39', '2026-10-24 18:57:38', '4704eedfc4d6', 'ec7919e55683', 'c9a61096ef01', 'multiselect', '{"options": {"community": {"checked": false}, "gamesAndSports": {"checked": false}, "gettingInvolved": {"checked": false}, "outdoorTechnique": {"checked": false}, "travellingSafety": {"checked": false}, "natureAndEnvironment": {"checked": false}}}'),
+	('5b92b766ed3d', 'aside-top', 1, NULL, '2026-10-24 18:55:27', '2026-10-24 19:03:32', '4704eedfc4d6', 'ec7919e55683', '44dcc7493c65', 'singletext', '{"html": ""}');
 
 
 
@@ -1331,7 +1354,10 @@ INSERT INTO public.category (id, categoryprototypeid, short, name, color, number
 	('cb9a1fe38762', '9b3a5138cbcf', 'ES', 'Essen', '#BBBBBB', '1', 'dec53345b953', '5d2c6335ec17', '2026-09-24 12:15:56', '2026-09-24 12:15:56'),
 	('0699e7f2f660', '84b0ebdf5dc0', 'LA', 'Lageraktivität', '#FF9800', 'A', 'dec53345b953', 'a1b67de58b65', '2026-09-24 12:15:56', '2026-09-24 12:15:56'),
 	('fa55828f1b24', 'c8a56ebb4d2a', 'LP', 'Lagerprogramm', '#90B7E4', '1', 'dec53345b953', '26bfbe025325', '2026-09-24 12:15:56', '2026-09-24 12:15:56'),
-	('f55eda7c1a33', 'dbc3fbcc684c', 'LS', 'Lagersport', '#4DBB52', '1', 'dec53345b953', '5f512186b7ca', '2026-09-24 12:15:56', '2026-09-24 12:15:56');
+	('f55eda7c1a33', 'dbc3fbcc684c', 'LS', 'Lagersport', '#4DBB52', '1', 'dec53345b953', '5f512186b7ca', '2026-09-24 12:15:56', '2026-09-24 12:15:56'),
+	('3909a433bba0', '9b3a5138cbcf', 'ES', 'Essen', '#BBBBBB', '1', '57b36f776137', 'b4159cda7a1a', '2026-10-24 18:55:27', '2026-10-24 18:55:27'),
+	('7c55d81897bb', 'c8a56ebb4d2a', 'LP', 'Lagerprogramm', '#90B7E4', '1', '57b36f776137', '87d6ce740e29', '2026-10-24 18:55:27', '2026-10-24 18:55:27'),
+	('311377a80d4f', '84b0ebdf5dc0', 'JS', 'J+S-Aktivität', '#4DBB52', 'A', '57b36f776137', '4704eedfc4d6', '2026-10-24 18:55:27', '2026-10-24 19:01:12');
 
 
 
@@ -1520,7 +1546,8 @@ INSERT INTO public.camp_collaboration (id, inviteemail, invitekeyhash, status, r
 	('d03003838720', NULL, NULL, 'established', 'member', '2023-08-08 09:38:01', '2023-08-08 09:44:50', 'caeba9f7e728', '5d28f99890bc', NULL, 'Ca'),
 	('e64284adf2f2', NULL, NULL, 'established', 'manager', '2023-08-08 09:37:16', '2023-08-08 09:45:21', 'bee7cf5b3871', '5d28f99890bc', NULL, NULL),
 	('d80ac2c1baff', NULL, NULL, 'established', 'manager', '2024-09-28 21:19:13', '2024-09-28 21:19:13', '3b41dca5c568', '25a82475e0b7', NULL, NULL),
-	('9ef872ae06cc', NULL, NULL, 'established', 'manager', '2026-09-24 12:15:56', '2026-09-24 12:15:56', '9145944210a7', 'dec53345b953', NULL, NULL);
+	('9ef872ae06cc', NULL, NULL, 'established', 'manager', '2026-09-24 12:15:56', '2026-09-24 12:15:56', '9145944210a7', 'dec53345b953', NULL, NULL),
+	('2df8f51e08d4', NULL, NULL, 'established', 'manager', '2026-10-24 18:55:27', '2026-10-24 18:55:27', '3b41dca5c568', '57b36f776137', NULL, NULL);
 
 
 
@@ -1800,7 +1827,20 @@ INSERT INTO public.category_contenttype (category_id, contenttype_id) VALUES
 	('f55eda7c1a33', '4f0c657fecef'),
 	('f55eda7c1a33', '44dcc7493c65'),
 	('f55eda7c1a33', 'cfccaecd4bad'),
-	('f55eda7c1a33', '318e064ea0c9');
+	('f55eda7c1a33', '318e064ea0c9'),
+	('311377a80d4f', 'f17470519474'),
+	('311377a80d4f', '1a0f84e322c8'),
+	('311377a80d4f', '3ef17bd1df72'),
+	('311377a80d4f', '4f0c657fecef'),
+	('311377a80d4f', '44dcc7493c65'),
+	('311377a80d4f', 'cfccaecd4bad'),
+	('311377a80d4f', '318e064ea0c9'),
+	('7c55d81897bb', 'f17470519474'),
+	('7c55d81897bb', '3ef17bd1df72'),
+	('7c55d81897bb', '4f0c657fecef'),
+	('7c55d81897bb', '44dcc7493c65'),
+	('7c55d81897bb', 'cfccaecd4bad'),
+	('7c55d81897bb', '318e064ea0c9');
 
 
 
@@ -4166,7 +4206,8 @@ INSERT INTO public.period (id, description, start, "end", createtime, updatetime
 	('c085d1d5ddfa', 'Die Jedi-Akademie', '2037-07-14', '2037-07-16', '2023-08-13 06:32:29', '2023-08-13 06:32:29', '0969e3c95dfc', NULL),
 	('88f1f55a69d7', 'Hauptlager', '2036-07-13', '2036-07-20', '2023-08-08 09:22:58', '2023-08-08 09:48:01', '5d28f99890bc', NULL),
 	('c550b8707c26', 'Nachweekend', '2036-08-09', '2036-08-10', '2025-04-12 22:30:55', '2025-04-12 22:30:55', '6973c230d6b1', NULL),
-	('8852c61e4ed9', 'Hauptlager', '2036-01-01', '2036-02-01', '2026-09-24 12:15:56', '2026-09-24 12:15:56', 'dec53345b953', '7890');
+	('8852c61e4ed9', 'Hauptlager', '2036-01-01', '2036-02-01', '2026-09-24 12:15:56', '2026-09-24 12:15:56', 'dec53345b953', '7890'),
+	('0257e5614e24', 'Hauptlager', '2022-01-01', '2022-01-01', '2026-10-24 18:55:27', '2026-10-24 18:55:27', '57b36f776137', NULL);
 
 
 
@@ -4244,7 +4285,8 @@ INSERT INTO public.day (id, dayoffset, createtime, updatetime, periodid) VALUES
 	('cd7ae639eebd', 28, '2026-09-24 12:15:56', '2026-09-24 12:15:56', '8852c61e4ed9'),
 	('e0fb4434ef3c', 29, '2026-09-24 12:15:56', '2026-09-24 12:15:56', '8852c61e4ed9'),
 	('eb04e7eec7aa', 30, '2026-09-24 12:15:56', '2026-09-24 12:15:56', '8852c61e4ed9'),
-	('6c780aa13f7e', 31, '2026-09-24 12:15:56', '2026-09-24 12:15:56', '8852c61e4ed9');
+	('6c780aa13f7e', 31, '2026-09-24 12:15:56', '2026-09-24 12:15:56', '8852c61e4ed9'),
+	('7f024bbd3e4d', 0, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '0257e5614e24');
 
 
 
@@ -4348,7 +4390,12 @@ INSERT INTO public.material_list (id, materiallistprototypeid, name, createtime,
 	('276ac644e7e7', '58723b211d16', 'J+S', '2026-09-24 12:15:56', '2026-09-24 12:15:56', 'dec53345b953', NULL),
 	('96a754315eb1', 'd26923cc560d', 'Lebensmittel', '2026-09-24 12:15:56', '2026-09-24 12:15:56', 'dec53345b953', NULL),
 	('8f20677b716d', '387e6dbe2cbb', 'Pfadiheim', '2026-09-24 12:15:56', '2026-09-24 12:15:56', 'dec53345b953', NULL),
-	('992376da7eab', NULL, NULL, '2026-09-24 12:15:56', '2026-09-24 12:15:56', 'dec53345b953', '9ef872ae06cc');
+	('992376da7eab', NULL, NULL, '2026-09-24 12:15:56', '2026-09-24 12:15:56', 'dec53345b953', '9ef872ae06cc'),
+	('f89d5a468d08', 'a69b2d247be3', 'Baumarkt', '2026-10-24 18:55:27', '2026-10-24 18:55:27', '57b36f776137', NULL),
+	('35a9f895bfae', '58723b211d16', 'J+S', '2026-10-24 18:55:27', '2026-10-24 18:55:27', '57b36f776137', NULL),
+	('e37309ce5f3c', 'd26923cc560d', 'Lebensmittel', '2026-10-24 18:55:27', '2026-10-24 18:55:27', '57b36f776137', NULL),
+	('d0c309f56f40', '387e6dbe2cbb', 'Pfadiheim', '2026-10-24 18:55:27', '2026-10-24 18:55:27', '57b36f776137', NULL),
+	('50aa586c4388', NULL, NULL, '2026-10-24 18:55:27', '2026-10-24 18:55:27', '57b36f776137', '2df8f51e08d4');
 
 
 
