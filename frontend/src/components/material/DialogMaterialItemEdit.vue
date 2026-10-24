@@ -16,6 +16,7 @@
     <template #moreActions>
       <PromptEntityDelete
         :entity="materialItemUri"
+        :success-handler="deleteSuccessHandler"
         :warning-text-entity="materialItem.article"
         align="left"
         position="top"
@@ -44,6 +45,7 @@ export default {
   extends: DialogBase,
   props: {
     materialItemUri: { type: String, required: true },
+    deleteSuccessHandler: { type: Function, default: null },
   },
   data() {
     return {
