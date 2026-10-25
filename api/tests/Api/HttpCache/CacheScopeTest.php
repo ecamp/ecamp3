@@ -39,6 +39,13 @@ class CacheScopeTest extends ECampApiTestCase {
         $this->assertSame(['public'], $response->getHeaders()[self::HEADER]);
     }
 
+    public function testEntrypointIsPublic() {
+        $response = static::createClientWithCredentials()->request('GET', '/');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertSame(['public'], $response->getHeaders()[self::HEADER]);
+    }
+
     public function testResponseWithoutDeclaredScopeHasNoScope() {
         $activity = static::getFixture('activity1');
 

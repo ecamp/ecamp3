@@ -29,6 +29,7 @@ final class CacheScopeListener {
     public const string EXTRA_PROPERTY = 'cache_scope';
     public const string SCOPE_CAMP = 'camp';
     public const string SCOPE_PUBLIC = 'public';
+    private const string ENTRYPOINT_ROUTE = 'api_entrypoint';
 
     public function __construct(
         ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
@@ -46,20 +47,28 @@ final class CacheScopeListener {
             return;
         }
 
-        $operation = $this->initializeOperation($request);
-        if (!$operation || !RequestAttributesExtractor::extractAttributes($request)) {
-            return;
-        }
-
-        $scope = match ($operation->getExtraProperties()[self::EXTRA_PROPERTY] ?? null) {
-            self::SCOPE_PUBLIC => self::SCOPE_PUBLIC,
-            self::SCOPE_CAMP => $this->getCampIri($request, $operation instanceof CollectionOperationInterface),
-            default => null,
-        };
+        $scope = $this->getScope($request);
 
         if (null !== $scope) {
             $response->headers->set(self::HEADER, $scope);
         }
+    }
+
+    private function getScope(Request $request): ?string {
+        if (self::ENTRYPOINT_ROUTE === $request->attributes->get('_route')) {
+            return self::SCOPE_PUBLIC;
+        }
+
+        $operation = $this->initializeOperation($request);
+        if (!$operation || !RequestAttributesExtractor::extractAttributes($request)) {
+            return null;
+        }
+
+        return match ($operation->getExtraProperties()[self::EXTRA_PROPERTY] ?? null) {
+            self::SCOPE_PUBLIC => self::SCOPE_PUBLIC,
+            self::SCOPE_CAMP => $this->getCampIri($request, $operation instanceof CollectionOperationInterface),
+            default => null,
+        };
     }
 
     private function getCampIri(Request $request, bool $isCollection): ?string {
