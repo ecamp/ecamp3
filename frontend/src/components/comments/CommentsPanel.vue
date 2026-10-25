@@ -32,7 +32,7 @@
       <v-chip-group
         v-model="commentsState.showResolved"
         mandatory
-        class="flex-0-0 px-3 pt-0 pb-2"
+        class="px-3 pt-0 pb-2"
         data-testid="comments-resolved-toggle"
       >
         <v-chip
