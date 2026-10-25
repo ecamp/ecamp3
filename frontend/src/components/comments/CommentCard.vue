@@ -29,13 +29,8 @@
       data-testid="comment-card"
     >
       <header class="ec-comment-card__meta d-flex align-center">
-        <UserAvatar
-          v-if="author"
-          :camp-collaboration="author"
-          size="24"
-          class="flex-0-0 mr-2"
-        />
-        <v-avatar v-else size="24" color="grey-lighten-2" class="flex-0-0 mr-2">
+        <UserAvatar v-if="author" :camp-collaboration="author" size="24" class="mr-2" />
+        <v-avatar v-else size="24" color="grey-lighten-2" class="mr-2">
           <v-icon icon="mdi-account-off-outline" size="16" />
         </v-avatar>
         <strong class="text-body-2 font-weight-medium text-truncate">{{
@@ -44,15 +39,11 @@
         <v-spacer />
         <CommentTime
           :value="comment.createTime"
-          class="text-caption text-medium-emphasis flex-0-0 mx-2"
+          class="text-caption text-medium-emphasis mx-2"
         />
         <v-tooltip v-if="isOwnComment && hasRepliesByOthers" location="bottom">
           <template #activator="{ props }">
-            <span
-              class="visible-on-hover d-inline-flex flex-0-0"
-              tabindex="0"
-              v-bind="props"
-            >
+            <span class="visible-on-hover d-inline-flex" tabindex="0" v-bind="props">
               <v-btn
                 icon
                 variant="text"
@@ -73,7 +64,7 @@
               icon
               variant="text"
               size="x-small"
-              class="ec-comment-card__delete visible-on-hover flex-0-0"
+              class="ec-comment-card__delete visible-on-hover"
               :aria-label="$t('global.button.delete')"
               v-bind="props"
             >
