@@ -3,6 +3,7 @@
   <View :wrap="false" :min-presence-ahead="75">
     <View
       class="schedule-entry-header-title"
+      :class="{ 'schedule-entry-header-title-compact': compact }"
       :style="{ borderBottomColor: activity.category().color }"
     >
       <View :id="`scheduleEntry_${scheduleEntry.id}`" class="schedule-entry-title">
@@ -98,9 +99,12 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  padding-bottom: 2pt;
+  align-items: flex-start;
+  padding-bottom: 1pt;
   border-bottom: 2pt solid #aaaaaa;
+}
+.schedule-entry-header-title-compact {
+  padding-bottom: 0;
 }
 .schedule-entry-title {
   flex-basis: 0;
@@ -120,6 +124,7 @@ export default {
 }
 .schedule-entry-date {
   font-size: 11pt;
+  margin-top: 10.78pt;
   display: flex;
   flex-grow: 0;
   flex-shrink: 1;
