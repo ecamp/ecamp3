@@ -1,5 +1,5 @@
 parameters:
-    app.httpCache.matchPath: '^/?($|index.jsonhal$|content_types|camps/[0-9a-f]*/categories|periods/[0-9a-f]*/schedule_entries|camps/[0-9a-f]*/activities|camps/[0-9a-f]*/checklists|activities/[0-9a-f]*|periods/[0-9a-f]*/days)'
+    app.httpCache.matchPath: '^/?($|index.jsonhal$|content_types|camps/[0-9a-f]*/categories|periods/[0-9a-f]*/schedule_entries|camps/[0-9a-f]*/activities|camps/[0-9a-f]*/checklists|activities/[0-9a-f]*|periods/[0-9a-f]*/days|_cache_access)'
 
 fos_http_cache:
     debug:
@@ -15,6 +15,13 @@ fos_http_cache:
         defaults:
             overwrite: true
         rules:
+            # cache headers are set by the controller, as they depend on the access decision and the JWT lifetime
+            - match:
+                  path: ^/_cache_access
+              headers:
+                  overwrite: false
+                  vary: [Accept]
+
             - match:
                   path: '%app.httpCache.matchPath%'
               headers:
