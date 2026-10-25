@@ -6,6 +6,7 @@
     icon="mdi-package-variant"
     :title="$t('components.material.dialogMaterialItemCreate.title')"
     :submit-action="createMaterialItem"
+    :submit-enabled="!creatingMaterialList"
     submit-color="success"
     :cancel-action="close"
   >
@@ -13,7 +14,11 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-material-item-form :camp="camp" :material-item="entityData" />
+    <dialog-material-item-form
+      :camp="camp"
+      :material-item="entityData"
+      @update:creating="creatingMaterialList = $event"
+    />
   </dialog-form>
 </template>
 
@@ -40,11 +45,13 @@ export default {
       entityProperties: ['quantity', 'unit', 'article'],
       embeddedEntities: ['materialList'],
       entityUri: this.materialItemCollection._meta.self,
+      creatingMaterialList: false,
     }
   },
   watch: {
     showDialog: function (showDialog) {
       if (showDialog) {
+        this.creatingMaterialList = false
         const entityData = {
           quantity: null,
           unit: '',
@@ -61,6 +68,8 @@ export default {
   },
   methods: {
     createMaterialItem() {
+      if (this.creatingMaterialList) return
+
       const key = Date.now()
       const data = this.entityData
 

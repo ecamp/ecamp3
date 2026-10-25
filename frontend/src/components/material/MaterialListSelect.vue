@@ -26,7 +26,7 @@
     </template>
     <template #append-item>
       <v-list-item
-        v-if="search?.trim()"
+        v-if="canCreateList"
         append-icon="mdi-plus"
         :title="search.trim()"
         :subtitle="$t('components.material.materialListSelect.createNew')"
@@ -51,14 +51,14 @@ export default {
     readonly: { type: Boolean, default: false },
     errorMessages: { type: Array, default: () => [] },
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'update:creating'],
   data() {
     return {
       search: '',
       menu: false,
       creating: false,
       creationErrors: [],
-      pendingCreation: null,
+      createdList: null,
     }
   },
   computed: {
@@ -68,30 +68,37 @@ export default {
         text: list.name,
       }))
     },
+    canCreateList() {
+      const name = this.search?.trim().toLocaleLowerCase()
+      return (
+        !!name &&
+        !this.materialLists.some((list) => list.text.trim().toLocaleLowerCase() === name)
+      )
+    },
   },
   methods: {
     async createMaterialList() {
       const name = this.search?.trim()
-      if (!name || this.creating) return
+      if (!this.canCreateList || this.creating) return
 
       this.menu = false
       this.creating = true
+      this.$emit('update:creating', true)
       this.creationErrors = []
-      await this.$nextTick()
 
       try {
-        if (this.pendingCreation?.name !== name) {
+        if (this.createdList?.name !== name) {
           const materialList = await this.api.post(
             await this.api.href(this.api.get(), 'materialLists'),
             { camp: this.camp._meta.self, name }
           )
-          this.pendingCreation = { name, materialList }
+          this.createdList = { name, materialList }
         }
         await this.api.reload(this.camp.materialLists())
-        const materialList = this.pendingCreation.materialList
+        const materialList = this.createdList.materialList
         this.$emit('update:modelValue', materialList._meta.self)
         this.search = materialList.name
-        this.pendingCreation = null
+        this.createdList = null
         await this.$nextTick()
         this.menu = false
       } catch (error) {
@@ -102,6 +109,7 @@ export default {
         this.search = name
       } finally {
         this.creating = false
+        this.$emit('update:creating', false)
       }
     },
   },

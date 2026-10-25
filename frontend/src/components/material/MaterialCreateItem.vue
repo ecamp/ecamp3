@@ -35,10 +35,12 @@
         density="comfortable"
         path="materialList"
         vee-rules="required"
+        @update:creating="creatingMaterialList = $event"
       />
     </td>
     <td class="pt-1">
       <ButtonAdd
+        :disabled="creatingMaterialList"
         height="48"
         hide-label
         @click="handleSubmit(() => createMaterialItem(resetForm))"
@@ -76,6 +78,7 @@ export default {
   data() {
     return {
       materialItem: {},
+      creatingMaterialList: false,
     }
   },
   created() {
@@ -88,6 +91,8 @@ export default {
       }
     },
     createMaterialItem(resetForm) {
+      if (this.creatingMaterialList) return
+
       const key = Date.now()
       const data = this.materialItem
 

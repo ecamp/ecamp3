@@ -177,6 +177,10 @@ describe('MaterialListSelect', () => {
       valid: true,
     })
     expect(wrapper.find('.v-progress-circular').exists()).toBe(false)
+    expect(wrapper.findComponent(MaterialListSelect).emitted('update:creating')).toEqual([
+      [true],
+      [false],
+    ])
   })
 
   it('shows the saved name while focused and retains the selection after refocusing', async () => {
@@ -233,6 +237,17 @@ describe('MaterialListSelect', () => {
     expect(api.post).not.toHaveBeenCalled()
   })
 
+  it.each(['Lagermaterial', '  LAGERMATERIAL  '])(
+    'does not offer creation when the name already exists: %s',
+    async (query) => {
+      const { api } = mountSelect(items)
+      await search(query)
+
+      expect(createAction()).toBeUndefined()
+      expect(api.post).not.toHaveBeenCalled()
+    }
+  )
+
   it('closes the menu before posting and prevents duplicate submissions while saving', async () => {
     const { api, createdList } = mountSelect([], { readonly: false })
     let finishPost
@@ -249,6 +264,9 @@ describe('MaterialListSelect', () => {
     await flushPromises()
 
     expect(api.post).toHaveBeenCalledOnce()
+    expect(wrapper.findComponent(MaterialListSelect).emitted('update:creating')).toEqual([
+      [true],
+    ])
     expect(wrapper.find('input').element.readOnly).toBe(true)
     expect(wrapper.find('.v-progress-circular').exists()).toBe(true)
 
@@ -271,6 +289,10 @@ describe('MaterialListSelect', () => {
 
     expect(wrapper.find('.v-messages').text()).toContain('Existing error')
     expect(wrapper.find('.v-messages').text()).toContain('Saving failed')
+    expect(wrapper.findComponent(MaterialListSelect).emitted('update:creating')).toEqual([
+      [true],
+      [false],
+    ])
   })
 
   it('clears the error when retrying and selects the newly created list', async () => {

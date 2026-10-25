@@ -20,6 +20,7 @@
       path="materialList"
       density="compact"
       vee-rules="required"
+      @update:creating="$emit('update:creating', $event)"
     />
   </e-form>
 </template>
@@ -34,6 +35,7 @@ export default {
     camp: { type: Object, required: true },
     materialItem: { type: Object, required: true },
   },
+  emits: ['update:creating'],
   computed: {
     localMaterialItem() {
       return this.materialItem
