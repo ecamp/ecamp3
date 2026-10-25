@@ -7,11 +7,8 @@
     <Transition
       v-else
       :name="
-        filterTransition === 'left'
-          ? 'ec-filter-left'
-          : filterTransition === 'right'
-            ? 'ec-filter-right'
-            : ''
+        filterTransition &&
+        (filterTransition === 'left' ? 'ec-filter-left' : 'ec-filter-right')
       "
       mode="out-in"
       @before-leave="restoreLeavingContent"
@@ -47,7 +44,6 @@
               :replies="repliesTo(root)"
               :show-context="showContext"
               @replied="$emit('replied')"
-              @reopening="trackReopening(root._meta.self, $event)"
             />
           </div>
         </TransitionGroup>
@@ -75,7 +71,7 @@ export default {
   },
   emits: ['replied'],
   data() {
-    return { filterPage: 0, filterTransition: '', reopeningThreads: new Set() }
+    return { filterPage: 0, filterTransition: '' }
   },
   computed: {
     roots() {
@@ -96,19 +92,10 @@ export default {
     },
   },
   methods: {
-    trackReopening(uri, pending) {
-      if (pending && this.statusFilter === 'resolved') this.reopeningThreads.add(uri)
-      else this.reopeningThreads.delete(uri)
-    },
     captureLeavingContent(vnode, root) {
-      if (
-        root &&
-        this.reopeningThreads.has(root._meta.self) &&
-        vnode.el.dataset.statusFilter === 'resolved'
-      ) {
+      if (root && !root.resolvedAt && vnode.el.dataset.statusFilter === 'resolved') {
         vnode.el.classList.add('ec-comments-list__item--reopened')
       }
-      if (root) this.reopeningThreads.delete(root._meta.self)
       // Tiptap destroys its DOM during unmount, before the leave animation starts.
       leavingContent.set(vnode.el, vnode.el.cloneNode(true))
     },

@@ -125,7 +125,7 @@ export default {
     replies: { type: Array, default: () => [] },
     showContext: { type: Boolean, default: false },
   },
-  emits: ['replied', 'reopening'],
+  emits: ['replied'],
   data() {
     return {
       replying: false,
@@ -177,7 +177,6 @@ export default {
         (resolving && commentsState.statusFilter === 'open') ||
         commentsState.retainedThreads.has(uri)
       if (retain) retainCommentThread(uri)
-      if (!resolving) this.$emit('reopening', true)
       try {
         await this.api.patch(this.root, { resolved: resolving })
         this.replying = false
@@ -190,7 +189,6 @@ export default {
         if (resolving) {
           releaseCommentThread(uri)
         } else {
-          this.$emit('reopening', false)
           scheduleCommentThreadRemoval(uri)
         }
         this.errorMessage = serverErrorToString(e)
