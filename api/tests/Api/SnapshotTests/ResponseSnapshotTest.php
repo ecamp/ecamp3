@@ -2,7 +2,7 @@
 
 namespace App\Tests\Api\SnapshotTests;
 
-use ApiPlatform\Symfony\Bundle\Test\Client;
+use ApiPlatform\Test\Client;
 use App\Entity\BaseEntity;
 use App\Tests\Api\ECampApiTestCase;
 use App\Tests\Constraints\CompatibleHalResponse;

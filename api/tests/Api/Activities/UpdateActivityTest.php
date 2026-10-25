@@ -200,10 +200,10 @@ class UpdateActivityTest extends ECampApiTestCase {
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'The type of the "title" attribute must be "string", "NULL" given.',
+            'detail' => 'title: This value should not be blank.',
         ]);
     }
 
@@ -281,10 +281,10 @@ class UpdateActivityTest extends ECampApiTestCase {
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'The type of the "location" attribute must be "string", "NULL" given.',
+            'detail' => 'location: This value should not be null.',
         ]);
     }
 

@@ -125,9 +125,9 @@ class UpdateRootColumnLayoutTest extends ECampApiTestCase {
             'position' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'The type of the "position" attribute must be "int", "NULL" given.',
+            'detail' => 'position: This value should not be null.',
         ]);
     }
 

@@ -203,10 +203,10 @@ class UpdateChecklistTest extends ECampApiTestCase {
             ]
         );
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'The type of the "name" attribute must be "string", "NULL" given.',
+            'detail' => 'name: This value should not be blank.',
         ]);
     }
 

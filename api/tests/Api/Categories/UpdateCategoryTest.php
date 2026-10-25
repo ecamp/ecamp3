@@ -272,10 +272,10 @@ class UpdateCategoryTest extends ECampApiTestCase {
             ]
         );
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'The type of the "short" attribute must be "string", "NULL" given.',
+            'detail' => 'short: This value should not be blank.',
         ]);
     }
 
@@ -378,10 +378,10 @@ class UpdateCategoryTest extends ECampApiTestCase {
             ]
         );
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'The type of the "name" attribute must be "string", "NULL" given.',
+            'detail' => 'name: This value should not be blank.',
         ]);
     }
 
@@ -486,9 +486,9 @@ class UpdateCategoryTest extends ECampApiTestCase {
             ]
         );
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'The type of the "color" attribute must be "string", "NULL" given.',
+            'detail' => 'color: This value should not be blank.',
         ]);
     }
 

@@ -226,9 +226,9 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
             'start' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'The data is either not an string, an empty string, or null; you should pass a string that can be parsed with the passed format or a valid DateTime string.',
+            'detail' => 'start: This value should be of type string.',
         ]);
     }
 
@@ -255,9 +255,9 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
             'end' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'The data is either not an string, an empty string, or null; you should pass a string that can be parsed with the passed format or a valid DateTime string.',
+            'detail' => 'end: This value should be of type string.',
         ]);
     }
 
@@ -325,7 +325,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
             'start' => '2023-05-01T00:00:00+InvalidTimezone',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
     }
 
     #[TestWith(['20206-01-01T00:00:00'])]
@@ -336,7 +336,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
             'start' => $invalidDateTime,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
     }
 
     public function testPatchScheduleEntryAllowsToEndAtMidnightOfLastDay() {
@@ -456,7 +456,10 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
             'ysPhysicalActivityDurationMinutes' => $minutes,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'detail' => 'ysPhysicalActivityDurationMinutes: This value should be of type int|null.',
+        ]);
     }
 
     public function testPatchYsPhysicalActivityDurationMinutesOnlyChangesOneScheduleEntry() {

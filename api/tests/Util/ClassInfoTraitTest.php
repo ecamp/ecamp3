@@ -2,7 +2,7 @@
 
 namespace App\Tests\Util;
 
-use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use ApiPlatform\Test\ApiTestCase;
 use App\Entity\User;
 use App\Util\ClassInfoTrait;
 use Doctrine\ORM\EntityManagerInterface;

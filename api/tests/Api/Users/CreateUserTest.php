@@ -6,7 +6,6 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use App\Entity\Camp;
 use App\Entity\CampCollaboration;
-use App\Entity\Profile;
 use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 use App\Tests\Constraints\CompatibleHalResponse;
@@ -226,11 +225,11 @@ class CreateUserTest extends ECampApiTestCase {
             ]
         );
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains(
             [
                 'title' => 'An error occurred',
-                'detail' => 'The type of the "'.Profile::class.'" resource must be "array" (nested document) or "string" (IRI), "NULL" given.',
+                'detail' => 'profile: This value should not be null.',
             ],
         );
     }

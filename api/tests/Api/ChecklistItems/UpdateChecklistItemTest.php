@@ -204,10 +204,10 @@ parent: Nesting can be a maximum of 3 levels deep.',
             ]
         );
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'The type of the "text" attribute must be "string", "NULL" given.',
+            'detail' => 'text: This value should not be blank.',
         ]);
     }
 
