@@ -134,6 +134,18 @@ export async function purgeCachedResponses(
   )
 }
 
+export const CACHE_SECURITY_DELEGATE_HEADER = 'X-Cache-Security-Delegate'
+
+/**
+ * Asks the API (not the cache) whether the user of the request may be served cached responses
+ * that delegate their security to the given resource.
+ */
+export async function apiGetCacheAccess(request: APIRequestContext, delegate?: string) {
+  return await request.get(`${API_ROOT_URL}/_cache_access`, {
+    headers: delegate ? { [CACHE_SECURITY_DELEGATE_HEADER]: delegate } : {},
+  })
+}
+
 export async function apiGet(request: APIRequestContext, uri: string) {
   return await request.get(`${API_ROOT_URL_CACHED}${uri}.jsonhal`)
 }
