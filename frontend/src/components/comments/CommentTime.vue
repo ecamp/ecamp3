@@ -1,13 +1,10 @@
 <template>
-  <time :datetime="value" :title="long" data-testid="comment-time" v-bind="$attrs">{{
-    short
-  }}</time>
+  <time :datetime="value" :title="long" data-testid="comment-time">{{ short }}</time>
 </template>
 
 <script>
 export default {
   name: 'CommentTime',
-  inheritAttrs: false,
   props: {
     value: { type: String, required: true },
   },
