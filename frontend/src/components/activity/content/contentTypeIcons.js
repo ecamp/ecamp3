@@ -5,6 +5,7 @@ const contentTypeIcons = {
   checklist: 'mdi-clipboard-list-outline',
   columnLayout: 'mdi-view-column',
   laThematicArea: 'mdi-shape',
+  ysActivityCharacteristics: 'mdi-shape',
   learningObjectives: 'mdi-school',
   learningTopics: 'mdi-school',
   material: 'mdi-package-variant',
@@ -13,6 +14,7 @@ const contentTypeIcons = {
   safetyConsiderations: 'mdi-security',
   storyboard: 'mdi-script-text-outline',
   storycontext: 'mdi-book-open-variant',
+  ysPhysicalActivityDuration: 'mdi-run',
 }
 
 export default contentTypeIcons

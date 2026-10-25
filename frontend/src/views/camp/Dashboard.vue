@@ -164,7 +164,7 @@ import dayjs from '@/common/helpers/dayjs.js'
 import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
 import { campRoleMixin } from '../../mixins/campRoleMixin.js'
 import CommentsToggleButton from '../../components/comments/CommentsToggleButton.vue'
-import { commentCountsByActivity } from '@/components/comments/commentCounts.js'
+import { commentCountsByActivity } from '@/components/comments/commentHelpers.js'
 import { getEnv } from '@/environment.js'
 
 export default {

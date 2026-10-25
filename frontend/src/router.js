@@ -74,29 +74,25 @@ const router = createRouter({
             default: () => import('./views/admin/Debug.vue'),
           },
         },
-        ...(getEnv().FEATURE_CHECKLIST
-          ? [
-              {
-                path: 'checklists',
-                name: 'admin/checklists',
-                components: {
-                  default: () => import('./views/admin/Checklists.vue'),
-                },
-              },
-              {
-                path: 'checklist/:checklistId/:checklistName?',
-                name: 'admin/checklists/checklist',
-                components: {
-                  default: () => import('./views/admin/Checklist.vue'),
-                },
-                props: {
-                  default: (route) => ({
-                    checklist: checklistFromRoute(route),
-                  }),
-                },
-              },
-            ]
-          : []),
+        {
+          path: 'checklists',
+          name: 'admin/checklists',
+          components: {
+            default: () => import('./views/admin/Checklists.vue'),
+          },
+        },
+        {
+          path: 'checklist/:checklistId/:checklistName?',
+          name: 'admin/checklists/checklist',
+          components: {
+            default: () => import('./views/admin/Checklist.vue'),
+          },
+          props: {
+            default: (route) => ({
+              checklist: checklistFromRoute(route),
+            }),
+          },
+        },
       ],
     },
 
@@ -231,36 +227,40 @@ const router = createRouter({
       },
       beforeEnter: requireAuth,
     },
-    {
-      path: '/camps/hitobito/:provider/import',
-      name: 'camps/import',
-      components: {
-        navigation: NavigationDefault,
-        default: () => import('./views/CampImport.vue'),
-      },
-      props: {
-        default: (route) => ({
-          provider: route.params.provider,
-          eventId: route.query.eventId ?? null,
-        }),
-      },
-      beforeEnter: all([requireAuth, requireHitobitoProvider]),
-    },
-    {
-      path: '/camps/hitobito/:provider/:eventId',
-      name: 'camps/hitobitoDeepLink',
-      components: {
-        navigation: NavigationDefault,
-        default: () => import('./views/CampHitobitoDeepLink.vue'),
-      },
-      props: {
-        default: (route) => ({
-          provider: route.params.provider,
-          eventId: route.params.eventId,
-        }),
-      },
-      beforeEnter: all([requireAuth, requireHitobitoProvider]),
-    },
+    ...(getEnv().FEATURE_HITOBITO
+      ? [
+          {
+            path: '/camps/hitobito/:provider/import',
+            name: 'camps/import',
+            components: {
+              navigation: NavigationDefault,
+              default: () => import('./views/CampImport.vue'),
+            },
+            props: {
+              default: (route) => ({
+                provider: route.params.provider,
+                eventId: route.query.eventId ?? null,
+              }),
+            },
+            beforeEnter: all([requireAuth, requireHitobitoProvider]),
+          },
+          {
+            path: '/camps/hitobito/:provider/:eventId',
+            name: 'camps/hitobitoDeepLink',
+            components: {
+              navigation: NavigationDefault,
+              default: () => import('./views/CampHitobitoDeepLink.vue'),
+            },
+            props: {
+              default: (route) => ({
+                provider: route.params.provider,
+                eventId: route.params.eventId,
+              }),
+            },
+            beforeEnter: all([requireAuth, requireHitobitoProvider]),
+          },
+        ]
+      : []),
     {
       path: '/camps/invitation/rejected',
       name: 'invitationRejected',
@@ -464,29 +464,25 @@ const router = createRouter({
         }),
       },
     },
-    ...(getEnv().FEATURE_CHECKLIST
-      ? [
-          // Checklist-Pages:
-          {
-            name: 'camp/admin/checklists/checklist',
-            path: '/camps/:campId/:campTitle?/admin/checklist/:checklistId/:checklistName?',
-            components: {
-              navigation: NavigationCamp,
-              default: () => import('./views/camp/checklist/Checklist.vue'),
-              aside: () => import('./views/camp/checklist/SideBarChecklist.vue'),
-            },
-            beforeEnter: all([requireAuth, requireCamp, requireChecklist]),
-            props: {
-              navigation: (route) => ({ camp: campFromRoute(route) }),
-              aside: (route) => ({ camp: campFromRoute(route) }),
-              default: (route) => ({
-                camp: campFromRoute(route),
-                checklist: checklistFromRoute(route),
-              }),
-            },
-          },
-        ]
-      : []),
+    // Checklist-Pages:
+    {
+      name: 'camp/admin/checklists/checklist',
+      path: '/camps/:campId/:campTitle?/admin/checklist/:checklistId/:checklistName?',
+      components: {
+        navigation: NavigationCamp,
+        default: () => import('./views/camp/checklist/Checklist.vue'),
+        aside: () => import('./views/camp/checklist/SideBarChecklist.vue'),
+      },
+      beforeEnter: all([requireAuth, requireCamp, requireChecklist]),
+      props: {
+        navigation: (route) => ({ camp: campFromRoute(route) }),
+        aside: (route) => ({ camp: campFromRoute(route) }),
+        default: (route) => ({
+          camp: campFromRoute(route),
+          checklist: checklistFromRoute(route),
+        }),
+      },
+    },
     {
       path: '/camps/:campId/:campShortTitle?/admin',
       components: {
@@ -533,17 +529,13 @@ const router = createRouter({
           component: () => import('./views/camp/admin/Print.vue'),
           props: (route) => ({ camp: campFromRoute(route) }),
         },
-        ...(getEnv().FEATURE_CHECKLIST
-          ? [
-              // Checklist-Pages:
-              {
-                path: 'checklists',
-                name: 'camp/admin/checklists',
-                component: () => import('./views/camp/admin/Checklists.vue'),
-                props: (route) => ({ camp: campFromRoute(route) }),
-              },
-            ]
-          : []),
+        // Checklist-Pages:
+        {
+          path: 'checklists',
+          name: 'camp/admin/checklists',
+          component: () => import('./views/camp/admin/Checklists.vue'),
+          props: (route) => ({ camp: campFromRoute(route) }),
+        },
         {
           path: 'materiallists',
           name: 'camp/material',
@@ -556,42 +548,46 @@ const router = createRouter({
         },
       ],
     },
-    {
-      path: '/camps/:campId/:campShortTitle?/hitobito/invite',
-      name: 'camp/hitobitoInvite',
-      components: {
-        navigation: NavigationCamp,
-        default: () => import('./views/camp/CampHitobitoInvite.vue'),
-      },
-      beforeEnter: all([
-        requireAuth,
-        requireCamp,
-        requireCampManager,
-        requireHitobitoCamp,
-      ]),
-      props: {
-        navigation: (route) => ({ camp: campFromRoute(route) }),
-        default: (route) => ({ camp: campFromRoute(route) }),
-      },
-    },
-    {
-      path: '/camps/:campId/:campShortTitle?/hitobito/sync',
-      name: 'camp/hitobitoSync',
-      components: {
-        navigation: NavigationCamp,
-        default: () => import('./views/camp/CampHitobitoSync.vue'),
-      },
-      beforeEnter: all([
-        requireAuth,
-        requireCamp,
-        requireCampManager,
-        requireHitobitoCamp,
-      ]),
-      props: {
-        navigation: (route) => ({ camp: campFromRoute(route) }),
-        default: (route) => ({ camp: campFromRoute(route) }),
-      },
-    },
+    ...(getEnv().FEATURE_HITOBITO
+      ? [
+          {
+            path: '/camps/:campId/:campShortTitle?/hitobito/invite',
+            name: 'camp/hitobitoInvite',
+            components: {
+              navigation: NavigationCamp,
+              default: () => import('./views/camp/CampHitobitoInvite.vue'),
+            },
+            beforeEnter: all([
+              requireAuth,
+              requireCamp,
+              requireCampManager,
+              requireHitobitoCamp,
+            ]),
+            props: {
+              navigation: (route) => ({ camp: campFromRoute(route) }),
+              default: (route) => ({ camp: campFromRoute(route) }),
+            },
+          },
+          {
+            path: '/camps/:campId/:campShortTitle?/hitobito/sync',
+            name: 'camp/hitobitoSync',
+            components: {
+              navigation: NavigationCamp,
+              default: () => import('./views/camp/CampHitobitoSync.vue'),
+            },
+            beforeEnter: all([
+              requireAuth,
+              requireCamp,
+              requireCampManager,
+              requireHitobitoCamp,
+            ]),
+            props: {
+              navigation: (route) => ({ camp: campFromRoute(route) }),
+              default: (route) => ({ camp: campFromRoute(route) }),
+            },
+          },
+        ]
+      : []),
     {
       path: '/camps/:campId/:campShortTitle/program/activity/:activityId/:scheduleEntryId?/:activityName?',
       name: 'camp/activity',

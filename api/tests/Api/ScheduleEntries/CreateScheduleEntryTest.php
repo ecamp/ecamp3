@@ -248,6 +248,42 @@ class CreateScheduleEntryTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateScheduleEntryUsesNullForMissingYsPhysicalActivityDurationMinutes() {
+        static::createClientWithCredentials()->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload([], ['ysPhysicalActivityDurationMinutes'])]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'ysPhysicalActivityDurationMinutes' => null,
+        ]);
+    }
+
+    public function testCreateScheduleEntryAcceptsYsPhysicalActivityDurationMinutes() {
+        static::createClientWithCredentials()->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload([
+            'ysPhysicalActivityDurationMinutes' => 120,
+        ])]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'ysPhysicalActivityDurationMinutes' => 120,
+        ]);
+    }
+
+    public function testCreateScheduleEntryValidatesInvalidYsPhysicalActivityDurationMinutes() {
+        static::createClientWithCredentials()->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload([
+            'ysPhysicalActivityDurationMinutes' => 150,
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'ysPhysicalActivityDurationMinutes',
+                    'message' => 'The value you selected is not a valid choice.',
+                ],
+            ],
+        ]);
+    }
+
     public function testCreateScheduleEntryWithReversedPropertyOrder() {
         static::createClientWithCredentials()->request('POST', '/schedule_entries', ['json' => [
             'start' => '2023-05-01T04:00:00+00:00',

@@ -18,7 +18,7 @@
           />
         </template>
         <ContentActions>
-          <v-menu location="bottom end">
+          <v-menu v-if="featureHitobito" location="bottom end">
             <template #activator="{ props }">
               <button-add
                 v-bind="props"
@@ -116,6 +116,7 @@ import {
   providerIconColor,
   providerNameKey,
 } from '@/plugins/hitobito'
+import { getEnv } from '@/environment.js'
 import { groupBy } from 'lodash-es'
 
 export default {
@@ -139,6 +140,9 @@ export default {
     }
   },
   computed: {
+    featureHitobito() {
+      return getEnv().FEATURE_HITOBITO ?? false
+    },
     hitobitoProviders() {
       return HITOBITO_PROVIDERS
     },

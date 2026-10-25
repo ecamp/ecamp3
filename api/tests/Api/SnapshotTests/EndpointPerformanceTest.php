@@ -206,6 +206,8 @@ class EndpointPerformanceTest extends ECampApiTestCase {
             '/content_node/material_nodes/item' => [9, 9],
             '/content_node/multi_selects' => [7, 8],
             '/content_node/multi_selects/item' => [9, 9],
+            '/content_node/no_datas' => [6, 7],
+            '/content_node/no_datas/item' => [9, 9],
             '/content_node/responsive_layouts' => [7, 7],
             '/content_node/responsive_layouts/item' => [9, 9],
             '/content_node/single_texts' => [7, 8],

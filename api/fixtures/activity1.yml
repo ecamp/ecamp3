@@ -12,6 +12,7 @@ App\Entity\ScheduleEntry:
     activity: '@activity1'
     startOffset: 480
     endOffset: 540
+    ysPhysicalActivityDurationMinutes: 60
   scheduleEntry2:
     period: '@period1'
     activity: '@activity1'

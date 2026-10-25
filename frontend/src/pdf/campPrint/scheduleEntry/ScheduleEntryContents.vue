@@ -21,6 +21,7 @@ export default {
   provide() {
     return {
       camp: this.camp,
+      scheduleEntry: this.scheduleEntry,
     }
   },
   props: {

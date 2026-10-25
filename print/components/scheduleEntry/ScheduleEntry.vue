@@ -38,6 +38,8 @@ const props = defineProps({
   index: { type: Number, required: true },
 })
 
+provide('scheduleEntry', props.scheduleEntry)
+
 const { error } = await useAsyncData(
   `ScheduleEntry-${props.scheduleEntry._meta.self}`,
   async () => {

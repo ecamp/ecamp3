@@ -22,6 +22,14 @@ function hasBubbleMenu(wrapper) {
 }
 
 describe('TiptapEditor', () => {
+  it('passes autofocus on to tiptap, which focuses once the editor is attached', () => {
+    expect(mountEditor({ autofocus: 'end' }).vm.editor.options.autofocus).toBe('end')
+  })
+
+  it('does not autofocus by default', () => {
+    expect(mountEditor().vm.editor.options.autofocus).toBe(false)
+  })
+
   it('creates no bubble menu without the extensions', () => {
     expect(hasBubbleMenu(mountEditor({ withExtensions: false }))).toBe(false)
   })

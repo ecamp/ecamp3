@@ -44,7 +44,7 @@
           }
         }
       },
-      "info": "Un'attività del campo Y+S deve trattare almeno uno degli argomenti elencati.{br}Seleziona gli argomenti da trattare in questo blocco.",
+      "info": "Un'attività del campo G+S deve trattare almeno uno degli argomenti elencati.{br}Seleziona gli argomenti da trattare in questo blocco.",
       "name": "Area tematica AC"
     },
     "material": {
@@ -82,6 +82,38 @@
     "storycontext": {
       "info": "Descrivi come questo blocco si inserisce nella storia del campo.{br}Puoi trovare un riepilogo di tutti gli elementi della storia nel menu \"Storia\".{br}Puoi anche elaborare prima una storia continua nel menu \"Storia\", in modo da incorporare perfettamente il contenuto del blocco nella storia.",
       "name": "Storia"
+    },
+    "ysActivityCharacteristics": {
+      "entity": {
+        "option": {
+          "community": {
+            "name": "Rafforzare la coesione del gruppo con sollecitudine"
+          },
+          "gamesAndSports": {
+            "name": "Partecipare con creatività all’ideazione di giochi e di attività sportive variate"
+          },
+          "gettingInvolved": {
+            "name": "Prendere coscienza dei propri bisogni e delle proprie idee e farle valere consapevolmente"
+          },
+          "natureAndEnvironment": {
+            "name": "Interagire in maniera rispettosa con l’ambiente"
+          },
+          "outdoorTechnique": {
+            "name": "Utilizzare efficacemente le tecniche outdoor e di costruzioni da campo"
+          },
+          "travellingSafety": {
+            "name": "Praticare escursionismo in modo sicuro e previdente"
+          }
+        }
+      },
+      "info": "Seleziona le forme caratteristiche trattate in questa attività.",
+      "name": "Forme caratteristiche G+S"
+    },
+    "ysPhysicalActivityDuration": {
+      "info": "Registra il tempo dedicato all'attività fisica G+S per ogni inserimento nel programma di questa attività. Viene mostrato anche nel programma generale.",
+      "name": "Tempo dedicato all'attività fisica G+S",
+      "none": "Non specificato",
+      "templateHint": "Il tempo dedicato all'attività fisica G+S viene registrato in ogni attività, per inserimento nel programma."
     }
   },
   "entity": {
@@ -202,7 +234,9 @@
         "nr": "N.",
         "startDate": "Data di inizio",
         "startDatetime": "Ora di inizio",
-        "time": "Tempo"
+        "time": "Tempo",
+        "ysPhysicalActivityDuration": "Tempo dedicato all'attività fisica G+S",
+        "ysPhysicalActivityDurationFormatted": "TAF {duration}"
       },
       "name": "Inserimento nel programma"
     }
@@ -210,6 +244,8 @@
   "global": {
     "datetime": {
       "dateLong": "dd L",
+      "dateRangeStart": "dd DD.MM.",
+      "dateRangeEnd": "dd L",
       "dateShort": "dd D.M.",
       "dateTimeLong": "dd L LT",
       "duration": {

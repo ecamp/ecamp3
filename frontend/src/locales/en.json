@@ -21,6 +21,9 @@
             "deleteWarning": "Do you really want to remove this section?",
             "title": "Really delete?"
           }
+        },
+        "ysActivityCharacteristics": {
+          "placeholder": "Select activity characteristics"
         }
       },
       "dialog": {
@@ -353,18 +356,38 @@
     "comments": {
       "commentCard": {
         "campComment": "Whole camp",
+        "deleteDisabledReplies": "Comments with replies by other people cannot be deleted.",
         "deleteWarning": "Do you really want to delete your comment?",
-        "deleted": "(deleted)"
+        "deleteWithRepliesWarning": "Do you really want to delete your comment together with your replies to it?",
+        "deleted": "(deleted)",
+        "deletedAuthor": "Deleted person"
       },
       "commentComposer": {
-        "placeholder": "Write a comment"
+        "placeholder": "Write a comment",
+        "replyPlaceholder": "Write a reply"
+      },
+      "commentThread": {
+        "reopen": "Reopen",
+        "reply": "Reply",
+        "resolve": "Resolve",
+        "resolved": "Resolved",
+        "resolvedBy": "Resolved by {user}",
+        "resolvedToast": "Comment resolved. Resolved comments are only shown under \"All\".",
+        "showAll": "Show all"
+      },
+      "commentTime": {
+        "today": "Today, {time}",
+        "yesterday": "Yesterday, {time}"
       },
       "commentsList": {
-        "empty": "No comments yet."
+        "empty": "No comments yet.",
+        "noOpenComments": "No open comments. Switch to \"All\" to see the resolved ones."
       },
       "commentsPanel": {
-        "activityCommentsElsewhere": "One more comment is on an individual activity. | {count} more comments are on individual activities.",
+        "activityCommentsElsewhere": "One more open comment is on an activity. | {count} more open comments are on individual activities.",
+        "all": "All",
         "commentsOnThisActivity": "Comments on this activity",
+        "open": "Open",
         "title": "Comments"
       },
       "commentsToggleButton": {
@@ -697,6 +720,7 @@
       "showPassword": "Show password",
       "submit": "Submit",
       "tryagain": "Try again",
+      "undo": "Undo",
       "unlock": "Unlock",
       "update": "Update"
     },

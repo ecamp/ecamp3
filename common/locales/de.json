@@ -94,6 +94,38 @@
     "storycontext": {
       "info": "Beschreibe, wie sich dieser Block in die Geschichte vom Lager einbettet.{br}Eine Zusammenstellung aller Geschichts-Elemente findest du im Menu 'Geschichte'.{br}Ihr könnt auch erst im Menu 'Geschichte' zuerst eine durchgängige Geschichte erarbeiten - so dass man den Block-Inhalt perfekt in die Geschichte einbetten kann.",
       "name": "Geschichte"
+    },
+    "ysActivityCharacteristics": {
+      "entity": {
+        "option": {
+          "community": {
+            "name": "Die Gemeinschaft wohlwollend stärken"
+          },
+          "gamesAndSports": {
+            "name": "Vielfältige Spiel- und Sportaktivitäten kreativ mitgestalten"
+          },
+          "gettingInvolved": {
+            "name": "Eigene Bedürfnisse und Ideen bewusst einbringen"
+          },
+          "natureAndEnvironment": {
+            "name": "Respektvoll mit Natur und Umwelt umgehen"
+          },
+          "outdoorTechnique": {
+            "name": "Outdoor- und Lagerbautechniken wirksam anwenden"
+          },
+          "travellingSafety": {
+            "name": "Sicher und vorausschauend unterwegs sein"
+          }
+        }
+      },
+      "info": "Wähle die Erscheinungsformen aus, die in diesem Block behandelt werden.",
+      "name": "J+S Erscheinungsformen"
+    },
+    "ysPhysicalActivityDuration": {
+      "info": "Erfasse für jeden Zeitplaneintrag dieser Aktivität die J+S-Bewegungszeit. Sie wird auch im Grobprogramm angezeigt.",
+      "name": "J+S-Bewegungszeit",
+      "none": "Keine Angabe",
+      "templateHint": "Die J+S-Bewegungszeit wird in jeder Aktivität pro Zeitplaneintrag erfasst."
     }
   },
   "entity": {
@@ -237,7 +269,9 @@
         "nr": "Nr.",
         "startDate": "Startdatum",
         "startDatetime": "Startzeit",
-        "time": "Zeitpunkt"
+        "time": "Zeitpunkt",
+        "ysPhysicalActivityDuration": "J+S-Bewegungszeit",
+        "ysPhysicalActivityDurationFormatted": "BZ {duration}"
       },
       "name": "Zeitplaneintrag"
     }
@@ -245,6 +279,8 @@
   "global": {
     "datetime": {
       "dateLong": "dd L",
+      "dateRangeStart": "dd DD.MM.",
+      "dateRangeEnd": "dd L",
       "dateShort": "dd D.M.",
       "dateTimeLong": "dd L LT",
       "duration": {

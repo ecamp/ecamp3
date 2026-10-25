@@ -12,13 +12,18 @@
                     "camp": {
                         "href": "escaped_value"
                     },
+                    "children": [],
+                    "parent": "escaped_value",
+                    "resolvedBy": "escaped_value",
                     "self": {
                         "href": "escaped_value"
                     }
                 },
+                "authorDisplayName": "escaped_value",
                 "createTime": "escaped_value",
                 "id": "escaped_value",
                 "orphanDescription": "escaped_value",
+                "resolvedAt": "escaped_value",
                 "textHtml": "escaped_value"
             },
             {
@@ -32,13 +37,18 @@
                     "camp": {
                         "href": "escaped_value"
                     },
+                    "children": [],
+                    "parent": "escaped_value",
+                    "resolvedBy": "escaped_value",
                     "self": {
                         "href": "escaped_value"
                     }
                 },
+                "authorDisplayName": "escaped_value",
                 "createTime": "escaped_value",
                 "id": "escaped_value",
                 "orphanDescription": "escaped_value",
+                "resolvedAt": "escaped_value",
                 "textHtml": "escaped_value"
             }
         ]

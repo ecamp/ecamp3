@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\Hitobito;
 
+use Psr\Log\LoggerInterface;
+
 /**
  * MockClient returns mocked Hitobito data used for local development and testing.
  */
@@ -12,9 +14,32 @@ class MockClient implements ClientInterface {
     public const string EVENT_ID_COLEADER = '456';
     public const string EVENT_DATE_ID = '789';
 
+    public function __construct(private readonly LoggerInterface $logger) {}
+
     public function getUpcomingEvents(array $roleTypes): array {
+        if ([] === $roleTypes) {
+            $this->logger->info(
+                '{class}::getUpcomingEvents: No role types given, returning empty event array',
+                [
+                    'class' => self::class,
+                ]
+            );
+
+            return [];
+        }
+
         $events = [];
-        foreach ($this->getMockParticipations() as $participation) {
+        $eventParticipations = $this->getMockParticipations();
+
+        $this->logger->info(
+            '{class}::getUpcomingEvents: Found {count} events',
+            [
+                'count' => count($eventParticipations),
+                'class' => self::class,
+            ]
+        );
+
+        foreach ($eventParticipations as $participation) {
             if (!$participation->active || [] === array_intersect($participation->roleTypes, $roleTypes)) {
                 continue;
             }
@@ -24,6 +49,14 @@ class MockClient implements ClientInterface {
                 $events[] = $event;
             }
         }
+
+        $this->logger->info(
+            '{class}::getUpcomingEvents: Extracted {count} events',
+            [
+                'count' => count($events),
+                'class' => self::class,
+            ]
+        );
 
         return $events;
     }

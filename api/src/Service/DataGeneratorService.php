@@ -250,9 +250,9 @@ class DataGeneratorService {
         $activities = $this->createActivities($camp, $categories, $activitiesPerCamp, $period, $scheduleEntriesPerActivity, $checklistItems);
         $this->stats['activities'] += count($activities);
 
-        $this->createCampCollaborations($camp, $owner);
+        $commentAuthors = $this->createCampCollaborations($camp, $owner);
         ++$this->stats['campCollaborations'];
-        $this->createComments($camp, $activities, $owner);
+        $this->createComments($camp, $activities, $commentAuthors);
 
         return $camp;
     }
@@ -525,7 +525,10 @@ class DataGeneratorService {
         return $materialLists;
     }
 
-    private function createCampCollaborations(Camp $camp, User $owner): void {
+    /**
+     * @return CampCollaboration[] the collaborations of the owner and of the added user
+     */
+    private function createCampCollaborations(Camp $camp, User $owner): array {
         $managerCollaboration = new CampCollaboration();
         $managerCollaboration->camp = $camp;
         $managerCollaboration->user = $owner;
@@ -552,9 +555,14 @@ class DataGeneratorService {
             $collaboration->inviteEmail = $collaborator->profile->email;
             $this->entityManager->persist($collaboration);
         }
+
+        return [$managerCollaboration, $sitCollaboration];
     }
 
-    private function createComments(Camp $camp, array $activities, User $owner): void {
+    /**
+     * @param CampCollaboration[] $authors
+     */
+    private function createComments(Camp $camp, array $activities, array $authors): void {
         $commentedActivities = $this->faker->randomElements($activities, (int) round(count($activities) * 0.2));
 
         foreach ($commentedActivities as $activity) {
@@ -563,7 +571,7 @@ class DataGeneratorService {
                 $comment = new Comment();
                 $comment->camp = $camp;
                 $comment->activity = $activity;
-                $comment->author = 0 === $i % 2 ? $owner : $this->addUserToCamp;
+                $comment->author = $authors[$i % 2];
                 $comment->textHtml = $this->faker->randomElement([
                     "Die {$activity->title} wirkt gut vorbereitet. Bitte ergänzt noch einen klaren Zeitrahmen für die einzelnen Schritte.",
                     "Gute Idee für den Lageralltag! Prüft vor Beginn am {$activity->location} nochmals die Sicherheit und das benötigte Material.",

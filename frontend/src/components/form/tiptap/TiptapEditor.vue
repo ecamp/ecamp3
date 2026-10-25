@@ -168,6 +168,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    autofocus: {
+      type: [Boolean, String, Number],
+      default: false,
+    },
   },
   emits: ['tiptapUpdate', 'focus', 'blur'],
   data() {
@@ -210,6 +214,7 @@ export default {
         onFocus: (e) => this.$emit('focus', e),
         onBlur: (e) => this.$emit('blur', e),
         editable: this.editable,
+        autofocus: this.autofocus,
       }),
       placeholderExtension: placeholder,
       regex: {

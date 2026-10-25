@@ -64,6 +64,7 @@ Listing all given activity schedule entries in a calendar view.
         <PicassoEntry
           :schedule-entry="event"
           :editable="editable"
+          :show-physical-activity-duration="showPhysicalActivityDuration"
           @start-resize="startResize(event)"
           @finish-edit="reloadScheduleEntries"
         />
@@ -98,6 +99,7 @@ export default {
     DayResponsibles,
   },
   props: {
+    showPhysicalActivityDuration: { type: Boolean, default: false },
     // period for which to show picasso
     period: {
       type: Object,

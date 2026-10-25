@@ -27,12 +27,16 @@ describe('ToastNotification', () => {
     })
 
     await vi.advanceTimersByTimeAsync(12000)
-    expect(wrapper.getComponent({ name: 'VProgressLinear' }).props('modelValue')).toBe(60)
+    expect(wrapper.getComponent({ name: 'VProgressCircular' }).props('modelValue')).toBe(
+      40
+    )
 
     await wrapper.trigger('mouseenter')
     await vi.advanceTimersByTimeAsync(10000)
     expect(wrapper.emitted('dismiss')).toBeUndefined()
-    expect(wrapper.getComponent({ name: 'VProgressLinear' }).props('modelValue')).toBe(60)
+    expect(wrapper.getComponent({ name: 'VProgressCircular' }).props('modelValue')).toBe(
+      40
+    )
 
     await wrapper.trigger('mouseleave')
     await vi.advanceTimersByTimeAsync(17999)
@@ -50,6 +54,60 @@ describe('ToastNotification', () => {
 
     wrapper.getComponent({ name: 'VAlert' }).vm.$emit('click:close')
 
+    expect(wrapper.emitted('dismiss')).toEqual([[1]])
+  })
+
+  it('cancels its timeout on click and stays open until explicitly closed', async () => {
+    vi.useFakeTimers()
+    const wrapper = mount(ToastNotification, {
+      props: { toast: createToast() },
+    })
+
+    await wrapper.get('.v-alert__content').trigger('click')
+    expect(wrapper.findComponent({ name: 'VProgressCircular' }).exists()).toBe(false)
+
+    await wrapper.trigger('mouseleave')
+    await vi.advanceTimersByTimeAsync(30000)
+    expect(wrapper.emitted('dismiss')).toBeUndefined()
+
+    await wrapper.trigger('mouseenter')
+    await wrapper.trigger('mouseleave')
+    await vi.advanceTimersByTimeAsync(30000)
+    expect(wrapper.emitted('dismiss')).toBeUndefined()
+
+    await wrapper.get('.v-alert__close button').trigger('click')
+    expect(wrapper.emitted('dismiss')).toEqual([[1]])
+  })
+
+  it('offers no actions unless it has some', () => {
+    const wrapper = mount(ToastNotification, {
+      props: { toast: createToast() },
+    })
+
+    expect(wrapper.find('[data-testid="toast-action"]').exists()).toBe(false)
+  })
+
+  it('runs the action used and dismisses itself', async () => {
+    vi.useFakeTimers()
+    const undo = vi.fn()
+    const showAll = vi.fn()
+    const wrapper = mount(ToastNotification, {
+      props: {
+        toast: createToast({
+          actions: [
+            { label: 'Undo', onClick: undo },
+            { label: 'Show all', onClick: showAll },
+          ],
+        }),
+      },
+    })
+
+    const actions = wrapper.findAll('[data-testid="toast-action"]')
+    expect(actions.map((action) => action.text())).toEqual(['Undo', 'Show all'])
+    await actions[1].trigger('click')
+
+    expect(showAll).toHaveBeenCalledOnce()
+    expect(undo).not.toHaveBeenCalled()
     expect(wrapper.emitted('dismiss')).toEqual([[1]])
   })
 

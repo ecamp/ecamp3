@@ -102,15 +102,6 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     #[ORM\OrderBy(['slot' => \SortDirection::Ascending, 'position' => \SortDirection::Ascending])]
     public Collection $children;
 
-    /**
-     * List all CampRootContentNodes of this ContentNode;
-     * Calculated by the View view_camp_root_content_node.
-     */
-    #[Assert\DisableAutoMapping]
-    #[ApiProperty(readable: false, writable: false)]
-    #[ORM\OneToMany(targetEntity: CampRootContentNode::class, mappedBy: 'rootContentNode')]
-    public Collection $campRootContentNodes;
-
     #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $data = null;
 
@@ -161,6 +152,16 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     #[ORM\ManyToOne(targetEntity: ContentType::class)]
     #[ORM\JoinColumn(nullable: false)]
     public ?ContentType $contentType = null;
+
+    /*
+     * Ownership via view_camp_root_content_nodes is kept as a lazy collection despite being logically OneToOne.
+     * An inverse OneToOne can trigger a view lookup per hydrated node, including non-root nodes (N+1 queries).
+     * Keeping a collection defers these lookups until the owning camp is actually needed.
+     */
+    #[Assert\DisableAutoMapping]
+    #[ApiProperty(readable: false, writable: false)]
+    #[ORM\OneToMany(targetEntity: CampRootContentNode::class, mappedBy: 'rootContentNode')]
+    private Collection $campRootContentNodes;
 
     public function __construct() {
         parent::__construct();

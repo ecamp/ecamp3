@@ -39,6 +39,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import ContentGroup from '@/components/layout/ContentGroup.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 import { isValidProvider } from '@/plugins/hitobito.js'
+import { getEnv } from '@/environment.js'
 import CollaboratorList from '@/components/collaborator/CollaboratorList.vue'
 
 export default {
@@ -63,6 +64,7 @@ export default {
   computed: {
     showHitobitoInvite() {
       return (
+        (getEnv().FEATURE_HITOBITO ?? false) &&
         this.isManager &&
         isValidProvider(this.camp.hitobitoProvider) &&
         !!this.camp.hitobitoEventId

@@ -30,6 +30,7 @@ Try to achieve the goal with minimal changes.
 If you hit a problem, read the docs for this problem to find the correct solution.
 Always ask before you remove assertions or expectations in tests.
 Explain your changes in the commit message.
+Make small, reviewable commits.
 
 Always run commands in the existing Docker services with `docker compose exec <service> ...`.
 Use the package manager scripts from the affected directory instead of invoking tools directly.
@@ -40,6 +41,33 @@ For documentation, YAML, and JSON changes at the repository root, use the root n
 docker compose run --rm prettier npm run lint:check
 docker compose run --rm prettier npm run lint
 ```
+
+### Code comments and documentation
+
+Comments in code mostly age poorly. Please use the following framework to decide how to document changes:
+
+1. Make the code speak for itself: split and name methods, variables and tests so they are self-explanatory.
+   Behaviour covered by a test needs no prose.
+2. Prefer commit messages to code comments, because a git blame is more telling and easier to research than
+   figuring out the repo code state back when a comment was written. Match the style and length of other,
+   human-made commits. No figures of speech, just objective facts in short form.
+3. Only if the information is directly about the class / method being commented, only if it can't be expressed
+   through the above means of documentation adequately, and only if it is relevant every single time a piece of
+   code is read, forever: Only then create a comment. Even then, only include the information that isn't
+   covered in the other docs locations, and don't mention the other docs locations either. If a decision is
+   detailed in an issue, it can be referenced in the commit message, so no need for rephrasing or linking.
+4. API docblocks on entity properties are still wanted, they feed the OpenAPI documentation.
+
+**Guiding Principles** for writing documentation and especially the rare comments:
+
+- NEVER reference comments, method names or implementation locations from other files. These will
+  be outdated very quickly.
+- NEVER narrate, retell or even mention earlier versions or decisions from previous iterations in
+  the conversation history, or how it used to be implemented. Any documentation must be written
+  as if this was the first ever implementation, and understandable by anyone without any history,
+  context or memories.
+- When there are other comments in the touched files already, any new comments MUST be shorter
+  and rarer than the existing ones. MAXIMUM BREVITY.
 
 ## /api directory
 
