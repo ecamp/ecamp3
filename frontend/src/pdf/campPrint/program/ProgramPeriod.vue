@@ -11,6 +11,7 @@
       ) in days"
       :id="isFirstPeriod && dayIndex === 0 ? id : undefined"
       class="page program-page"
+      :class="{ 'page-compact': compact }"
       :size="config.options.pageSize || 'A4'"
     >
       <slot />

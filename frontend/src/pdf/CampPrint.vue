@@ -123,10 +123,13 @@ export const prepare = async (config) => {
 <style lang="react-pdf">
 .page {
   font-family: InterDisplay;
-  padding: 30pt;
+  padding: 42.5pt;
   font-size: 12pt;
   display: flex;
   flex-direction: column;
+}
+.page-compact {
+  padding: 30pt;
 }
 .h1 {
   font-size: 16pt;

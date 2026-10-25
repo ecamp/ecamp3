@@ -1,5 +1,10 @@
 <template>
-  <Page :size="config.options.pageSize || 'A4'" :orientation="orientation" class="page">
+  <Page
+    :size="config.options.pageSize || 'A4'"
+    :orientation="orientation"
+    class="page"
+    :class="{ 'page-compact': compact }"
+  >
     <slot></slot>
     <TocSectionStartMarker :id="`${id}-${period.id}`" />
     <View class="picasso-title-container">

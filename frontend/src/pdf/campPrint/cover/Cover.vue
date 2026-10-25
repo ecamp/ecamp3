@@ -4,6 +4,7 @@
     :size="config.options.pageSize || 'A4'"
     :bookmark="$tc('print.cover.title')"
     class="page"
+    :class="{ 'page-compact': compact }"
   >
     <TocSectionStartMarker :id="id" />
     <View class="cover-camp-wrapper">

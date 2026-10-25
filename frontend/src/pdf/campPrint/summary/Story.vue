@@ -1,5 +1,10 @@
 <template>
-  <Page :id="id" class="page summary-page" :size="config.options.pageSize || 'A4'">
+  <Page
+    :id="id"
+    class="page summary-page"
+    :class="{ 'page-compact': compact }"
+    :size="config.options.pageSize || 'A4'"
+  >
     <slot></slot>
     <SummaryPeriod
       v-for="period in periods"

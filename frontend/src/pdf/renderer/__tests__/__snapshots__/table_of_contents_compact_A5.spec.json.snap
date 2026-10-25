@@ -3019,7 +3019,7 @@
       ],
       "parent": [Circular],
       "props": {
-        "class": "page",
+        "class": "page page-compact",
         "size": "A5",
       },
       "style": {
@@ -11424,7 +11424,7 @@
       ],
       "parent": [Circular],
       "props": {
-        "class": "page program-page",
+        "class": "page program-page page-compact",
         "id": "entry-1",
         "size": "A5",
       },
@@ -23013,7 +23013,7 @@
       ],
       "parent": [Circular],
       "props": {
-        "class": "page program-page",
+        "class": "page program-page page-compact",
         "id": undefined,
         "size": "A5",
       },
@@ -33523,7 +33523,7 @@
       ],
       "parent": [Circular],
       "props": {
-        "class": "page program-page",
+        "class": "page program-page page-compact",
         "id": undefined,
         "size": "A5",
       },
@@ -38370,7 +38370,7 @@
       ],
       "parent": [Circular],
       "props": {
-        "class": "page program-page",
+        "class": "page program-page page-compact",
         "id": undefined,
         "size": "A5",
       },
