@@ -25,9 +25,15 @@
     <View
       v-if="showYSPhysicalActivityDuration && ysPhysicalActivityDuration && twoLinesFit"
       class="picasso-schedule-entry-ys-physical-activity-duration-container"
+      :class="{ 'picasso-schedule-entry-compact': compact }"
       :style="{ fontSize: fontSize, color: textColor }"
     >
+      <View
+        class="picasso-schedule-entry-spacer"
+        :class="{ 'picasso-schedule-entry-spacer-compact': compact }"
+      />
       <Text>{{ ysPhysicalActivityDuration }}</Text>
+      <View class="picasso-schedule-entry-spacer" />
     </View>
     <View
       class="picasso-schedule-entry-responsibles-container"
@@ -165,7 +171,7 @@ export default {
   right: 0;
   left: 0;
   justify-content: flex-end;
-  padding: 0 4pt 2pt;
+  padding: 0 4pt;
 }
 .picasso-schedule-entry-responsibles-names {
   font-style: italic;

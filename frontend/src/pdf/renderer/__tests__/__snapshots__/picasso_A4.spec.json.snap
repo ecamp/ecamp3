@@ -1614,6 +1614,20 @@
                           "children": [
                             {
                               "box": {},
+                              "children": [],
+                              "parent": [Circular],
+                              "props": {
+                                "class": "picasso-schedule-entry-spacer",
+                              },
+                              "style": {
+                                "flexGrow": "1",
+                                "height": "0",
+                                "maxHeight": "4pt",
+                              },
+                              "type": "VIEW",
+                            },
+                            {
+                              "box": {},
                               "children": [
                                 {
                                   "parent": [Circular],
@@ -1625,6 +1639,20 @@
                               "props": {},
                               "style": {},
                               "type": "TEXT",
+                            },
+                            {
+                              "box": {},
+                              "children": [],
+                              "parent": [Circular],
+                              "props": {
+                                "class": "picasso-schedule-entry-spacer",
+                              },
+                              "style": {
+                                "flexGrow": "1",
+                                "height": "0",
+                                "maxHeight": "4pt",
+                              },
+                              "type": "VIEW",
                             },
                           ],
                           "parent": [Circular],
@@ -1642,7 +1670,7 @@
                             "fontSize": "8pt",
                             "justifyContent": "flex-end",
                             "left": "0",
-                            "padding": "0 4pt 2pt",
+                            "padding": "0 4pt",
                             "position": "absolute",
                             "right": "0",
                             "top": "0",
