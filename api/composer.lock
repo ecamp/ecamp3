@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "88a55e5fc7656af9b87dfcf6319b84cc",
+  "content-hash": "88c76fe7288958a08ede60cc9441a7e5",
   "packages": [
     {
       "name": "api-platform/doctrine-common",
@@ -11891,16 +11891,16 @@
     },
     {
       "name": "brianium/paratest",
-      "version": "v7.27.1",
+      "version": "v7.27.2",
       "source": {
         "type": "git",
         "url": "https://github.com/paratestphp/paratest.git",
-        "reference": "739b3b1b5065c52664ef5a77716593ab9d5e263d"
+        "reference": "3b1189e2e36ac3e958d8cb362433862123eb7566"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/paratestphp/paratest/zipball/739b3b1b5065c52664ef5a77716593ab9d5e263d",
-        "reference": "739b3b1b5065c52664ef5a77716593ab9d5e263d",
+        "url": "https://api.github.com/repos/paratestphp/paratest/zipball/3b1189e2e36ac3e958d8cb362433862123eb7566",
+        "reference": "3b1189e2e36ac3e958d8cb362433862123eb7566",
         "shasum": ""
       },
       "require": {
@@ -11914,7 +11914,7 @@
         "phpunit/php-code-coverage": "^14.4.1",
         "phpunit/php-file-iterator": "^7.0.2",
         "phpunit/php-timer": "^9",
-        "phpunit/phpunit": "^13.4.1",
+        "phpunit/phpunit": "^13.4.2",
         "sebastian/environment": "^9.3.3",
         "symfony/console": "^7.4.20 || ^8.1.8",
         "symfony/process": "^7.4.19 || ^8.1.7"
@@ -11968,7 +11968,7 @@
       ],
       "support": {
         "issues": "https://github.com/paratestphp/paratest/issues",
-        "source": "https://github.com/paratestphp/paratest/tree/v7.27.1"
+        "source": "https://github.com/paratestphp/paratest/tree/v7.27.2"
       },
       "funding": [
         {
@@ -11980,7 +11980,7 @@
           "type": "paypal"
         }
       ],
-      "time": "2026-10-14T05:58:28+00:00"
+      "time": "2026-10-16T12:01:22+00:00"
     },
     {
       "name": "clue/ndjson-react",
