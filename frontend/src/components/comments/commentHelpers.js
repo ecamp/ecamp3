@@ -14,29 +14,23 @@ export function commentCountsByActivity(comments) {
   return counts
 }
 
+export function filterComments(comments, statusFilter = 'open', retainedThreads = null) {
+  return statusFilter === 'all'
+    ? comments
+    : comments.filter((comment) => {
+        if (statusFilter === 'resolved') return isResolved(comment)
+        const root = typeof comment.parent === 'function' ? comment.parent() : comment
+        return !isResolved(comment) || retainedThreads?.has(root._meta.self)
+      })
+}
+
 export function scopedComments(
   comments,
   activity,
   includeActivityComments,
-  statusFilter = 'open',
-  retainedThreads = null
+  statusFilter = 'open'
 ) {
-  let shown
-  switch (statusFilter) {
-    case 'all':
-      shown = comments.items
-      break
-    case 'resolved':
-      shown = comments.items.filter(isResolved)
-      break
-    case 'open':
-    default:
-      shown = comments.items.filter((comment) => {
-        const root = typeof comment.parent === 'function' ? comment.parent() : comment
-        return !isResolved(comment) || retainedThreads?.has(root._meta.self)
-      })
-      break
-  }
+  const shown = filterComments(comments.items, statusFilter)
   if (activity) {
     return shown.filter(
       (comment) =>

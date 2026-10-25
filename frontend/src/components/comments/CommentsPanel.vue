@@ -139,21 +139,19 @@ export default {
       return this.$vuetify.display.smAndDown
     },
     statusCounts() {
-      const comments = scopedComments(this.comments, this.activity, this.mobile, 'all')
+      const comments = this.visibleComments
       const resolved = comments.filter(isResolved).length
       return { open: comments.length - resolved, resolved }
     },
     visibleComments() {
-      return scopedComments(
-        this.comments,
-        this.activity,
-        this.mobile,
-        commentsState.statusFilter,
-        commentsState.retainedThreads
-      )
+      return scopedComments(this.comments, this.activity, this.mobile, 'all')
     },
     emptyText() {
-      if (this.visibleComments.length || commentsState.statusFilter === 'all') return null
+      if (
+        commentsState.statusFilter === 'all' ||
+        this.statusCounts[commentsState.statusFilter]
+      )
+        return null
       if (commentsState.statusFilter === 'open') {
         return this.$t(
           this.statusCounts.resolved > 0
@@ -161,15 +159,11 @@ export default {
             : 'components.comments.commentsList.noOpenComments'
         )
       }
-      const withResolved = scopedComments(
-        this.comments,
-        this.activity,
-        this.mobile,
-        'all'
+      return this.$t(
+        this.statusCounts.open
+          ? 'components.comments.commentsList.noResolvedComments'
+          : 'components.comments.commentsList.empty'
       )
-      return withResolved.length
-        ? this.$t('components.comments.commentsList.noResolvedComments')
-        : this.$t('components.comments.commentsList.empty')
     },
     showContext() {
       return !this.activity && this.mobile

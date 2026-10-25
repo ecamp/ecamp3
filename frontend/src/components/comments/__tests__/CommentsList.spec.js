@@ -3,6 +3,7 @@ import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { setupVuetify } from '/tests/setupVuetify.js'
 import dayjs from '@/common/helpers/dayjs.js'
 import CommentsList from '@/components/comments/CommentsList.vue'
+import { reactive } from 'vue'
 
 setupVuetify()
 
@@ -55,9 +56,10 @@ function mountList({
   comments = [],
   showContext = false,
   emptyText = null,
+  statusFilter = 'open',
 } = {}) {
   return mount(CommentsList, {
-    props: { comments, loading, showContext, emptyText },
+    props: { comments, loading, showContext, emptyText, statusFilter },
     global: {
       mocks: {
         $t: (key, named) =>
@@ -141,6 +143,7 @@ describe('CommentsList', () => {
     const resolved = comment(2, { resolvedAt: '2026-08-05T12:00:00+00:00' })
     const wrapper = mountList({
       comments: [comment(1), resolved, comment(3), comment(4, { parent: resolved })],
+      statusFilter: 'all',
     })
 
     expect(renderedThreads(wrapper)).toEqual([
@@ -149,6 +152,40 @@ describe('CommentsList', () => {
       ['/comments/3'],
     ])
   })
+
+  it('keeps a newly resolved comment and its replies until the countdown releases it', async () => {
+    const root = reactive(comment(1))
+    const wrapper = mountList({ comments: [root, comment(2, { parent: root })] })
+    const thread = wrapper.findComponent({ name: 'CommentThread' })
+    thread.vm.$emit('retain', true)
+    root.resolvedAt = '2026-08-05T12:00:00+00:00'
+    await wrapper.vm.$nextTick()
+
+    expect(renderedComments(wrapper)).toEqual(['/comments/1', '/comments/2'])
+
+    thread.vm.$emit('retain', false)
+    await wrapper.vm.$nextTick()
+
+    expect(renderedComments(wrapper)).toEqual([])
+  })
+
+  it.each(['resolved', 'all'])(
+    'forgets retained comments when switching to %s and back to Open',
+    async (statusFilter) => {
+      const root = reactive(comment(1))
+      const wrapper = mountList({ comments: [root, comment(2, { parent: root })] })
+      wrapper.findComponent({ name: 'CommentThread' }).vm.$emit('retain', true)
+      root.resolvedAt = '2026-08-05T12:00:00+00:00'
+      await wrapper.vm.$nextTick()
+      expect(renderedComments(wrapper)).toEqual(['/comments/1', '/comments/2'])
+
+      await wrapper.setProps({ statusFilter })
+      expect(renderedComments(wrapper)).toEqual(['/comments/1', '/comments/2'])
+
+      await wrapper.setProps({ statusFilter: 'open' })
+      expect(renderedComments(wrapper)).toEqual([])
+    }
+  )
 
   it('shows no empty text of its own when it is given none', () => {
     const wrapper = mountList()

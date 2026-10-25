@@ -45,21 +45,6 @@ describe('scopedComments', () => {
     expect(scopedComments({ items }, null, true, 'all')).toHaveLength(5)
   })
 
-  it('keeps a retained resolved thread and its replies under Open', () => {
-    const retained = new Set([resolvedRoot._meta.self])
-    expect(scopedComments({ items }, activity, false, 'open', retained)).toEqual([
-      openRoot,
-      openReply,
-      resolvedRoot,
-      resolvedReply,
-    ])
-    retained.clear()
-    expect(scopedComments({ items }, activity, false, 'open', retained)).toEqual([
-      openRoot,
-      openReply,
-    ])
-  })
-
   it('shows resolved threads with their replies for an activity', () => {
     expect(scopedComments({ items }, activity, false, 'resolved')).toEqual([
       resolvedRoot,

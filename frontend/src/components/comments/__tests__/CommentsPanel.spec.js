@@ -3,12 +3,8 @@ import { mount } from '@vue/test-utils'
 import { nextTick, reactive } from 'vue'
 import { setupVuetify } from '/tests/setupVuetify.js'
 import CommentsPanel from '@/components/comments/CommentsPanel.vue'
-import {
-  commentsState,
-  resetCommentsState,
-  retainCommentThread,
-  scheduleCommentThreadRemoval,
-} from '@/components/comments/commentsState.js'
+import CommentsList from '@/components/comments/CommentsList.vue'
+import { commentsState, resetCommentsState } from '@/components/comments/commentsState.js'
 import { activityFromRoute, campFromRoute } from '@/router.js'
 
 setupVuetify()
@@ -107,6 +103,9 @@ function mountPanel({
   mobile = false,
 } = {}) {
   scrollToBottom = vi.fn()
+  vi.spyOn(CommentsList.methods, 'scrollToBottom').mockImplementation(() =>
+    scrollToBottom()
+  )
   resize(mobile ? 375 : 1280)
   return mount(CommentsPanel, {
     global: {
@@ -119,12 +118,7 @@ function mountPanel({
       stubs: {
         VNavigationDrawer: { template: '<div class="drawer"><slot /></div>' },
         VDialog: { template: '<div class="dialog"><slot /></div>' },
-        CommentsList: {
-          name: 'CommentsList',
-          props: ['comments', 'loading', 'showContext', 'emptyText'],
-          template: '<div class="list"><slot name="after" /></div>',
-          methods: { scrollToBottom: () => scrollToBottom() },
-        },
+        CommentThread: true,
         CommentComposer: true,
         CategoryChip: {
           name: 'CategoryChip',
@@ -139,14 +133,17 @@ function mountPanel({
 function listedComments(wrapper) {
   return wrapper
     .findComponent({ name: 'CommentsList' })
-    .props()
-    .comments.map((c) => c._meta.self)
+    .findAllComponents({ name: 'CommentThread' })
+    .flatMap((thread) => [
+      thread.props().root._meta.self,
+      ...thread.props().replies.map((reply) => reply._meta.self),
+    ])
 }
 
 describe('CommentsPanel', () => {
   afterEach(() => {
     resetCommentsState()
-    vi.useRealTimers()
+    vi.restoreAllMocks()
   })
   beforeEach(() => {
     resetCommentsState()
@@ -188,12 +185,12 @@ describe('CommentsPanel', () => {
 
   it('mounts the list only once the panel has been opened', async () => {
     const wrapper = mountPanel()
-    expect(wrapper.find('.list').exists()).toBe(false)
+    expect(wrapper.findComponent(CommentsList).exists()).toBe(false)
 
     commentsState.open = true
     await nextTick()
 
-    expect(wrapper.find('.list').exists()).toBe(true)
+    expect(wrapper.findComponent(CommentsList).exists()).toBe(true)
   })
 
   it('mounts the composer alongside the list', async () => {
@@ -453,20 +450,6 @@ describe('CommentsPanel', () => {
     const openRoot = comment(7, { on: activity, author: somebody })
     const replyToOpen = comment(8, { on: activity, parent: openRoot })
     const thread = [resolvedRoot, replyToResolved, openRoot, replyToOpen]
-
-    it('clears retained threads and timers on a camp change', async () => {
-      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
-      const route = reactive({ path: '/camps/1/dashboard', params: { campId: '1' } })
-      mountPanel({ route })
-      retainCommentThread('/comments/40')
-      scheduleCommentThreadRemoval('/comments/40')
-
-      route.params.campId = '2'
-      await nextTick()
-
-      expect(commentsState.retainedThreads.size).toBe(0)
-      expect(vi.getTimerCount()).toBe(0)
-    })
 
     it('leaves out resolved threads by default', async () => {
       const wrapper = mountPanel({ items: thread })

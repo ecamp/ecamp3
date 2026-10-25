@@ -5,14 +5,13 @@ import dayjs from '@/common/helpers/dayjs.js'
 import CommentThread from '@/components/comments/CommentThread.vue'
 import { reactive } from 'vue'
 import flushPromises from 'flush-promises'
-import { commentsState, resetCommentsState } from '@/components/comments/commentsState.js'
 
 setupVuetify()
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
+const REMOVAL_DURATION = 2000
 enableAutoUnmount(afterEach)
 afterEach(() => {
-  resetCommentsState()
   vi.useRealTimers()
   window.localStorage.clear()
 })
@@ -60,10 +59,11 @@ function mountThread({
   replies = [],
   showContext = false,
   camp: campProp = camp,
+  statusFilter = 'open',
 } = {}) {
   patch = vi.fn().mockResolvedValue({})
   return mount(CommentThread, {
-    props: { root, replies, showContext, camp: campProp },
+    props: { root, replies, showContext, camp: campProp, statusFilter },
     global: {
       mocks: {
         $t: (key, named) =>
@@ -103,6 +103,10 @@ function button(wrapper, testid) {
   return wrapper.find(`[data-testid="${testid}"]`)
 }
 
+function retained(wrapper) {
+  return wrapper.emitted('retain')?.at(-1)?.[0] ?? false
+}
+
 describe('CommentThread', () => {
   it('reopens a newly resolved thread', async () => {
     const root = reactive(comment(10))
@@ -117,18 +121,74 @@ describe('CommentThread', () => {
     await flushPromises()
 
     expect(root.resolvedAt).toBe(null)
-    expect(commentsState.retainedThreads.size).toBe(0)
+    expect(retained(wrapper)).toBe(false)
     expect(patch).toHaveBeenLastCalledWith(root, { resolved: false })
+  })
+
+  it('pauses removal while undo is hovered and resumes the remaining time', async () => {
+    vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] })
+    const elapsed = 750
+    const remaining = REMOVAL_DURATION - elapsed
+    const root = reactive(comment(10))
+    const wrapper = mountThread({ root })
+    patch.mockImplementation(async () => {
+      root.resolvedAt = '2026-08-02T12:00:00+00:00'
+    })
+    const resolve = button(wrapper, 'comment-thread-resolve')
+    const hovered = vi.spyOn(resolve.element, 'matches').mockReturnValue(false)
+    await resolve.trigger('click')
+    await flushPromises()
+    await vi.advanceTimersByTimeAsync(elapsed)
+    hovered.mockReturnValue(true)
+
+    const progress = wrapper.findComponent({ name: 'VProgressCircular' })
+    const pausedProgress = progress.props().modelValue
+    await vi.advanceTimersByTimeAsync(REMOVAL_DURATION * 2)
+
+    expect(retained(wrapper)).toBe(true)
+    expect(progress.props().modelValue).toBe(pausedProgress)
+
+    hovered.mockReturnValue(false)
+    await vi.advanceTimersByTimeAsync(remaining - 1)
+    expect(retained(wrapper)).toBe(true)
+    await vi.waitFor(() => expect(progress.props().modelValue).toBe(100), {
+      interval: 10,
+      timeout: 100,
+    })
+    expect(retained(wrapper)).toBe(true)
+    await vi.advanceTimersToNextTimerAsync()
+    expect(retained(wrapper)).toBe(false)
+  })
+
+  it('clears a paused countdown when the thread is unmounted', async () => {
+    vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] })
+    const root = reactive(comment(10))
+    const wrapper = mountThread({ root })
+    patch.mockImplementation(async () => {
+      root.resolvedAt = '2026-08-02T12:00:00+00:00'
+    })
+    await button(wrapper, 'comment-thread-resolve').trigger('click')
+    await flushPromises()
+    await vi.advanceTimersByTimeAsync(750)
+    vi.spyOn(
+      button(wrapper, 'comment-thread-resolve').element,
+      'matches'
+    ).mockReturnValue(true)
+
+    wrapper.unmount()
+    await vi.advanceTimersByTimeAsync(REMOVAL_DURATION)
+
+    expect(retained(wrapper)).toBe(false)
+    expect(vi.getTimerCount()).toBe(0)
   })
 
   it.each(['all', 'resolved'])(
     'does not retain threads while viewing %s',
     async (status) => {
-      commentsState.statusFilter = status
-      const wrapper = mountThread()
+      const wrapper = mountThread({ statusFilter: status })
       await button(wrapper, 'comment-thread-resolve').trigger('click')
       await flushPromises()
-      expect(commentsState.retainedThreads.size).toBe(0)
+      expect(retained(wrapper)).toBe(false)
     }
   )
 
@@ -387,6 +447,6 @@ describe('CommentThread', () => {
 
     await button(wrapper, 'comment-thread-resolve').trigger('click')
     await vi.waitFor(() => expect(wrapper.text()).toContain('network down'))
-    expect(commentsState.retainedThreads.size).toBe(0)
+    expect(retained(wrapper)).toBe(false)
   })
 })

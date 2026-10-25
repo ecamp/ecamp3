@@ -40,7 +40,23 @@
             >
               <v-progress-circular v-if="saving" indeterminate size="16" width="2" />
               <template v-else>
+                <v-progress-circular
+                  v-if="statusFilter === 'open' && removalProgress !== null"
+                  class="ec-comment-thread__resolved-icon"
+                  :model-value="removalProgress"
+                  size="13.33"
+                  width="1.33"
+                  data-testid="comment-thread-countdown"
+                  aria-hidden="true"
+                >
+                  <v-icon
+                    class="ec-comment-thread__countdown-check"
+                    icon="mdi-check-circle-outline"
+                    size="16"
+                  />
+                </v-progress-circular>
                 <v-icon
+                  v-else
                   class="ec-comment-thread__resolved-icon"
                   icon="mdi-check-circle-outline"
                   size="16"
@@ -51,18 +67,6 @@
                   size="18"
                 />
               </template>
-              <svg
-                v-if="removalCountdown"
-                class="ec-comment-thread__countdown"
-                viewBox="0 0 16 16"
-                width="16"
-                height="16"
-                aria-hidden="true"
-                data-testid="comment-thread-countdown"
-                :style="removalCountdown"
-              >
-                <circle cx="8" cy="8" r="6" pathLength="1" />
-              </svg>
               {{
                 resolverName
                   ? $t('components.comments.commentThread.resolvedBy', {
@@ -108,13 +112,9 @@ import CommentComposer from '@/components/comments/CommentComposer.vue'
 import CommentTime from '@/components/comments/CommentTime.vue'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 import { serverErrorToString } from '@/helpers/serverError.js'
-import {
-  commentsState,
-  RESOLVED_COMMENT_GRACE_PERIOD,
-  retainCommentThread,
-  releaseCommentThread,
-  scheduleCommentThreadRemoval,
-} from '@/components/comments/commentsState.js'
+
+const REMOVAL_DURATION = 2000
+const REMOVAL_INTERVAL = 60
 
 export default {
   name: 'CommentThread',
@@ -124,13 +124,16 @@ export default {
     camp: { type: Object, default: null },
     replies: { type: Array, default: () => [] },
     showContext: { type: Boolean, default: false },
+    statusFilter: { type: String, default: 'open' },
   },
-  emits: ['replied'],
+  emits: ['replied', 'retain'],
   data() {
     return {
       replying: false,
       saving: false,
       errorMessage: null,
+      removalProgress: null,
+      removalTimer: null,
     }
   },
   computed: {
@@ -139,15 +142,6 @@ export default {
       return this.replies.some(
         (reply) => !rootAuthor || this.authorOf(reply) !== rootAuthor
       )
-    },
-    removalCountdown() {
-      const deadline = commentsState.removalDeadlines.get(this.root._meta.self)
-      if (!this.resolved || commentsState.statusFilter !== 'open' || !deadline)
-        return null
-      return {
-        animationDuration: `${RESOLVED_COMMENT_GRACE_PERIOD}ms`,
-        animationDelay: `${Math.min(0, deadline - Date.now() - RESOLVED_COMMENT_GRACE_PERIOD)}ms`,
-      }
     },
     resolved() {
       return !!this.root.resolvedAt
@@ -163,7 +157,29 @@ export default {
         : this.$t('components.comments.commentThread.resolve')
     },
   },
+  beforeUnmount() {
+    this.setRetained(false)
+  },
   methods: {
+    setRetained(retained) {
+      clearInterval(this.removalTimer)
+      this.removalTimer = null
+      this.removalProgress = retained ? 0 : null
+      this.$emit('retain', retained)
+    },
+    startRemovalCountdown() {
+      if (this.removalProgress === null) return
+      this.removalTimer = setInterval(() => {
+        const button = this.$el.querySelector('.ec-comment-thread__resolve')
+        if (!button || button.matches(':hover')) return
+        if (this.removalProgress === 100) this.setRetained(false)
+        else
+          this.removalProgress = Math.min(
+            100,
+            this.removalProgress + (100 * REMOVAL_INTERVAL) / REMOVAL_DURATION
+          )
+      }, REMOVAL_INTERVAL)
+    },
     authorOf(comment) {
       return typeof comment.author === 'function' ? comment.author()._meta.self : null
     },
@@ -172,28 +188,19 @@ export default {
       this.saving = true
       this.errorMessage = null
       const resolving = !this.resolved
-      const uri = this.root._meta.self
       const retain =
-        (resolving && commentsState.statusFilter === 'open') ||
-        commentsState.retainedThreads.has(uri)
-      if (retain) retainCommentThread(uri)
+        (resolving && this.statusFilter === 'open') || this.removalProgress !== null
+      if (retain) this.setRetained(true)
       try {
         await this.api.patch(this.root, { resolved: resolving })
         this.replying = false
-        if (resolving) {
-          scheduleCommentThreadRemoval(uri)
-        } else {
-          releaseCommentThread(uri)
-        }
+        if (!resolving) this.setRetained(false)
       } catch (e) {
-        if (resolving) {
-          releaseCommentThread(uri)
-        } else {
-          scheduleCommentThreadRemoval(uri)
-        }
+        if (resolving) this.setRetained(false)
         this.errorMessage = serverErrorToString(e)
       } finally {
         this.saving = false
+        this.startRemovalCountdown()
       }
     },
     onReplied() {
@@ -225,28 +232,12 @@ export default {
   padding: 2px;
 }
 
-.ec-comment-thread__countdown {
-  flex-shrink: 0;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  transform: rotate(-90deg);
+.ec-comment-thread__countdown-check {
+  clip-path: circle(31.25%);
 }
 
-.ec-comment-thread__countdown circle {
-  stroke-dasharray: 1;
-  animation: ec-comment-countdown linear forwards;
-  animation-duration: inherit;
-  animation-delay: inherit;
-}
-
-@keyframes ec-comment-countdown {
-  from {
-    stroke-dashoffset: 0;
-  }
-  to {
-    stroke-dashoffset: 1;
-  }
+.ec-comment-thread__resolved-icon :deep(.v-progress-circular__overlay) {
+  transition: none;
 }
 
 .ec-comment-thread__resolved {

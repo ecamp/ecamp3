@@ -19,7 +19,7 @@
         @vue:before-unmount="captureLeavingContent"
       >
         <p
-          v-if="!comments.length && emptyText"
+          v-if="!visibleComments.length && emptyText"
           class="text-body-2 text-medium-emphasis mb-0"
         >
           {{ emptyText }}
@@ -43,7 +43,9 @@
               :camp="camp"
               :replies="repliesTo(root)"
               :show-context="showContext"
+              :status-filter="statusFilter"
               @replied="$emit('replied')"
+              @retain="retainThread(root._meta.self, $event)"
             />
           </div>
         </TransitionGroup>
@@ -55,6 +57,7 @@
 
 <script>
 import CommentThread from '@/components/comments/CommentThread.vue'
+import { filterComments } from '@/components/comments/commentHelpers.js'
 
 const leavingContent = new WeakMap()
 
@@ -71,15 +74,21 @@ export default {
   },
   emits: ['replied'],
   data() {
-    return { filterPage: 0, filterTransition: '' }
+    return { filterPage: 0, filterTransition: '', retainedThreads: new Set() }
   },
   computed: {
+    visibleComments() {
+      return filterComments(this.comments, this.statusFilter, this.retainedThreads)
+    },
     roots() {
-      return this.comments.filter((comment) => typeof comment.parent !== 'function')
+      return this.visibleComments.filter(
+        (comment) => typeof comment.parent !== 'function'
+      )
     },
   },
   watch: {
     statusFilter(next, previous) {
+      this.retainedThreads.clear()
       if (
         (previous === 'open' && next === 'resolved') ||
         (previous === 'resolved' && next === 'open')
@@ -92,6 +101,10 @@ export default {
     },
   },
   methods: {
+    retainThread(uri, retained) {
+      if (retained) this.retainedThreads.add(uri)
+      else this.retainedThreads.delete(uri)
+    },
     captureLeavingContent(vnode, root) {
       if (root && !root.resolvedAt && vnode.el.dataset.statusFilter === 'resolved') {
         vnode.el.classList.add('ec-comments-list__item--reopened')
@@ -107,7 +120,7 @@ export default {
       leavingContent.delete(element)
     },
     repliesTo(root) {
-      return this.comments.filter(
+      return this.visibleComments.filter(
         (comment) =>
           typeof comment.parent === 'function' &&
           comment.parent()._meta.self === root._meta.self
