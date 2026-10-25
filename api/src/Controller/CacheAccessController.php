@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\HttpCache\CacheScopeListener;
+use App\HttpCache\CacheSecurityDelegateListener;
 use App\Security\ResourceReadAccessChecker;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Authenticator\Token\JWTPostAuthenticationToken;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -13,8 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * Tells the HTTP cache whether the current user may be served cached responses of a given scope.
- * The response itself is cacheable (per user and scope), but only if access is granted.
+ * Tells the HTTP cache whether the current user may be served cached responses that delegate their security to a given resource.
+ * The response itself is cacheable (per user and delegate), but only if access is granted.
  */
 class CacheAccessController {
     public const string ROUTE = 'cache_access';
@@ -30,7 +30,7 @@ class CacheAccessController {
     public function __invoke(Request $request): Response {
         $response = new Response();
 
-        $ttl = $this->isGranted((string) $request->headers->get(CacheScopeListener::HEADER)) ? $this->getTokenTtl() : 0;
+        $ttl = $this->isGranted((string) $request->headers->get(CacheSecurityDelegateListener::HEADER)) ? $this->getTokenTtl() : 0;
 
         if ($ttl <= 0) {
             $response->headers->set(self::ACCESS_HEADER, 'denied');
@@ -45,9 +45,9 @@ class CacheAccessController {
         return $response;
     }
 
-    private function isGranted(string $scope): bool {
+    private function isGranted(string $delegate): bool {
         try {
-            return $this->accessChecker->check($scope)->granted;
+            return $this->accessChecker->check($delegate)->granted;
         } catch (\InvalidArgumentException) {
             return false;
         }

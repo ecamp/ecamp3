@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class CacheAccessTest extends ECampApiTestCase {
     public function testIsDeniedForAnonymousUser() {
-        static::createBasicClient()->request('GET', '/_cache_access', ['headers' => ['X-Cache-Scope' => $this->getIriFor('camp1')]]);
+        static::createBasicClient()->request('GET', '/_cache_access', ['headers' => ['X-Cache-Security-Delegate' => $this->getIriFor('camp1')]]);
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -52,14 +52,14 @@ class CacheAccessTest extends ECampApiTestCase {
         $this->assertSame(['denied'], $response->getHeaders()['x-cache-access']);
     }
 
-    public function testIsDeniedWithoutScope() {
+    public function testIsDeniedWithoutDelegate() {
         $response = static::createClientWithCredentials()->request('GET', '/_cache_access');
 
         $this->assertSame(['denied'], $response->getHeaders()['x-cache-access']);
     }
 
-    public function testIsDeniedForScopeThatIsNoResource() {
-        $response = static::createClientWithCredentials()->request('GET', '/_cache_access', ['headers' => ['X-Cache-Scope' => 'public']]);
+    public function testIsDeniedForDelegateThatIsNoResource() {
+        $response = static::createClientWithCredentials()->request('GET', '/_cache_access', ['headers' => ['X-Cache-Security-Delegate' => 'public']]);
 
         $this->assertSame(['denied'], $response->getHeaders()['x-cache-access']);
     }
@@ -68,7 +68,7 @@ class CacheAccessTest extends ECampApiTestCase {
         return static::createClientWithCredentials($credentials)->request(
             'GET',
             '/_cache_access',
-            ['headers' => ['X-Cache-Scope' => $this->getIriFor($campFixture)]]
+            ['headers' => ['X-Cache-Security-Delegate' => $this->getIriFor($campFixture)]]
         );
     }
 }

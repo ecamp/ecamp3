@@ -8,7 +8,7 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class AccessTagsTest extends ECampApiTestCase {
-    public function testResponseWithCacheScopeIsNotTaggedWithAccessRules() {
+    public function testResponseWithCacheSecurityDelegateIsNotTaggedWithAccessRules() {
         $collaboration = static::getFixture('campCollaboration1manager');
         $activity = static::getFixture('activity1');
 
@@ -19,7 +19,7 @@ class AccessTagsTest extends ECampApiTestCase {
         $this->assertContains($activity->getId(), $this->getTags($response));
     }
 
-    public function testResponseWithoutCacheScopeIsTaggedWithAccessRules() {
+    public function testResponseWithoutCacheSecurityDelegateIsTaggedWithAccessRules() {
         $collaboration = static::getFixture('campCollaboration1manager');
         $activity = static::getFixture('activity1');
 
@@ -57,7 +57,7 @@ class AccessTagsTest extends ECampApiTestCase {
         return static::createClientWithCredentials($credentials)->request(
             'GET',
             '/_cache_access',
-            ['headers' => ['X-Cache-Scope' => $this->getIriFor($campFixture)]]
+            ['headers' => ['X-Cache-Security-Delegate' => $this->getIriFor($campFixture)]]
         );
     }
 

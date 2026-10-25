@@ -15,18 +15,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 /**
- * Tells the HTTP cache which read access is required to be served a response: Operations with the extra
- * property "cache_scope" => "camp" require read access to the camp of the response, operations with
- * "cache_scope" => "public" require no access. Responses without a scope must not be shared between users.
+ * Tells the HTTP cache which read access is required to be served a response. Operations delegate their security to
+ * a resource with the extra property "cache_security_delegate": "camp" requires read access to the camp of the
+ * response, "public" requires no access. Responses without a delegate must not be shared between users.
  */
-final class CacheScopeListener {
-    public const string HEADER = 'X-Cache-Scope';
-    public const string EXTRA_PROPERTY = 'cache_scope';
-    public const string SCOPE_CAMP = 'camp';
-    public const string SCOPE_PUBLIC = 'public';
+final class CacheSecurityDelegateListener {
+    public const string HEADER = 'X-Cache-Security-Delegate';
+    public const string EXTRA_PROPERTY = 'cache_security_delegate';
+    public const string DELEGATE_CAMP = 'camp';
+    public const string DELEGATE_PUBLIC = 'public';
 
     public function __construct(
-        private readonly CacheScopeResolver $cacheScopeResolver,
+        private readonly CacheSecurityDelegateResolver $cacheSecurityDelegateResolver,
         private readonly IriConverterInterface $iriConverter,
         private readonly EntityManagerInterface $em,
     ) {}
@@ -39,23 +39,23 @@ final class CacheScopeListener {
             return;
         }
 
-        $scope = $this->getScope($request);
+        $delegate = $this->getDelegate($request);
 
-        if (null !== $scope) {
-            $response->headers->set(self::HEADER, $scope);
+        if (null !== $delegate) {
+            $response->headers->set(self::HEADER, $delegate);
         }
     }
 
-    private function getScope(Request $request): ?string {
-        return match ($this->cacheScopeResolver->getDeclaredScope($request)) {
-            self::SCOPE_PUBLIC => self::SCOPE_PUBLIC,
-            self::SCOPE_CAMP => $this->getCampIri($request, $this->isCollection($request)),
+    private function getDelegate(Request $request): ?string {
+        return match ($this->cacheSecurityDelegateResolver->getDeclaredDelegate($request)) {
+            self::DELEGATE_PUBLIC => self::DELEGATE_PUBLIC,
+            self::DELEGATE_CAMP => $this->getCampIri($request, $this->isCollection($request)),
             default => null,
         };
     }
 
     private function isCollection(Request $request): bool {
-        return $this->cacheScopeResolver->getOperation($request) instanceof CollectionOperationInterface;
+        return $this->cacheSecurityDelegateResolver->getOperation($request) instanceof CollectionOperationInterface;
     }
 
     private function getCampIri(Request $request, bool $isCollection): ?string {

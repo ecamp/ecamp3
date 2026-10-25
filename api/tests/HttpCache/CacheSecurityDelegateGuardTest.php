@@ -10,26 +10,26 @@ use ApiPlatform\Metadata\Property\Factory\PropertyNameCollectionFactoryInterface
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\Factory\ResourceNameCollectionFactoryInterface;
 use App\Entity\Camp;
-use App\HttpCache\CacheScopeListener;
+use App\HttpCache\CacheSecurityDelegateListener;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
- * A response scoped to a camp is shared between all users who may read that camp.
+ * A response that delegates its security to a camp is shared between all users who may read that camp.
  * This is only correct if reading the response requires nothing but read access to the camp.
  *
  * @internal
  */
-class CacheScopeSecurityTest extends KernelTestCase {
-    public function testOperationsScopedToCampRequireExactlyReadAccessToTheCamp() {
+class CacheSecurityDelegateGuardTest extends KernelTestCase {
+    public function testOperationsDelegatingToCampRequireExactlyReadAccessToTheCamp() {
         $campReadSecurity = $this->normalize($this->getCampItemGetOperation()->getSecurity());
-        $scopedOperations = $this->getOperationsWithCacheScope(CacheScopeListener::SCOPE_CAMP);
+        $delegatingOperations = $this->getOperationsWithDelegate(CacheSecurityDelegateListener::DELEGATE_CAMP);
 
-        $this->assertNotEmpty($scopedOperations);
-        foreach ($scopedOperations as $operation) {
+        $this->assertNotEmpty($delegatingOperations);
+        foreach ($delegatingOperations as $operation) {
             $this->assertSame(
                 $campReadSecurity,
                 $this->normalize($this->getSecurityOfCampRelatedRead($operation)),
-                "{$operation->getClass()} {$operation->getName()} is scoped to the camp, but its read security differs from the camp's."
+                "{$operation->getClass()} {$operation->getName()} delegates its security to the camp, but its read security differs from the camp's."
             );
         }
     }
@@ -50,17 +50,17 @@ class CacheScopeSecurityTest extends KernelTestCase {
         }
     }
 
-    public function testOperationsWithCacheScopeAreReadOperations() {
-        foreach ($this->getOperationsWithCacheScope() as $operation) {
+    public function testOperationsWithCacheSecurityDelegateAreReadOperations() {
+        foreach ($this->getOperationsWithDelegate() as $operation) {
             $this->assertSame('GET', $operation->getMethod(), "{$operation->getName()} must be a GET operation.");
         }
     }
 
-    public function testOperationsScopedToPublicRequireNoSecurity() {
-        $scopedOperations = $this->getOperationsWithCacheScope(CacheScopeListener::SCOPE_PUBLIC);
+    public function testOperationsDelegatingToPublicRequireNoSecurity() {
+        $delegatingOperations = $this->getOperationsWithDelegate(CacheSecurityDelegateListener::DELEGATE_PUBLIC);
 
-        $this->assertNotEmpty($scopedOperations);
-        foreach ($scopedOperations as $operation) {
+        $this->assertNotEmpty($delegatingOperations);
+        foreach ($delegatingOperations as $operation) {
             $this->assertNull($operation->getSecurity(), "{$operation->getName()} is public, but has security.");
         }
     }
@@ -68,11 +68,11 @@ class CacheScopeSecurityTest extends KernelTestCase {
     /**
      * @return HttpOperation[]
      */
-    private function getOperationsWithCacheScope(?string $scope = null): array {
+    private function getOperationsWithDelegate(?string $delegate = null): array {
         $operations = [];
         foreach ($this->getAllOperations() as $operation) {
-            $operationScope = $operation->getExtraProperties()[CacheScopeListener::EXTRA_PROPERTY] ?? null;
-            if (null !== $operationScope && (null === $scope || $scope === $operationScope)) {
+            $operationDelegate = $operation->getExtraProperties()[CacheSecurityDelegateListener::EXTRA_PROPERTY] ?? null;
+            if (null !== $operationDelegate && (null === $delegate || $delegate === $operationDelegate)) {
                 $operations[] = $operation;
             }
         }

@@ -11,9 +11,9 @@ use ApiPlatform\State\Util\RequestAttributesExtractor;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Finds the cache scope that the operation of a request declares, if any.
+ * Finds the cache security delegate that the operation of a request declares, if any.
  */
-final class CacheScopeResolver {
+final class CacheSecurityDelegateResolver {
     use OperationRequestInitiatorTrait;
 
     private const string ENTRYPOINT_ROUTE = 'api_entrypoint';
@@ -23,11 +23,11 @@ final class CacheScopeResolver {
     }
 
     /**
-     * @return null|CacheScopeListener::SCOPE_*
+     * @return null|CacheSecurityDelegateListener::DELEGATE_*
      */
-    public function getDeclaredScope(Request $request): ?string {
+    public function getDeclaredDelegate(Request $request): ?string {
         if (self::ENTRYPOINT_ROUTE === $request->attributes->get('_route')) {
-            return CacheScopeListener::SCOPE_PUBLIC;
+            return CacheSecurityDelegateListener::DELEGATE_PUBLIC;
         }
 
         $operation = $this->getOperation($request);
@@ -35,9 +35,9 @@ final class CacheScopeResolver {
             return null;
         }
 
-        return match ($operation->getExtraProperties()[CacheScopeListener::EXTRA_PROPERTY] ?? null) {
-            CacheScopeListener::SCOPE_PUBLIC => CacheScopeListener::SCOPE_PUBLIC,
-            CacheScopeListener::SCOPE_CAMP => CacheScopeListener::SCOPE_CAMP,
+        return match ($operation->getExtraProperties()[CacheSecurityDelegateListener::EXTRA_PROPERTY] ?? null) {
+            CacheSecurityDelegateListener::DELEGATE_PUBLIC => CacheSecurityDelegateListener::DELEGATE_PUBLIC,
+            CacheSecurityDelegateListener::DELEGATE_CAMP => CacheSecurityDelegateListener::DELEGATE_CAMP,
             default => null,
         };
     }

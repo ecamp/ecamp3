@@ -14,7 +14,7 @@ sub vcl_recv {
   # Headers used between restarts must never be taken over from a client
   if (req.restarts == 0) {
     unset req.http.X-Cache-Phase;
-    unset req.http.X-Cache-Scope;
+    unset req.http.X-Cache-Security-Delegate;
     unset req.http.X-Cache-Grant;
     unset req.http.X-Cache-Denied;
     unset req.http.X-Cache-Original-Url;
@@ -53,7 +53,7 @@ sub vcl_recv {
     }
   }
 
-  # The user was denied access to the scope of the cached response, let the API answer
+  # The user was denied access to the security delegate of the cached response, let the API answer
   if (req.http.X-Cache-Denied) {
     return(pass);
   }
@@ -71,7 +71,7 @@ sub vcl_recv {
     var.set("JWT", cookie.get_string());
   }
 
-  # Ask the API whether the user may read the scope of a cached response (see vcl_hit)
+  # Ask the API whether the user may read the security delegate of a cached response (see vcl_hit)
   if (req.http.X-Cache-Phase == "preflight") {
     set req.http.X-Cache-Original-Url = req.url;
     set req.url = "/_cache_access";
@@ -80,10 +80,10 @@ sub vcl_recv {
 
 sub vcl_hash {
   # Responses are shared between users, access to them is checked in vcl_hit. Whether access is granted
-  # is specific to the user and scope.
+  # is specific to the user and security delegate.
   if (req.http.X-Cache-Phase == "preflight") {
     hash_data(var.get("JWT"));
-    hash_data(req.http.X-Cache-Scope);
+    hash_data(req.http.X-Cache-Security-Delegate);
   }
 
   # using URL (=path), but not using Host/ServerIP; this allows to share cache between print & normal API calls
@@ -93,21 +93,21 @@ sub vcl_hash {
 }
 
 sub vcl_hit {
-  if (req.http.X-Cache-Phase == "preflight" || obj.http.X-Cache-Scope == "public") {
+  if (req.http.X-Cache-Phase == "preflight" || obj.http.X-Cache-Security-Delegate == "public") {
     return(deliver);
   }
 
   # Never serve a response that doesn't state who may read it
-  if (!obj.http.X-Cache-Scope) {
+  if (!obj.http.X-Cache-Security-Delegate) {
     return(pass);
   }
 
-  if (req.http.X-Cache-Grant && req.http.X-Cache-Grant == obj.http.X-Cache-Scope) {
+  if (req.http.X-Cache-Grant && req.http.X-Cache-Grant == obj.http.X-Cache-Security-Delegate) {
     return(deliver);
   }
 
   set req.http.X-Cache-Phase = "preflight";
-  set req.http.X-Cache-Scope = obj.http.X-Cache-Scope;
+  set req.http.X-Cache-Security-Delegate = obj.http.X-Cache-Security-Delegate;
   return(restart);
 }
 
@@ -137,7 +137,7 @@ sub vcl_backend_response {
       set beresp.ttl = 120s;
       return (deliver);
     }
-  } else if (beresp.status != 200 || !beresp.http.X-Cache-Scope) {
+  } else if (beresp.status != 200 || !beresp.http.X-Cache-Security-Delegate) {
     # only share successful responses, which state who may read them
     set beresp.uncacheable = true;
     set beresp.ttl = 120s;
@@ -166,7 +166,7 @@ sub vcl_deliver {
   # Continue the original request with the answer of the API
   if (req.http.X-Cache-Phase == "preflight") {
     if (resp.status == 200 && resp.http.X-Cache-Access == "granted") {
-      set req.http.X-Cache-Grant = req.http.X-Cache-Scope;
+      set req.http.X-Cache-Grant = req.http.X-Cache-Security-Delegate;
     } else {
       set req.http.X-Cache-Denied = "true";
     }
@@ -179,7 +179,7 @@ sub vcl_deliver {
 
     set req.url = req.http.X-Cache-Original-Url;
     unset req.http.X-Cache-Phase;
-    unset req.http.X-Cache-Scope;
+    unset req.http.X-Cache-Security-Delegate;
     unset req.http.X-Cache-Original-Url;
     return (restart);
   }
@@ -190,7 +190,7 @@ sub vcl_deliver {
   if (resp.http.X-Cache-Debug && req.http.X-Cache-Preflight) {
     set resp.http.X-Cache-Preflight = req.http.X-Cache-Preflight;
   }
-  unset resp.http.X-Cache-Scope;
+  unset resp.http.X-Cache-Security-Delegate;
 
   # reset cache control header to avoid caching by any other upstream proxies
   if (resp.http.Content-Type ~ "application/hal\+json"){

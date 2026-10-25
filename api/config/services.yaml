@@ -222,7 +222,7 @@ services:
                   priority: 12,
               }
 
-    App\HttpCache\CacheScopeListener:
+    App\HttpCache\CacheSecurityDelegateListener:
         tags:
             - {
                   name: kernel.event_listener,

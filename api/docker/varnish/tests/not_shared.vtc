@@ -1,21 +1,21 @@
-varnishtest "Only successful responses which state their scope are cached"
+varnishtest "Only successful responses which state their security delegate are cached"
 
 server s1 {
-    # no scope
+    # no security delegate
     rxreq
     expect req.url == "/camps/1/activities"
-    txresp -hdr "Cache-Control: public, s-maxage=60" -body "no scope"
+    txresp -hdr "Cache-Control: public, s-maxage=60" -body "no delegate"
     rxreq
     expect req.url == "/camps/1/activities"
-    txresp -hdr "Cache-Control: public, s-maxage=60" -body "no scope"
+    txresp -hdr "Cache-Control: public, s-maxage=60" -body "no delegate"
 
-    # not found, although the scope is present
+    # not found, although the security delegate is present
     rxreq
     expect req.url == "/camps/1/categories"
-    txresp -status 404 -hdr "X-Cache-Scope: /api/camps/1" -hdr "Cache-Control: public, s-maxage=60"
+    txresp -status 404 -hdr "X-Cache-Security-Delegate: /api/camps/1" -hdr "Cache-Control: public, s-maxage=60"
     rxreq
     expect req.url == "/camps/1/categories"
-    txresp -status 404 -hdr "X-Cache-Scope: /api/camps/1" -hdr "Cache-Control: public, s-maxage=60"
+    txresp -status 404 -hdr "X-Cache-Security-Delegate: /api/camps/1" -hdr "Cache-Control: public, s-maxage=60"
 } -start
 
 varnish v1 -vcl+backend {

@@ -24,13 +24,13 @@ use Symfony\Component\Serializer\Attribute\Groups;
     operations: [
         new Get(
             extraProperties: [
-                'cache_scope' => 'public',
+                'cache_security_delegate' => 'public',
             ]
         ),
         new GetCollection(
             extraProperties: [
                 'scoping_filters' => false,
-                'cache_scope' => 'public',
+                'cache_security_delegate' => 'public',
             ]
         ),
     ],
