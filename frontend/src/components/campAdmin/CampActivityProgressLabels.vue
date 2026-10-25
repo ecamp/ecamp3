@@ -26,15 +26,10 @@
     <v-list class="mx-n2">
       <template v-if="disabled">
         <v-list-item
-          v-for="(progressLabel, idx) in progressLabels"
+          v-for="progressLabel in progressLabels"
           :key="progressLabel._meta.self"
           class="px-2 rounded"
         >
-          <template #prepend>
-            <v-avatar color="rgba(0,0,0,0.12)" class="mr-2" size="32">{{
-              parseInt(idx) + 1
-            }}</v-avatar>
-          </template>
           <v-list-item-title>
             {{ progressLabel.title }}
           </v-list-item-title>
@@ -42,17 +37,12 @@
       </template>
       <template v-else-if="!reorder">
         <DialogActivityProgressLabelEdit
-          v-for="(progressLabel, idx) in progressLabels"
+          v-for="progressLabel in progressLabels"
           :key="progressLabel._meta.self"
           :progress-label="progressLabel"
         >
           <template #activator="{ props }">
             <v-list-item class="px-2 rounded" v-bind="props" :title="progressLabel.title">
-              <template #prepend>
-                <v-avatar color="rgba(0,0,0,0.12)" class="mr-2" size="32">{{
-                  parseInt(idx) + 1
-                }}</v-avatar>
-              </template>
               <template #append>
                 <v-list-item-action v-if="!disabled" style="display: inline">
                   <v-item-group>
@@ -65,20 +55,12 @@
         </DialogActivityProgressLabelEdit>
       </template>
       <template v-else>
-        <api-sortable
-          v-slot="{ itemPosition, item, on }"
-          :endpoint="camp.progressLabels()"
-        >
+        <api-sortable v-slot="{ item, on }" :endpoint="camp.progressLabels()">
           <v-list-item
             class="px-2 rounded drag-and-drop-handle"
             :title="item.title"
             v-on="on"
           >
-            <template #prepend>
-              <v-avatar color="rgba(0,0,0,0.12)" class="mr-2" size="32">{{
-                itemPosition + 1
-              }}</v-avatar>
-            </template>
             <template #append>
               <v-list-item-action style="display: inline">
                 <v-btn variant="plain" icon class="my-n1 pointer-events-none">
