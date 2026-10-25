@@ -15,7 +15,7 @@ test.describe('Client print test', { tag: '@mature' }, () => {
     await page.goto('/')
     await expect(page).toHaveURL((url) => url.pathname === '/camps')
 
-    await page.locator('a:has-text("GRGR")').click()
+    await page.getByRole('link', { name: /^GRGR (?!nach)/ }).click()
     await page.locator('a:has-text("Admin")').click()
     await page.locator('a:has-text("Drucken")').click()
 
