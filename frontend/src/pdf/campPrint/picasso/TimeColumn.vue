@@ -52,8 +52,8 @@ export default {
    in the time column breaks layouting of the texts inside the schedule entries.
    */
   position: absolute;
-  top: -6pt;
-  bottom: 6pt;
+  top: -4.84pt;
+  bottom: 4.84pt;
   left: 0;
   right: 0;
 }
