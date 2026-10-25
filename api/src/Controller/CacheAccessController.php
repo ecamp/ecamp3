@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
  * The response itself is cacheable (per user and scope), but only if access is granted.
  */
 class CacheAccessController {
+    public const string ROUTE = 'cache_access';
     public const string ACCESS_HEADER = 'X-Cache-Access';
     public const int MAX_TTL_SECONDS = 43200;
 
@@ -25,7 +26,7 @@ class CacheAccessController {
         private readonly Security $security,
     ) {}
 
-    #[Route('/_cache_access', name: 'cache_access', methods: ['GET'])]
+    #[Route('/_cache_access', name: self::ROUTE, methods: ['GET'])]
     public function __invoke(Request $request): Response {
         $response = new Response();
 

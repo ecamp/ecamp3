@@ -6,7 +6,7 @@ use App\Entity\BelongsToCampInterface;
 use App\Entity\BelongsToContentNodeTreeInterface;
 use App\Entity\CampCollaboration;
 use App\Entity\User;
-use App\HttpCache\ResponseTagger;
+use App\HttpCache\AccessTagger;
 use App\Util\GetCampFromContentNodeTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -28,7 +28,7 @@ class CampRoleVoter extends Voter {
 
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly ResponseTagger $responseTagger
+        private readonly AccessTagger $accessTagger
     ) {}
 
     protected function supports($attribute, $subject): bool {
@@ -56,7 +56,7 @@ class CampRoleVoter extends Voter {
         ;
 
         if ($campCollaboration) {
-            $this->responseTagger->addTags([$campCollaboration->getId()]);
+            $this->accessTagger->addTags([$campCollaboration->getId()]);
 
             return true;
         }

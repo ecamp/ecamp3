@@ -23,13 +23,6 @@ class CacheAccessTest extends ECampApiTestCase {
         $this->assertMatchesRegularExpression('/s-maxage=(\d+)/', $response->getHeaders()['cache-control'][0]);
     }
 
-    public function testGrantIsTaggedWithCollaborationOfUser() {
-        $response = $this->requestAccess('camp1');
-
-        $collaboration = static::getFixture('campCollaboration1manager');
-        $this->assertStringContainsString($collaboration->getId(), $response->getHeaders()['xkey'][0]);
-    }
-
     public function testGrantDoesNotOutliveTheToken() {
         $response = $this->requestAccess('camp1');
 

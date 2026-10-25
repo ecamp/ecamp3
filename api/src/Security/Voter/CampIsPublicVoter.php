@@ -6,7 +6,7 @@ namespace App\Security\Voter;
 
 use App\Entity\BelongsToCampInterface;
 use App\Entity\BelongsToContentNodeTreeInterface;
-use App\HttpCache\ResponseTagger;
+use App\HttpCache\AccessTagger;
 use App\Util\GetCampFromContentNodeTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -21,7 +21,7 @@ class CampIsPublicVoter extends Voter {
 
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly ResponseTagger $responseTagger
+        private readonly AccessTagger $accessTagger
     ) {}
 
     protected function supports($attribute, $subject): bool {
@@ -37,7 +37,7 @@ class CampIsPublicVoter extends Voter {
         }
 
         if ($camp->isPublic) {
-            $this->responseTagger->addTags([$camp->getId()]);
+            $this->accessTagger->addTags([$camp->getId()]);
 
             return true;
         }

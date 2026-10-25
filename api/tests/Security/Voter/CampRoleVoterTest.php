@@ -10,7 +10,7 @@ use App\Entity\CampCollaboration;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\Period;
 use App\Entity\User;
-use App\HttpCache\ResponseTagger;
+use App\HttpCache\AccessTagger;
 use App\Security\Voter\CampRoleVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -26,14 +26,14 @@ class CampRoleVoterTest extends TestCase {
     private CampRoleVoter $voter;
     private MockObject|TokenInterface $token;
     private EntityManagerInterface|MockObject $em;
-    private MockObject|ResponseTagger $responseTagger;
+    private AccessTagger|MockObject $accessTagger;
 
     public function setUp(): void {
         parent::setUp();
         $this->token = $this->createStub(TokenInterface::class);
         $this->em = $this->createStub(EntityManagerInterface::class);
-        $this->responseTagger = $this->createStub(ResponseTagger::class);
-        $this->voter = new CampRoleVoter($this->em, $this->responseTagger);
+        $this->accessTagger = $this->createStub(AccessTagger::class);
+        $this->voter = new CampRoleVoter($this->em, $this->accessTagger);
     }
 
     public function testDoesntVoteWhenAttributeWrong() {
@@ -227,9 +227,9 @@ class CampRoleVoterTest extends TestCase {
         $subject = $this->createStub(Period::class);
         $subject->method('getCamp')->willReturn($camp);
 
-        $this->responseTagger = $this->createMock(ResponseTagger::class);
-        $this->responseTagger->expects($this->once())->method('addTags')->with([$collaboration->getId()]);
-        $this->voter = new CampRoleVoter($this->em, $this->responseTagger);
+        $this->accessTagger = $this->createMock(AccessTagger::class);
+        $this->accessTagger->expects($this->once())->method('addTags')->with([$collaboration->getId()]);
+        $this->voter = new CampRoleVoter($this->em, $this->accessTagger);
 
         // when
         $result = $this->voter->vote($this->token, $subject, ['CAMP_COLLABORATOR']);
