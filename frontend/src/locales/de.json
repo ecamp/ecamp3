@@ -453,6 +453,10 @@
         "campSettingsButton": "Einstellungen",
         "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
       },
+      "materialListSelect": {
+        "createNew": "Neu erstellen",
+        "noListsFound": "Keine Liste gefunden"
+      },
       "materialLists": {
         "materialsCount": "Keine Einträge | 1 Eintrag | {count} Einträge",
         "overview": "Gesamtübersicht",
