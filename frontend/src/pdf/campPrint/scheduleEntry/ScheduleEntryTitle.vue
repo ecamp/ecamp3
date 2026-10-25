@@ -22,7 +22,7 @@
         <Text>&nbsp;{{ endAt }}</Text>
       </View>
     </View>
-    <View v-if="showHeaderData" class="schedule-entry-header">
+    <View v-if="showHeaderRow" class="schedule-entry-header">
       <View class="schedule-entry-header-metadata">
         <View class="schedule-entry-header-metadata-entry"
           ><Text class="schedule-entry-header-metadata-label"
@@ -33,9 +33,7 @@
       <View class="schedule-entry-header-divider" />
       <View class="schedule-entry-header-metadata">
         <View class="schedule-entry-header-metadata-entry">
-          <Text
-            v-if="!compact || activity.activityResponsibles().items.length"
-            class="schedule-entry-header-metadata-label"
+          <Text class="schedule-entry-header-metadata-label"
             >{{ $tc('entity.activity.fields.responsible') }}:</Text
           >
           <Responsibles :activity="activity" style="max-width: 200pt" />
@@ -83,8 +81,13 @@ export default {
       }
       return `${dateShort(end, this.$tc)} ${hourShort(end, this.$tc)}`
     },
-    showHeaderData() {
-      return this.showHeader
+    showHeaderRow() {
+      if (!this.showHeader) return false
+      if (!this.compact) return true
+      return (
+        this.activity.location.length > 0 ||
+        this.activity.activityResponsibles().items.length > 0
+      )
     },
   },
 }

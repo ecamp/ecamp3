@@ -336,7 +336,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -1995,7 +1994,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -3577,7 +3575,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -5224,7 +5221,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -5643,7 +5639,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -7532,7 +7527,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -9442,7 +9436,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -10836,7 +10829,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -11255,7 +11247,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -12409,7 +12400,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -14107,7 +14097,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -14526,7 +14515,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -17064,7 +17052,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -19475,7 +19462,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -19894,7 +19880,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -21841,7 +21826,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -23235,7 +23219,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -23654,7 +23637,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -25903,7 +25885,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -26322,7 +26303,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -27953,7 +27933,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -30187,7 +30166,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -31539,7 +31517,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -31958,7 +31935,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -33514,7 +33490,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -35135,7 +35110,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -35554,7 +35528,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -37258,7 +37231,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -37677,7 +37649,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
