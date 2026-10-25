@@ -319,9 +319,9 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
             'article' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'The type of the "article" attribute must be "string", "NULL" given.',
+            'detail' => 'article: This value should not be blank.',
         ]);
     }
 
@@ -399,9 +399,9 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
             'quantity' => '1',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'The type of the "quantity" attribute must be "float|null", "string" given.',
+            'detail' => 'quantity: This value should be of type float|null.',
         ]);
     }
 
