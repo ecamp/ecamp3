@@ -6,9 +6,6 @@ namespace App\HttpCache;
 
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\IriConverterInterface;
-use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
-use ApiPlatform\State\Util\OperationRequestInitiatorTrait;
-use ApiPlatform\State\Util\RequestAttributesExtractor;
 use App\Entity\BelongsToCampInterface;
 use App\Entity\Camp;
 use App\Entity\Period;
@@ -23,21 +20,16 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
  * "cache_scope" => "public" require no access. Responses without a scope must not be shared between users.
  */
 final class CacheScopeListener {
-    use OperationRequestInitiatorTrait;
-
     public const string HEADER = 'X-Cache-Scope';
     public const string EXTRA_PROPERTY = 'cache_scope';
     public const string SCOPE_CAMP = 'camp';
     public const string SCOPE_PUBLIC = 'public';
-    private const string ENTRYPOINT_ROUTE = 'api_entrypoint';
 
     public function __construct(
-        ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
+        private readonly CacheScopeResolver $cacheScopeResolver,
         private readonly IriConverterInterface $iriConverter,
         private readonly EntityManagerInterface $em,
-    ) {
-        $this->resourceMetadataCollectionFactory = $resourceMetadataCollectionFactory;
-    }
+    ) {}
 
     public function onKernelResponse(ResponseEvent $event): void {
         $request = $event->getRequest();
@@ -55,20 +47,15 @@ final class CacheScopeListener {
     }
 
     private function getScope(Request $request): ?string {
-        if (self::ENTRYPOINT_ROUTE === $request->attributes->get('_route')) {
-            return self::SCOPE_PUBLIC;
-        }
-
-        $operation = $this->initializeOperation($request);
-        if (!$operation || !RequestAttributesExtractor::extractAttributes($request)) {
-            return null;
-        }
-
-        return match ($operation->getExtraProperties()[self::EXTRA_PROPERTY] ?? null) {
+        return match ($this->cacheScopeResolver->getDeclaredScope($request)) {
             self::SCOPE_PUBLIC => self::SCOPE_PUBLIC,
-            self::SCOPE_CAMP => $this->getCampIri($request, $operation instanceof CollectionOperationInterface),
+            self::SCOPE_CAMP => $this->getCampIri($request, $this->isCollection($request)),
             default => null,
         };
+    }
+
+    private function isCollection(Request $request): bool {
+        return $this->cacheScopeResolver->getOperation($request) instanceof CollectionOperationInterface;
     }
 
     private function getCampIri(Request $request, bool $isCollection): ?string {
