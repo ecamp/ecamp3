@@ -8,7 +8,8 @@
       <View :id="`scheduleEntry_${scheduleEntry.id}`" class="schedule-entry-title">
         <CategoryLabel
           :category="activity.category()"
-          :size="18"
+          :size="15"
+          :line-font-size="18"
           class="schedule-entry-category-label"
         />
         <Text :id="id" :bookmark="bookmarkTitle" class="schedule-entry-number-and-title">

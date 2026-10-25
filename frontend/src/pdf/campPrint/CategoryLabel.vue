@@ -13,11 +13,14 @@ export default {
   props: {
     category: { type: Object, required: true },
     size: { type: Number, default: 10 },
+    lineFontSize: { type: Number, default: null },
   },
   computed: {
     style() {
       const verticalPadding = 0.15 * this.size
       const horizontalPadding = 0.65 * this.size
+      const lineFontSize = this.lineFontSize ?? this.size
+      const lineHeightFactor = 1.21
       return {
         color: contrastColor(this.category.color),
         backgroundColor: this.category.color,
@@ -27,7 +30,7 @@ export default {
         paddingBottom: verticalPadding,
         paddingLeft: horizontalPadding,
         paddingRight: horizontalPadding,
-        marginTop: -verticalPadding,
+        marginTop: (lineHeightFactor * (lineFontSize - this.size)) / 2 - verticalPadding,
         alignSelf: 'flex-start',
       }
     },
