@@ -237,7 +237,7 @@ describe('MaterialListSelect', () => {
     expect(api.post).not.toHaveBeenCalled()
   })
 
-  it.each(['Lagermaterial', '  LAGERMATERIAL  '])(
+  it.each(['Lagermaterial', '  Lagermaterial  '])(
     'does not offer creation when the name already exists: %s',
     async (query) => {
       const { api } = mountSelect(items)
@@ -247,6 +247,20 @@ describe('MaterialListSelect', () => {
       expect(api.post).not.toHaveBeenCalled()
     }
   )
+
+  it('offers creation when only the letter case differs from an existing name', async () => {
+    const { api } = mountSelect(items)
+    await search('LAGERMATERIAL')
+
+    expect(createAction()).toBeDefined()
+    createAction().click()
+    await flushPromises()
+
+    expect(api.post).toHaveBeenCalledWith('/material_lists', {
+      camp: '/camps/1',
+      name: 'LAGERMATERIAL',
+    })
+  })
 
   it('closes the menu before posting and prevents duplicate submissions while saving', async () => {
     const { api, createdList } = mountSelect([], { readonly: false })

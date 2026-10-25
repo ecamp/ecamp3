@@ -69,11 +69,8 @@ export default {
       }))
     },
     canCreateList() {
-      const name = this.search?.trim().toLocaleLowerCase()
-      return (
-        !!name &&
-        !this.materialLists.some((list) => list.text.trim().toLocaleLowerCase() === name)
-      )
+      const name = this.search?.trim()
+      return !!name && !this.materialLists.some((list) => list.text === name)
     },
   },
   methods: {
