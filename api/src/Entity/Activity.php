@@ -36,7 +36,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("CAMP_COLLABORATOR", object) or
                        is_granted("CAMP_IS_PUBLIC", object)',
             extraProperties: [
-                'cache_security_delegate' => 'camp',
+                'cache_security_delegate' => 'object.getCamp()',
             ]
         ),
         new Patch(

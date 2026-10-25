@@ -54,7 +54,7 @@ use Symfony\Component\Serializer\Attribute\SerializedName;
             security: 'is_fully_authenticated()',
             extraProperties: [
                 'filter_by_current_user' => false,
-                'cache_security_delegate' => 'camp',
+                'cache_security_delegate' => 'period.getCamp()',
             ]
         ),
     ],

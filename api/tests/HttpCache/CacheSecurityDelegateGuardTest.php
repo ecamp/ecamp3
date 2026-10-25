@@ -2,36 +2,45 @@
 
 namespace App\Tests\HttpCache;
 
-use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\HttpOperation;
-use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
 use ApiPlatform\Metadata\Property\Factory\PropertyNameCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\Factory\ResourceNameCollectionFactoryInterface;
-use App\Entity\Camp;
 use App\HttpCache\CacheSecurityDelegateListener;
+use App\HttpCache\CacheSecurityDelegateResolver;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Symfony\Component\ExpressionLanguage\SyntaxError;
 
 /**
- * A response that delegates its security to a camp is shared between all users who may read that camp.
- * This is only correct if reading the response requires nothing but read access to the camp.
+ * A response that delegates its security to a resource is shared between all users who may read that resource.
  *
  * @internal
  */
 class CacheSecurityDelegateGuardTest extends KernelTestCase {
-    public function testOperationsDelegatingToCampRequireExactlyReadAccessToTheCamp() {
-        $campReadSecurity = $this->normalize($this->getCampItemGetOperation()->getSecurity());
-        $delegatingOperations = $this->getOperationsWithDelegate(CacheSecurityDelegateListener::DELEGATE_CAMP);
+    /**
+     * The expressions can only use the resources of the operation, e.g. not the user: The response must be the same for
+     * everyone who may read the delegate.
+     */
+    public function testDelegateExpressionsOnlyUseVariablesOfTheOperation() {
+        $expressionLanguage = new ExpressionLanguage();
 
+        $delegatingOperations = $this->getOperationsWithDelegate();
         $this->assertNotEmpty($delegatingOperations);
         foreach ($delegatingOperations as $operation) {
-            $this->assertSame(
-                $campReadSecurity,
-                $this->normalize($this->getSecurityOfCampRelatedRead($operation)),
-                "{$operation->getClass()} {$operation->getName()} delegates its security to the camp, but its read security differs from the camp's."
-            );
+            $delegate = $operation->getExtraProperties()[CacheSecurityDelegateListener::EXTRA_PROPERTY];
+            if (CacheSecurityDelegateListener::DELEGATE_PUBLIC === $delegate) {
+                continue;
+            }
+
+            try {
+                $expressionLanguage->parse($delegate, CacheSecurityDelegateResolver::getVariableNames($operation));
+            } catch (SyntaxError $e) {
+                $this->fail("{$operation->getName()}: {$e->getMessage()}");
+            }
         }
+        $this->addToAssertionCount(1);
     }
 
     /**
@@ -92,41 +101,5 @@ class CacheSecurityDelegateGuardTest extends KernelTestCase {
                 yield from $resource->getOperations() ?? [];
             }
         }
-    }
-
-    private function getCampItemGetOperation(): HttpOperation {
-        foreach ($this->getAllOperations() as $operation) {
-            if (Camp::class === $operation->getClass() && 'GET' === $operation->getMethod() && !$operation instanceof CollectionOperationInterface) {
-                return $operation;
-            }
-        }
-
-        throw new \LogicException('No item GET operation found for Camp');
-    }
-
-    /**
-     * The security of an item operation is on the operation itself, the security of
-     * a subresource collection is on the link to the parent resource.
-     */
-    private function getSecurityOfCampRelatedRead(HttpOperation $operation): ?string {
-        if (!$operation instanceof CollectionOperationInterface) {
-            return $operation->getSecurity();
-        }
-
-        $links = array_filter($operation->getUriVariables() ?? [], fn ($link) => $link instanceof Link && null !== $link->getSecurity());
-        $this->assertCount(1, $links, "{$operation->getName()} must have exactly one parent link with security.");
-
-        return array_values($links)[0]->getSecurity();
-    }
-
-    private function normalize(?string $security): ?string {
-        if (null === $security) {
-            return null;
-        }
-
-        $security = preg_replace('/\s+/', ' ', trim($security));
-
-        // the parent is named differently in each subresource ("camp", "period", "object")
-        return preg_replace('/, (object|camp|period)\)/', ', X)', $security);
     }
 }
