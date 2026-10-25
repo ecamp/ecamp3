@@ -64,18 +64,22 @@ export default {
   watch: {
     showDialog: async function (showDialog) {
       if (showDialog) {
-        this.loadEntityData(this.activity._meta.self)
-
-        const scheduleEntries = await this.scheduleEntries.$loadItems()
-        this.entityData.scheduleEntries = scheduleEntries.items.map((scheduleEntry) => {
-          return {
+        this.clearEntityData()
+        this.entityUri = this.activity._meta.self
+        const [activity, scheduleEntries] = await Promise.all([
+          this.api.get(this.entityUri)._meta.load,
+          this.scheduleEntries.$loadItems(),
+        ])
+        this.setEntityData({
+          ...activity.$toData(),
+          scheduleEntries: scheduleEntries.items.map((scheduleEntry) => ({
             period: scheduleEntry.period,
             start: scheduleEntry.start,
             end: scheduleEntry.end,
             key: scheduleEntry._meta.self,
             deleted: false,
             self: scheduleEntry._meta.self,
-          }
+          })),
         })
       }
     },

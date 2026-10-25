@@ -97,7 +97,7 @@ async function notifyPdfUsage(data) {
 
 async function hashUserId(userJson) {
   try {
-    const user = JSON.parse(userJson)
+    const user = typeof userJson === 'string' ? JSON.parse(userJson) : userJson
     const encoder = new TextEncoder()
     const data = encoder.encode(user.id)
     const hashBuffer = await window.crypto.subtle.digest('SHA-256', data)

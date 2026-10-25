@@ -1,4 +1,6 @@
 <script>
+import { mapValues } from 'lodash-es'
+
 export default {
   name: 'DialogBase',
   props: {
@@ -17,11 +19,6 @@ export default {
       // single selection of related entities (e.g. activity.category)
       // suitable for ManyToOne relations. Property is sent as IRI to the API.
       embeddedEntities: [],
-
-      // multi selection of related entities (e.g. category.preferredContentTypes)
-      // suitable for ManyToMany relations. Property is sent as array of IRIs to the API
-      // not suitable, if data of the embedded entities should be edited as well (e.g. OneToMany relations)
-      embeddedCollections: [],
 
       entityData: {},
       entityUri: '',
@@ -48,41 +45,19 @@ export default {
     setOpen(open) {
       this.showDialog = open
     },
-    loadEntityData(uri) {
+    async loadEntityData(uri) {
       this.clearEntityData()
       if (uri) {
         this.entityUri = uri
-        this.api.get(uri)._meta.load.then(this.setEntityData)
+        const entity = await this.api.get(uri)._meta.load
+        this.setEntityData(entity.$toData())
       }
     },
     setEntityData(data) {
-      const loadingPromises = []
-      this.entityData = data
-      this.embeddedEntities.forEach((key) => {
-        if (data[key]) {
-          const promise =
-            typeof data[key] === 'function'
-              ? data[key]()._meta.load
-              : data[key]._meta.load
-          loadingPromises.push(promise)
-          promise.then((obj) => (this.entityData[key] = obj._meta.self))
-        }
-      })
-      this.embeddedCollections.forEach((key) => {
-        if (data[key]) {
-          loadingPromises.push(data[key]().$loadItems())
-          data[key]()
-            .$loadItems()
-            .then((obj) => {
-              this.entityData[key] = obj.items.map((entity) => entity._meta.self)
-            })
-        }
-      })
-
-      // wait for all loading promises to finish before showing any content
-      Promise.all(loadingPromises).then(() => {
-        this.loading = false
-      })
+      this.entityData = mapValues(data, (value, key) =>
+        this.embeddedEntities.includes(key) && value?._meta ? value._meta.self : value
+      )
+      this.loading = false
     },
     create(payloadData = null) {
       this.error = null
@@ -99,11 +74,7 @@ export default {
       const _events = this._events
       payloadData ??= this.entityData
       const updatePayload = {}
-      for (const property of [
-        ...this.entityProperties,
-        ...this.embeddedEntities,
-        ...this.embeddedCollections,
-      ]) {
+      for (const property of [...this.entityProperties, ...this.embeddedEntities]) {
         updatePayload[property] = payloadData[property]
       }
 

@@ -1,4 +1,4 @@
-import wrap from './minimalHalJsonVuex.js'
+import { createPrintApi } from './createPrintApi.js'
 import createI18n from './i18n.js'
 import { render, prepare } from '@/pdf/index.js'
 
@@ -13,7 +13,7 @@ export const renderPdf = async ({ config, storeData, translationData }, onProgre
     await onProgress('setupTranslationsAndFonts')
 
     const { translate } = createI18n(translationData, storeData.lang.language)
-    const store = wrap(storeData.api)
+    const store = createPrintApi(storeData.api)
 
     if (typeof prepare === 'function') {
       await prepare(config)

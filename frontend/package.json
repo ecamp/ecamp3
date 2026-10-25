@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@date-io/dayjs": "^3.2.0",
+    "@ecamp/halc": "1.0.0",
     "@intlify/core": "11.4.14",
     "@leeoniya/ufuzzy": "1.0.19",
     "@mdi/font": "7.4.47",
@@ -66,7 +67,6 @@
     "deepmerge": "4.3.1",
     "emoji-regex": "11.0.0",
     "file-saver": "2.0.5",
-    "hal-json-vuex": "3.0.0-alpha.10",
     "html-entities": "2.6.0",
     "html-parse-stringify": "4.0.1",
     "inter-ui": "3.19.3",
