@@ -546,52 +546,24 @@ describe('CommentsPanel', () => {
       expect(wrapper.find('[data-testid="comments-all-count"]').exists()).toBe(false)
     })
 
-    it('shows an empty resolved state when only open comments exist', async () => {
-      const wrapper = mountPanel({ items: [openRoot, replyToOpen] })
-      commentsState.statusFilter = 'resolved'
+    it.each([
+      ['noResolvedComments', 'resolved', [openRoot, replyToOpen]],
+      ['noOpenCommentsWithResolved', 'open', [resolvedRoot, replyToResolved]],
+      ['noOpenComments', 'open', []],
+      [
+        'noOpenComments',
+        'open',
+        [comment(31, { on: otherActivity, resolvedAt: '2026-08-01T12:00:00+00:00' })],
+      ],
+    ])('shows %s for %s (case %#)', async (message, statusFilter, items) => {
+      const wrapper = mountPanel({ items })
+      commentsState.statusFilter = statusFilter
       commentsState.open = true
       await nextTick()
 
       expect(listedComments(wrapper)).toEqual([])
       expect(wrapper.findComponent({ name: 'CommentsList' }).props().emptyText).toBe(
-        'components.comments.commentsList.noResolvedComments'
-      )
-    })
-
-    it('says that only resolved comments exist when none are open', async () => {
-      const wrapper = mountPanel({ items: [resolvedRoot, replyToResolved] })
-      commentsState.open = true
-      await nextTick()
-
-      expect(wrapper.findComponent({ name: 'CommentsList' }).props().emptyText).toBe(
-        'components.comments.commentsList.noOpenCommentsWithResolved'
-      )
-    })
-
-    it('shows no open comments without a resolved hint when there are no comments', async () => {
-      const wrapper = mountPanel({ items: [] })
-      commentsState.open = true
-      await nextTick()
-
-      expect(wrapper.findComponent({ name: 'CommentsList' }).props().emptyText).toBe(
-        'components.comments.commentsList.noOpenComments'
-      )
-    })
-
-    it('does not suggest resolved comments from another activity', async () => {
-      const wrapper = mountPanel({
-        items: [
-          comment(31, {
-            on: otherActivity,
-            resolvedAt: '2026-08-01T12:00:00+00:00',
-          }),
-        ],
-      })
-      commentsState.open = true
-      await nextTick()
-
-      expect(wrapper.findComponent({ name: 'CommentsList' }).props().emptyText).toBe(
-        'components.comments.commentsList.noOpenComments'
+        `components.comments.commentsList.${message}`
       )
     })
 
