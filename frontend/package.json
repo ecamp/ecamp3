@@ -137,7 +137,10 @@
     "vue3-snapshot-serializer": "2.13.4"
   },
   "overrides": {
-    "uri-js": "npm:uri-js-replace"
+    "uri-js": "npm:uri-js-replace",
+    "js-beautify": {
+      "glob": "13.0.6"
+    }
   },
   "postcss": {
     "plugins": {
