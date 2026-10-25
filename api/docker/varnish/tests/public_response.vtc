@@ -1,0 +1,30 @@
+varnishtest "A public response is served without checking access"
+
+server s1 {
+    rxreq
+    expect req.url == "/content_types"
+    txresp -hdr "X-Cache-Scope: public" -hdr "Cache-Control: public, s-maxage=60" -body "content types"
+} -start
+
+varnish v1 -vcl+backend {
+    include "${vcldir}/default.vcl";
+} -start
+
+client c1 {
+    txreq -url "/content_types" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpA; localhost_jwt_s=sigA"
+    rxresp
+    expect resp.status == 200
+
+    txreq -url "/content_types" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpB; localhost_jwt_s=sigB"
+    rxresp
+    expect resp.status == 200
+    expect resp.body == "content types"
+
+    # also before login
+    txreq -url "/content_types" -hdr "Accept: application/hal+json"
+    rxresp
+    expect resp.status == 200
+    expect resp.body == "content types"
+} -run
+
+server s1 -wait

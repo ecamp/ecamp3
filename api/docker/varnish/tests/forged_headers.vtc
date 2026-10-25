@@ -1,0 +1,36 @@
+varnishtest "Headers used internally can not be set by a client"
+
+server s1 {
+    rxreq
+    expect req.url == "/camps/1/activities"
+    txresp -hdr "X-Cache-Scope: /api/camps/1" -hdr "Cache-Control: public, s-maxage=60" -body "activities"
+
+    # the forged grant is ignored, the preflight still happens
+    rxreq
+    expect req.url == "/_cache_access"
+    expect req.http.X-Cache-Scope == "/api/camps/1"
+    txresp -hdr "X-Cache-Access: denied" -hdr "Cache-Control: no-store, private"
+
+    rxreq
+    expect req.url == "/camps/1/activities"
+    expect req.http.X-Cache-Grant == <undef>
+    expect req.http.X-Cache-Denied == <undef>
+    txresp -status 404 -body "not found"
+} -start
+
+varnish v1 -vcl+backend {
+    include "${vcldir}/default.vcl";
+} -start
+
+client c1 {
+    txreq -url "/camps/1/activities" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpA; localhost_jwt_s=sigA"
+    rxresp
+    expect resp.status == 200
+
+    txreq -url "/camps/1/activities" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpX; localhost_jwt_s=sigX" \
+        -hdr "X-Cache-Grant: /api/camps/1" -hdr "X-Cache-Scope: public" -hdr "X-Cache-Phase: preflight"
+    rxresp
+    expect resp.status == 404
+} -run
+
+server s1 -wait
