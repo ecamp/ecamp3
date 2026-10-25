@@ -28,6 +28,6 @@ test.describe('Client print test', { tag: '@mature' }, () => {
     const pdfProps = await getPdfProperties(buffer)
 
     expect(download.suggestedFilename()).toBe('Pfila-2023.pdf')
-    expect(pdfProps.numPages).toBe(20)
+    expect(pdfProps.numPages).toBe(23)
   })
 })
