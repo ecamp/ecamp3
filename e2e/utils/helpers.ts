@@ -110,6 +110,30 @@ export async function waitForCacheMiss(request: APIRequestContext, uri: string) 
   )
 }
 
+/**
+ * Removes the cached responses containing a resource, by writing a different value to a property of the
+ * resource and then the original value back. Responses stay cached for a long time and are shared between
+ * users, so a test can only expect a cache miss for a response after purging it.
+ */
+export async function purgeCachedResponses(
+  request: APIRequestContext,
+  uri: string,
+  property: string,
+  temporaryValue: unknown
+) {
+  await test.step(
+    `Purge cached responses containing ${uri}`,
+    async () => {
+      const original = (await (await apiGet(request, uri)).json())[property]
+      expect((await apiPatch(request, uri, { [property]: temporaryValue })).ok()).toBe(
+        true
+      )
+      expect((await apiPatch(request, uri, { [property]: original })).ok()).toBe(true)
+    },
+    { box: true }
+  )
+}
+
 export async function apiGet(request: APIRequestContext, uri: string) {
   return await request.get(`${API_ROOT_URL_CACHED}${uri}.jsonhal`)
 }

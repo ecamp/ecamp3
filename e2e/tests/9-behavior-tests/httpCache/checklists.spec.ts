@@ -3,9 +3,9 @@ import { bipiUser, castorUser, basiskursCampId } from '@/utils/constants'
 import {
   getAuthContext,
   expectCacheHit,
-  expectCacheMiss,
   waitForCacheMiss,
   apiGet,
+  purgeCachedResponses,
   apiPatch,
   apiPost,
   apiDelete,
@@ -13,8 +13,6 @@ import {
 import collectionResponse from '@/test-data/httpCache/checklists_collection.json'
 
 const collectionXKeys =
-  /* campCollaboration for bipiUser */
-  '146c0608237f ' +
   /* checklist entry */
   'ebbd0c61eb85 ebbd0c61eb85#camp ' +
   /* collection URI (for detecting addition of new checklists) */
@@ -23,10 +21,13 @@ const collectionXKeys =
 test.describe('cache test: /camps/checklists', { tag: '@mature' }, () => {
   test.describe.configure({ mode: 'serial' })
 
-  test('caches /camp/{campId}/checklists separately for each login', async () => {
+  test('caches /camp/{campId}/checklists between users with access', async () => {
     const uri = `/api/camps/${basiskursCampId}/checklists`
 
     const bipiApi = await getAuthContext(bipiUser)
+
+    // the response is shared between users and stays cached across test runs
+    await purgeCachedResponses(bipiApi, '/api/checklists/ebbd0c61eb85', 'name', 'purge')
 
     // first request is a cache miss
     const res1 = await apiGet(bipiApi, uri)
@@ -38,9 +39,9 @@ test.describe('cache test: /camps/checklists', { tag: '@mature' }, () => {
     // second request is a cache hit
     await expectCacheHit(bipiApi, uri)
 
-    // request with a new user is a cache miss
+    // request with another user with access is a cache hit
     const castorApi = await getAuthContext(castorUser)
-    await expectCacheMiss(castorApi, uri)
+    await expectCacheHit(castorApi, uri)
   })
 
   test('invalidates /camp/{campId}/checklists on checklist patch', async () => {

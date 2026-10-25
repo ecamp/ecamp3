@@ -10,9 +10,9 @@ import {
 import {
   loginAndSetCookie,
   expectCacheHit,
-  expectCacheMiss,
   waitForCacheMiss,
   apiGet,
+  purgeCachedResponses,
   apiPatch,
   apiPost,
   apiDelete,
@@ -23,8 +23,6 @@ import collectionResponse from '@/test-data/httpCache/categories_collection.json
 const grgrLACategoryId = '1a869b162875'
 
 const collectionXKeys =
-  /* campCollaboration for bipiUser */
-  'b0bdb7202a9d ' +
   /* Category ES */
   'ebfd46a1c181 ebfd46a1c181#camp ebfd46a1c181#preferredContentTypes ebfd46a1c181#rootContentNode ebfd46a1c181#contentNodes ' +
   /* Category LA */
@@ -40,12 +38,15 @@ test.describe('cache test: /camps/{campId}/categories', () => {
   test.describe.configure({ mode: 'serial' })
 
   test(
-    'caches /camps/{campId}/categories separately for each login',
+    'caches /camps/{campId}/categories between users with access',
     { tag: '@mature' },
     async () => {
       const uri = `/api/camps/${grgrCampId}/categories`
 
       const bipiApi = await getAuthContext(bipiUser)
+
+      // the response is shared between users and stays cached across test runs
+      await purgeCachedResponses(bipiApi, '/api/categories/ebfd46a1c181', 'name', 'purge')
 
       // first request is a cache miss
       const res1 = await apiGet(bipiApi, uri)
@@ -57,9 +58,9 @@ test.describe('cache test: /camps/{campId}/categories', () => {
       // second request is a cache hit
       await expectCacheHit(bipiApi, uri)
 
-      // request with a new user is a cache miss
+      // request with another user with access is a cache hit
       const castorApi = await getAuthContext(castorUser)
-      await expectCacheMiss(castorApi, uri)
+      await expectCacheHit(castorApi, uri)
     }
   )
 
@@ -93,7 +94,7 @@ test.describe('cache test: /camps/{campId}/categories', () => {
       await waitForCacheMiss(felicityApi, uri)
       await expectCacheHit(felicityApi, uri)
 
-      await expectCacheMiss(bruceApi, uri)
+      await expectCacheHit(bruceApi, uri)
     }
   )
 
