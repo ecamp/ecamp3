@@ -384,9 +384,9 @@ class CreateMaterialItemTest extends ECampApiTestCase {
             'quantity' => '1',
         ])]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'The type of the "quantity" attribute must be "float|null", "string" given.',
+            'detail' => 'quantity: This value should be of type float|null.',
         ]);
     }
 

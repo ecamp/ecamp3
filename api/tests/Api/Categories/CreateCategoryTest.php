@@ -384,9 +384,9 @@ class CreateCategoryTest extends ECampApiTestCase {
             ]
         );
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'The type of the "color" attribute must be "string", "NULL" given.',
+            'detail' => 'color: This value should not be blank.',
         ]);
     }
 

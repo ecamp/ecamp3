@@ -259,9 +259,15 @@ class CreatePeriodTest extends ECampApiTestCase {
             'start' => '20201-01',
         ])]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => "Parsing datetime string \"20201-01\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 4: The separation symbol could not be found",
+            'detail' => "start: Parsing datetime string \"20201-01\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 4: The separation symbol could not be found",
+            'violations' => [
+                [
+                    'propertyPath' => 'start',
+                    'message' => "Parsing datetime string \"20201-01\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 4: The separation symbol could not be found",
+                ],
+            ],
         ]);
     }
 
@@ -270,9 +276,15 @@ class CreatePeriodTest extends ECampApiTestCase {
             'start' => '2021-01-01T05:31+01:00',
         ])]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => "Parsing datetime string \"2021-01-01T05:31+01:00\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 10: Trailing data",
+            'detail' => "start: Parsing datetime string \"2021-01-01T05:31+01:00\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 10: Trailing data",
+            'violations' => [
+                [
+                    'propertyPath' => 'start',
+                    'message' => "Parsing datetime string \"2021-01-01T05:31+01:00\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 10: Trailing data",
+                ],
+            ],
         ]);
     }
 
@@ -295,9 +307,15 @@ class CreatePeriodTest extends ECampApiTestCase {
             'end' => '20201-01',
         ])]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => "Parsing datetime string \"20201-01\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 4: The separation symbol could not be found",
+            'detail' => "end: Parsing datetime string \"20201-01\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 4: The separation symbol could not be found",
+            'violations' => [
+                [
+                    'propertyPath' => 'end',
+                    'message' => "Parsing datetime string \"20201-01\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 4: The separation symbol could not be found",
+                ],
+            ],
         ]);
     }
 

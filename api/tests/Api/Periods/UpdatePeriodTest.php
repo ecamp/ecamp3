@@ -256,11 +256,15 @@ class UpdatePeriodTest extends ECampApiTestCase {
             'start' => 'something',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'Parsing datetime string "something" using format "!Y-m-d" resulted in 3 errors: 
-at position 0: A four digit year could not be found
-at position 9: Not enough data available to satisfy format',
+            'detail' => "start: Parsing datetime string \"something\" using format \"!Y-m-d\" resulted in 3 errors: \nat position 0: A four digit year could not be found\nat position 9: Not enough data available to satisfy format",
+            'violations' => [
+                [
+                    'propertyPath' => 'start',
+                    'message' => "Parsing datetime string \"something\" using format \"!Y-m-d\" resulted in 3 errors: \nat position 0: A four digit year could not be found\nat position 9: Not enough data available to satisfy format",
+                ],
+            ],
         ]);
     }
 
@@ -270,10 +274,15 @@ at position 9: Not enough data available to satisfy format',
             'start' => '2023-05-01+01:00',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'Parsing datetime string "2023-05-01+01:00" using format "!Y-m-d" resulted in 1 errors: 
-at position 10: Trailing data',
+            'detail' => "start: Parsing datetime string \"2023-05-01+01:00\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 10: Trailing data",
+            'violations' => [
+                [
+                    'propertyPath' => 'start',
+                    'message' => "Parsing datetime string \"2023-05-01+01:00\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 10: Trailing data",
+                ],
+            ],
         ]);
     }
 
@@ -283,11 +292,15 @@ at position 10: Trailing data',
             'end' => 'something',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'Parsing datetime string "something" using format "!Y-m-d" resulted in 3 errors: 
-at position 0: A four digit year could not be found
-at position 9: Not enough data available to satisfy format',
+            'detail' => "end: Parsing datetime string \"something\" using format \"!Y-m-d\" resulted in 3 errors: \nat position 0: A four digit year could not be found\nat position 9: Not enough data available to satisfy format",
+            'violations' => [
+                [
+                    'propertyPath' => 'end',
+                    'message' => "Parsing datetime string \"something\" using format \"!Y-m-d\" resulted in 3 errors: \nat position 0: A four digit year could not be found\nat position 9: Not enough data available to satisfy format",
+                ],
+            ],
         ]);
     }
 
@@ -297,10 +310,15 @@ at position 9: Not enough data available to satisfy format',
             'end' => '2023-05-03T01:00',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'Parsing datetime string "2023-05-03T01:00" using format "!Y-m-d" resulted in 1 errors: 
-at position 10: Trailing data',
+            'detail' => "end: Parsing datetime string \"2023-05-03T01:00\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 10: Trailing data",
+            'violations' => [
+                [
+                    'propertyPath' => 'end',
+                    'message' => "Parsing datetime string \"2023-05-03T01:00\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 10: Trailing data",
+                ],
+            ],
         ]);
     }
 

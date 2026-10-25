@@ -3,7 +3,7 @@
 namespace App\Tests\Integration\State;
 
 use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Symfony\Bundle\Test\ApiTestAssertionsTrait;
+use ApiPlatform\Test\ApiTestAssertionsTrait;
 use ApiPlatform\Validator\Exception\ValidationException;
 use App\Entity\CampCollaboration;
 use App\State\ValidationErrorProvider;
