@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: node:24.22.1
+    image: node:26.12.1
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -11,18 +11,17 @@ services:
       - ./.prettierrc:/.prettierrc:delegated
       - ./frontend:/app:delegated
       - ./common:/common:delegated
-      - ./.cache/npm:/home/node/.npm/_cacache:delegated
-      - ./.cache/npm/sentry-cli:/home/node/.npm/sentry-cli:delegated
+      - ./.cache/npm:/tmp/.npm:delegated
     environment:
       - NPM_CONFIG_UPDATE_NOTIFIER=false
-      - NPM_CONFIG_CACHE=/home/node/.npm
+      - NPM_CONFIG_CACHE=/tmp/.npm
       - CI=${CI:-}
     working_dir: /app
     command: ./docker-setup.sh
     stop_signal: SIGKILL
 
   frontend-old:
-    image: node:24.22.1
+    image: node:26.12.1
     container_name: 'ecamp3-frontend-old'
     stdin_open: true
     tty: true
@@ -32,12 +31,11 @@ services:
       - ./frontend-old:/app:delegated
       - ./common:/common:delegated
       #- ./pdf:/pdf:delegated
-      - ./.cache/npm:/home/node/.npm/_cacache:delegated
-      - ./.cache/npm/sentry-cli:/home/node/.npm/sentry-cli:delegated
+      - ./.cache/npm:/tmp/.npm:delegated
     environment:
       - NODE_ENV=development
       - NPM_CONFIG_UPDATE_NOTIFIER=false
-      - NPM_CONFIG_CACHE=/home/node/.npm
+      - NPM_CONFIG_CACHE=/tmp/.npm
       - CI=${CI:-}
     working_dir: /app
     command: ./docker-setup.sh
@@ -106,21 +104,20 @@ services:
     command: varnishncsa
 
   print:
-    image: node:24.22.1
+    image: node:26.12.1
     container_name: 'ecamp3-print'
     user: ${USER_ID:-1000}
     volumes:
       - ./.prettierrc:/.prettierrc
       - ./print:/app:delegated
       - ./common:/common:delegated
-      - ./.cache/npm:/home/node/.npm/_cacache:delegated
-      - ./.cache/npm/sentry-cli:/home/node/.npm/sentry-cli:delegated
+      - ./.cache/npm:/tmp/.npm:delegated
     environment:
       - NUXT_HOST=0.0.0.0
       - NUXT_PORT=3003
       - NITRO_PORT=3003
       - NPM_CONFIG_UPDATE_NOTIFIER=false
-      - NPM_CONFIG_CACHE=/home/node/.npm
+      - NPM_CONFIG_CACHE=/tmp/.npm
       - CI=${CI:-}
     env_file:
       - ./print/print.env
@@ -238,7 +235,7 @@ services:
     stop_signal: SIGKILL
 
   translation:
-    image: node:24.22.1
+    image: node:26.12.1
     profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
@@ -250,7 +247,7 @@ services:
     command: tail -F anything
 
   prettier:
-    image: node:24.22.1
+    image: node:26.12.1
     profiles: ['prettier']
     stdin_open: true
     tty: true

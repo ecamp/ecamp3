@@ -1,5 +1,5 @@
 # frontend build stage
-FROM node:24.22.1-alpine AS frontend-build-stage
+FROM node:26.12.1-alpine AS frontend-build-stage
 ARG SENTRY_AUTH_TOKEN
 ARG SENTRY_ORG
 ARG SENTRY_FRONTEND_PROJECT

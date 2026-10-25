@@ -120,7 +120,7 @@ jobs:
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '24.22.1'
+          node-version: '26.12.1'
 
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
@@ -145,7 +145,7 @@ jobs:
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '24.22.1'
+          node-version: '26.12.1'
 
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
@@ -174,7 +174,7 @@ jobs:
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '24.22.1'
+          node-version: '26.12.1'
 
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
@@ -206,7 +206,7 @@ jobs:
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '24.22.1'
+          node-version: '26.12.1'
 
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
@@ -399,7 +399,7 @@ jobs:
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '24.22.1'
+          node-version: '26.12.1'
 
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
@@ -436,7 +436,7 @@ jobs:
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '24.22.1'
+          node-version: '26.12.1'
 
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
