@@ -78,7 +78,7 @@
     "justinrainbow/json-schema": "6.13.1",
     "php-coveralls/php-coveralls": "2.9.1",
     "phpstan/phpstan": "2.3.1",
-    "phpunit/phpunit": "13.4.2",
+    "phpunit/phpunit": "13.4.3",
     "rector/rector": "2.7.0",
     "psalm/phar": "6.20.0",
     "spatie/phpunit-snapshot-assertions": "5.4.0",
