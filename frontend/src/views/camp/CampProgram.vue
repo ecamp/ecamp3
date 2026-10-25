@@ -72,6 +72,7 @@ Show all activity schedule entries of a single period.
             </template>
           </v-list-item>
           <v-list-item
+            v-if="hasPhysicalActivityDuration"
             :title="$t('entity.scheduleEntry.fields.ysPhysicalActivityDuration')"
             prepend-icon="mdi-run"
             :active="showPhysicalActivityDuration"
@@ -219,6 +220,13 @@ export default {
   computed: {
     camp() {
       return this.period.camp()
+    },
+    hasPhysicalActivityDuration() {
+      return this.period
+        .scheduleEntries()
+        .items.some(
+          (scheduleEntry) => scheduleEntry.ysPhysicalActivityDurationMinutes !== null
+        )
     },
     printConfig() {
       return {
