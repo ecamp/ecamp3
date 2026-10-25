@@ -23,6 +23,11 @@ spec:
         - name: db-migrate-job
           {{ template "api.container" . }}
           command: ["migrate-database"]
+          resources:
+            requests:
+              memory: 256Mi
+            limits:
+              memory: 1Gi
       volumes:
       - name: php-socket
         emptyDir: {}

@@ -86,7 +86,7 @@ test.describe('Nuxt print test', { tag: '@mature' }, () => {
   test.describe('downloads PDF', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/camps')
-      await page.locator('a:has-text("GRGR")').click()
+      await page.getByRole('link', { name: /^GRGR (?!nach)/ }).click()
     })
 
     test('for whole camp', async ({ page }) => {
