@@ -28,7 +28,7 @@
     },
     {
       "matchUpdateTypes": ["lockFileMaintenance"],
-      "rebaseWhen": "behind-base"
+      "rebaseWhen": "behind-base-branch"
     },
     {
       "groupName": "api-platform packages",
