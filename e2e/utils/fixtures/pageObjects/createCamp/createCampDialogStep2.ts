@@ -1,4 +1,4 @@
-import { expect, Page } from '@playwright/test'
+import { expect, Locator, Page } from '@playwright/test'
 import { boxedStep } from '@/utils/decorators/boxedStep'
 import { ESelect } from '@/utils/fixtures/components/eSelect'
 import { CampInfo } from '@/utils/fixtures/pageObjects/camp/admin/campInfo'
@@ -10,7 +10,10 @@ export class CreateCampDialogStep2 {
     private readonly _prototypeSelect = new ESelect(
       _form.locator('div.v-input[data-testid="prototype-select"]')
     ),
-    private readonly _createCampButton = _form.getByTestId('create-camp-button')
+    private readonly _createCampButton = _form.getByTestId('create-camp-button'),
+    private readonly _noPrototypeAlert = _form.locator('.v-alert').filter({
+      hasText: 'Achtung: Du hast "Keine Vorlage" ausgewählt.',
+    })
   ) {}
 
   @boxedStep
@@ -44,5 +47,9 @@ export class CreateCampDialogStep2 {
     const campInfo = new CampInfo(this._page, campId)
     await campInfo.loaded()
     return campInfo
+  }
+
+  get noPrototypeAlert(): Locator {
+    return this._noPrototypeAlert
   }
 }
