@@ -12,6 +12,7 @@ import {
   expectCacheHit,
   waitForCacheMiss,
   apiGet,
+  apiGetCacheAccess,
   purgeCachedResponses,
   apiPatch,
   apiPost,
@@ -168,6 +169,9 @@ test.describe('cache test: /camps/{campId}/categories', () => {
     // ensure cache was invalidated
     const notFoundRes = await apiGet(castorApi, uri)
     expect(notFoundRes.status()).toBe(404)
+    expect(notFoundRes.headers()['x-cache']).toBe('PASS')
+    const accessRes = await apiGetCacheAccess(castorApi, `/api/camps/${grgrCampId}`)
+    expect(accessRes.headers()['x-cache-access']).toBe('denied')
 
     // delete old emails
     const deleteMailsRes = await bipiApi.delete('/mail/api/email/all')
