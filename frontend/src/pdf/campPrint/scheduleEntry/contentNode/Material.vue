@@ -21,6 +21,9 @@ export default {
   name: 'Material',
   components: { InstanceName },
   extends: PdfComponent,
+  isEmpty(contentNode) {
+    return contentNode.materialItems().items.length === 0
+  },
   props: {
     contentNode: { type: Object, required: true },
   },

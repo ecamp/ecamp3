@@ -20,7 +20,6 @@
 import uniqWith from 'lodash-es/uniqWith.js'
 import sortBy from 'lodash-es/sortBy.js'
 import { inject } from 'vue'
-import { checklistItemsFor } from './emptyContentNode.js'
 
 const props = defineProps({
   contentNode: { type: Object, required: true },
@@ -64,10 +63,26 @@ import PdfComponent from '@/pdf/PdfComponent.js'
 import InstanceName from '../InstanceName.vue'
 import { mdiClipboardListOutline } from '@mdi/js'
 
+function checklistItemsFor(contentNode, camp) {
+  return camp
+    .checklists()
+    .items.flatMap((checklist) => checklist.checklistItems().items)
+    .filter((item) =>
+      item
+        .checklistNodes()
+        .items.some(
+          (checklistNode) => checklistNode._meta.self === contentNode._meta.self
+        )
+    )
+}
+
 export default {
   name: 'Checklist',
   components: { InstanceName },
   extends: PdfComponent,
+  isEmpty(contentNode, camp) {
+    return checklistItemsFor(contentNode, camp).length === 0
+  },
   data() {
     return { mdiClipboardListOutline }
   },

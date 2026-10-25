@@ -37,12 +37,23 @@ import InstanceName from '../InstanceName.vue'
 import { mdiScriptTextOutline } from '@mdi/js'
 import RichText from '../../RichText.vue'
 import sortBy from 'lodash-es/sortBy.js'
-import { storyboardSectionHasContent } from './emptyContentNode.js'
+import { isEmptyHtml } from '../../helpers.js'
+
+function sectionHasContent(section) {
+  return (
+    section.column1.length > 0 ||
+    !isEmptyHtml(section.column2Html) ||
+    section.column3.length > 0
+  )
+}
 
 export default {
   name: 'Storyboard',
   components: { InstanceName, RichText },
   extends: PdfComponent,
+  isEmpty(contentNode) {
+    return !Object.values(contentNode.data.sections).some(sectionHasContent)
+  },
   props: {
     contentNode: { type: Object, required: true },
   },
@@ -73,7 +84,7 @@ export default {
       )
     },
     anyContent() {
-      return this.sections.some(storyboardSectionHasContent)
+      return this.sections.some(sectionHasContent)
     },
   },
 }

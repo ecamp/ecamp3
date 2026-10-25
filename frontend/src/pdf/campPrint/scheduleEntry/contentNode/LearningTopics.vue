@@ -11,11 +11,15 @@ import PdfComponent from '@/pdf/PdfComponent.js'
 import InstanceName from '../InstanceName.vue'
 import { mdiSchool } from '@mdi/js'
 import RichText from '../../RichText.vue'
+import { isEmptyHtml } from '../../helpers.js'
 
 export default {
   name: 'LearningTopics',
   components: { RichText, InstanceName },
   extends: PdfComponent,
+  isEmpty(contentNode) {
+    return isEmptyHtml(contentNode.data.html)
+  },
   props: {
     contentNode: { type: Object, required: true },
   },

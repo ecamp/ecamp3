@@ -24,7 +24,6 @@ import Material from './Material.vue'
 import Storycontext from './Storycontext.vue'
 import Checklist from './Checklist.vue'
 import YSPhysicalActivityDuration from './YSPhysicalActivityDuration.vue'
-import { isEmptyContentNode } from './emptyContentNode.js'
 
 export default {
   name: 'ContentNodeRenderer',
@@ -42,9 +41,6 @@ export default {
     isLayout() {
       return ['ColumnLayout', 'ResponsiveLayout'].includes(this.contentTypeName)
     },
-    hidden() {
-      return this.compact && isEmptyContentNode(this.contentNode, this.camp)
-    },
     contentNodeComponent() {
       return {
         ColumnLayout,
@@ -61,6 +57,10 @@ export default {
         Checklist,
         YSPhysicalActivityDuration,
       }[this.contentTypeName]
+    },
+    hidden() {
+      if (!this.compact || !this.contentNodeComponent?.isEmpty) return false
+      return this.contentNodeComponent.isEmpty(this.contentNode, this.camp)
     },
   },
 }

@@ -18,6 +18,9 @@ export default {
   name: 'YSActivityCharacteristics',
   components: { InstanceName, Checkmark },
   extends: PdfComponent,
+  isEmpty(contentNode) {
+    return !Object.values(contentNode.data.options).some((option) => option.checked)
+  },
   props: {
     contentNode: { type: Object, required: true },
   },
