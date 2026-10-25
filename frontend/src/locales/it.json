@@ -1,5 +1,49 @@
 {
   "components": {
+    "comments": {
+      "commentCard": {
+        "campComment": "Tutto il campo",
+        "deleteDisabledReplies": "Non è possibile eliminare commenti con risposte di altre persone.",
+        "deleteWarning": "Vuoi davvero eliminare il tuo commento?",
+        "deleteWithRepliesWarning": "Vuoi davvero eliminare il tuo commento insieme alle tue risposte?",
+        "deleted": "(eliminato)",
+        "deletedAuthor": "Persona eliminata"
+      },
+      "commentComposer": {
+        "placeholder": "Scrivi un commento",
+        "replyPlaceholder": "Scrivi una risposta"
+      },
+      "commentThread": {
+        "reopen": "Riapri",
+        "reply": "Rispondi",
+        "resolve": "Segna come risolto",
+        "resolved": "Risolto",
+        "resolvedBy": "Risolto da {user}"
+      },
+      "commentTime": {
+        "today": "Oggi, {time}",
+        "yesterday": "Ieri, {time}"
+      },
+      "commentsList": {
+        "empty": "Ancora nessun commento.",
+        "noResolvedComments": "Nessun commento risolto.",
+        "noOpenComments": "Nessun commento aperto.",
+        "noOpenCommentsWithResolved": "Nessun commento aperto. Vedi Risolti."
+      },
+      "commentsPanel": {
+        "activityCommentsElsewhere": "Un altro commento aperto si trova in un'attività. | Altri {count} commenti aperti si trovano nelle singole attività.",
+        "all": "Tutti",
+        "commentsOnThisActivity": "Commenti su questa attività",
+        "open": "Aperti",
+        "resolved": "Risolti",
+        "resolvedActivityCommentsElsewhere": "Un altro commento risolto si trova in un'attività. | Altri {count} commenti risolti si trovano nelle singole attività.",
+        "title": "Commenti"
+      },
+      "commentsToggleButton": {
+        "hide": "Nascondi i commenti",
+        "show": "Mostra i commenti | Mostra un commento | Mostra {count} commenti"
+      }
+    },
     "activity": {
       "content": {
         "columnLayout": {

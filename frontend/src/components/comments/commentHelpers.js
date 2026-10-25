@@ -18,11 +18,21 @@ export function scopedComments(
   comments,
   activity,
   includeActivityComments,
-  includeResolved = false
+  statusFilter = 'open'
 ) {
-  const shown = includeResolved
-    ? comments.items
-    : comments.items.filter((comment) => !isResolved(comment))
+  let shown
+  switch (statusFilter) {
+    case 'all':
+      shown = comments.items
+      break
+    case 'resolved':
+      shown = comments.items.filter(isResolved)
+      break
+    case 'open':
+    default:
+      shown = comments.items.filter((comment) => !isResolved(comment))
+      break
+  }
   if (activity) {
     return shown.filter(
       (comment) =>

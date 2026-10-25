@@ -3,7 +3,7 @@ import { reactive } from 'vue'
 export const commentsState = reactive({
   open: false,
   activityFilter: null,
-  showResolved: false,
+  statusFilter: 'open',
 })
 
 export function openCommentsForActivity(activity) {
@@ -18,5 +18,5 @@ export function clearActivityFilter() {
 export function resetCommentsState() {
   commentsState.open = false
   commentsState.activityFilter = null
-  commentsState.showResolved = false
+  commentsState.statusFilter = 'open'
 }

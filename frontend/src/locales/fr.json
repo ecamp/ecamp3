@@ -15,20 +15,22 @@
         "reply": "Répondre",
         "resolve": "Résoudre",
         "resolved": "Résolu",
-        "resolvedBy": "Résolu par {user}",
-        "resolvedToast": "Commentaire résolu. Les commentaires résolus sont uniquement affichés sous « Tous ».",
-        "showAll": "Tout afficher"
+        "resolvedBy": "Résolu par {user}"
       },
       "commentTime": { "today": "Aujourd’hui, {time}", "yesterday": "Hier, {time}" },
       "commentsList": {
         "empty": "Aucun commentaire pour le moment.",
-        "noOpenComments": "Aucun commentaire ouvert. Passe à « Tous » pour voir les commentaires résolus."
+        "noResolvedComments": "Aucun commentaire résolu.",
+        "noOpenComments": "Aucun commentaire ouvert.",
+        "noOpenCommentsWithResolved": "Aucun commentaire ouvert. Voir Résolus."
       },
       "commentsPanel": {
         "activityCommentsElsewhere": "Un autre commentaire ouvert concerne une activité. | {count} autres commentaires ouverts concernent des activités.",
         "all": "Tous",
         "commentsOnThisActivity": "Commentaires sur cette activité",
         "open": "Ouverts",
+        "resolved": "Résolus",
+        "resolvedActivityCommentsElsewhere": "Un autre commentaire résolu concerne une activité. | {count} autres commentaires résolus concernent des activités.",
         "title": "Commentaires"
       },
       "commentsToggleButton": {

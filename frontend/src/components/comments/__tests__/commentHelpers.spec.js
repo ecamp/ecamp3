@@ -42,7 +42,28 @@ describe('scopedComments', () => {
   })
 
   it('includes resolved threads when asked to', () => {
-    expect(scopedComments({ items }, null, true, true)).toHaveLength(5)
+    expect(scopedComments({ items }, null, true, 'all')).toHaveLength(5)
+  })
+
+  it('shows resolved threads with their replies for an activity', () => {
+    expect(scopedComments({ items }, activity, false, 'resolved')).toEqual([
+      resolvedRoot,
+      resolvedReply,
+    ])
+  })
+
+  it('shows only resolved camp comments in desktop camp scope', () => {
+    expect(scopedComments({ items }, null, false, 'resolved')).toEqual([
+      resolvedCampLevel,
+    ])
+  })
+
+  it('includes resolved activity and camp comments in mobile camp scope', () => {
+    expect(scopedComments({ items }, null, true, 'resolved')).toEqual([
+      resolvedRoot,
+      resolvedReply,
+      resolvedCampLevel,
+    ])
   })
 
   it('applies the resolved filter in camp scope too', () => {

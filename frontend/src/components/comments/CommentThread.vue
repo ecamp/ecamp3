@@ -96,9 +96,6 @@ import CommentComposer from '@/components/comments/CommentComposer.vue'
 import CommentTime from '@/components/comments/CommentTime.vue'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 import { serverErrorToString } from '@/helpers/serverError.js'
-import { useToast } from '@/components/toast/useToast.js'
-import { commentsState } from '@/components/comments/commentsState.js'
-import { errorToMultiLineToast } from '@/components/toast/toasts.js'
 
 export default {
   name: 'CommentThread',
@@ -106,14 +103,10 @@ export default {
   props: {
     root: { type: Object, required: true },
     camp: { type: Object, default: null },
-    enableAllCommentsTabHint: { type: Boolean, default: true },
     replies: { type: Array, default: () => [] },
     showContext: { type: Boolean, default: false },
   },
   emits: ['replied'],
-  setup() {
-    return { toast: useToast() }
-  },
   data() {
     return {
       replying: false,
@@ -154,34 +147,11 @@ export default {
         const resolving = !this.resolved
         await this.api.patch(this.root, { resolved: resolving })
         this.replying = false
-        if (resolving) this.offerUndo()
       } catch (e) {
         this.errorMessage = serverErrorToString(e)
       } finally {
         this.saving = false
       }
-    },
-    offerUndo() {
-      if (!this.enableAllCommentsTabHint) {
-        return
-      }
-      const { api, root, toast } = this
-      const actions = [
-        {
-          label: this.$t('global.button.undo'),
-          onClick: () =>
-            api
-              .patch(root, { resolved: false })
-              .catch((e) => toast.error(errorToMultiLineToast(e))),
-        },
-      ]
-      if (!commentsState.showResolved) {
-        actions.push({
-          label: this.$t('components.comments.commentThread.showAll'),
-          onClick: () => (commentsState.showResolved = true),
-        })
-      }
-      toast.info(this.$t('components.comments.commentThread.resolvedToast'), { actions })
     },
     onReplied() {
       this.replying = false

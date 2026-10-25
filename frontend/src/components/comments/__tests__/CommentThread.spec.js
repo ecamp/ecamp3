@@ -3,16 +3,12 @@ import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { setupVuetify } from '/tests/setupVuetify.js'
 import dayjs from '@/common/helpers/dayjs.js'
 import CommentThread from '@/components/comments/CommentThread.vue'
-import { clearToasts, visibleToasts } from '@/components/toast/useToast.js'
-import { commentsState } from '@/components/comments/commentsState.js'
 
 setupVuetify()
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 enableAutoUnmount(afterEach)
 afterEach(() => {
-  clearToasts()
-  commentsState.showResolved = false
   window.localStorage.clear()
 })
 
@@ -57,13 +53,12 @@ let patch
 function mountThread({
   root = comment(1),
   replies = [],
-  enableAllCommentsTabHint = true,
   showContext = false,
   camp: campProp = camp,
 } = {}) {
   patch = vi.fn().mockResolvedValue({})
   return mount(CommentThread, {
-    props: { root, replies, enableAllCommentsTabHint, showContext, camp: campProp },
+    props: { root, replies, showContext, camp: campProp },
     global: {
       mocks: {
         $t: (key, named) =>
@@ -292,69 +287,15 @@ describe('CommentThread', () => {
     ])
   })
 
-  it('says where a resolved thread went and offers to undo it', async () => {
-    const root = comment(1)
+  it('shows an error when reopening failed', async () => {
+    const root = comment(1, { resolvedAt: '2026-08-02T12:00:00+00:00' })
     const wrapper = mountThread({ root })
-
-    await button(wrapper, 'comment-thread-resolve').trigger('click')
-    await vi.waitFor(() => expect(visibleToasts.value).toHaveLength(1))
-
-    const [toast] = visibleToasts.value
-    expect(toast.type).toBe('info')
-    expect(toast.content).toBe('components.comments.commentThread.resolvedToast')
-    expect(toast.actions.map((action) => action.label)).toEqual([
-      'global.button.undo',
-      'components.comments.commentThread.showAll',
-    ])
-
-    wrapper.unmount()
-    toast.actions[0].onClick()
-    expect(patch).toHaveBeenLastCalledWith(root, { resolved: false })
-  })
-
-  it('switches the panel to show resolved threads from the toast', async () => {
-    const wrapper = mountThread()
-    await button(wrapper, 'comment-thread-resolve').trigger('click')
-    await vi.waitFor(() => expect(visibleToasts.value).toHaveLength(1))
-
-    visibleToasts.value[0].actions[1].onClick()
-
-    expect(commentsState.showResolved).toBe(true)
-  })
-
-  it('offers no way to "All" when the panel already shows it', async () => {
-    commentsState.showResolved = true
-    const wrapper = mountThread()
-    await button(wrapper, 'comment-thread-resolve').trigger('click')
-    await vi.waitFor(() => expect(visibleToasts.value).toHaveLength(1))
-
-    expect(visibleToasts.value[0].actions.map((action) => action.label)).toEqual([
-      'global.button.undo',
-    ])
-  })
-
-  it('reports when undoing failed', async () => {
-    const wrapper = mountThread()
-    await button(wrapper, 'comment-thread-resolve').trigger('click')
-    await vi.waitFor(() => expect(visibleToasts.value).toHaveLength(1))
     patch.mockRejectedValue(new Error('network down'))
 
-    visibleToasts.value[0].actions[0].onClick()
-
-    await vi.waitFor(() =>
-      expect(visibleToasts.value.some((toast) => toast.type === 'error')).toBe(true)
-    )
-  })
-
-  it('shows no toast when reopening', async () => {
-    const wrapper = mountThread({
-      root: comment(1, { resolvedAt: '2026-08-02T12:00:00+00:00' }),
-    })
-
     await button(wrapper, 'comment-thread-resolve').trigger('click')
-    await vi.waitFor(() => expect(patch).toHaveBeenCalled())
 
-    expect(visibleToasts.value).toHaveLength(0)
+    expect(patch).toHaveBeenCalledWith(root, { resolved: false })
+    await vi.waitFor(() => expect(wrapper.text()).toContain('network down'))
   })
 
   it('reopens a resolved thread', async () => {
