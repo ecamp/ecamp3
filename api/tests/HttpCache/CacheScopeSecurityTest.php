@@ -5,6 +5,8 @@ namespace App\Tests\HttpCache;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\HttpOperation;
 use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
+use ApiPlatform\Metadata\Property\Factory\PropertyNameCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\Factory\ResourceNameCollectionFactoryInterface;
 use App\Entity\Camp;
@@ -29,6 +31,22 @@ class CacheScopeSecurityTest extends KernelTestCase {
                 $this->normalize($this->getSecurityOfCampRelatedRead($operation)),
                 "{$operation->getClass()} {$operation->getName()} is scoped to the camp, but its read security differs from the camp's."
             );
+        }
+    }
+
+    /**
+     * Properties with their own security would make the response depend on the user.
+     */
+    public function testNoPropertyHasItsOwnSecurity() {
+        $names = self::getContainer()->get(ResourceNameCollectionFactoryInterface::class)->create();
+        $propertyNames = self::getContainer()->get(PropertyNameCollectionFactoryInterface::class);
+        $propertyMetadata = self::getContainer()->get(PropertyMetadataFactoryInterface::class);
+
+        $this->assertNotEmpty(iterator_to_array($names));
+        foreach ($names as $resourceClass) {
+            foreach ($propertyNames->create($resourceClass) as $property) {
+                $this->assertNull($propertyMetadata->create($resourceClass, $property)->getSecurity(), "{$resourceClass}::\${$property} has security.");
+            }
         }
     }
 
