@@ -71,4 +71,18 @@ div.v-text-field__slot {
 .v-field.v-field--variant-outlined {
   padding: 10px 12px;
 }
+
+.v-field :deep(.editor) {
+  align-self: stretch;
+}
+
+.v-field :deep(.editor),
+.v-field :deep(.editor__content) {
+  display: flex;
+  flex-direction: column;
+}
+
+.v-field :deep(.ProseMirror) {
+  flex: 1;
+}
 </style>
