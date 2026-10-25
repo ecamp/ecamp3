@@ -1,9 +1,5 @@
 <template>
-  <Form
-    v-if="materialListsSorted.length > 0"
-    v-slot="{ handleSubmit, resetForm }"
-    as="tr"
-  >
+  <Form v-slot="{ handleSubmit, resetForm }" as="tr">
     <td colspan="2" class="pt-1">
       <e-number-field
         ref="quantity"
@@ -33,10 +29,9 @@
       />
     </td>
     <td :colspan="columns - 5" class="pt-1">
-      <e-select
+      <MaterialListSelect
         v-model="materialItem.materialList"
-        :items="materialListsSorted"
-        :label="$t('entity.materialList.name')"
+        :camp="camp"
         density="comfortable"
         path="materialList"
         vee-rules="required"
@@ -50,32 +45,19 @@
       />
     </td>
   </Form>
-  <tr v-else>
-    <td :colspan="columns">
-      <div>
-        <p>
-          {{ $t('components.material.materialCreateItem.noMaterialListAvailable') }}
-        </p>
-        <v-btn :to="campRoute(camp, 'admin')">
-          <v-icon :left="$vuetify.display.mdAndUp">mdi-cogs</v-icon>
-          {{ $t('components.material.materialCreateItem.campSettingsButton') }}
-        </v-btn>
-      </div>
-    </td>
-  </tr>
 </template>
 
 <script>
-import { campRoute } from '@/router.js'
 import { Form } from 'vee-validate'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
-import materialListsSorted from '@/common/helpers/materialListsSorted.js'
+import MaterialListSelect from './MaterialListSelect.vue'
 
 export default {
   name: 'MaterialCreateItem',
   components: {
     Form,
     ButtonAdd,
+    MaterialListSelect,
   },
   provide() {
     return {
@@ -96,14 +78,6 @@ export default {
       materialItem: {},
     }
   },
-  computed: {
-    materialListsSorted() {
-      return materialListsSorted(this.camp.materialLists().items).map((list) => ({
-        value: list._meta.self,
-        text: list.name,
-      }))
-    },
-  },
   created() {
     this.initEntity()
   },
@@ -123,7 +97,6 @@ export default {
       // fire event to allow for eager adding before post has finished
       this.$emit('itemAdding', key, data, resetForm)
     },
-    campRoute,
   },
 }
 </script>
