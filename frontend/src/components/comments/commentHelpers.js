@@ -18,7 +18,8 @@ export function scopedComments(
   comments,
   activity,
   includeActivityComments,
-  statusFilter = 'open'
+  statusFilter = 'open',
+  retainedThreads = null
 ) {
   let shown
   switch (statusFilter) {
@@ -30,7 +31,10 @@ export function scopedComments(
       break
     case 'open':
     default:
-      shown = comments.items.filter((comment) => !isResolved(comment))
+      shown = comments.items.filter((comment) => {
+        const root = typeof comment.parent === 'function' ? comment.parent() : comment
+        return !isResolved(comment) || retainedThreads?.has(root._meta.self)
+      })
       break
   }
   if (activity) {

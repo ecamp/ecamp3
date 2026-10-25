@@ -3,12 +3,17 @@ import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { setupVuetify } from '/tests/setupVuetify.js'
 import dayjs from '@/common/helpers/dayjs.js'
 import CommentThread from '@/components/comments/CommentThread.vue'
+import { reactive } from 'vue'
+import flushPromises from 'flush-promises'
+import { commentsState, resetCommentsState } from '@/components/comments/commentsState.js'
 
 setupVuetify()
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 enableAutoUnmount(afterEach)
 afterEach(() => {
+  resetCommentsState()
+  vi.useRealTimers()
   window.localStorage.clear()
 })
 
@@ -99,6 +104,34 @@ function button(wrapper, testid) {
 }
 
 describe('CommentThread', () => {
+  it('reopens a newly resolved thread', async () => {
+    const root = reactive(comment(10))
+    const wrapper = mountThread({ root })
+    patch.mockImplementation(async (_, { resolved }) => {
+      root.resolvedAt = resolved ? '2026-08-02T12:00:00+00:00' : null
+    })
+
+    await button(wrapper, 'comment-thread-resolve').trigger('click')
+    await flushPromises()
+    await button(wrapper, 'comment-thread-resolve').trigger('click')
+    await flushPromises()
+
+    expect(root.resolvedAt).toBe(null)
+    expect(commentsState.retainedThreads.size).toBe(0)
+    expect(patch).toHaveBeenLastCalledWith(root, { resolved: false })
+  })
+
+  it.each(['all', 'resolved'])(
+    'does not retain threads while viewing %s',
+    async (status) => {
+      commentsState.statusFilter = status
+      const wrapper = mountThread()
+      await button(wrapper, 'comment-thread-resolve').trigger('click')
+      await flushPromises()
+      expect(commentsState.retainedThreads.size).toBe(0)
+    }
+  )
+
   it('renders the root comment followed by its replies', () => {
     const wrapper = mountThread({ replies: [comment(2), comment(3)] })
 
@@ -354,5 +387,6 @@ describe('CommentThread', () => {
 
     await button(wrapper, 'comment-thread-resolve').trigger('click')
     await vi.waitFor(() => expect(wrapper.text()).toContain('network down'))
+    expect(commentsState.retainedThreads.size).toBe(0)
   })
 })

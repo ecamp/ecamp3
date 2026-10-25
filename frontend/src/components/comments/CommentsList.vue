@@ -4,29 +4,63 @@
       <v-skeleton-loader type="list-item-two-line" />
       <v-skeleton-loader type="list-item-two-line" />
     </template>
-    <p
-      v-else-if="!comments.length && emptyText"
-      class="text-body-2 text-medium-emphasis mb-0"
+    <Transition
+      v-else
+      :name="
+        filterTransition === 'left'
+          ? 'ec-filter-left'
+          : filterTransition === 'right'
+            ? 'ec-filter-right'
+            : ''
+      "
+      mode="out-in"
+      @before-leave="restoreLeavingContent"
     >
-      {{ emptyText }}
-    </p>
-    <TransitionGroup v-else name="ec-thread">
-      <div v-for="root in roots" :key="root._meta.self" class="ec-comments-list__item">
-        <CommentThread
-          :root="root"
-          :camp="camp"
-          :replies="repliesTo(root)"
-          :show-context="showContext"
-          @replied="$emit('replied')"
-        />
+      <div
+        :key="filterPage"
+        class="ec-comments-list__page d-flex flex-column ga-4"
+        @vue:before-unmount="captureLeavingContent"
+      >
+        <p
+          v-if="!comments.length && emptyText"
+          class="text-body-2 text-medium-emphasis mb-0"
+        >
+          {{ emptyText }}
+        </p>
+        <TransitionGroup name="ec-thread" @before-leave="restoreLeavingContent">
+          <div
+            v-for="root in roots"
+            :key="root._meta.self"
+            class="ec-comments-list__item"
+            :class="{
+              'ec-comments-list__item--muted':
+                statusFilter === 'all' && !!root.resolvedAt,
+              'ec-comments-list__item--resolved':
+                statusFilter === 'open' && !!root.resolvedAt,
+            }"
+            :data-status-filter="statusFilter"
+            @vue:before-unmount="captureLeavingContent($event, root)"
+          >
+            <CommentThread
+              :root="root"
+              :camp="camp"
+              :replies="repliesTo(root)"
+              :show-context="showContext"
+              @replied="$emit('replied')"
+              @reopening="trackReopening(root._meta.self, $event)"
+            />
+          </div>
+        </TransitionGroup>
       </div>
-    </TransitionGroup>
+    </Transition>
     <slot name="after" />
   </div>
 </template>
 
 <script>
 import CommentThread from '@/components/comments/CommentThread.vue'
+
+const leavingContent = new WeakMap()
 
 export default {
   name: 'CommentsList',
@@ -37,14 +71,54 @@ export default {
     loading: { type: Boolean, default: false },
     showContext: { type: Boolean, default: false },
     emptyText: { type: String, default: null },
+    statusFilter: { type: String, default: 'open' },
   },
   emits: ['replied'],
+  data() {
+    return { filterPage: 0, filterTransition: '', reopeningThreads: new Set() }
+  },
   computed: {
     roots() {
       return this.comments.filter((comment) => typeof comment.parent !== 'function')
     },
   },
+  watch: {
+    statusFilter(next, previous) {
+      if (
+        (previous === 'open' && next === 'resolved') ||
+        (previous === 'resolved' && next === 'open')
+      ) {
+        this.filterTransition = next === 'resolved' ? 'left' : 'right'
+        this.filterPage += 1
+      } else {
+        this.filterTransition = ''
+      }
+    },
+  },
   methods: {
+    trackReopening(uri, pending) {
+      if (pending && this.statusFilter === 'resolved') this.reopeningThreads.add(uri)
+      else this.reopeningThreads.delete(uri)
+    },
+    captureLeavingContent(vnode, root) {
+      if (
+        root &&
+        this.reopeningThreads.has(root._meta.self) &&
+        vnode.el.dataset.statusFilter === 'resolved'
+      ) {
+        vnode.el.classList.add('ec-comments-list__item--reopened')
+      }
+      if (root) this.reopeningThreads.delete(root._meta.self)
+      // Tiptap destroys its DOM during unmount, before the leave animation starts.
+      leavingContent.set(vnode.el, vnode.el.cloneNode(true))
+    },
+    restoreLeavingContent(element) {
+      const snapshot = leavingContent.get(element)
+      if (!snapshot) return
+      element.replaceChildren(...snapshot.childNodes)
+      element.inert = true
+      leavingContent.delete(element)
+    },
     repliesTo(root) {
       return this.comments.filter(
         (comment) =>
@@ -68,6 +142,7 @@ export default {
   --fade: 24px;
   --fade-padding: 17px;
 
+  overflow-x: hidden;
   padding-top: var(--fade-padding);
   padding-bottom: var(--fade-padding);
   mask-image: linear-gradient(
@@ -79,6 +154,31 @@ export default {
   );
 }
 
+.ec-comments-list__page {
+  min-width: 0;
+}
+
+.ec-filter-left-enter-active,
+.ec-filter-left-leave-active,
+.ec-filter-right-enter-active,
+.ec-filter-right-leave-active {
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.ec-filter-left-enter-from,
+.ec-filter-right-leave-to {
+  transform: translateX(32px);
+  opacity: 0;
+}
+
+.ec-filter-left-leave-to,
+.ec-filter-right-enter-from {
+  transform: translateX(-32px);
+  opacity: 0;
+}
+
 .ec-comments-list__item {
   display: grid;
   grid-template-rows: 1fr;
@@ -86,6 +186,11 @@ export default {
 
 .ec-comments-list__item > * {
   min-height: 0;
+  transition: opacity 0.7s ease;
+}
+
+.ec-comments-list__item--muted > * {
+  opacity: 0.5;
 }
 
 .ec-thread-enter-active,
@@ -93,7 +198,8 @@ export default {
   transition:
     grid-template-rows 0.6s cubic-bezier(0.4, 0, 0.2, 1),
     margin-bottom 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.6s;
+    opacity 0.6s,
+    transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ec-thread-enter-active > *,
@@ -108,9 +214,33 @@ export default {
   opacity: 0;
 }
 
+.ec-thread-leave-to.ec-comments-list__item--resolved {
+  transform: translateX(100%);
+}
+
+.ec-thread-leave-active.ec-comments-list__item--resolved,
+.ec-thread-leave-active.ec-comments-list__item--reopened {
+  transition:
+    transform 0.4s ease-in,
+    opacity 0.4s 0.15s,
+    grid-template-rows 0.4s 0.15s,
+    margin-bottom 0.4s 0.15s;
+}
+
+.ec-thread-leave-to.ec-comments-list__item--reopened {
+  transform: translateX(-100%);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .ec-comments-list__item > *,
+  .ec-filter-left-enter-active,
+  .ec-filter-left-leave-active,
+  .ec-filter-right-enter-active,
+  .ec-filter-right-leave-active,
   .ec-thread-enter-active,
-  .ec-thread-leave-active {
+  .ec-thread-leave-active,
+  .ec-thread-leave-active.ec-comments-list__item--resolved,
+  .ec-thread-leave-active.ec-comments-list__item--reopened {
     transition: none;
   }
 }

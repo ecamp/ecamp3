@@ -57,6 +57,7 @@
       <CommentsList
         v-if="commentsState.open"
         ref="list"
+        :status-filter="commentsState.statusFilter"
         :comments="visibleComments"
         :camp="camp"
         :loading="comments._meta.loading"
@@ -147,7 +148,8 @@ export default {
         this.comments,
         this.activity,
         this.mobile,
-        commentsState.statusFilter
+        commentsState.statusFilter,
+        commentsState.retainedThreads
       )
     },
     emptyText() {

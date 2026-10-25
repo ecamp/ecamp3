@@ -1,9 +1,14 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { nextTick, reactive } from 'vue'
 import { setupVuetify } from '/tests/setupVuetify.js'
 import CommentsPanel from '@/components/comments/CommentsPanel.vue'
-import { commentsState } from '@/components/comments/commentsState.js'
+import {
+  commentsState,
+  resetCommentsState,
+  retainCommentThread,
+  scheduleCommentThreadRemoval,
+} from '@/components/comments/commentsState.js'
 import { activityFromRoute, campFromRoute } from '@/router.js'
 
 setupVuetify()
@@ -139,10 +144,12 @@ function listedComments(wrapper) {
 }
 
 describe('CommentsPanel', () => {
+  afterEach(() => {
+    resetCommentsState()
+    vi.useRealTimers()
+  })
   beforeEach(() => {
-    commentsState.open = false
-    commentsState.activityFilter = null
-    commentsState.statusFilter = 'open'
+    resetCommentsState()
     resize(1280)
     campFromRoute.mockReturnValue(camp([collaboration('guest', '/users/me')]))
     activityFromRoute.mockReturnValue(activity)
@@ -446,6 +453,20 @@ describe('CommentsPanel', () => {
     const openRoot = comment(7, { on: activity, author: somebody })
     const replyToOpen = comment(8, { on: activity, parent: openRoot })
     const thread = [resolvedRoot, replyToResolved, openRoot, replyToOpen]
+
+    it('clears retained threads and timers on a camp change', async () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+      const route = reactive({ path: '/camps/1/dashboard', params: { campId: '1' } })
+      mountPanel({ route })
+      retainCommentThread('/comments/40')
+      scheduleCommentThreadRemoval('/comments/40')
+
+      route.params.campId = '2'
+      await nextTick()
+
+      expect(commentsState.retainedThreads.size).toBe(0)
+      expect(vi.getTimerCount()).toBe(0)
+    })
 
     it('leaves out resolved threads by default', async () => {
       const wrapper = mountPanel({ items: thread })
