@@ -125,40 +125,44 @@ describe('CommentThread', () => {
     expect(patch).toHaveBeenLastCalledWith(root, { resolved: false })
   })
 
-  it('pauses removal while undo is hovered and resumes the remaining time', async () => {
-    vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] })
-    const elapsed = 750
-    const remaining = REMOVAL_DURATION - elapsed
-    const root = reactive(comment(10))
-    const wrapper = mountThread({ root })
-    patch.mockImplementation(async () => {
-      root.resolvedAt = '2026-08-02T12:00:00+00:00'
-    })
-    const resolve = button(wrapper, 'comment-thread-resolve')
-    const hovered = vi.spyOn(resolve.element, 'matches').mockReturnValue(false)
-    await resolve.trigger('click')
-    await flushPromises()
-    await vi.advanceTimersByTimeAsync(elapsed)
-    hovered.mockReturnValue(true)
+  it.each([
+    [750, 1250],
+    [1950, 1000],
+  ])(
+    'resumes with %i ms elapsed and at least %i ms remaining after hover',
+    async (elapsed, remaining) => {
+      vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] })
+      const root = reactive(comment(10))
+      const wrapper = mountThread({ root })
+      patch.mockImplementation(async () => {
+        root.resolvedAt = '2026-08-02T12:00:00+00:00'
+      })
+      const resolve = button(wrapper, 'comment-thread-resolve')
+      const hovered = vi.spyOn(resolve.element, 'matches').mockReturnValue(false)
+      await resolve.trigger('click')
+      await flushPromises()
+      await vi.advanceTimersByTimeAsync(elapsed)
+      hovered.mockReturnValue(true)
 
-    const progress = wrapper.findComponent({ name: 'VProgressCircular' })
-    const pausedProgress = progress.props().modelValue
-    await vi.advanceTimersByTimeAsync(REMOVAL_DURATION * 2)
+      const progress = wrapper.findComponent({ name: 'VProgressCircular' })
+      const pausedProgress = Math.min(progress.props().modelValue, 50)
+      await vi.advanceTimersByTimeAsync(REMOVAL_DURATION * 2)
 
-    expect(retained(wrapper)).toBe(true)
-    expect(progress.props().modelValue).toBe(pausedProgress)
+      expect(retained(wrapper)).toBe(true)
+      expect(progress.props().modelValue).toBe(pausedProgress)
 
-    hovered.mockReturnValue(false)
-    await vi.advanceTimersByTimeAsync(remaining - 1)
-    expect(retained(wrapper)).toBe(true)
-    await vi.waitFor(() => expect(progress.props().modelValue).toBe(100), {
-      interval: 10,
-      timeout: 100,
-    })
-    expect(retained(wrapper)).toBe(true)
-    await vi.advanceTimersToNextTimerAsync()
-    expect(retained(wrapper)).toBe(false)
-  })
+      hovered.mockReturnValue(false)
+      await vi.advanceTimersByTimeAsync(remaining - 1)
+      expect(retained(wrapper)).toBe(true)
+      await vi.waitFor(() => expect(progress.props().modelValue).toBe(100), {
+        interval: 10,
+        timeout: 100,
+      })
+      expect(retained(wrapper)).toBe(true)
+      await vi.advanceTimersToNextTimerAsync()
+      expect(retained(wrapper)).toBe(false)
+    }
+  )
 
   it('clears a paused countdown when the thread is unmounted', async () => {
     vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] })

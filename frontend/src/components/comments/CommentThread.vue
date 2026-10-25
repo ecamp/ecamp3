@@ -171,7 +171,11 @@ export default {
       if (this.removalProgress === null) return
       this.removalTimer = setInterval(() => {
         const button = this.$el.querySelector('.ec-comment-thread__resolve')
-        if (!button || button.matches(':hover')) return
+        if (!button) return
+        if (button.matches(':hover')) {
+          this.removalProgress = Math.min(this.removalProgress, 50)
+          return
+        }
         if (this.removalProgress === 100) this.setRetained(false)
         else
           this.removalProgress = Math.min(
