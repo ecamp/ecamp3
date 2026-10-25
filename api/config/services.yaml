@@ -222,6 +222,15 @@ services:
                   priority: 12,
               }
 
+    App\HttpCache\CacheScopeListener:
+        tags:
+            - {
+                  name: kernel.event_listener,
+                  event: kernel.response,
+                  method: onKernelResponse,
+                  priority: 12,
+              }
+
     App\HttpCache\CacheControlListener:
         arguments:
             $apiCacheEnabled: '%env(API_CACHE_ENABLED)%'
