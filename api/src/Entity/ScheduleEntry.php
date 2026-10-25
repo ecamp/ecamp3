@@ -154,10 +154,10 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface, CanGen
     public ?float $width = 1;
 
     /**
-     * The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry.
-     * Null if not specified. Each schedule entry of an activity has its own value, because e.g. a
-     * repeated activity or an activity split into multiple schedule entries may contain different
-     * amounts of physical activity.
+     * The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry. Null
+     * if not specified. Each schedule entry of an activity has its own value, because e.g. a repeated
+     * activity or an activity split into multiple schedule entries may contain different amounts of
+     * physical activity.
      */
     #[Assert\Choice(choices: self::YS_PHYSICAL_ACTIVITY_DURATION_CHOICES)]
     #[ApiProperty(example: 60)]

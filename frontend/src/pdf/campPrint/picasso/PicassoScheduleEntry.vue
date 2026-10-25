@@ -6,11 +6,17 @@
         class="picasso-schedule-entry-title"
         :style="{ fontSize: fontSize, color: textColor }"
       >
-        {{ category }} {{ scheduleEntry.number }} {{ title
-        }}{{ ysPhysicalActivityDurationSuffix }}
+        {{ category }} {{ scheduleEntry.number }} {{ title }}
       </Text>
     </Link>
     <View class="picasso-schedule-entry-spacer" />
+    <View
+      v-if="showYSPhysicalActivityDuration && ysPhysicalActivityDuration"
+      class="picasso-schedule-entry-ys-physical-activity-duration-container"
+      :style="{ fontSize: fontSize, color: textColor }"
+    >
+      <Text>{{ ysPhysicalActivityDuration }}</Text>
+    </View>
     <View
       class="picasso-schedule-entry-responsibles-container"
       :style="{ fontSize: fontSize, color: textColor }"
@@ -39,6 +45,7 @@ export default {
     scheduleEntry: { type: Object, required: true },
     percentageHeight: { type: Number, default: 10 },
     config: { type: Object, required: true },
+    showYSPhysicalActivityDuration: { type: Boolean, default: false },
   },
   computed: {
     color() {
@@ -53,12 +60,11 @@ export default {
     title() {
       return this.scheduleEntry.activity().title
     },
-    ysPhysicalActivityDurationSuffix() {
-      const duration = ysPhysicalActivityDurationFormatted(
+    ysPhysicalActivityDuration() {
+      return ysPhysicalActivityDurationFormatted(
         this.scheduleEntry.ysPhysicalActivityDurationMinutes,
         this.$tc.bind(this)
       )
-      return duration ? ` (${duration})` : ''
     },
     linkTarget() {
       return `#scheduleEntry_${this.scheduleEntry.id}`
@@ -99,6 +105,15 @@ export default {
   height: 16pt;
   line-height: 1;
   flex-grow: 1;
+}
+.picasso-schedule-entry-ys-physical-activity-duration-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  justify-content: flex-end;
+  padding: 0 4pt 2pt;
 }
 .picasso-schedule-entry-responsibles-container {
   position: absolute;

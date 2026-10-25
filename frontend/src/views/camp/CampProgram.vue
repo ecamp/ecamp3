@@ -240,6 +240,7 @@ export default {
             options: {
               periods: [this.period._meta.self],
               orientation: 'L',
+              showYSPhysicalActivityDuration: this.showPhysicalActivityDuration,
             },
           },
         ],

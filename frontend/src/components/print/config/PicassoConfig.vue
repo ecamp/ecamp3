@@ -18,6 +18,13 @@
       variant="underlined"
       @update:model-value="$emit('update:modelValue', modelValue)"
     />
+    <e-checkbox
+      v-if="hasYSPhysicalActivityDuration"
+      v-model="options.showYSPhysicalActivityDuration"
+      path="showYSPhysicalActivityDuration"
+      :label="$t('entity.scheduleEntry.fields.ysPhysicalActivityDuration')"
+      @update:model-value="$emit('update:modelValue', modelValue)"
+    />
     <div class="flex-grow-1"></div>
     <DialogScheduleEntryFilter
       :camp="camp"
@@ -80,6 +87,11 @@ export default {
     selectedScheduleEntries() {
       return this.selectedPeriods.flatMap((period) => period.scheduleEntries().items)
     },
+    hasYSPhysicalActivityDuration() {
+      return this.selectedScheduleEntries.some(
+        (scheduleEntry) => scheduleEntry.ysPhysicalActivityDurationMinutes !== null
+      )
+    },
   },
   methods: {
     filterFn() {
@@ -98,6 +110,7 @@ export default {
       periods:
         camp.periods().items.length === 1 ? [camp.periods().items[0]._meta.self] : [],
       orientation: 'L',
+      showYSPhysicalActivityDuration: false,
       filter: repairFilterConfig(null, camp),
     }
   },
