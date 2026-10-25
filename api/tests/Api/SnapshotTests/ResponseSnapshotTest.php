@@ -6,6 +6,7 @@ use ApiPlatform\Symfony\Bundle\Test\Client;
 use App\Entity\BaseEntity;
 use App\Tests\Api\ECampApiTestCase;
 use App\Tests\Constraints\CompatibleHalResponse;
+use App\Tests\Spatie\Snapshots\Driver\ECampYamlSnapshotDriver;
 use App\Util\ArrayDeepSort;
 use Hautelook\AliceBundle\PhpUnit\FixtureStore;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -69,7 +70,7 @@ class ResponseSnapshotTest extends ECampApiTestCase {
             | Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK
         );
 
-        $this->assertMatchesYamlSnapshot($openApiYaml);
+        $this->assertMatchesSnapshot($openApiYaml, new ECampYamlSnapshotDriver());
     }
 
     /**
