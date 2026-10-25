@@ -453,6 +453,10 @@
         "campSettingsButton": "Settings",
         "noMaterialListAvailable": "There are no material lists for this camp yet. You can create them in 'Admin'."
       },
+      "materialListSelect": {
+        "createNew": "Create new",
+        "noListsFound": "No list found"
+      },
       "materialLists": {
         "materialsCount": "No entries | 1 entry | {count} entries",
         "overview": "General overview",

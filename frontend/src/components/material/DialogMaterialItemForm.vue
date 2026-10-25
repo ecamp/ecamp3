@@ -14,33 +14,31 @@
       vee-rules="required"
       maxlength="64"
     />
-    <e-select
+    <MaterialListSelect
       v-model="localMaterialItem.materialList"
+      :camp="camp"
       path="materialList"
       density="compact"
       vee-rules="required"
-      :label="$t('entity.materialList.name')"
-      :items="materialListArray"
+      @update:creating="$emit('update:creating', $event)"
     />
   </e-form>
 </template>
 
 <script>
+import MaterialListSelect from './MaterialListSelect.vue'
+
 export default {
   name: 'DialogMaterialItemForm',
+  components: { MaterialListSelect },
   props: {
-    materialLists: { type: Object, required: true },
+    camp: { type: Object, required: true },
     materialItem: { type: Object, required: true },
   },
+  emits: ['update:creating'],
   computed: {
     localMaterialItem() {
       return this.materialItem
-    },
-    materialListArray() {
-      return this.materialLists.items.map((l) => ({
-        value: l._meta.self,
-        text: l.name,
-      }))
     },
   },
 }
