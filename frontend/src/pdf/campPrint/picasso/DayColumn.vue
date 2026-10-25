@@ -18,6 +18,7 @@
         }"
         :percentage-height="positionStyles[scheduleEntry.id].percentageHeight"
         :config="config"
+        :show-y-s-physical-activity-duration="showYSPhysicalActivityDuration"
       />
     </View>
   </View>
@@ -43,6 +44,7 @@ export default {
     day: { type: Object, required: true },
     scheduleEntries: { type: Array, default: () => [] },
     config: { type: Object, required: true },
+    showYSPhysicalActivityDuration: { type: Boolean, default: false },
   },
   computed: {
     relevantScheduleEntries() {

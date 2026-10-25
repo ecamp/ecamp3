@@ -34,6 +34,9 @@
         :schedule-entries="scheduleEntries"
         :class="{ 'picasso-day-column-left-border': day.id === days[0].id }"
         :config="config"
+        :show-y-s-physical-activity-duration="
+          content.options.showYSPhysicalActivityDuration === true
+        "
       />
       <TimeColumn :times="times.slice(0, times.length - 1)" align="left" />
     </View>

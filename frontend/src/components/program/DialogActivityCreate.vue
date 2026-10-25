@@ -205,7 +205,7 @@ export default {
         this.setCopyContentCheckbox(val)
       },
     },
-    copiedYsPhysicalActivityDuration() {
+    copiedYSPhysicalActivityDuration() {
       if (!this.copyContent) return null
       return (
         this.clipboardEntity
@@ -259,7 +259,7 @@ export default {
               period: entry.period()._meta.self,
               start: entry.start,
               end: entry.end,
-              ysPhysicalActivityDurationMinutes: this.copiedYsPhysicalActivityDuration,
+              ysPhysicalActivityDurationMinutes: this.copiedYSPhysicalActivityDuration,
             })) || [],
       }
 
