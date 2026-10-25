@@ -20,8 +20,10 @@ components:
           type: string
         category:
           anyOf:
-            - $ref: '#/components/schemas/Category'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Category'
+            -
+              type: 'null'
           readOnly: true
         comments:
           description: 'All comments of the activity.'
@@ -59,8 +61,10 @@ components:
           type: string
         progressLabel:
           anyOf:
-            - $ref: '#/components/schemas/ActivityProgressLabel'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ActivityProgressLabel'
+            -
+              type: 'null'
           readOnly: true
         rootContentNode:
           description: |-
@@ -99,8 +103,10 @@ components:
           example: /categories/1a2b3c4d
         copyActivitySource:
           anyOf:
-            - $ref: '#/components/schemas/Activity-create_write.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Activity-create_write.jsonMergePatch'
+            -
+              type: 'null'
           description: 'Copy contents from this source activity.'
           example: /activities/1a2b3c4d
         location:
@@ -111,14 +117,17 @@ components:
           type: string
         progressLabel:
           anyOf:
-            - $ref: '#/components/schemas/ActivityProgressLabel-create_write.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ActivityProgressLabel-create_write.jsonMergePatch'
+            -
+              type: 'null'
           description: 'The current assigned ProgressLabel.'
           example: /progress_labels/1a2b3c4d
         scheduleEntries:
           description: "The list of points in time when this activity's programme will be carried out."
           example:
-            - end: '2023-05-01T16:00:00+00:00'
+            -
+              end: '2023-05-01T16:00:00+00:00'
               period: /periods/1a2b3c4a
               start: '2023-05-01T15:00:00+00:00'
           items:
@@ -199,7 +208,8 @@ components:
         scheduleEntries:
           description: "The list of points in time when this activity's programme will be carried out."
           example:
-            - end: '2023-05-01T16:00:00+00:00'
+            -
+              end: '2023-05-01T16:00:00+00:00'
               period: /periods/1a2b3c4a
               start: '2023-05-01T15:00:00+00:00'
           items:
@@ -270,8 +280,10 @@ components:
           type: string
         progressLabel:
           anyOf:
-            - $ref: '#/components/schemas/ActivityProgressLabel-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ActivityProgressLabel-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+            -
+              type: 'null'
           readOnly: true
         rootContentNode:
           description: |-
@@ -315,8 +327,10 @@ components:
           type: string
         category:
           anyOf:
-            - $ref: '#/components/schemas/Category-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Category-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+            -
+              type: 'null'
           readOnly: true
         comments:
           description: 'All comments of the activity.'
@@ -347,8 +361,10 @@ components:
           type: string
         progressLabel:
           anyOf:
-            - $ref: '#/components/schemas/ActivityProgressLabel-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ActivityProgressLabel-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+            -
+              type: 'null'
           readOnly: true
         rootContentNode:
           description: |-
@@ -444,7 +460,8 @@ components:
         scheduleEntries:
           description: "The list of points in time when this activity's programme will be carried out."
           example:
-            - end: '2023-05-01T16:00:00+00:00'
+            -
+              end: '2023-05-01T16:00:00+00:00'
               period: /periods/1a2b3c4a
               start: '2023-05-01T15:00:00+00:00'
           items:
@@ -482,8 +499,10 @@ components:
           type: string
         progressLabel:
           anyOf:
-            - $ref: '#/components/schemas/ActivityProgressLabel-write.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ActivityProgressLabel-write.jsonMergePatch'
+            -
+              type: 'null'
           description: 'The current assigned ProgressLabel.'
           example: /progress_labels/1a2b3c4d
         title:
@@ -503,8 +522,10 @@ components:
           example: /categories/1a2b3c4d
         copyActivitySource:
           anyOf:
-            - $ref: '#/components/schemas/Activity-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Activity-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: 'Copy contents from this source activity.'
           example: /activities/1a2b3c4d
         location:
@@ -515,14 +536,17 @@ components:
           type: string
         progressLabel:
           anyOf:
-            - $ref: '#/components/schemas/ActivityProgressLabel-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ActivityProgressLabel-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: 'The current assigned ProgressLabel.'
           example: /progress_labels/1a2b3c4d
         scheduleEntries:
           description: "The list of points in time when this activity's programme will be carried out."
           example:
-            - end: '2023-05-01T16:00:00+00:00'
+            -
+              end: '2023-05-01T16:00:00+00:00'
               period: /periods/1a2b3c4a
               start: '2023-05-01T15:00:00+00:00'
           items:
@@ -551,8 +575,10 @@ components:
           example: /categories/1a2b3c4d
         copyActivitySource:
           anyOf:
-            - $ref: '#/components/schemas/Activity-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Activity-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: 'Copy contents from this source activity.'
           example: /activities/1a2b3c4d
         location:
@@ -563,14 +589,17 @@ components:
           type: string
         progressLabel:
           anyOf:
-            - $ref: '#/components/schemas/ActivityProgressLabel-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ActivityProgressLabel-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: 'The current assigned ProgressLabel.'
           example: /progress_labels/1a2b3c4d
         scheduleEntries:
           description: "The list of points in time when this activity's programme will be carried out."
           example:
-            - end: '2023-05-01T16:00:00+00:00'
+            -
+              end: '2023-05-01T16:00:00+00:00'
               period: /periods/1a2b3c4a
               start: '2023-05-01T15:00:00+00:00'
           items:
@@ -651,7 +680,8 @@ components:
         scheduleEntries:
           description: "The list of points in time when this activity's programme will be carried out."
           example:
-            - end: '2023-05-01T16:00:00+00:00'
+            -
+              end: '2023-05-01T16:00:00+00:00'
               period: /periods/1a2b3c4a
               start: '2023-05-01T15:00:00+00:00'
           items:
@@ -722,8 +752,10 @@ components:
           type: string
         progressLabel:
           anyOf:
-            - $ref: '#/components/schemas/ActivityProgressLabel.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ActivityProgressLabel.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+            -
+              type: 'null'
           readOnly: true
         rootContentNode:
           description: |-
@@ -767,8 +799,10 @@ components:
           type: string
         category:
           anyOf:
-            - $ref: '#/components/schemas/Category.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Category.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+            -
+              type: 'null'
           readOnly: true
         comments:
           description: 'All comments of the activity.'
@@ -799,8 +833,10 @@ components:
           type: string
         progressLabel:
           anyOf:
-            - $ref: '#/components/schemas/ActivityProgressLabel.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ActivityProgressLabel.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+            -
+              type: 'null'
           readOnly: true
         rootContentNode:
           description: |-
@@ -896,7 +932,8 @@ components:
         scheduleEntries:
           description: "The list of points in time when this activity's programme will be carried out."
           example:
-            - end: '2023-05-01T16:00:00+00:00'
+            -
+              end: '2023-05-01T16:00:00+00:00'
               period: /periods/1a2b3c4a
               start: '2023-05-01T15:00:00+00:00'
           items:
@@ -980,19 +1017,28 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/Activity.jsonapi'
-              - $ref: '#/components/schemas/ActivityProgressLabel.jsonapi'
-              - $ref: '#/components/schemas/ActivityResponsible.jsonapi'
-              - $ref: '#/components/schemas/Camp.jsonapi'
-              - $ref: '#/components/schemas/Category.jsonapi'
-              - $ref: '#/components/schemas/ColumnLayout.jsonapi'
-              - $ref: '#/components/schemas/Comment.jsonapi'
-              - $ref: '#/components/schemas/ScheduleEntry.jsonapi'
+              -
+                $ref: '#/components/schemas/Activity.jsonapi'
+              -
+                $ref: '#/components/schemas/ActivityProgressLabel.jsonapi'
+              -
+                $ref: '#/components/schemas/ActivityResponsible.jsonapi'
+              -
+                $ref: '#/components/schemas/Camp.jsonapi'
+              -
+                $ref: '#/components/schemas/Category.jsonapi'
+              -
+                $ref: '#/components/schemas/ColumnLayout.jsonapi'
+              -
+                $ref: '#/components/schemas/Comment.jsonapi'
+              -
+                $ref: '#/components/schemas/ScheduleEntry.jsonapi'
           readOnly: true
           type: array
     Activity.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/Activity-read'
+        -
+          $ref: '#/components/schemas/Activity-read'
         -
           properties:
             _links:
@@ -1005,7 +1051,8 @@ components:
       description: 'A piece of programme that will be carried out once or multiple times in a camp.'
     Activity.jsonhal-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
       allOf:
-        - $ref: '#/components/schemas/Activity-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+        -
+          $ref: '#/components/schemas/Activity-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
         -
           properties:
             _links:
@@ -1018,7 +1065,8 @@ components:
       description: 'A piece of programme that will be carried out once or multiple times in a camp.'
     Activity.jsonhal-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       allOf:
-        - $ref: '#/components/schemas/Activity-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+        -
+          $ref: '#/components/schemas/Activity-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
         -
           properties:
             _links:
@@ -1031,7 +1079,8 @@ components:
       description: 'A piece of programme that will be carried out once or multiple times in a camp.'
     Activity.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/Activity-write_create'
+        -
+          $ref: '#/components/schemas/Activity-write_create'
         -
           properties:
             _links:
@@ -1044,7 +1093,8 @@ components:
       description: 'A piece of programme that will be carried out once or multiple times in a camp.'
     Activity.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             activityResponsibles:
@@ -1113,7 +1163,8 @@ components:
             scheduleEntries:
               description: "The list of points in time when this activity's programme will be carried out."
               example:
-                - end: '2023-05-01T16:00:00+00:00'
+                -
+                  end: '2023-05-01T16:00:00+00:00'
                   period: /periods/1a2b3c4a
                   start: '2023-05-01T15:00:00+00:00'
               items:
@@ -1137,7 +1188,8 @@ components:
       description: 'A piece of programme that will be carried out once or multiple times in a camp.'
     Activity.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             activityResponsibles:
@@ -1187,8 +1239,10 @@ components:
               type: string
             progressLabel:
               anyOf:
-                - $ref: '#/components/schemas/ActivityProgressLabel.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
-                - type: 'null'
+                -
+                  $ref: '#/components/schemas/ActivityProgressLabel.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+                -
+                  type: 'null'
               readOnly: true
             rootContentNode:
               description: |-
@@ -1219,7 +1273,8 @@ components:
       description: 'A piece of programme that will be carried out once or multiple times in a camp.'
     Activity.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             activityResponsibles:
@@ -1235,8 +1290,10 @@ components:
               type: string
             category:
               anyOf:
-                - $ref: '#/components/schemas/Category.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
-                - type: 'null'
+                -
+                  $ref: '#/components/schemas/Category.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+                -
+                  type: 'null'
               readOnly: true
             comments:
               description: 'All comments of the activity.'
@@ -1267,8 +1324,10 @@ components:
               type: string
             progressLabel:
               anyOf:
-                - $ref: '#/components/schemas/ActivityProgressLabel.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
-                - type: 'null'
+                -
+                  $ref: '#/components/schemas/ActivityProgressLabel.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+                -
+                  type: 'null'
               readOnly: true
             rootContentNode:
               description: |-
@@ -1299,7 +1358,8 @@ components:
       description: 'A piece of programme that will be carried out once or multiple times in a camp.'
     Activity.jsonld-read_ScheduleEntry.Activity:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             activityResponsibles:
@@ -1368,7 +1428,8 @@ components:
             scheduleEntries:
               description: "The list of points in time when this activity's programme will be carried out."
               example:
-                - end: '2023-05-01T16:00:00+00:00'
+                -
+                  end: '2023-05-01T16:00:00+00:00'
                   period: /periods/1a2b3c4a
                   start: '2023-05-01T15:00:00+00:00'
               items:
@@ -1690,12 +1751,14 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/Camp.jsonapi'
+              -
+                $ref: '#/components/schemas/Camp.jsonapi'
           readOnly: true
           type: array
     ActivityProgressLabel.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/ActivityProgressLabel-read'
+        -
+          $ref: '#/components/schemas/ActivityProgressLabel-read'
         -
           properties:
             _links:
@@ -1710,7 +1773,8 @@ components:
         To each activity one label can be assigned.
     ActivityProgressLabel.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/ActivityProgressLabel-write_create'
+        -
+          $ref: '#/components/schemas/ActivityProgressLabel-write_create'
         -
           properties:
             _links:
@@ -1725,7 +1789,8 @@ components:
         To each activity one label can be assigned.
     ActivityProgressLabel.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             camp:
@@ -1757,7 +1822,8 @@ components:
         To each activity one label can be assigned.
     ActivityProgressLabel.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             camp:
@@ -1789,7 +1855,8 @@ components:
         To each activity one label can be assigned.
     ActivityProgressLabel.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             camp:
@@ -2024,13 +2091,16 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/Activity.jsonapi'
-              - $ref: '#/components/schemas/CampCollaboration.jsonapi'
+              -
+                $ref: '#/components/schemas/Activity.jsonapi'
+              -
+                $ref: '#/components/schemas/CampCollaboration.jsonapi'
           readOnly: true
           type: array
     ActivityResponsible.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/ActivityResponsible-read'
+        -
+          $ref: '#/components/schemas/ActivityResponsible-read'
         -
           properties:
             _links:
@@ -2043,7 +2113,8 @@ components:
       description: 'A person that is responsible for planning or carrying out an activity.'
     ActivityResponsible.jsonhal-write:
       allOf:
-        - $ref: '#/components/schemas/ActivityResponsible-write'
+        -
+          $ref: '#/components/schemas/ActivityResponsible-write'
         -
           properties:
             _links:
@@ -2056,7 +2127,8 @@ components:
       description: 'A person that is responsible for planning or carrying out an activity.'
     ActivityResponsible.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             activity:
@@ -2082,7 +2154,8 @@ components:
       description: 'A person that is responsible for planning or carrying out an activity.'
     ActivityResponsible.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             activity:
@@ -2108,7 +2181,8 @@ components:
       description: 'A person that is responsible for planning or carrying out an activity.'
     ActivityResponsible.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             activity:
@@ -2427,8 +2501,10 @@ components:
             - string
         campPrototype:
           anyOf:
-            - $ref: '#/components/schemas/Camp-create_write.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Camp-create_write.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The prototype camp that will be used as a template to create this camp. Only the ID
             will be persisted.
@@ -2525,7 +2601,8 @@ components:
             but updating, adding or removing periods later should be done through the period
             endpoints.
           example:
-            - description: Hauptlager
+            -
+              description: Hauptlager
               end: '2022-01-08'
               start: '2022-01-01'
           items:
@@ -2748,7 +2825,8 @@ components:
             but updating, adding or removing periods later should be done through the period
             endpoints.
           example:
-            - description: Hauptlager
+            -
+              description: Hauptlager
               end: '2022-01-08'
               start: '2022-01-01'
           items:
@@ -3267,7 +3345,8 @@ components:
             but updating, adding or removing periods later should be done through the period
             endpoints.
           example:
-            - description: Hauptlager
+            -
+              description: Hauptlager
               end: '2022-01-08'
               start: '2022-01-01'
           items:
@@ -3529,7 +3608,8 @@ components:
             but updating, adding or removing periods later should be done through the period
             endpoints.
           example:
-            - description: Hauptlager
+            -
+              description: Hauptlager
               end: '2022-01-08'
               start: '2022-01-01'
           items:
@@ -3648,8 +3728,10 @@ components:
             - string
         campPrototype:
           anyOf:
-            - $ref: '#/components/schemas/Camp-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Camp-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The prototype camp that will be used as a template to create this camp. Only the ID
             will be persisted.
@@ -3746,7 +3828,8 @@ components:
             but updating, adding or removing periods later should be done through the period
             endpoints.
           example:
-            - description: Hauptlager
+            -
+              description: Hauptlager
               end: '2022-01-08'
               start: '2022-01-01'
           items:
@@ -3828,8 +3911,10 @@ components:
             - string
         campPrototype:
           anyOf:
-            - $ref: '#/components/schemas/Camp-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Camp-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The prototype camp that will be used as a template to create this camp. Only the ID
             will be persisted.
@@ -3926,7 +4011,8 @@ components:
             but updating, adding or removing periods later should be done through the period
             endpoints.
           example:
-            - description: Hauptlager
+            -
+              description: Hauptlager
               end: '2022-01-08'
               start: '2022-01-01'
           items:
@@ -4284,7 +4370,8 @@ components:
             but updating, adding or removing periods later should be done through the period
             endpoints.
           example:
-            - description: Hauptlager
+            -
+              description: Hauptlager
               end: '2022-01-08'
               start: '2022-01-01'
           items:
@@ -4803,7 +4890,8 @@ components:
             but updating, adding or removing periods later should be done through the period
             endpoints.
           example:
-            - description: Hauptlager
+            -
+              description: Hauptlager
               end: '2022-01-08'
               start: '2022-01-01'
           items:
@@ -5065,7 +5153,8 @@ components:
             but updating, adding or removing periods later should be done through the period
             endpoints.
           example:
-            - description: Hauptlager
+            -
+              description: Hauptlager
               end: '2022-01-08'
               start: '2022-01-01'
           items:
@@ -5328,20 +5417,30 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/Activity.jsonapi'
-              - $ref: '#/components/schemas/ActivityProgressLabel.jsonapi'
-              - $ref: '#/components/schemas/CampCollaboration.jsonapi'
-              - $ref: '#/components/schemas/Category.jsonapi'
-              - $ref: '#/components/schemas/Checklist.jsonapi'
-              - $ref: '#/components/schemas/MaterialList.jsonapi'
-              - $ref: '#/components/schemas/Period.jsonapi'
-              - $ref: '#/components/schemas/Profile.jsonapi'
-              - $ref: '#/components/schemas/User.jsonapi'
+              -
+                $ref: '#/components/schemas/Activity.jsonapi'
+              -
+                $ref: '#/components/schemas/ActivityProgressLabel.jsonapi'
+              -
+                $ref: '#/components/schemas/CampCollaboration.jsonapi'
+              -
+                $ref: '#/components/schemas/Category.jsonapi'
+              -
+                $ref: '#/components/schemas/Checklist.jsonapi'
+              -
+                $ref: '#/components/schemas/MaterialList.jsonapi'
+              -
+                $ref: '#/components/schemas/Period.jsonapi'
+              -
+                $ref: '#/components/schemas/Profile.jsonapi'
+              -
+                $ref: '#/components/schemas/User.jsonapi'
           readOnly: true
           type: array
     Camp.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/Camp-read'
+        -
+          $ref: '#/components/schemas/Camp-read'
         -
           properties:
             _links:
@@ -5356,7 +5455,8 @@ components:
         distributed across multiple time periods.
     Camp.jsonhal-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       allOf:
-        - $ref: '#/components/schemas/Camp-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+        -
+          $ref: '#/components/schemas/Camp-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
         -
           properties:
             _links:
@@ -5371,7 +5471,8 @@ components:
         distributed across multiple time periods.
     Camp.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/Camp-write_create'
+        -
+          $ref: '#/components/schemas/Camp-write_create'
         -
           properties:
             _links:
@@ -5386,7 +5487,8 @@ components:
         distributed across multiple time periods.
     Camp.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             activities:
@@ -5565,7 +5667,8 @@ components:
                 but updating, adding or removing periods later should be done through the period
                 endpoints.
               example:
-                - description: Hauptlager
+                -
+                  description: Hauptlager
                   end: '2022-01-08'
                   start: '2022-01-01'
               items:
@@ -5654,7 +5757,8 @@ components:
         distributed across multiple time periods.
     Camp.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             activities:
@@ -5914,7 +6018,8 @@ components:
         distributed across multiple time periods.
     Camp.jsonld-read_CampCollaboration.Camp_CampCollaboration.User:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             activities:
@@ -6093,7 +6198,8 @@ components:
                 but updating, adding or removing periods later should be done through the period
                 endpoints.
               example:
-                - description: Hauptlager
+                -
+                  description: Hauptlager
                   end: '2022-01-08'
                   start: '2022-01-01'
               items:
@@ -6182,7 +6288,8 @@ components:
         distributed across multiple time periods.
     Camp.jsonld-read_Period.Camp_Period.Days:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             activities:
@@ -6361,7 +6468,8 @@ components:
                 but updating, adding or removing periods later should be done through the period
                 endpoints.
               example:
-                - description: Hauptlager
+                -
+                  description: Hauptlager
                   end: '2022-01-08'
                   start: '2022-01-01'
               items:
@@ -6468,8 +6576,10 @@ components:
           type: array
         camp:
           anyOf:
-            - $ref: '#/components/schemas/Camp'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Camp'
+            -
+              type: 'null'
           readOnly: true
         color:
           description: 'The color of the avatar as a hex color string.'
@@ -6540,8 +6650,10 @@ components:
           type: string
         user:
           anyOf:
-            - $ref: '#/components/schemas/User'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/User'
+            -
+              type: 'null'
           readOnly: true
       required:
         - activityResponsibles
@@ -6598,8 +6710,10 @@ components:
           type: string
         user:
           anyOf:
-            - $ref: '#/components/schemas/User-create_write.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/User-create_write.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The person that is collaborating in the camp. Cannot be changed once the
             campCollaboration is established. Either this field or the inviteEmail field should
@@ -6733,8 +6847,10 @@ components:
           type: string
         user:
           anyOf:
-            - $ref: '#/components/schemas/User-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/User-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+            -
+              type: 'null'
           readOnly: true
       required:
         - camp
@@ -6753,8 +6869,10 @@ components:
             - string
         camp:
           anyOf:
-            - $ref: '#/components/schemas/Camp-read_CampCollaboration.Camp_CampCollaboration.User'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Camp-read_CampCollaboration.Camp_CampCollaboration.User'
+            -
+              type: 'null'
           readOnly: true
         color:
           description: 'The color of the avatar as a hex color string.'
@@ -6810,8 +6928,10 @@ components:
           type: string
         user:
           anyOf:
-            - $ref: '#/components/schemas/User-read_CampCollaboration.Camp_CampCollaboration.User'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/User-read_CampCollaboration.Camp_CampCollaboration.User'
+            -
+              type: 'null'
           readOnly: true
       required:
         - camp
@@ -6887,8 +7007,10 @@ components:
           type: string
         user:
           anyOf:
-            - $ref: '#/components/schemas/User-read_CampCollaboration.User'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/User-read_CampCollaboration.User'
+            -
+              type: 'null'
           readOnly: true
       required:
         - camp
@@ -6976,8 +7098,10 @@ components:
           type: string
         user:
           anyOf:
-            - $ref: '#/components/schemas/User-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/User-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The person that is collaborating in the camp. Cannot be changed once the
             campCollaboration is established. Either this field or the inviteEmail field should
@@ -7158,8 +7282,10 @@ components:
           type: string
         user:
           anyOf:
-            - $ref: '#/components/schemas/User.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/User.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+            -
+              type: 'null'
           readOnly: true
       required:
         - camp
@@ -7178,8 +7304,10 @@ components:
             - string
         camp:
           anyOf:
-            - $ref: '#/components/schemas/Camp.html-read_CampCollaboration.Camp_CampCollaboration.User'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Camp.html-read_CampCollaboration.Camp_CampCollaboration.User'
+            -
+              type: 'null'
           readOnly: true
         color:
           description: 'The color of the avatar as a hex color string.'
@@ -7235,8 +7363,10 @@ components:
           type: string
         user:
           anyOf:
-            - $ref: '#/components/schemas/User.html-read_CampCollaboration.Camp_CampCollaboration.User'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/User.html-read_CampCollaboration.Camp_CampCollaboration.User'
+            -
+              type: 'null'
           readOnly: true
       required:
         - camp
@@ -7312,8 +7442,10 @@ components:
           type: string
         user:
           anyOf:
-            - $ref: '#/components/schemas/User.html-read_CampCollaboration.User'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/User.html-read_CampCollaboration.User'
+            -
+              type: 'null'
           readOnly: true
       required:
         - camp
@@ -7402,15 +7534,20 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/ActivityResponsible.jsonapi'
-              - $ref: '#/components/schemas/Camp.jsonapi'
-              - $ref: '#/components/schemas/DayResponsible.jsonapi'
-              - $ref: '#/components/schemas/User.jsonapi'
+              -
+                $ref: '#/components/schemas/ActivityResponsible.jsonapi'
+              -
+                $ref: '#/components/schemas/Camp.jsonapi'
+              -
+                $ref: '#/components/schemas/DayResponsible.jsonapi'
+              -
+                $ref: '#/components/schemas/User.jsonapi'
           readOnly: true
           type: array
     CampCollaboration.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/CampCollaboration-read'
+        -
+          $ref: '#/components/schemas/CampCollaboration-read'
         -
           properties:
             _links:
@@ -7423,7 +7560,8 @@ components:
       description: 'A user participating in some way in the planning or realization of a camp.'
     CampCollaboration.jsonhal-read_CampCollaboration.Camp_CampCollaboration.User:
       allOf:
-        - $ref: '#/components/schemas/CampCollaboration-read_CampCollaboration.Camp_CampCollaboration.User'
+        -
+          $ref: '#/components/schemas/CampCollaboration-read_CampCollaboration.Camp_CampCollaboration.User'
         -
           properties:
             _links:
@@ -7436,7 +7574,8 @@ components:
       description: 'A user participating in some way in the planning or realization of a camp.'
     CampCollaboration.jsonhal-read_CampCollaboration.User:
       allOf:
-        - $ref: '#/components/schemas/CampCollaboration-read_CampCollaboration.User'
+        -
+          $ref: '#/components/schemas/CampCollaboration-read_CampCollaboration.User'
         -
           properties:
             _links:
@@ -7449,7 +7588,8 @@ components:
       description: 'A user participating in some way in the planning or realization of a camp.'
     CampCollaboration.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/CampCollaboration-write_create'
+        -
+          $ref: '#/components/schemas/CampCollaboration-write_create'
         -
           properties:
             _links:
@@ -7462,7 +7602,8 @@ components:
       description: 'A user participating in some way in the planning or realization of a camp.'
     CampCollaboration.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             abbreviation:
@@ -7524,7 +7665,8 @@ components:
       description: 'A user participating in some way in the planning or realization of a camp.'
     CampCollaboration.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             abbreviation:
@@ -7593,8 +7735,10 @@ components:
               type: string
             user:
               anyOf:
-                - $ref: '#/components/schemas/User.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
-                - type: 'null'
+                -
+                  $ref: '#/components/schemas/User.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+                -
+                  type: 'null'
               readOnly: true
           required:
             - camp
@@ -7604,7 +7748,8 @@ components:
       description: 'A user participating in some way in the planning or realization of a camp.'
     CampCollaboration.jsonld-read_CampCollaboration.Camp_CampCollaboration.User:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             abbreviation:
@@ -7616,8 +7761,10 @@ components:
                 - string
             camp:
               anyOf:
-                - $ref: '#/components/schemas/Camp.jsonld-read_CampCollaboration.Camp_CampCollaboration.User'
-                - type: 'null'
+                -
+                  $ref: '#/components/schemas/Camp.jsonld-read_CampCollaboration.Camp_CampCollaboration.User'
+                -
+                  type: 'null'
               readOnly: true
             color:
               description: 'The color of the avatar as a hex color string.'
@@ -7673,8 +7820,10 @@ components:
               type: string
             user:
               anyOf:
-                - $ref: '#/components/schemas/User.jsonld-read_CampCollaboration.Camp_CampCollaboration.User'
-                - type: 'null'
+                -
+                  $ref: '#/components/schemas/User.jsonld-read_CampCollaboration.Camp_CampCollaboration.User'
+                -
+                  type: 'null'
               readOnly: true
           required:
             - camp
@@ -7684,7 +7833,8 @@ components:
       description: 'A user participating in some way in the planning or realization of a camp.'
     CampCollaboration.jsonld-read_CampCollaboration.User:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             abbreviation:
@@ -7753,8 +7903,10 @@ components:
               type: string
             user:
               anyOf:
-                - $ref: '#/components/schemas/User.jsonld-read_CampCollaboration.User'
-                - type: 'null'
+                -
+                  $ref: '#/components/schemas/User.jsonld-read_CampCollaboration.User'
+                -
+                  type: 'null'
               readOnly: true
           required:
             - camp
@@ -7786,13 +7938,16 @@ components:
           type: array
         copyCategorySource:
           anyOf:
-            - example: 'https://example.com/'
+            -
+              example: 'https://example.com/'
               format: iri-reference
               type: string
-            - example: 'https://example.com/'
+            -
+              example: 'https://example.com/'
               format: iri-reference
               type: string
-            - type: 'null'
+            -
+              type: 'null'
           description: 'Copy contents from this source category or activity.'
           example: /categories/1a2b3c4d
         id:
@@ -7868,9 +8023,12 @@ components:
           type: string
         copyCategorySource:
           anyOf:
-            - $ref: '#/components/schemas/Activity-create_write.jsonMergePatch'
-            - $ref: '#/components/schemas/Category-create_write.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Activity-create_write.jsonMergePatch'
+            -
+              $ref: '#/components/schemas/Category-create_write.jsonMergePatch'
+            -
+              type: 'null'
           description: 'Copy contents from this source category or activity.'
           example: /categories/1a2b3c4d
         name:
@@ -8278,9 +8436,12 @@ components:
           type: string
         copyCategorySource:
           anyOf:
-            - $ref: '#/components/schemas/Activity-write_create.jsonMergePatch'
-            - $ref: '#/components/schemas/Category-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Activity-write_create.jsonMergePatch'
+            -
+              $ref: '#/components/schemas/Category-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: 'Copy contents from this source category or activity.'
           example: /categories/1a2b3c4d
         name:
@@ -8343,9 +8504,12 @@ components:
           type: string
         copyCategorySource:
           anyOf:
-            - $ref: '#/components/schemas/Activity-write_create.jsonMergePatch'
-            - $ref: '#/components/schemas/Category-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Activity-write_create.jsonMergePatch'
+            -
+              $ref: '#/components/schemas/Category-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: 'Copy contents from this source category or activity.'
           example: /categories/1a2b3c4d
         name:
@@ -8805,16 +8969,22 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/Activity.jsonapi'
-              - $ref: '#/components/schemas/Camp.jsonapi'
-              - $ref: '#/components/schemas/Category.jsonapi'
-              - $ref: '#/components/schemas/ColumnLayout.jsonapi'
-              - $ref: '#/components/schemas/ContentType.jsonapi'
+              -
+                $ref: '#/components/schemas/Activity.jsonapi'
+              -
+                $ref: '#/components/schemas/Camp.jsonapi'
+              -
+                $ref: '#/components/schemas/Category.jsonapi'
+              -
+                $ref: '#/components/schemas/ColumnLayout.jsonapi'
+              -
+                $ref: '#/components/schemas/ContentType.jsonapi'
           readOnly: true
           type: array
     Category.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/Category-read'
+        -
+          $ref: '#/components/schemas/Category-read'
         -
           properties:
             _links:
@@ -8831,7 +9001,8 @@ components:
         when creating a new activity in the category.
     Category.jsonhal-read_Category.PreferredContentTypes:
       allOf:
-        - $ref: '#/components/schemas/Category-read_Category.PreferredContentTypes'
+        -
+          $ref: '#/components/schemas/Category-read_Category.PreferredContentTypes'
         -
           properties:
             _links:
@@ -8848,7 +9019,8 @@ components:
         when creating a new activity in the category.
     Category.jsonhal-read_Category.PreferredContentTypes_Category.ContentNodes:
       allOf:
-        - $ref: '#/components/schemas/Category-read_Category.PreferredContentTypes_Category.ContentNodes'
+        -
+          $ref: '#/components/schemas/Category-read_Category.PreferredContentTypes_Category.ContentNodes'
         -
           properties:
             _links:
@@ -8865,7 +9037,8 @@ components:
         when creating a new activity in the category.
     Category.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/Category-write_create'
+        -
+          $ref: '#/components/schemas/Category-write_create'
         -
           properties:
             _links:
@@ -8882,7 +9055,8 @@ components:
         when creating a new activity in the category.
     Category.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             camp:
@@ -8949,7 +9123,8 @@ components:
         when creating a new activity in the category.
     Category.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             camp:
@@ -9036,7 +9211,8 @@ components:
         when creating a new activity in the category.
     Category.jsonld-read_Category.PreferredContentTypes:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             camp:
@@ -9120,7 +9296,8 @@ components:
         when creating a new activity in the category.
     Category.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             camp:
@@ -9297,14 +9474,18 @@ components:
       properties:
         camp:
           anyOf:
-            - $ref: '#/components/schemas/Camp-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Camp-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: 'The camp this checklist belongs to.'
           example: /camps/1a2b3c4d
         copyChecklistSource:
           anyOf:
-            - $ref: '#/components/schemas/Checklist-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Checklist-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: 'Copy contents from this source checklist.'
           example: /checklists/1a2b3c4d
         isPrototype:
@@ -9327,14 +9508,18 @@ components:
       properties:
         camp:
           anyOf:
-            - $ref: '#/components/schemas/Camp-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Camp-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: 'The camp this checklist belongs to.'
           example: /camps/1a2b3c4d
         copyChecklistSource:
           anyOf:
-            - $ref: '#/components/schemas/Checklist-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Checklist-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: 'Copy contents from this source checklist.'
           example: /checklists/1a2b3c4d
         isPrototype:
@@ -9430,13 +9615,16 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/Camp.jsonapi'
-              - $ref: '#/components/schemas/ChecklistItem.jsonapi'
+              -
+                $ref: '#/components/schemas/Camp.jsonapi'
+              -
+                $ref: '#/components/schemas/ChecklistItem.jsonapi'
           readOnly: true
           type: array
     Checklist.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/Checklist-read'
+        -
+          $ref: '#/components/schemas/Checklist-read'
         -
           properties:
             _links:
@@ -9451,7 +9639,8 @@ components:
         Tree-Structure with ChecklistItems.
     Checklist.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/Checklist-write_create'
+        -
+          $ref: '#/components/schemas/Checklist-write_create'
         -
           properties:
             _links:
@@ -9466,7 +9655,8 @@ components:
         Tree-Structure with ChecklistItems.
     Checklist.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             camp:
@@ -9638,8 +9828,10 @@ components:
       properties:
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ChecklistItem-write.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ChecklistItem-write.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The parent to which ChecklistItem item belongs. Is null in case this ChecklistItem is the
             root of a ChecklistItem tree. For non-root ChecklistItems, the parent can be changed, as long
@@ -9669,8 +9861,10 @@ components:
           example: /checklists/1a2b3c4d
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ChecklistItem-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ChecklistItem-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The parent to which ChecklistItem item belongs. Is null in case this ChecklistItem is the
             root of a ChecklistItem tree. For non-root ChecklistItems, the parent can be changed, as long
@@ -9704,8 +9898,10 @@ components:
           example: /checklists/1a2b3c4d
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ChecklistItem-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ChecklistItem-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The parent to which ChecklistItem item belongs. Is null in case this ChecklistItem is the
             root of a ChecklistItem tree. For non-root ChecklistItems, the parent can be changed, as long
@@ -9836,14 +10032,18 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/Checklist.jsonapi'
-              - $ref: '#/components/schemas/ChecklistItem.jsonapi'
-              - $ref: '#/components/schemas/ChecklistNode.jsonapi'
+              -
+                $ref: '#/components/schemas/Checklist.jsonapi'
+              -
+                $ref: '#/components/schemas/ChecklistItem.jsonapi'
+              -
+                $ref: '#/components/schemas/ChecklistNode.jsonapi'
           readOnly: true
           type: array
     ChecklistItem.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/ChecklistItem-read'
+        -
+          $ref: '#/components/schemas/ChecklistItem-read'
         -
           properties:
             _links:
@@ -9858,7 +10058,8 @@ components:
         A Checklist contains a Tree-Structure of ChecklistItems.
     ChecklistItem.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/ChecklistItem-write_create'
+        -
+          $ref: '#/components/schemas/ChecklistItem-write_create'
         -
           properties:
             _links:
@@ -9873,7 +10074,8 @@ components:
         A Checklist contains a Tree-Structure of ChecklistItems.
     ChecklistItem.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             checklist:
@@ -10191,8 +10393,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_create'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_create'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -10261,8 +10465,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_update'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_update'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -10472,14 +10678,18 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/ChecklistItem.jsonapi'
-              - $ref: '#/components/schemas/ColumnLayout.jsonapi'
-              - $ref: '#/components/schemas/ContentType.jsonapi'
+              -
+                $ref: '#/components/schemas/ChecklistItem.jsonapi'
+              -
+                $ref: '#/components/schemas/ColumnLayout.jsonapi'
+              -
+                $ref: '#/components/schemas/ContentType.jsonapi'
           readOnly: true
           type: array
     ChecklistNode.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/ChecklistNode-read'
+        -
+          $ref: '#/components/schemas/ChecklistNode-read'
         -
           properties:
             _links:
@@ -10491,7 +10701,8 @@ components:
           type: object
     ChecklistNode.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/ChecklistNode-write_create'
+        -
+          $ref: '#/components/schemas/ChecklistNode-write_create'
         -
           properties:
             _links:
@@ -10503,7 +10714,8 @@ components:
           type: object
     ChecklistNode.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             checklistItems:
@@ -10633,7 +10845,8 @@ components:
             (overridden from abstract class in order to add specific validation).
           example:
             columns:
-              - slot: '1'
+              -
+                slot: '1'
                 width: 12
           items:
             type:
@@ -10729,7 +10942,8 @@ components:
             (overridden from abstract class in order to add specific validation).
           example:
             columns:
-              - slot: '1'
+              -
+                slot: '1'
                 width: 12
           items:
             type:
@@ -10810,7 +11024,8 @@ components:
             (overridden from abstract class in order to add specific validation).
           example:
             columns:
-              - slot: '1'
+              -
+                slot: '1'
                 width: 12
           items:
             type:
@@ -10830,8 +11045,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_create'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_create'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -10868,7 +11085,8 @@ components:
             (overridden from abstract class in order to add specific validation).
           example:
             columns:
-              - slot: '1'
+              -
+                slot: '1'
                 width: 12
           items:
             type:
@@ -10888,8 +11106,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_update'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_update'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -10943,7 +11163,8 @@ components:
             (overridden from abstract class in order to add specific validation).
           example:
             columns:
-              - slot: '1'
+              -
+                slot: '1'
                 width: 12
           items:
             type:
@@ -11080,13 +11301,16 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/ColumnLayout.jsonapi'
-              - $ref: '#/components/schemas/ContentType.jsonapi'
+              -
+                $ref: '#/components/schemas/ColumnLayout.jsonapi'
+              -
+                $ref: '#/components/schemas/ContentType.jsonapi'
           readOnly: true
           type: array
     ColumnLayout.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/ColumnLayout-read'
+        -
+          $ref: '#/components/schemas/ColumnLayout-read'
         -
           properties:
             _links:
@@ -11098,7 +11322,8 @@ components:
           type: object
     ColumnLayout.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/ColumnLayout-write_create'
+        -
+          $ref: '#/components/schemas/ColumnLayout-write_create'
         -
           properties:
             _links:
@@ -11110,7 +11335,8 @@ components:
           type: object
     ColumnLayout.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             children:
@@ -11328,16 +11554,20 @@ components:
       properties:
         activity:
           anyOf:
-            - $ref: '#/components/schemas/Activity-create_write.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Activity-create_write.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The activity this comment belongs to. If the comment is a reply, this is automatically
             inherited from the replied comment.
           example: /activities/1a2b3c4d
         author:
           anyOf:
-            - $ref: '#/components/schemas/CampCollaboration-create_write.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/CampCollaboration-create_write.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The camp collaboration of the person who wrote the comment. Null once that person is
             removed completely from the camp.
@@ -11362,8 +11592,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/Comment-create_write.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Comment-create_write.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The comment this one replies to, or null if it starts a thread. Threads are flat, so
             a reply always points at the root comment of its thread.
@@ -11384,16 +11616,20 @@ components:
       properties:
         activity:
           anyOf:
-            - $ref: '#/components/schemas/Activity-create_write.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Activity-create_write.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The activity this comment belongs to. If the comment is a reply, this is automatically
             inherited from the replied comment.
           example: /activities/1a2b3c4d
         author:
           anyOf:
-            - $ref: '#/components/schemas/CampCollaboration-create_write.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/CampCollaboration-create_write.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The camp collaboration of the person who wrote the comment. Null once that person is
             removed completely from the camp.
@@ -11418,8 +11654,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/Comment-create_write.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Comment-create_write.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The comment this one replies to, or null if it starts a thread. Threads are flat, so
             a reply always points at the root comment of its thread.
@@ -11743,15 +11981,20 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/Activity.jsonapi'
-              - $ref: '#/components/schemas/Camp.jsonapi'
-              - $ref: '#/components/schemas/CampCollaboration.jsonapi'
-              - $ref: '#/components/schemas/Comment.jsonapi'
+              -
+                $ref: '#/components/schemas/Activity.jsonapi'
+              -
+                $ref: '#/components/schemas/Camp.jsonapi'
+              -
+                $ref: '#/components/schemas/CampCollaboration.jsonapi'
+              -
+                $ref: '#/components/schemas/Comment.jsonapi'
           readOnly: true
           type: array
     Comment.jsonhal-create_write:
       allOf:
-        - $ref: '#/components/schemas/Comment-create_write'
+        -
+          $ref: '#/components/schemas/Comment-create_write'
         -
           properties:
             _links:
@@ -11766,7 +12009,8 @@ components:
         for notes which are only relevant during camp planning, or for other communication.
     Comment.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/Comment-read'
+        -
+          $ref: '#/components/schemas/Comment-read'
         -
           properties:
             _links:
@@ -11781,7 +12025,8 @@ components:
         for notes which are only relevant during camp planning, or for other communication.
     Comment.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             activity:
@@ -11942,7 +12187,8 @@ components:
       type: object
     ConstraintViolation.jsonld:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             description:
@@ -12386,8 +12632,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -12443,8 +12691,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_create'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_create'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -12494,8 +12744,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_update'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_update'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -12798,7 +13050,8 @@ components:
       type: object
     ContentNode.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/ContentNode-read'
+        -
+          $ref: '#/components/schemas/ContentNode-read'
         -
           properties:
             _links:
@@ -12816,7 +13069,8 @@ components:
         container content node. This way, a tree of content nodes makes up a complete programme.
     ContentNode.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             children:
@@ -12915,7 +13169,8 @@ components:
         container content node. This way, a tree of content nodes makes up a complete programme.
     ContentNode.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             children:
@@ -13014,7 +13269,8 @@ components:
         container content node. This way, a tree of content nodes makes up a complete programme.
     ContentNode.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             children:
@@ -13443,12 +13699,14 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/Category.jsonapi'
+              -
+                $ref: '#/components/schemas/Category.jsonapi'
           readOnly: true
           type: array
     ContentType.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/ContentType-read'
+        -
+          $ref: '#/components/schemas/ContentType-read'
         -
           properties:
             _links:
@@ -13464,7 +13722,8 @@ components:
         available slots and jsonConfig settings.
     ContentType.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             active:
@@ -13503,7 +13762,8 @@ components:
         available slots and jsonConfig settings.
     ContentType.jsonld-read_Category.PreferredContentTypes:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             active:
@@ -13542,7 +13802,8 @@ components:
         available slots and jsonConfig settings.
     ContentType.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             active:
@@ -14087,14 +14348,18 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/DayResponsible.jsonapi'
-              - $ref: '#/components/schemas/Period.jsonapi'
-              - $ref: '#/components/schemas/ScheduleEntry.jsonapi'
+              -
+                $ref: '#/components/schemas/DayResponsible.jsonapi'
+              -
+                $ref: '#/components/schemas/Period.jsonapi'
+              -
+                $ref: '#/components/schemas/ScheduleEntry.jsonapi'
           readOnly: true
           type: array
     Day.jsonhal-read_Day.DayResponsibles:
       allOf:
-        - $ref: '#/components/schemas/Day-read_Day.DayResponsibles'
+        -
+          $ref: '#/components/schemas/Day-read_Day.DayResponsibles'
         -
           properties:
             _links:
@@ -14111,7 +14376,8 @@ components:
         creating or updating periods, and are not writable through the API directly.
     Day.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             dayOffset:
@@ -14179,7 +14445,8 @@ components:
         creating or updating periods, and are not writable through the API directly.
     Day.jsonld-read_Day.DayResponsibles:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             dayOffset:
@@ -14246,7 +14513,8 @@ components:
         creating or updating periods, and are not writable through the API directly.
     Day.jsonld-read_Period.Camp_Period.Days:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             dayOffset:
@@ -14473,13 +14741,16 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/CampCollaboration.jsonapi'
-              - $ref: '#/components/schemas/Day.jsonapi'
+              -
+                $ref: '#/components/schemas/CampCollaboration.jsonapi'
+              -
+                $ref: '#/components/schemas/Day.jsonapi'
           readOnly: true
           type: array
     DayResponsible.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/DayResponsible-read'
+        -
+          $ref: '#/components/schemas/DayResponsible-read'
         -
           properties:
             _links:
@@ -14492,7 +14763,8 @@ components:
       description: 'A person that has some whole-day responsibility on a day in the camp.'
     DayResponsible.jsonhal-write:
       allOf:
-        - $ref: '#/components/schemas/DayResponsible-write'
+        -
+          $ref: '#/components/schemas/DayResponsible-write'
         -
           properties:
             _links:
@@ -14505,7 +14777,8 @@ components:
       description: 'A person that has some whole-day responsibility on a day in the camp.'
     DayResponsible.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             campCollaboration:
@@ -14531,7 +14804,8 @@ components:
       description: 'A person that has some whole-day responsibility on a day in the camp.'
     DayResponsible.jsonld-read_Day.DayResponsibles:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             campCollaboration:
@@ -14590,7 +14864,8 @@ components:
       type: object
     Error.jsonld:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             description:
@@ -14631,7 +14906,8 @@ components:
       description: 'A representation of common errors.'
     HalCollectionBaseSchema:
       allOf:
-        - $ref: '#/components/schemas/HalCollectionBaseSchemaNoPagination'
+        -
+          $ref: '#/components/schemas/HalCollectionBaseSchemaNoPagination'
         -
           properties:
             _links:
@@ -14661,7 +14937,8 @@ components:
                 item:
                   type: array
               type: object
-            - type: object
+            -
+              type: object
         _links:
           properties:
             self:
@@ -14823,7 +15100,8 @@ components:
           type: object
     HitobitoEvent.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/HitobitoEvent-read'
+        -
+          $ref: '#/components/schemas/HitobitoEvent-read'
         -
           properties:
             _links:
@@ -14835,7 +15113,8 @@ components:
           type: object
     HitobitoEvent.jsonhal-read_details:
       allOf:
-        - $ref: '#/components/schemas/HitobitoEvent-read_details'
+        -
+          $ref: '#/components/schemas/HitobitoEvent-read_details'
         -
           properties:
             _links:
@@ -14847,7 +15126,8 @@ components:
           type: object
     HitobitoEvent.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             id:
@@ -14864,7 +15144,8 @@ components:
           type: object
     HitobitoEvent.jsonld-read_details:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             dates:
@@ -14970,12 +15251,14 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/Camp.jsonapi'
+              -
+                $ref: '#/components/schemas/Camp.jsonapi'
           readOnly: true
           type: array
     HitobitoEventCamp.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/HitobitoEventCamp-read'
+        -
+          $ref: '#/components/schemas/HitobitoEventCamp-read'
         -
           properties:
             _links:
@@ -14990,7 +15273,8 @@ components:
         It contains only the event id, as well as a link to the camp, which must be fetched separately.
     HitobitoEventCamp.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             camp:
@@ -15123,7 +15407,8 @@ components:
       type: object
     HitobitoEventParticipant.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/HitobitoEventParticipant-read'
+        -
+          $ref: '#/components/schemas/HitobitoEventParticipant-read'
         -
           properties:
             _links:
@@ -15135,7 +15420,8 @@ components:
           type: object
     HitobitoEventParticipant.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             email:
@@ -15155,7 +15441,8 @@ components:
           type: object
     HydraCollectionBaseSchema:
       allOf:
-        - $ref: '#/components/schemas/HydraCollectionBaseSchemaNoPagination'
+        -
+          $ref: '#/components/schemas/HydraCollectionBaseSchemaNoPagination'
         -
           properties:
             view:
@@ -15226,7 +15513,8 @@ components:
                 - '@vocab'
                 - hydra
               type: object
-            - type: string
+            -
+              type: string
         '@id':
           type: string
         '@type':
@@ -15383,7 +15671,8 @@ components:
           type: object
     Invitation.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/Invitation-read'
+        -
+          $ref: '#/components/schemas/Invitation-read'
         -
           properties:
             _links:
@@ -15398,7 +15687,8 @@ components:
         already have an account.
     Invitation.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             campId:
@@ -15435,7 +15725,8 @@ components:
         already have an account.
     JsonApiCollectionBaseSchema:
       allOf:
-        - $ref: '#/components/schemas/JsonApiCollectionBaseSchemaNoPagination'
+        -
+          $ref: '#/components/schemas/JsonApiCollectionBaseSchemaNoPagination'
         -
           properties:
             links:
@@ -15638,22 +15929,28 @@ components:
           type: boolean
         materialList:
           anyOf:
-            - $ref: '#/components/schemas/MaterialList-write.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/MaterialList-write.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The list to which this item belongs. Lists are used to keep track of who is
             responsible to prepare and bring the item to the camp.
           example: /material_lists/1a2b3c4d
         materialNode:
           anyOf:
-            - $ref: '#/components/schemas/MaterialNode-write.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/MaterialNode-write.jsonMergePatch'
+            -
+              type: 'null'
           description: 'The content node to which this item belongs, if it does not belong to a period.'
           example: /content_node/material_nodes/1a2b3c4d
         period:
           anyOf:
-            - $ref: '#/components/schemas/Period-write.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Period-write.jsonMergePatch'
+            -
+              type: 'null'
           description: 'The period to which this item belongs, if it does not belong to a content node.'
           example: /periods/1a2b3c4d
         quantity:
@@ -15684,22 +15981,28 @@ components:
           type: boolean
         materialList:
           anyOf:
-            - $ref: '#/components/schemas/MaterialList-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/MaterialList-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The list to which this item belongs. Lists are used to keep track of who is
             responsible to prepare and bring the item to the camp.
           example: /material_lists/1a2b3c4d
         materialNode:
           anyOf:
-            - $ref: '#/components/schemas/MaterialNode-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/MaterialNode-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: 'The content node to which this item belongs, if it does not belong to a period.'
           example: /content_node/material_nodes/1a2b3c4d
         period:
           anyOf:
-            - $ref: '#/components/schemas/Period-write_create.jsonMergePatch'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Period-write_create.jsonMergePatch'
+            -
+              type: 'null'
           description: 'The period to which this item belongs, if it does not belong to a content node.'
           example: /periods/1a2b3c4d
         quantity:
@@ -15848,15 +16151,20 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/Camp.jsonapi'
-              - $ref: '#/components/schemas/MaterialList.jsonapi'
-              - $ref: '#/components/schemas/MaterialNode.jsonapi'
-              - $ref: '#/components/schemas/Period.jsonapi'
+              -
+                $ref: '#/components/schemas/Camp.jsonapi'
+              -
+                $ref: '#/components/schemas/MaterialList.jsonapi'
+              -
+                $ref: '#/components/schemas/MaterialNode.jsonapi'
+              -
+                $ref: '#/components/schemas/Period.jsonapi'
           readOnly: true
           type: array
     MaterialItem.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/MaterialItem-read'
+        -
+          $ref: '#/components/schemas/MaterialItem-read'
         -
           properties:
             _links:
@@ -15868,7 +16176,8 @@ components:
           type: object
     MaterialItem.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/MaterialItem-write_create'
+        -
+          $ref: '#/components/schemas/MaterialItem-write_create'
         -
           properties:
             _links:
@@ -15881,7 +16190,8 @@ components:
       description: 'A physical item that is needed for carrying out a programme or camp.'
     MaterialItem.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             article:
@@ -16193,14 +16503,18 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/Camp.jsonapi'
-              - $ref: '#/components/schemas/CampCollaboration.jsonapi'
-              - $ref: '#/components/schemas/MaterialItem.jsonapi'
+              -
+                $ref: '#/components/schemas/Camp.jsonapi'
+              -
+                $ref: '#/components/schemas/CampCollaboration.jsonapi'
+              -
+                $ref: '#/components/schemas/MaterialItem.jsonapi'
           readOnly: true
           type: array
     MaterialList.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/MaterialList-read'
+        -
+          $ref: '#/components/schemas/MaterialList-read'
         -
           properties:
             _links:
@@ -16215,7 +16529,8 @@ components:
         is automatically created for each person collaborating on the camp.
     MaterialList.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/MaterialList-write_create'
+        -
+          $ref: '#/components/schemas/MaterialList-write_create'
         -
           properties:
             _links:
@@ -16230,7 +16545,8 @@ components:
         is automatically created for each person collaborating on the camp.
     MaterialList.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             camp:
@@ -16496,8 +16812,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -16551,8 +16869,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_create'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_create'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -16610,8 +16930,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_create'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_create'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -16658,8 +16980,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_update'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_update'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -16849,14 +17173,18 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/ColumnLayout.jsonapi'
-              - $ref: '#/components/schemas/ContentType.jsonapi'
-              - $ref: '#/components/schemas/MaterialItem.jsonapi'
+              -
+                $ref: '#/components/schemas/ColumnLayout.jsonapi'
+              -
+                $ref: '#/components/schemas/ContentType.jsonapi'
+              -
+                $ref: '#/components/schemas/MaterialItem.jsonapi'
           readOnly: true
           type: array
     MaterialNode.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/MaterialNode-read'
+        -
+          $ref: '#/components/schemas/MaterialNode-read'
         -
           properties:
             _links:
@@ -16868,7 +17196,8 @@ components:
           type: object
     MaterialNode.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/MaterialNode-write_create'
+        -
+          $ref: '#/components/schemas/MaterialNode-write_create'
         -
           properties:
             _links:
@@ -16880,7 +17209,8 @@ components:
           type: object
     MaterialNode.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             children:
@@ -17206,8 +17536,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_create'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_create'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -17264,8 +17596,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_update'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_update'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -17455,13 +17789,16 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/ColumnLayout.jsonapi'
-              - $ref: '#/components/schemas/ContentType.jsonapi'
+              -
+                $ref: '#/components/schemas/ColumnLayout.jsonapi'
+              -
+                $ref: '#/components/schemas/ContentType.jsonapi'
           readOnly: true
           type: array
     MultiSelect.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/MultiSelect-read'
+        -
+          $ref: '#/components/schemas/MultiSelect-read'
         -
           properties:
             _links:
@@ -17473,7 +17810,8 @@ components:
           type: object
     MultiSelect.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/MultiSelect-write_create'
+        -
+          $ref: '#/components/schemas/MultiSelect-write_create'
         -
           properties:
             _links:
@@ -17485,7 +17823,8 @@ components:
           type: object
     MultiSelect.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             children:
@@ -17801,8 +18140,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_create'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_create'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -17856,8 +18197,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_update'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_update'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -18043,13 +18386,16 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/ColumnLayout.jsonapi'
-              - $ref: '#/components/schemas/ContentType.jsonapi'
+              -
+                $ref: '#/components/schemas/ColumnLayout.jsonapi'
+              -
+                $ref: '#/components/schemas/ContentType.jsonapi'
           readOnly: true
           type: array
     NoData.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/NoData-read'
+        -
+          $ref: '#/components/schemas/NoData-read'
         -
           properties:
             _links:
@@ -18064,7 +18410,8 @@ components:
         display or edit data that is stored elsewhere, e.g. on the schedule entries of the activity.
     NoData.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/NoData-write_create'
+        -
+          $ref: '#/components/schemas/NoData-write_create'
         -
           properties:
             _links:
@@ -18079,7 +18426,8 @@ components:
         display or edit data that is stored elsewhere, e.g. on the schedule entries of the activity.
     NoData.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             children:
@@ -18177,8 +18525,10 @@ components:
       properties:
         camp:
           anyOf:
-            - $ref: '#/components/schemas/Camp'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Camp'
+            -
+              type: 'null'
           readOnly: true
         contentNodes:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
@@ -18544,8 +18894,10 @@ components:
       properties:
         camp:
           anyOf:
-            - $ref: '#/components/schemas/Camp-read_Period.Camp_Period.Days'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Camp-read_Period.Camp_Period.Days'
+            -
+              type: 'null'
           readOnly: true
         contentNodes:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
@@ -18951,8 +19303,10 @@ components:
       properties:
         camp:
           anyOf:
-            - $ref: '#/components/schemas/Camp.html-read_Period.Camp_Period.Days'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Camp.html-read_Period.Camp_Period.Days'
+            -
+              type: 'null'
           readOnly: true
         contentNodes:
           description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
@@ -19136,16 +19490,22 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/Camp.jsonapi'
-              - $ref: '#/components/schemas/Day.jsonapi'
-              - $ref: '#/components/schemas/DayResponsible.jsonapi'
-              - $ref: '#/components/schemas/MaterialItem.jsonapi'
-              - $ref: '#/components/schemas/ScheduleEntry.jsonapi'
+              -
+                $ref: '#/components/schemas/Camp.jsonapi'
+              -
+                $ref: '#/components/schemas/Day.jsonapi'
+              -
+                $ref: '#/components/schemas/DayResponsible.jsonapi'
+              -
+                $ref: '#/components/schemas/MaterialItem.jsonapi'
+              -
+                $ref: '#/components/schemas/ScheduleEntry.jsonapi'
           readOnly: true
           type: array
     Period.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/Period-read'
+        -
+          $ref: '#/components/schemas/Period-read'
         -
           properties:
             _links:
@@ -19160,7 +19520,8 @@ components:
         periods in a camp, but they may not overlap. A period is made up of one or more full days.
     Period.jsonhal-read_Period.Camp_Period.Days:
       allOf:
-        - $ref: '#/components/schemas/Period-read_Period.Camp_Period.Days'
+        -
+          $ref: '#/components/schemas/Period-read_Period.Camp_Period.Days'
         -
           properties:
             _links:
@@ -19175,7 +19536,8 @@ components:
         periods in a camp, but they may not overlap. A period is made up of one or more full days.
     Period.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/Period-write_create'
+        -
+          $ref: '#/components/schemas/Period-write_create'
         -
           properties:
             _links:
@@ -19190,7 +19552,8 @@ components:
         periods in a camp, but they may not overlap. A period is made up of one or more full days.
     Period.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             camp:
@@ -19287,7 +19650,8 @@ components:
         periods in a camp, but they may not overlap. A period is made up of one or more full days.
     Period.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             camp:
@@ -19383,13 +19747,16 @@ components:
         periods in a camp, but they may not overlap. A period is made up of one or more full days.
     Period.jsonld-read_Period.Camp_Period.Days:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             camp:
               anyOf:
-                - $ref: '#/components/schemas/Camp.jsonld-read_Period.Camp_Period.Days'
-                - type: 'null'
+                -
+                  $ref: '#/components/schemas/Camp.jsonld-read_Period.Camp_Period.Days'
+                -
+                  type: 'null'
               readOnly: true
             contentNodes:
               description: 'All the content nodes used in some activity which is carried out (has a schedule entry) in this period.'
@@ -19589,7 +19956,8 @@ components:
           type: object
     PersonalInvitation.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/PersonalInvitation-read'
+        -
+          $ref: '#/components/schemas/PersonalInvitation-read'
         -
           properties:
             _links:
@@ -19602,7 +19970,8 @@ components:
       description: 'An invitation for a person who already has an account to collaborate in a camp.'
     PersonalInvitation.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             campId:
@@ -19741,8 +20110,10 @@ components:
           writeOnly: true
         user:
           anyOf:
-            - $ref: '#/components/schemas/User'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/User'
+            -
+              type: 'null'
           example: /users/1a2b3c4d
           readOnly: true
       required:
@@ -19916,8 +20287,10 @@ components:
             - string
         user:
           anyOf:
-            - $ref: '#/components/schemas/User-read'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/User-read'
+            -
+              type: 'null'
           example: /users/1a2b3c4d
           readOnly: true
       required:
@@ -20006,8 +20379,10 @@ components:
             - string
         user:
           anyOf:
-            - $ref: '#/components/schemas/User-read_User.create'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/User-read_User.create'
+            -
+              type: 'null'
           example: /users/1a2b3c4d
           readOnly: true
       required:
@@ -20256,8 +20631,10 @@ components:
             - string
         user:
           anyOf:
-            - $ref: '#/components/schemas/User.html-read'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/User.html-read'
+            -
+              type: 'null'
           example: /users/1a2b3c4d
           readOnly: true
       required:
@@ -20346,8 +20723,10 @@ components:
             - string
         user:
           anyOf:
-            - $ref: '#/components/schemas/User.html-read_User.create'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/User.html-read_User.create'
+            -
+              type: 'null'
           example: /users/1a2b3c4d
           readOnly: true
       required:
@@ -20456,12 +20835,14 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/User.jsonapi'
+              -
+                $ref: '#/components/schemas/User.jsonapi'
           readOnly: true
           type: array
     Profile.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/Profile-read'
+        -
+          $ref: '#/components/schemas/Profile-read'
         -
           properties:
             _links:
@@ -20477,7 +20858,8 @@ components:
         Related means that they were or are collaborators in the same camp.
     Profile.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             abbreviation:
@@ -20561,8 +20943,10 @@ components:
                 - string
             user:
               anyOf:
-                - $ref: '#/components/schemas/User.jsonld-read'
-                - type: 'null'
+                -
+                  $ref: '#/components/schemas/User.jsonld-read'
+                -
+                  type: 'null'
               example: /users/1a2b3c4d
               readOnly: true
           required:
@@ -20574,7 +20958,8 @@ components:
         Related means that they were or are collaborators in the same camp.
     Profile.jsonld-read_User.create:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             abbreviation:
@@ -20658,8 +21043,10 @@ components:
                 - string
             user:
               anyOf:
-                - $ref: '#/components/schemas/User.jsonld-read_User.create'
-                - type: 'null'
+                -
+                  $ref: '#/components/schemas/User.jsonld-read_User.create'
+                -
+                  type: 'null'
               example: /users/1a2b3c4d
               readOnly: true
           required:
@@ -20777,7 +21164,8 @@ components:
           type: object
     ResetPassword.jsonhal:
       allOf:
-        - $ref: '#/components/schemas/ResetPassword'
+        -
+          $ref: '#/components/schemas/ResetPassword'
         -
           properties:
             _links:
@@ -20789,7 +21177,8 @@ components:
           type: object
     ResetPassword.jsonhal-create:
       allOf:
-        - $ref: '#/components/schemas/ResetPassword-create'
+        -
+          $ref: '#/components/schemas/ResetPassword-create'
         -
           properties:
             _links:
@@ -20801,7 +21190,8 @@ components:
           type: object
     ResetPassword.jsonld:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             email:
@@ -20859,9 +21249,12 @@ components:
             (overridden from abstract class in order to add specific validation).
           example:
             items:
-              - slot: aside-bottom
-              - slot: aside-top
-              - slot: main
+              -
+                slot: aside-bottom
+              -
+                slot: aside-top
+              -
+                slot: main
           items:
             type:
               - 'null'
@@ -20956,9 +21349,12 @@ components:
             (overridden from abstract class in order to add specific validation).
           example:
             items:
-              - slot: aside-bottom
-              - slot: aside-top
-              - slot: main
+              -
+                slot: aside-bottom
+              -
+                slot: aside-top
+              -
+                slot: main
           items:
             type:
               - 'null'
@@ -21038,9 +21434,12 @@ components:
             (overridden from abstract class in order to add specific validation).
           example:
             items:
-              - slot: aside-bottom
-              - slot: aside-top
-              - slot: main
+              -
+                slot: aside-bottom
+              -
+                slot: aside-top
+              -
+                slot: main
           items:
             type:
               - 'null'
@@ -21059,8 +21458,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_create'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_create'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -21097,9 +21498,12 @@ components:
             (overridden from abstract class in order to add specific validation).
           example:
             items:
-              - slot: aside-bottom
-              - slot: aside-top
-              - slot: main
+              -
+                slot: aside-bottom
+              -
+                slot: aside-top
+              -
+                slot: main
           items:
             type:
               - 'null'
@@ -21118,8 +21522,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_update'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_update'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -21173,9 +21579,12 @@ components:
             (overridden from abstract class in order to add specific validation).
           example:
             items:
-              - slot: aside-bottom
-              - slot: aside-top
-              - slot: main
+              -
+                slot: aside-bottom
+              -
+                slot: aside-top
+              -
+                slot: main
           items:
             type:
               - 'null'
@@ -21311,13 +21720,16 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/ColumnLayout.jsonapi'
-              - $ref: '#/components/schemas/ContentType.jsonapi'
+              -
+                $ref: '#/components/schemas/ColumnLayout.jsonapi'
+              -
+                $ref: '#/components/schemas/ContentType.jsonapi'
           readOnly: true
           type: array
     ResponsiveLayout.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/ResponsiveLayout-read'
+        -
+          $ref: '#/components/schemas/ResponsiveLayout-read'
         -
           properties:
             _links:
@@ -21329,7 +21741,8 @@ components:
           type: object
     ResponsiveLayout.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/ResponsiveLayout-write_create'
+        -
+          $ref: '#/components/schemas/ResponsiveLayout-write_create'
         -
           properties:
             _links:
@@ -21341,7 +21754,8 @@ components:
           type: object
     ResponsiveLayout.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             children:
@@ -21446,8 +21860,10 @@ components:
       properties:
         activity:
           anyOf:
-            - $ref: '#/components/schemas/Activity'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Activity'
+            -
+              type: 'null'
           readOnly: true
         day:
           description: 'The day on which this schedule entry starts.'
@@ -21931,8 +22347,10 @@ components:
       properties:
         activity:
           anyOf:
-            - $ref: '#/components/schemas/Activity-read_ScheduleEntry.Activity'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Activity-read_ScheduleEntry.Activity'
+            -
+              type: 'null'
           readOnly: true
         day:
           description: 'The day on which this schedule entry starts.'
@@ -22539,8 +22957,10 @@ components:
       properties:
         activity:
           anyOf:
-            - $ref: '#/components/schemas/Activity.html-read_ScheduleEntry.Activity'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/Activity.html-read_ScheduleEntry.Activity'
+            -
+              type: 'null'
           readOnly: true
         day:
           description: 'The day on which this schedule entry starts.'
@@ -22735,14 +23155,18 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/Activity.jsonapi'
-              - $ref: '#/components/schemas/Day.jsonapi'
-              - $ref: '#/components/schemas/Period.jsonapi'
+              -
+                $ref: '#/components/schemas/Activity.jsonapi'
+              -
+                $ref: '#/components/schemas/Day.jsonapi'
+              -
+                $ref: '#/components/schemas/Period.jsonapi'
           readOnly: true
           type: array
     ScheduleEntry.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/ScheduleEntry-read'
+        -
+          $ref: '#/components/schemas/ScheduleEntry-read'
         -
           properties:
             _links:
@@ -22757,7 +23181,8 @@ components:
         is specified as an offset in minutes from the period's start time.
     ScheduleEntry.jsonhal-read_ScheduleEntry.Activity:
       allOf:
-        - $ref: '#/components/schemas/ScheduleEntry-read_ScheduleEntry.Activity'
+        -
+          $ref: '#/components/schemas/ScheduleEntry-read_ScheduleEntry.Activity'
         -
           properties:
             _links:
@@ -22772,7 +23197,8 @@ components:
         is specified as an offset in minutes from the period's start time.
     ScheduleEntry.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/ScheduleEntry-write_create'
+        -
+          $ref: '#/components/schemas/ScheduleEntry-write_create'
         -
           properties:
             _links:
@@ -22787,7 +23213,8 @@ components:
         is specified as an offset in minutes from the period's start time.
     ScheduleEntry.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             activity:
@@ -22889,7 +23316,8 @@ components:
         is specified as an offset in minutes from the period's start time.
     ScheduleEntry.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             activity:
@@ -23001,7 +23429,8 @@ components:
         is specified as an offset in minutes from the period's start time.
     ScheduleEntry.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             activity:
@@ -23113,13 +23542,16 @@ components:
         is specified as an offset in minutes from the period's start time.
     ScheduleEntry.jsonld-read_ScheduleEntry.Activity:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             activity:
               anyOf:
-                - $ref: '#/components/schemas/Activity.jsonld-read_ScheduleEntry.Activity'
-                - type: 'null'
+                -
+                  $ref: '#/components/schemas/Activity.jsonld-read_ScheduleEntry.Activity'
+                -
+                  type: 'null'
               readOnly: true
             day:
               description: 'The day on which this schedule entry starts.'
@@ -23444,8 +23876,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_create'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_create'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -23500,8 +23934,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_update'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_update'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -23690,13 +24126,16 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/ColumnLayout.jsonapi'
-              - $ref: '#/components/schemas/ContentType.jsonapi'
+              -
+                $ref: '#/components/schemas/ColumnLayout.jsonapi'
+              -
+                $ref: '#/components/schemas/ContentType.jsonapi'
           readOnly: true
           type: array
     SingleText.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/SingleText-read'
+        -
+          $ref: '#/components/schemas/SingleText-read'
         -
           properties:
             _links:
@@ -23708,7 +24147,8 @@ components:
           type: object
     SingleText.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/SingleText-write_create'
+        -
+          $ref: '#/components/schemas/SingleText-write_create'
         -
           properties:
             _links:
@@ -23720,7 +24160,8 @@ components:
           type: object
     SingleText.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             children:
@@ -24048,8 +24489,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_create'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_create'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -24107,8 +24550,10 @@ components:
             - string
         parent:
           anyOf:
-            - $ref: '#/components/schemas/ContentNode-write_update'
-            - type: 'null'
+            -
+              $ref: '#/components/schemas/ContentNode-write_update'
+            -
+              type: 'null'
           description: |-
             The parent to which this content node belongs. Is null in case this content node is the
             root of a content node tree. For non-root content nodes, the parent can be changed, as long
@@ -24299,13 +24744,16 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/ColumnLayout.jsonapi'
-              - $ref: '#/components/schemas/ContentType.jsonapi'
+              -
+                $ref: '#/components/schemas/ColumnLayout.jsonapi'
+              -
+                $ref: '#/components/schemas/ContentType.jsonapi'
           readOnly: true
           type: array
     Storyboard.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/Storyboard-read'
+        -
+          $ref: '#/components/schemas/Storyboard-read'
         -
           properties:
             _links:
@@ -24317,7 +24765,8 @@ components:
           type: object
     Storyboard.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/Storyboard-write_create'
+        -
+          $ref: '#/components/schemas/Storyboard-write_create'
         -
           properties:
             _links:
@@ -24329,7 +24778,8 @@ components:
           type: object
     Storyboard.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             children:
@@ -25140,12 +25590,14 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
-              - $ref: '#/components/schemas/Profile.jsonapi'
+              -
+                $ref: '#/components/schemas/Profile.jsonapi'
           readOnly: true
           type: array
     User.jsonhal-read:
       allOf:
-        - $ref: '#/components/schemas/User-read'
+        -
+          $ref: '#/components/schemas/User-read'
         -
           properties:
             _links:
@@ -25157,7 +25609,8 @@ components:
           type: object
     User.jsonhal-read_User.create:
       allOf:
-        - $ref: '#/components/schemas/User-read_User.create'
+        -
+          $ref: '#/components/schemas/User-read_User.create'
         -
           properties:
             _links:
@@ -25172,7 +25625,8 @@ components:
         The properties available for all other eCamp users are here.
     User.jsonhal-write_create:
       allOf:
-        - $ref: '#/components/schemas/User-write_create'
+        -
+          $ref: '#/components/schemas/User-write_create'
         -
           properties:
             _links:
@@ -25187,7 +25641,8 @@ components:
         The properties available for all other eCamp users are here.
     User.jsonld-read:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             abbreviation:
@@ -25232,7 +25687,8 @@ components:
         The properties available for all other eCamp users are here.
     User.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             abbreviation:
@@ -25277,7 +25733,8 @@ components:
         The properties available for all other eCamp users are here.
     User.jsonld-read_CampCollaboration.Camp_CampCollaboration.User:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             abbreviation:
@@ -25322,7 +25779,8 @@ components:
         The properties available for all other eCamp users are here.
     User.jsonld-read_CampCollaboration.User:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             abbreviation:
@@ -25367,7 +25825,8 @@ components:
         The properties available for all other eCamp users are here.
     User.jsonld-read_User.create:
       allOf:
-        - $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
         -
           properties:
             abbreviation:
@@ -25431,7 +25890,8 @@ components:
       type: object
     UserActivation.jsonhal-create:
       allOf:
-        - $ref: '#/components/schemas/UserActivation-create'
+        -
+          $ref: '#/components/schemas/UserActivation-create'
         -
           properties:
             _links:
@@ -37423,116 +37883,151 @@ paths:
         - User
 security: []
 servers:
-  - description: ''
+  -
+    description: ''
     url: /
 tags:
-  - description: |-
+  -
+    description: |-
       A ChecklistItem
       A Checklist contains a Tree-Structure of ChecklistItems.
     name: ChecklistItem
-  - description: |-
+  -
+    description: |-
       A Checklist
       Tree-Structure with ChecklistItems.
     name: Checklist
-  - description: |-
+  -
+    description: |-
       A Comment someone left on an activity, to give feedback on the planned programme,
       for notes which are only relevant during camp planning, or for other communication.
     name: Comment
-  - description: |-
+  -
+    description: |-
       A calendar event in a period of the camp, at which some activity will take place. The start time
       is specified as an offset in minutes from the period's start time.
     name: ScheduleEntry
-  - description: |-
+  -
+    description: |-
       A content node which does not store any data itself. Useful for content types which only
       display or edit data that is stored elsewhere, e.g. on the schedule entries of the activity.
     name: NoData
-  - description: |-
+  -
+    description: |-
       A day in a time period of a camp. This is represented as a reference to the time period
       along with a number of days offset from the period's starting date. This is to make it
       easier to move the whole periods to different dates. Days are created automatically when
       creating or updating periods, and are not writable through the API directly.
     name: Day
-  - description: |-
+  -
+    description: |-
       A list of material items that someone needs to bring to the camp. A material list
       is automatically created for each person collaborating on the camp.
     name: MaterialList
-  - description: 'A person that has some whole-day responsibility on a day in the camp.'
+  -
+    description: 'A person that has some whole-day responsibility on a day in the camp.'
     name: DayResponsible
-  - description: 'A person that is responsible for planning or carrying out an activity.'
+  -
+    description: 'A person that is responsible for planning or carrying out an activity.'
     name: ActivityResponsible
-  - description: |-
+  -
+    description: |-
       A person using eCamp.
       The properties available for all other eCamp users are here.
     name: User
-  - description: 'A physical item that is needed for carrying out a programme or camp.'
+  -
+    description: 'A physical item that is needed for carrying out a programme or camp.'
     name: MaterialItem
-  - description: |-
+  -
+    description: |-
       A piece of information that is part of a programme. ContentNodes may store content such as
       one or multiple free text fields, or any other necessary data. Content nodes may also be used
       to define layouts. For this purpose, a content node may offer so-called slots, into which other
       content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
       container content node. This way, a tree of content nodes makes up a complete programme.
     name: ContentNode
-  - description: 'A piece of programme that will be carried out once or multiple times in a camp.'
+  -
+    description: 'A piece of programme that will be carried out once or multiple times in a camp.'
     name: Activity
-  - description: |-
+  -
+    description: |-
       A time period in which the programme of a camp will take place. There may be multiple
       periods in a camp, but they may not overlap. A period is made up of one or more full days.
     name: Period
-  - description: |-
+  -
+    description: |-
       A type of programme, such as sports activities or meal times, is called a category. A category
       determines color and numbering scheme of the associated activities, and is used for marking
       "similar" activities. A category may contain some skeleton programme which is used as a blueprint
       when creating a new activity in the category.
     name: Category
-  - description: 'A user participating in some way in the planning or realization of a camp.'
+  -
+    description: 'A user participating in some way in the planning or realization of a camp.'
     name: CampCollaboration
-  - description: |-
+  -
+    description: |-
       An invitation for a person to collaborate in a camp. The person may or may not
       already have an account.
     name: Invitation
-  - description: 'An invitation for a person who already has an account to collaborate in a camp.'
+  -
+    description: 'An invitation for a person who already has an account to collaborate in a camp.'
     name: PersonalInvitation
-  - description: |-
+  -
+    description: |-
       Defines a type of content that can be present in a content node tree. A content type
       determines what data can be stored in content nodes of this type, as well as validation,
       available slots and jsonConfig settings.
     name: ContentType
-  - description: |-
+  -
+    description: |-
       Progress labels in a camp.
       To each activity one label can be assigned.
     name: ActivityProgressLabel
-  - description: "Resource 'ChecklistNode' operations."
+  -
+    description: "Resource 'ChecklistNode' operations."
     name: ChecklistNode
-  - description: "Resource 'ColumnLayout' operations."
+  -
+    description: "Resource 'ColumnLayout' operations."
     name: ColumnLayout
-  - description: "Resource 'HitobitoEvent' operations."
+  -
+    description: "Resource 'HitobitoEvent' operations."
     name: HitobitoEvent
-  - description: "Resource 'HitobitoEventParticipant' operations."
+  -
+    description: "Resource 'HitobitoEventParticipant' operations."
     name: HitobitoEventParticipant
-  - description: "Resource 'MaterialNode' operations."
+  -
+    description: "Resource 'MaterialNode' operations."
     name: MaterialNode
-  - description: "Resource 'MultiSelect' operations."
+  -
+    description: "Resource 'MultiSelect' operations."
     name: MultiSelect
-  - description: "Resource 'ResetPassword' operations."
+  -
+    description: "Resource 'ResetPassword' operations."
     name: ResetPassword
-  - description: "Resource 'ResponsiveLayout' operations."
+  -
+    description: "Resource 'ResponsiveLayout' operations."
     name: ResponsiveLayout
-  - description: "Resource 'SingleText' operations."
+  -
+    description: "Resource 'SingleText' operations."
     name: SingleText
-  - description: "Resource 'Storyboard' operations."
+  -
+    description: "Resource 'Storyboard' operations."
     name: Storyboard
-  - description: "Resource 'UserActivation' operations."
+  -
+    description: "Resource 'UserActivation' operations."
     name: UserActivation
-  - description: |-
+  -
+    description: |-
       The HitobitoEventCamp entity allows retrieval of the camp corresponding to a specific Hitobito event (deep-link).
       It contains only the event id, as well as a link to the camp, which must be fetched separately.
     name: HitobitoEventCamp
-  - description: |-
+  -
+    description: |-
       The main entity that eCamp is designed to manage. Contains programme which may be
       distributed across multiple time periods.
     name: Camp
-  - description: |-
+  -
+    description: |-
       The profile of a person using eCamp.
       The properties available to related eCamp users are here.
       Related means that they were or are collaborators in the same camp.
