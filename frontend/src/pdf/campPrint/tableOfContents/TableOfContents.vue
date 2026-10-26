@@ -82,10 +82,4 @@ export default {
   margin-bottom: 4pt;
   font-weight: normal;
 }
-.toc-day-entry {
-  margin-top: 2pt;
-}
-.toc-activity-entry {
-  padding-left: 28pt;
-}
 </style>

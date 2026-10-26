@@ -79,4 +79,11 @@ export default {
   },
 }
 </script>
-<style lang="react-pdf"></style>
+<style lang="react-pdf">
+.toc-day-entry {
+  margin-top: 2pt;
+}
+.toc-activity-entry {
+  padding-left: 28pt;
+}
+</style>
