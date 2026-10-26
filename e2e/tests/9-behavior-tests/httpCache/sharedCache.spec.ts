@@ -2,10 +2,9 @@ import { test, expect, request, type APIRequestContext } from '@playwright/test'
 import { bipiUser, bruceWayneUser, castorUser, grgrCampId } from '@/utils/constants'
 import {
   API_ROOT_URL_CACHED,
-  CACHE_SECURITY_DELEGATE_HEADER,
   apiDelete,
   apiGet,
-  apiGetCacheAccess,
+  apiCheckAccess,
   apiPatch,
   apiPost,
   getAuthContext,
@@ -108,22 +107,23 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
     })
   })
 
-  test('does not let clients use the cache to check access or to forge it', async () => {
+  test('does not cache the access check when a client requests it through the cache', async () => {
     const bipiApi = await getAuthContext(bipiUser)
     const bruceApi = await getAuthContext(bruceWayneUser)
     const checkAccess = (api: APIRequestContext) =>
-      api.get(`${API_ROOT_URL_CACHED}/api/_cache_access`, {
-        headers: {
-          Accept: 'application/hal+json',
-          [CACHE_SECURITY_DELEGATE_HEADER]: `/api/camps/${grgrCampId}`,
-        },
+      api.get(`${API_ROOT_URL_CACHED}/api/authorization/check_access`, {
+        params: { iri: `/api/camps/${grgrCampId}` },
+        headers: { Accept: 'application/hal+json' },
       })
 
-    // the cache removes the header which is used internally to ask the API for access, so nothing is granted
-    // to a user who has access, nor can a grant be cached for a user who has none
-    for (const api of [bipiApi, bruceApi, bipiApi]) {
+    // everybody gets the answer of the API for their own login, nothing is taken from the cache
+    for (const [api, status] of [
+      [bipiApi, 204],
+      [bruceApi, 403],
+      [bipiApi, 204],
+    ] as const) {
       const response = await checkAccess(api)
-      expect(response.headers()['x-cache-access']).toBe('denied')
+      expect(response.status()).toBe(status)
       expect(response.headers()['x-cache']).not.toBe('HIT')
     }
     expect(await getCacheInfo(bruceApi, uri)).toMatchObject({
@@ -158,9 +158,7 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
           cache: 'MISS',
         })
         expect(await getCacheInfo(bruceApi, activitiesUri)).toMatchObject({ status: 404 })
-        expect(
-          (await apiGetCacheAccess(bruceApi, campUri)).headers()['x-cache-access']
-        ).toBe('denied')
+        expect((await apiCheckAccess(bruceApi, campUri)).status()).toBe(403)
 
         // making the camp public gives bruce access
         expect((await apiPatch(bipiApi, campUri, { isShared: true })).ok()).toBe(true)
@@ -175,8 +173,8 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
           cache: 'HIT',
           preflight: 'HIT',
         })
-        const granted = await apiGetCacheAccess(bruceApi, campUri)
-        expect(granted.headers()['x-cache-access']).toBe('granted')
+        const granted = await apiCheckAccess(bruceApi, campUri)
+        expect(granted.status()).toBe(204)
         expect(granted.headers()['xkey']).toContain(campId)
 
         // making it private again revokes it immediately, although bruce's access check was cached
@@ -185,9 +183,7 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
           status: 404,
           cache: 'PASS',
         })
-        expect(
-          (await apiGetCacheAccess(bruceApi, campUri)).headers()['x-cache-access']
-        ).toBe('denied')
+        expect((await apiCheckAccess(bruceApi, campUri)).status()).toBe(403)
         // the collaborator is not affected
         expect(await getCacheInfo(bipiApi, activitiesUri)).toMatchObject({ status: 200 })
       } finally {

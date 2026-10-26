@@ -5,7 +5,7 @@ import {
   grgrCampId,
   jsKursPrototypeCampId,
 } from '@/utils/constants'
-import { apiGetCacheAccess, getAuthContext } from '@/utils/helpers'
+import { apiCheckAccess, getAuthContext } from '@/utils/helpers'
 
 const campIri = (campId: string) => `/api/camps/${campId}`
 
@@ -19,20 +19,19 @@ const maxAge = (cacheControl: string) =>
  * The access check which the cache makes before it serves a cached response to a user,
  * requested directly from the API.
  */
-test.describe('cache access: /api/_cache_access', { tag: '@mature' }, () => {
+test.describe('check access: /api/authorization/check_access', { tag: '@mature' }, () => {
   test('grants access to a collaborator of the camp', async () => {
     const bipiApi = await getAuthContext(bipiUser)
 
-    const response = await apiGetCacheAccess(bipiApi, campIri(grgrCampId))
+    const response = await apiCheckAccess(bipiApi, campIri(grgrCampId))
 
-    expect(response.status()).toBe(200)
-    expect(response.headers()['x-cache-access']).toBe('granted')
+    expect(response.status()).toBe(204)
   })
 
   test('grants access only for the lifetime of the login and tags it with the collaboration', async () => {
     const bipiApi = await getAuthContext(bipiUser)
 
-    const headers = (await apiGetCacheAccess(bipiApi, campIri(grgrCampId))).headers()
+    const headers = (await apiCheckAccess(bipiApi, campIri(grgrCampId))).headers()
 
     expect(headers['cache-control']).toContain('public')
     expect(maxAge(headers['cache-control'])).toBeGreaterThan(0)
@@ -44,9 +43,9 @@ test.describe('cache access: /api/_cache_access', { tag: '@mature' }, () => {
   test('grants access to everyone for a public camp and tags it with the camp', async () => {
     const bipiApi = await getAuthContext(bipiUser)
 
-    const response = await apiGetCacheAccess(bipiApi, campIri(jsKursPrototypeCampId))
+    const response = await apiCheckAccess(bipiApi, campIri(jsKursPrototypeCampId))
 
-    expect(response.headers()['x-cache-access']).toBe('granted')
+    expect(response.status()).toBe(204)
     // purging the camp revokes the access, e.g. when it stops being public
     expect(response.headers()['xkey']).toContain(jsKursPrototypeCampId)
   })
@@ -54,40 +53,45 @@ test.describe('cache access: /api/_cache_access', { tag: '@mature' }, () => {
   test('denies access to a user who is not a collaborator of the camp', async () => {
     const bruceApi = await getAuthContext(bruceWayneUser)
 
-    const response = await apiGetCacheAccess(bruceApi, campIri(grgrCampId))
+    const response = await apiCheckAccess(bruceApi, campIri(grgrCampId))
 
-    expect(response.status()).toBe(200)
-    expect(response.headers()['x-cache-access']).toBe('denied')
+    expect(response.status()).toBe(403)
   })
 
   test('does not allow to cache a denial', async () => {
     const bruceApi = await getAuthContext(bruceWayneUser)
 
-    const headers = (await apiGetCacheAccess(bruceApi, campIri(grgrCampId))).headers()
+    const headers = (await apiCheckAccess(bruceApi, campIri(grgrCampId))).headers()
 
     expect(headers['cache-control']).toContain('no-store')
     expect(headers['cache-control']).not.toContain('public')
     expect(headers['xkey']).toBeUndefined()
   })
 
-  test('denies access without a resource', async () => {
+  test('denies access to something which is no readable resource', async () => {
     const bipiApi = await getAuthContext(bipiUser)
 
-    const withoutResource = await apiGetCacheAccess(bipiApi)
-    const noResource = await apiGetCacheAccess(bipiApi, 'public')
-    const unknownResource = await apiGetCacheAccess(bipiApi, campIri('000000000000'))
+    const noResource = await apiCheckAccess(bipiApi, 'public')
+    const unknownResource = await apiCheckAccess(bipiApi, campIri('000000000000'))
 
-    for (const response of [withoutResource, noResource, unknownResource]) {
-      expect(response.headers()['x-cache-access']).toBe('denied')
+    for (const response of [noResource, unknownResource]) {
+      expect(response.status()).toBe(403)
     }
+  })
+
+  test('requires the iri', async () => {
+    const bipiApi = await getAuthContext(bipiUser)
+
+    const response = await apiCheckAccess(bipiApi)
+
+    expect(response.status()).toBe(400)
   })
 
   test('requires a login', async () => {
     const anonymous = await request.newContext()
 
-    const response = await apiGetCacheAccess(anonymous, campIri(grgrCampId))
+    const response = await apiCheckAccess(anonymous, campIri(grgrCampId))
 
     expect(response.status()).toBe(401)
-    expect(response.headers()['x-cache-access']).toBeUndefined()
   })
 })
