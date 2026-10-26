@@ -17,7 +17,7 @@ fos_http_cache:
         rules:
             # cache headers are set by the controller, as they depend on the access decision and the JWT lifetime
             - match:
-                  path: ^/_cache_access
+                  path: ^/authorization/check_access
               headers:
                   overwrite: false
                   vary: [Accept]

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\HttpCache\CacheSecurityDelegateListener;
 use App\Security\ResourceReadAccessChecker;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Authenticator\Token\JWTPostAuthenticationToken;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -13,12 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * Tells the HTTP cache whether the current user may be served cached responses that delegate their security to a given resource.
- * The response itself is cacheable (per user and delegate), but only if access is granted.
+ * Tells whether the current user may read the resource with the given IRI. The HTTP cache uses this to decide whether
+ * a cached response, which delegates its security to the resource, may be served to the user.
+ * A granted answer is cacheable (per user and IRI), but not longer than the login of the user.
  */
-class CacheAccessController {
-    public const string ROUTE = 'cache_access';
-    public const string ACCESS_HEADER = 'X-Cache-Access';
+class CheckAccessController {
+    public const string ROUTE = 'check_access';
     public const int MAX_TTL_SECONDS = 43200;
 
     public function __construct(
@@ -26,28 +25,31 @@ class CacheAccessController {
         private readonly Security $security,
     ) {}
 
-    #[Route('/_cache_access', name: self::ROUTE, methods: ['GET'])]
+    #[Route('/authorization/check_access', name: self::ROUTE, methods: ['GET'])]
     public function __invoke(Request $request): Response {
-        $response = new Response();
+        $iri = $request->query->all()['iri'] ?? null;
+        if (!is_string($iri) || '' === $iri) {
+            return new Response(null, Response::HTTP_BAD_REQUEST);
+        }
 
-        $ttl = $this->isGranted((string) $request->headers->get(CacheSecurityDelegateListener::HEADER)) ? $this->getTokenTtl() : 0;
+        $ttl = $this->isGranted($iri) ? $this->getTokenTtl() : 0;
 
         if ($ttl <= 0) {
-            $response->headers->set(self::ACCESS_HEADER, 'denied');
+            $response = new Response(null, Response::HTTP_FORBIDDEN);
             $response->setCache(['no_store' => true, 'private' => true]);
 
             return $response;
         }
 
-        $response->headers->set(self::ACCESS_HEADER, 'granted');
+        $response = new Response(null, Response::HTTP_NO_CONTENT);
         $response->setCache(['public' => true, 'max_age' => 0, 's_maxage' => $ttl]);
 
         return $response;
     }
 
-    private function isGranted(string $delegate): bool {
+    private function isGranted(string $iri): bool {
         try {
-            return $this->accessChecker->check($delegate)->granted;
+            return $this->accessChecker->check($iri)->granted;
         } catch (\InvalidArgumentException) {
             return false;
         }

@@ -7,8 +7,8 @@ server s1 {
 
     # preflight of the stranger is denied
     rxreq
-    expect req.url == "/_cache_access"
-    txresp -hdr "X-Cache-Access: denied" -hdr "Cache-Control: no-store, private"
+    expect req.url == "/authorization/check_access?iri=/api/camps/1"
+    txresp -status 403 -hdr "Cache-Control: no-store, private"
 
     # the request is passed to the API, which answers as usual
     rxreq
@@ -18,8 +18,8 @@ server s1 {
 
     # a denied preflight is not cached, the decision is made again
     rxreq
-    expect req.url == "/_cache_access"
-    txresp -hdr "X-Cache-Access: denied" -hdr "Cache-Control: no-store, private"
+    expect req.url == "/authorization/check_access?iri=/api/camps/1"
+    txresp -status 403 -hdr "Cache-Control: no-store, private"
 
     rxreq
     expect req.url == "/camps/1/activities"

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\HttpCache;
 
-use App\Controller\CacheAccessController;
+use App\Controller\CheckAccessController;
 use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * purge them when the access is revoked.
  *
  * Responses of operations with a cache security delegate are shared between users, access to them is checked by the cache access
- * endpoint. Therefore only the cache access endpoint is tagged for these.
+ * endpoint. Therefore only the check access endpoint is tagged for these.
  */
 class AccessTagger {
     public function __construct(
@@ -32,7 +32,7 @@ class AccessTagger {
             return;
         }
 
-        if (CacheAccessController::ROUTE === $request->attributes->get('_route')) {
+        if (CheckAccessController::ROUTE === $request->attributes->get('_route')) {
             $this->symfonyResponseTagger->addTags($tags);
 
             return;

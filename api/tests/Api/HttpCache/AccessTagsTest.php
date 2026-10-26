@@ -29,35 +29,35 @@ class AccessTagsTest extends ECampApiTestCase {
         $this->assertContains($collaboration->getId(), $this->getTags($response));
     }
 
-    public function testCacheAccessIsTaggedWithCollaboration() {
+    public function testCheckAccessIsTaggedWithCollaboration() {
         $collaboration = static::getFixture('campCollaboration1manager');
 
-        $response = $this->requestCacheAccess('camp1');
+        $response = $this->checkAccess('camp1');
 
         $this->assertContains($collaboration->getId(), $this->getTags($response));
     }
 
-    public function testCacheAccessToPublicCampIsTaggedWithCamp() {
+    public function testCheckAccessToPublicCampIsTaggedWithCamp() {
         $camp = static::getFixture('campPrototype');
 
-        $response = $this->requestCacheAccess('campPrototype', ['email' => static::$fixtures['user4unrelated']->getEmail()]);
+        $response = $this->checkAccess('campPrototype', ['email' => static::$fixtures['user4unrelated']->getEmail()]);
 
-        $this->assertSame(['granted'], $response->getHeaders()['x-cache-access']);
+        $this->assertResponseStatusCodeSame(204);
         $this->assertContains($camp->getId(), $this->getTags($response));
     }
 
-    public function testDeniedCacheAccessIsNotTagged() {
-        $response = $this->requestCacheAccess('camp1', ['email' => static::$fixtures['user4unrelated']->getEmail()]);
+    public function testForbiddenCheckAccessIsNotTagged() {
+        $response = $this->checkAccess('camp1', ['email' => static::$fixtures['user4unrelated']->getEmail()]);
 
-        $this->assertSame(['denied'], $response->getHeaders()['x-cache-access']);
+        $this->assertResponseStatusCodeSame(403);
         $this->assertSame([], $this->getTags($response));
     }
 
-    private function requestCacheAccess(string $campFixture, ?array $credentials = null) {
+    private function checkAccess(string $campFixture, ?array $credentials = null) {
         return static::createClientWithCredentials($credentials)->request(
             'GET',
-            '/_cache_access',
-            ['headers' => ['X-Cache-Security-Delegate' => $this->getIriFor($campFixture)]]
+            '/authorization/check_access',
+            ['query' => ['iri' => $this->getIriFor($campFixture)]]
         );
     }
 
