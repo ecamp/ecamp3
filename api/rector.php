@@ -6,9 +6,6 @@ use Rector\CodeQuality\Rector\Catch_\ThrowWithPreviousExceptionRector;
 use Rector\CodeQuality\Rector\ClassMethod\LocallyCalledStaticMethodToNonStaticRector;
 use Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector;
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
-use Rector\CodeQuality\Rector\If_\CombineIfRector;
-use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
-use Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\ClassMethod\RemoveParentDelegatingConstructorRector;
@@ -23,10 +20,8 @@ use Rector\PHPUnit\CodeQuality\Rector\ClassMethod\NoSetupWithParentCallOverrideR
 use Rector\PHPUnit\CodeQuality\Rector\MethodCall\AssertEmptyNullableObjectToAssertInstanceofRector;
 use Rector\PHPUnit\CodeQuality\Rector\StmtsAwareInterface\DeclareStrictTypesTestsRector;
 use Rector\PHPUnit\PHPUnit120\Rector\Class_\AllowMockObjectsWhereParentClassRector;
-use Rector\PHPUnit\PHPUnit120\Rector\Class_\AllowMockObjectsWithoutExpectationsAttributeRector;
 use Rector\Privatization\Rector\Class_\FinalizeTestCaseClassRector;
 use Rector\Renaming\Rector\FuncCall\RenameFunctionRector;
-use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
 use Rector\Symfony\Symfony73\Rector\Class_\ConstraintOptionsToNamedArgumentsRector;
 use Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector;
 
@@ -51,15 +46,11 @@ return RectorConfig::configure()
         AddInstanceofAssertForNullableArgumentRector::class,
         AddInstanceofAssertForNullableInstanceRector::class,
         AllowMockObjectsWhereParentClassRector::class,
-        AllowMockObjectsWithoutExpectationsAttributeRector::class,
         AssertEmptyNullableObjectToAssertInstanceofRector::class,
         ClosureToArrowFunctionRector::class,
-        CombineIfRector::class,
         ConstraintOptionsToNamedArgumentsRector::class,
         DeclareStrictTypesRector::class,
         DeclareStrictTypesTestsRector::class,
-        DisallowedEmptyRuleFixerRector::class,
-        ExplicitBoolCompareRector::class,
         FinalizeTestCaseClassRector::class,
         FlipTypeControlToUseExclusiveTypeRector::class,
         LocallyCalledStaticMethodToNonStaticRector::class,
@@ -68,7 +59,6 @@ return RectorConfig::configure()
         PreferPHPUnitThisCallRector::class,
         RemoveDeadInstanceOfRector::class,
         RemoveParentDelegatingConstructorRector::class,
-        SimplifyIfElseToTernaryRector::class,
         SimplifyIfReturnBoolRector::class,
         ThrowWithPreviousExceptionRector::class,
         UseIdenticalOverEqualWithSameTypeRector::class,
