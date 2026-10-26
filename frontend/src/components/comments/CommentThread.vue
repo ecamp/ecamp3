@@ -40,7 +40,23 @@
             >
               <v-progress-circular v-if="saving" indeterminate size="16" width="2" />
               <template v-else>
+                <v-progress-circular
+                  v-if="statusFilter === 'open' && removalProgress !== null"
+                  class="ec-comment-thread__resolved-icon"
+                  :model-value="removalProgress"
+                  size="13.33"
+                  width="1.33"
+                  data-testid="comment-thread-countdown"
+                  aria-hidden="true"
+                >
+                  <v-icon
+                    class="ec-comment-thread__countdown-check"
+                    icon="mdi-check-circle-outline"
+                    size="16"
+                  />
+                </v-progress-circular>
                 <v-icon
+                  v-else
                   class="ec-comment-thread__resolved-icon"
                   icon="mdi-check-circle-outline"
                   size="16"
@@ -96,9 +112,9 @@ import CommentComposer from '@/components/comments/CommentComposer.vue'
 import CommentTime from '@/components/comments/CommentTime.vue'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 import { serverErrorToString } from '@/helpers/serverError.js'
-import { useToast } from '@/components/toast/useToast.js'
-import { commentsState } from '@/components/comments/commentsState.js'
-import { errorToMultiLineToast } from '@/components/toast/toasts.js'
+
+const REMOVAL_DURATION = 2000
+const REMOVAL_INTERVAL = 60
 
 export default {
   name: 'CommentThread',
@@ -106,19 +122,18 @@ export default {
   props: {
     root: { type: Object, required: true },
     camp: { type: Object, default: null },
-    enableAllCommentsTabHint: { type: Boolean, default: true },
     replies: { type: Array, default: () => [] },
     showContext: { type: Boolean, default: false },
+    statusFilter: { type: String, default: 'open' },
   },
-  emits: ['replied'],
-  setup() {
-    return { toast: useToast() }
-  },
+  emits: ['replied', 'retain'],
   data() {
     return {
       replying: false,
       saving: false,
       errorMessage: null,
+      removalProgress: null,
+      removalTimer: null,
     }
   },
   computed: {
@@ -142,7 +157,33 @@ export default {
         : this.$t('components.comments.commentThread.resolve')
     },
   },
+  beforeUnmount() {
+    this.setRetained(false)
+  },
   methods: {
+    setRetained(retained) {
+      clearInterval(this.removalTimer)
+      this.removalTimer = null
+      this.removalProgress = retained ? 0 : null
+      this.$emit('retain', retained)
+    },
+    startRemovalCountdown() {
+      if (this.removalProgress === null) return
+      this.removalTimer = setInterval(() => {
+        const button = this.$el.querySelector('.ec-comment-thread__resolve')
+        if (!button) return
+        if (button.matches(':hover')) {
+          this.removalProgress = Math.min(this.removalProgress, 50)
+          return
+        }
+        if (this.removalProgress === 100) this.setRetained(false)
+        else
+          this.removalProgress = Math.min(
+            100,
+            this.removalProgress + (100 * REMOVAL_INTERVAL) / REMOVAL_DURATION
+          )
+      }, REMOVAL_INTERVAL)
+    },
     authorOf(comment) {
       return typeof comment.author === 'function' ? comment.author()._meta.self : null
     },
@@ -150,38 +191,21 @@ export default {
       if (this.saving) return
       this.saving = true
       this.errorMessage = null
+      const resolving = !this.resolved
+      const retain =
+        (resolving && this.statusFilter === 'open') || this.removalProgress !== null
+      if (retain) this.setRetained(true)
       try {
-        const resolving = !this.resolved
         await this.api.patch(this.root, { resolved: resolving })
         this.replying = false
-        if (resolving) this.offerUndo()
+        if (!resolving) this.setRetained(false)
       } catch (e) {
+        if (resolving) this.setRetained(false)
         this.errorMessage = serverErrorToString(e)
       } finally {
         this.saving = false
+        this.startRemovalCountdown()
       }
-    },
-    offerUndo() {
-      if (!this.enableAllCommentsTabHint) {
-        return
-      }
-      const { api, root, toast } = this
-      const actions = [
-        {
-          label: this.$t('global.button.undo'),
-          onClick: () =>
-            api
-              .patch(root, { resolved: false })
-              .catch((e) => toast.error(errorToMultiLineToast(e))),
-        },
-      ]
-      if (!commentsState.showResolved) {
-        actions.push({
-          label: this.$t('components.comments.commentThread.showAll'),
-          onClick: () => (commentsState.showResolved = true),
-        })
-      }
-      toast.info(this.$t('components.comments.commentThread.resolvedToast'), { actions })
     },
     onReplied() {
       this.replying = false
@@ -210,6 +234,14 @@ export default {
 
 .ec-comment-thread__check-icon {
   padding: 2px;
+}
+
+.ec-comment-thread__countdown-check {
+  clip-path: circle(31.25%);
+}
+
+.ec-comment-thread__resolved-icon :deep(.v-progress-circular__overlay) {
+  transition: none;
 }
 
 .ec-comment-thread__resolved {

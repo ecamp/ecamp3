@@ -2,8 +2,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { setupVuetify } from '/tests/setupVuetify.js'
 import dayjs from '@/common/helpers/dayjs.js'
-import { nextTick, reactive } from 'vue'
 import CommentsList from '@/components/comments/CommentsList.vue'
+import { reactive } from 'vue'
 
 setupVuetify()
 
@@ -54,12 +54,12 @@ function comment(
 function mountList({
   loading = false,
   comments = [],
-  allComments = comments,
   showContext = false,
   emptyText = null,
+  statusFilter = 'open',
 } = {}) {
   return mount(CommentsList, {
-    props: { comments, allComments, loading, showContext, emptyText },
+    props: { comments, loading, showContext, emptyText, statusFilter },
     global: {
       mocks: {
         $t: (key, named) =>
@@ -139,60 +139,11 @@ describe('CommentsList', () => {
     ])
   })
 
-  it('shares the All hint state with every thread and recomputes after resolution', async () => {
-    const comments = reactive([comment(1), comment(2)])
-    const wrapper = mountList({ comments })
-    const threads = wrapper.findAllComponents({ name: 'CommentThread' })
-    expect(threads.map((thread) => thread.props().enableAllCommentsTabHint)).toEqual([
-      true,
-      true,
-    ])
-
-    comments[0].resolvedAt = '2026-08-01T12:00:00+00:00'
-    comments[0].resolvedBy = () => ({ user: () => currentUser })
-    await nextTick()
-    expect(
-      wrapper
-        .findAllComponents({ name: 'CommentThread' })
-        .map((thread) => thread.props().enableAllCommentsTabHint)
-    ).toEqual([false, false])
-  })
-
-  it.each([
-    [
-      'another user resolved it',
-      comment(1, {
-        resolvedAt: '2026-08-01T12:00:00+00:00',
-        resolvedBy: { user: () => ({ _meta: { self: '/users/other' } }) },
-      }),
-    ],
-    [
-      'the comment is unresolved',
-      comment(1, {
-        resolvedBy: { user: () => currentUser },
-      }),
-    ],
-    ['the resolver is missing', comment(1, { resolvedAt: '2026-08-01T12:00:00+00:00' })],
-    [
-      'only a reply was resolved',
-      comment(1, {
-        parent: comment(2),
-        resolvedAt: '2026-08-01T12:00:00+00:00',
-        resolvedBy: { user: () => currentUser },
-      }),
-    ],
-  ])('enables the hint when %s', (_case, priorComment) => {
-    const wrapper = mountList({ comments: [comment(2)], allComments: [priorComment] })
-
-    expect(
-      wrapper.findComponent({ name: 'CommentThread' }).props().enableAllCommentsTabHint
-    ).toBe(true)
-  })
-
   it('lists resolved threads in chronological order among the open ones', () => {
     const resolved = comment(2, { resolvedAt: '2026-08-05T12:00:00+00:00' })
     const wrapper = mountList({
       comments: [comment(1), resolved, comment(3), comment(4, { parent: resolved })],
+      statusFilter: 'all',
     })
 
     expect(renderedThreads(wrapper)).toEqual([
@@ -201,6 +152,40 @@ describe('CommentsList', () => {
       ['/comments/3'],
     ])
   })
+
+  it('keeps a newly resolved comment and its replies until the countdown releases it', async () => {
+    const root = reactive(comment(1))
+    const wrapper = mountList({ comments: [root, comment(2, { parent: root })] })
+    const thread = wrapper.findComponent({ name: 'CommentThread' })
+    thread.vm.$emit('retain', true)
+    root.resolvedAt = '2026-08-05T12:00:00+00:00'
+    await wrapper.vm.$nextTick()
+
+    expect(renderedComments(wrapper)).toEqual(['/comments/1', '/comments/2'])
+
+    thread.vm.$emit('retain', false)
+    await wrapper.vm.$nextTick()
+
+    expect(renderedComments(wrapper)).toEqual([])
+  })
+
+  it.each(['resolved', 'all'])(
+    'forgets retained comments when switching to %s and back to Open',
+    async (statusFilter) => {
+      const root = reactive(comment(1))
+      const wrapper = mountList({ comments: [root, comment(2, { parent: root })] })
+      wrapper.findComponent({ name: 'CommentThread' }).vm.$emit('retain', true)
+      root.resolvedAt = '2026-08-05T12:00:00+00:00'
+      await wrapper.vm.$nextTick()
+      expect(renderedComments(wrapper)).toEqual(['/comments/1', '/comments/2'])
+
+      await wrapper.setProps({ statusFilter })
+      expect(renderedComments(wrapper)).toEqual(['/comments/1', '/comments/2'])
+
+      await wrapper.setProps({ statusFilter: 'open' })
+      expect(renderedComments(wrapper)).toEqual([])
+    }
+  )
 
   it('shows no empty text of its own when it is given none', () => {
     const wrapper = mountList()

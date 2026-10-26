@@ -371,9 +371,7 @@
         "reply": "Reply",
         "resolve": "Resolve",
         "resolved": "Resolved",
-        "resolvedBy": "Resolved by {user}",
-        "resolvedToast": "Comment resolved. Resolved comments are only shown under \"All\".",
-        "showAll": "Show all"
+        "resolvedBy": "Resolved by {user}"
       },
       "commentTime": {
         "today": "Today, {time}",
@@ -381,13 +379,17 @@
       },
       "commentsList": {
         "empty": "No comments yet.",
-        "noOpenComments": "No open comments. Switch to \"All\" to see the resolved ones."
+        "noResolvedComments": "No resolved comments.",
+        "noOpenComments": "No open comments.",
+        "noOpenCommentsWithResolved": "No open comments. See Resolved."
       },
       "commentsPanel": {
         "activityCommentsElsewhere": "One more open comment is on an activity. | {count} more open comments are on individual activities.",
         "all": "All",
         "commentsOnThisActivity": "Comments on this activity",
         "open": "Open",
+        "resolved": "Resolved",
+        "resolvedActivityCommentsElsewhere": "One more resolved comment is on an activity. | {count} more resolved comments are on individual activities.",
         "title": "Comments"
       },
       "commentsToggleButton": {

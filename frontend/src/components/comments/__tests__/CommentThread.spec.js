@@ -3,16 +3,16 @@ import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { setupVuetify } from '/tests/setupVuetify.js'
 import dayjs from '@/common/helpers/dayjs.js'
 import CommentThread from '@/components/comments/CommentThread.vue'
-import { clearToasts, visibleToasts } from '@/components/toast/useToast.js'
-import { commentsState } from '@/components/comments/commentsState.js'
+import { reactive } from 'vue'
+import flushPromises from 'flush-promises'
 
 setupVuetify()
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
+const REMOVAL_DURATION = 2000
 enableAutoUnmount(afterEach)
 afterEach(() => {
-  clearToasts()
-  commentsState.showResolved = false
+  vi.useRealTimers()
   window.localStorage.clear()
 })
 
@@ -57,13 +57,13 @@ let patch
 function mountThread({
   root = comment(1),
   replies = [],
-  enableAllCommentsTabHint = true,
   showContext = false,
   camp: campProp = camp,
+  statusFilter = 'open',
 } = {}) {
   patch = vi.fn().mockResolvedValue({})
   return mount(CommentThread, {
-    props: { root, replies, enableAllCommentsTabHint, showContext, camp: campProp },
+    props: { root, replies, showContext, camp: campProp, statusFilter },
     global: {
       mocks: {
         $t: (key, named) =>
@@ -103,7 +103,99 @@ function button(wrapper, testid) {
   return wrapper.find(`[data-testid="${testid}"]`)
 }
 
+function retained(wrapper) {
+  return wrapper.emitted('retain')?.at(-1)?.[0] ?? false
+}
+
 describe('CommentThread', () => {
+  it('reopens a newly resolved thread', async () => {
+    const root = reactive(comment(10))
+    const wrapper = mountThread({ root })
+    patch.mockImplementation(async (_, { resolved }) => {
+      root.resolvedAt = resolved ? '2026-08-02T12:00:00+00:00' : null
+    })
+
+    await button(wrapper, 'comment-thread-resolve').trigger('click')
+    await flushPromises()
+    await button(wrapper, 'comment-thread-resolve').trigger('click')
+    await flushPromises()
+
+    expect(root.resolvedAt).toBe(null)
+    expect(retained(wrapper)).toBe(false)
+    expect(patch).toHaveBeenLastCalledWith(root, { resolved: false })
+  })
+
+  it.each([
+    [750, 1250],
+    [1950, 1000],
+  ])(
+    'resumes with %i ms elapsed and at least %i ms remaining after hover',
+    async (elapsed, remaining) => {
+      vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] })
+      const root = reactive(comment(10))
+      const wrapper = mountThread({ root })
+      patch.mockImplementation(async () => {
+        root.resolvedAt = '2026-08-02T12:00:00+00:00'
+      })
+      const resolve = button(wrapper, 'comment-thread-resolve')
+      const hovered = vi.spyOn(resolve.element, 'matches').mockReturnValue(false)
+      await resolve.trigger('click')
+      await flushPromises()
+      await vi.advanceTimersByTimeAsync(elapsed)
+      hovered.mockReturnValue(true)
+
+      const progress = wrapper.findComponent({ name: 'VProgressCircular' })
+      const pausedProgress = Math.min(progress.props().modelValue, 50)
+      await vi.advanceTimersByTimeAsync(REMOVAL_DURATION * 2)
+
+      expect(retained(wrapper)).toBe(true)
+      expect(progress.props().modelValue).toBe(pausedProgress)
+
+      hovered.mockReturnValue(false)
+      await vi.advanceTimersByTimeAsync(remaining - 1)
+      expect(retained(wrapper)).toBe(true)
+      await vi.waitFor(() => expect(progress.props().modelValue).toBe(100), {
+        interval: 10,
+        timeout: 100,
+      })
+      expect(retained(wrapper)).toBe(true)
+      await vi.advanceTimersToNextTimerAsync()
+      expect(retained(wrapper)).toBe(false)
+    }
+  )
+
+  it('clears a paused countdown when the thread is unmounted', async () => {
+    vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] })
+    const root = reactive(comment(10))
+    const wrapper = mountThread({ root })
+    patch.mockImplementation(async () => {
+      root.resolvedAt = '2026-08-02T12:00:00+00:00'
+    })
+    await button(wrapper, 'comment-thread-resolve').trigger('click')
+    await flushPromises()
+    await vi.advanceTimersByTimeAsync(750)
+    vi.spyOn(
+      button(wrapper, 'comment-thread-resolve').element,
+      'matches'
+    ).mockReturnValue(true)
+
+    wrapper.unmount()
+    await vi.advanceTimersByTimeAsync(REMOVAL_DURATION)
+
+    expect(retained(wrapper)).toBe(false)
+    expect(vi.getTimerCount()).toBe(0)
+  })
+
+  it.each(['all', 'resolved'])(
+    'does not retain threads while viewing %s',
+    async (status) => {
+      const wrapper = mountThread({ statusFilter: status })
+      await button(wrapper, 'comment-thread-resolve').trigger('click')
+      await flushPromises()
+      expect(retained(wrapper)).toBe(false)
+    }
+  )
+
   it('renders the root comment followed by its replies', () => {
     const wrapper = mountThread({ replies: [comment(2), comment(3)] })
 
@@ -292,69 +384,15 @@ describe('CommentThread', () => {
     ])
   })
 
-  it('says where a resolved thread went and offers to undo it', async () => {
-    const root = comment(1)
+  it('shows an error when reopening failed', async () => {
+    const root = comment(1, { resolvedAt: '2026-08-02T12:00:00+00:00' })
     const wrapper = mountThread({ root })
-
-    await button(wrapper, 'comment-thread-resolve').trigger('click')
-    await vi.waitFor(() => expect(visibleToasts.value).toHaveLength(1))
-
-    const [toast] = visibleToasts.value
-    expect(toast.type).toBe('info')
-    expect(toast.content).toBe('components.comments.commentThread.resolvedToast')
-    expect(toast.actions.map((action) => action.label)).toEqual([
-      'global.button.undo',
-      'components.comments.commentThread.showAll',
-    ])
-
-    wrapper.unmount()
-    toast.actions[0].onClick()
-    expect(patch).toHaveBeenLastCalledWith(root, { resolved: false })
-  })
-
-  it('switches the panel to show resolved threads from the toast', async () => {
-    const wrapper = mountThread()
-    await button(wrapper, 'comment-thread-resolve').trigger('click')
-    await vi.waitFor(() => expect(visibleToasts.value).toHaveLength(1))
-
-    visibleToasts.value[0].actions[1].onClick()
-
-    expect(commentsState.showResolved).toBe(true)
-  })
-
-  it('offers no way to "All" when the panel already shows it', async () => {
-    commentsState.showResolved = true
-    const wrapper = mountThread()
-    await button(wrapper, 'comment-thread-resolve').trigger('click')
-    await vi.waitFor(() => expect(visibleToasts.value).toHaveLength(1))
-
-    expect(visibleToasts.value[0].actions.map((action) => action.label)).toEqual([
-      'global.button.undo',
-    ])
-  })
-
-  it('reports when undoing failed', async () => {
-    const wrapper = mountThread()
-    await button(wrapper, 'comment-thread-resolve').trigger('click')
-    await vi.waitFor(() => expect(visibleToasts.value).toHaveLength(1))
     patch.mockRejectedValue(new Error('network down'))
 
-    visibleToasts.value[0].actions[0].onClick()
-
-    await vi.waitFor(() =>
-      expect(visibleToasts.value.some((toast) => toast.type === 'error')).toBe(true)
-    )
-  })
-
-  it('shows no toast when reopening', async () => {
-    const wrapper = mountThread({
-      root: comment(1, { resolvedAt: '2026-08-02T12:00:00+00:00' }),
-    })
-
     await button(wrapper, 'comment-thread-resolve').trigger('click')
-    await vi.waitFor(() => expect(patch).toHaveBeenCalled())
 
-    expect(visibleToasts.value).toHaveLength(0)
+    expect(patch).toHaveBeenCalledWith(root, { resolved: false })
+    await vi.waitFor(() => expect(wrapper.text()).toContain('network down'))
   })
 
   it('reopens a resolved thread', async () => {
@@ -413,5 +451,6 @@ describe('CommentThread', () => {
 
     await button(wrapper, 'comment-thread-resolve').trigger('click')
     await vi.waitFor(() => expect(wrapper.text()).toContain('network down'))
+    expect(retained(wrapper)).toBe(false)
   })
 })

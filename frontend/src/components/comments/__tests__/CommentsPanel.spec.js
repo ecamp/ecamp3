@@ -1,9 +1,10 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { nextTick, reactive } from 'vue'
 import { setupVuetify } from '/tests/setupVuetify.js'
 import CommentsPanel from '@/components/comments/CommentsPanel.vue'
-import { commentsState } from '@/components/comments/commentsState.js'
+import CommentsList from '@/components/comments/CommentsList.vue'
+import { commentsState, resetCommentsState } from '@/components/comments/commentsState.js'
 import { activityFromRoute, campFromRoute } from '@/router.js'
 
 setupVuetify()
@@ -102,6 +103,9 @@ function mountPanel({
   mobile = false,
 } = {}) {
   scrollToBottom = vi.fn()
+  vi.spyOn(CommentsList.methods, 'scrollToBottom').mockImplementation(() =>
+    scrollToBottom()
+  )
   resize(mobile ? 375 : 1280)
   return mount(CommentsPanel, {
     global: {
@@ -114,12 +118,7 @@ function mountPanel({
       stubs: {
         VNavigationDrawer: { template: '<div class="drawer"><slot /></div>' },
         VDialog: { template: '<div class="dialog"><slot /></div>' },
-        CommentsList: {
-          name: 'CommentsList',
-          props: ['comments', 'loading', 'showContext', 'emptyText'],
-          template: '<div class="list"><slot name="after" /></div>',
-          methods: { scrollToBottom: () => scrollToBottom() },
-        },
+        CommentThread: true,
         CommentComposer: true,
         CategoryChip: {
           name: 'CategoryChip',
@@ -134,15 +133,20 @@ function mountPanel({
 function listedComments(wrapper) {
   return wrapper
     .findComponent({ name: 'CommentsList' })
-    .props()
-    .comments.map((c) => c._meta.self)
+    .findAllComponents({ name: 'CommentThread' })
+    .flatMap((thread) => [
+      thread.props().root._meta.self,
+      ...thread.props().replies.map((reply) => reply._meta.self),
+    ])
 }
 
 describe('CommentsPanel', () => {
+  afterEach(() => {
+    resetCommentsState()
+    vi.restoreAllMocks()
+  })
   beforeEach(() => {
-    commentsState.open = false
-    commentsState.activityFilter = null
-    commentsState.showResolved = false
+    resetCommentsState()
     resize(1280)
     campFromRoute.mockReturnValue(camp([collaboration('guest', '/users/me')]))
     activityFromRoute.mockReturnValue(activity)
@@ -181,12 +185,12 @@ describe('CommentsPanel', () => {
 
   it('mounts the list only once the panel has been opened', async () => {
     const wrapper = mountPanel()
-    expect(wrapper.find('.list').exists()).toBe(false)
+    expect(wrapper.findComponent(CommentsList).exists()).toBe(false)
 
     commentsState.open = true
     await nextTick()
 
-    expect(wrapper.find('.list').exists()).toBe(true)
+    expect(wrapper.findComponent(CommentsList).exists()).toBe(true)
   })
 
   it('mounts the composer alongside the list', async () => {
@@ -379,6 +383,43 @@ describe('CommentsPanel', () => {
     await vi.waitFor(() => expect(commentsState.open).toBe(false))
   })
 
+  it.each(['open', 'all'])(
+    'shows a newly created comment when the selected filter was %s',
+    async (status) => {
+      const items = reactive([])
+      const wrapper = mountPanel({ items })
+      reload.mockImplementation(async () => {
+        items.push(comment(99, { on: activity }))
+      })
+      commentsState.open = true
+      commentsState.statusFilter = status
+      await nextTick()
+
+      wrapper.findComponent({ name: 'CommentComposer' }).vm.$emit('created')
+
+      await vi.waitFor(() => expect(scrollToBottom).toHaveBeenCalled())
+      expect(reload).toHaveBeenCalled()
+      expect(commentsState.statusFilter).toBe(status)
+      expect(listedComments(wrapper)).toContain('/comments/99')
+    }
+  )
+
+  it('hides the composer under Resolved and restores it under Open', async () => {
+    const wrapper = mountPanel()
+    commentsState.open = true
+    await nextTick()
+    expect(wrapper.findComponent({ name: 'CommentComposer' }).exists()).toBe(true)
+
+    commentsState.statusFilter = 'resolved'
+    await nextTick()
+    expect(wrapper.findComponent({ name: 'CommentComposer' }).exists()).toBe(false)
+    expect(commentsState.statusFilter).toBe('resolved')
+
+    commentsState.statusFilter = 'open'
+    await nextTick()
+    expect(wrapper.findComponent({ name: 'CommentComposer' }).exists()).toBe(true)
+  })
+
   it('stays open on desktop while navigating', async () => {
     const route = reactive({ path: '/camps/1/dashboard', params: { campId: '1' } })
     mountPanel({ route })
@@ -420,7 +461,7 @@ describe('CommentsPanel', () => {
 
     it('lists resolved threads in full under "All"', async () => {
       const wrapper = mountPanel({ items: thread })
-      commentsState.showResolved = true
+      commentsState.statusFilter = 'all'
       commentsState.open = true
       await nextTick()
 
@@ -440,29 +481,89 @@ describe('CommentsPanel', () => {
       const chips = wrapper
         .find('[data-testid="comments-resolved-toggle"]')
         .findAll('.v-chip')
-      await chips[1].trigger('click')
+      await chips[2].trigger('click')
 
-      expect(commentsState.showResolved).toBe(true)
+      expect(commentsState.statusFilter).toBe('all')
       expect(listedComments(wrapper)).toContain('/comments/5')
     })
 
-    it('says that only resolved comments exist when none are open', async () => {
-      const wrapper = mountPanel({ items: [resolvedRoot, replyToResolved] })
+    it('shows only resolved threads through the middle filter button', async () => {
+      const wrapper = mountPanel({ items: thread })
       commentsState.open = true
       await nextTick()
 
-      expect(wrapper.findComponent({ name: 'CommentsList' }).props().emptyText).toBe(
-        'components.comments.commentsList.noOpenComments'
+      const chips = wrapper
+        .find('[data-testid="comments-resolved-toggle"]')
+        .findAll('.v-chip')
+      expect(chips.map((chip) => chip.text())).toEqual([
+        'components.comments.commentsPanel.open 2',
+        'components.comments.commentsPanel.resolved 2',
+        'components.comments.commentsPanel.all',
+      ])
+      await chips[1].trigger('click')
+
+      expect(commentsState.statusFilter).toBe('resolved')
+      expect(listedComments(wrapper)).toEqual(['/comments/5', '/comments/6'])
+    })
+
+    it.each([
+      [false, 1, 1],
+      [true, 3, 3],
+    ])('counts comments in camp scope (mobile: %s)', async (mobile, open, resolved) => {
+      activityFromRoute.mockReturnValue(undefined)
+      const wrapper = mountPanel({
+        mobile,
+        items: [
+          comment(20),
+          comment(21, { resolvedAt: '2026-08-01T12:00:00+00:00' }),
+          ...thread,
+        ],
+      })
+      commentsState.open = true
+      await nextTick()
+
+      expect(wrapper.get('[data-testid="comments-open-count"]').text()).toBe(`${open}`)
+      expect(wrapper.get('[data-testid="comments-resolved-count"]').text()).toBe(
+        `${resolved}`
       )
     })
 
-    it('uses the default empty state when there are no comments at all', async () => {
-      const wrapper = mountPanel({ items: [] })
+    it('updates both counts when a comment is resolved, independently of the selected filter', async () => {
+      const items = reactive([comment(30, { on: activity })])
+      const wrapper = mountPanel({ items })
       commentsState.open = true
       await nextTick()
 
+      expect(wrapper.get('[data-testid="comments-open-count"]').text()).toBe('1')
+      expect(wrapper.find('[data-testid="comments-resolved-count"]').exists()).toBe(false)
+
+      items[0].resolvedAt = '2026-08-01T12:00:00+00:00'
+      commentsState.statusFilter = 'all'
+      await nextTick()
+
+      expect(wrapper.find('[data-testid="comments-open-count"]').exists()).toBe(false)
+      expect(wrapper.get('[data-testid="comments-resolved-count"]').text()).toBe('1')
+      expect(wrapper.find('[data-testid="comments-all-count"]').exists()).toBe(false)
+    })
+
+    it.each([
+      ['noResolvedComments', 'resolved', [openRoot, replyToOpen]],
+      ['noOpenCommentsWithResolved', 'open', [resolvedRoot, replyToResolved]],
+      ['noOpenComments', 'open', []],
+      [
+        'noOpenComments',
+        'open',
+        [comment(31, { on: otherActivity, resolvedAt: '2026-08-01T12:00:00+00:00' })],
+      ],
+    ])('shows %s for %s (case %#)', async (message, statusFilter, items) => {
+      const wrapper = mountPanel({ items })
+      commentsState.statusFilter = statusFilter
+      commentsState.open = true
+      await nextTick()
+
+      expect(listedComments(wrapper)).toEqual([])
       expect(wrapper.findComponent({ name: 'CommentsList' }).props().emptyText).toBe(
-        'components.comments.commentsList.empty'
+        `components.comments.commentsList.${message}`
       )
     })
 
@@ -480,7 +581,7 @@ describe('CommentsPanel', () => {
     it('counts the same comments elsewhere under "All"', async () => {
       activityFromRoute.mockReturnValue(undefined)
       const wrapper = mountPanel({ items: [campLevel, ...thread] })
-      commentsState.showResolved = true
+      commentsState.statusFilter = 'all'
       commentsState.open = true
       await nextTick()
 
@@ -503,22 +604,22 @@ describe('CommentsPanel', () => {
     it('keeps showing resolved threads after it was closed', async () => {
       mountPanel({ items: thread })
       commentsState.open = true
-      commentsState.showResolved = true
+      commentsState.statusFilter = 'all'
       await nextTick()
 
       commentsState.open = false
       await nextTick()
-      expect(commentsState.showResolved).toBe(true)
+      expect(commentsState.statusFilter).toBe('all')
     })
 
     it('goes back to "Open" on camp change', async () => {
       const route = reactive({ path: '/camps/1/dashboard', params: { campId: '1' } })
       mountPanel({ route })
       commentsState.open = true
-      commentsState.showResolved = true
+      commentsState.statusFilter = 'all'
 
       route.params.campId = '2'
-      await vi.waitFor(() => expect(commentsState.showResolved).toBe(false))
+      await vi.waitFor(() => expect(commentsState.statusFilter).toBe('open'))
     })
   })
 })

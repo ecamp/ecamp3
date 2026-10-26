@@ -371,9 +371,7 @@
         "reply": "Antworten",
         "resolve": "Erledigt",
         "resolved": "Erledigt",
-        "resolvedBy": "Erledigt von {user}",
-        "resolvedToast": "Kommentar erledigt. Erledigte Kommentare werden nur unter \"Alle\" angezeigt.",
-        "showAll": "Alle anzeigen"
+        "resolvedBy": "Erledigt von {user}"
       },
       "commentTime": {
         "today": "Heute, {time}",
@@ -381,13 +379,17 @@
       },
       "commentsList": {
         "empty": "Noch keine Kommentare.",
-        "noOpenComments": "Keine offenen Kommentare. Wechsle zu \"Alle\", um die erledigten zu sehen."
+        "noResolvedComments": "Keine erledigten Kommentare.",
+        "noOpenComments": "Keine offenen Kommentare.",
+        "noOpenCommentsWithResolved": "Keine offenen Kommentare. Siehe Erledigt"
       },
       "commentsPanel": {
         "activityCommentsElsewhere": "Ein weiterer offener Kommentar befindet sich bei einer Aktivität. | {count} weitere offene Kommentare befinden sich bei einzelnen Aktivitäten.",
         "all": "Alle",
         "commentsOnThisActivity": "Kommentare zu dieser Aktivität",
         "open": "Offen",
+        "resolved": "Erledigt",
+        "resolvedActivityCommentsElsewhere": "Ein weiterer erledigter Kommentar befindet sich bei einer Aktivität. | {count} weitere erledigte Kommentare befinden sich bei einzelnen Aktivitäten.",
         "title": "Kommentare"
       },
       "commentsToggleButton": {
