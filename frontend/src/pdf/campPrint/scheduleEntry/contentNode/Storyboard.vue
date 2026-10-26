@@ -1,5 +1,8 @@
 <template>
-  <View class="content-node storyboard-container">
+  <View
+    class="content-node storyboard-container"
+    :class="{ 'content-node-compact': compact }"
+  >
     <InstanceName :content-node="contentNode" :icon="mdiScriptTextOutline" />
     <View class="storyboard-header-row">
       <View class="storyboard-header-cell storyboard-column-1" :class="headerClass">

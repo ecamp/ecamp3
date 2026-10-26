@@ -1,5 +1,5 @@
 <template>
-  <View class="content-node">
+  <View class="content-node" :class="{ 'content-node-compact': compact }">
     <InstanceName :content-node="contentNode" :icon="mdiBookOpenVariant" />
     <View style="line-height: 0.8">
       <RichText :rich-text="contentNode.data.html" />

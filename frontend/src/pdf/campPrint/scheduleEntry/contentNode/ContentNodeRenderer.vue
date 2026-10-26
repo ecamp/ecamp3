@@ -4,7 +4,6 @@
       :is="contentNodeComponent"
       v-if="contentNodeComponent"
       :content-node="contentNode"
-      :class="{ 'content-node-compact': compact && !isLayout }"
     />
     <Text v-else>{{ contentTypeName }}</Text>
   </template>
@@ -37,9 +36,6 @@ export default {
   computed: {
     contentTypeName() {
       return this.contentNode.contentTypeName
-    },
-    isLayout() {
-      return ['ColumnLayout', 'ResponsiveLayout'].includes(this.contentTypeName)
     },
     contentNodeComponent() {
       return {

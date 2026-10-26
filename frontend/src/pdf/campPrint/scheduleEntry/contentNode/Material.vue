@@ -1,5 +1,5 @@
 <template>
-  <View class="content-node material">
+  <View class="content-node material" :class="{ 'content-node-compact': compact }">
     <InstanceName :content-node="contentNode" :icon="mdiPackageVariant" />
     <View v-for="item in sortedMaterialItems" class="material-item">
       <Text class="material-item-quantity">{{ item.quantity }}</Text>

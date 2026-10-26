@@ -1,5 +1,5 @@
 <template>
-  <View class="content-node">
+  <View class="content-node" :class="{ 'content-node-compact': compact }">
     <InstanceName :content-node="contentNode" :icon="mdiClipboardListOutline" />
 
     <View v-for="entry in checklistsWithItems" class="checklist">
