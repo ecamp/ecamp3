@@ -25,7 +25,8 @@ test.describe('check access: /api/authorization/check_access', { tag: '@mature' 
 
     const response = await apiCheckAccess(bipiApi, campIri(grgrCampId))
 
-    expect(response.status()).toBe(204)
+    expect(response.status()).toBe(200)
+    expect(await response.json()).toEqual({ granted: true, iri: campIri(grgrCampId) })
   })
 
   test('grants access only for the lifetime of the login and tags it with the collaboration', async () => {
@@ -45,7 +46,7 @@ test.describe('check access: /api/authorization/check_access', { tag: '@mature' 
 
     const response = await apiCheckAccess(bipiApi, campIri(jsKursPrototypeCampId))
 
-    expect(response.status()).toBe(204)
+    expect(response.status()).toBe(200)
     // purging the camp revokes the access, e.g. when it stops being public
     expect(response.headers()['xkey']).toContain(jsKursPrototypeCampId)
   })
@@ -56,6 +57,7 @@ test.describe('check access: /api/authorization/check_access', { tag: '@mature' 
     const response = await apiCheckAccess(bruceApi, campIri(grgrCampId))
 
     expect(response.status()).toBe(403)
+    expect(await response.json()).toEqual({ granted: false, iri: campIri(grgrCampId) })
   })
 
   test('does not allow to cache a denial', async () => {
@@ -85,6 +87,7 @@ test.describe('check access: /api/authorization/check_access', { tag: '@mature' 
     const response = await apiCheckAccess(bipiApi)
 
     expect(response.status()).toBe(400)
+    expect(await response.json()).toEqual({ error: "Query parameter 'iri' is required" })
   })
 
   test('requires a login', async () => {

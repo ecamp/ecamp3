@@ -119,9 +119,9 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
 
     // everybody gets the answer of the API for their own login, nothing is taken from the cache
     for (const [api, status] of [
-      [bipiApi, 204],
+      [bipiApi, 200],
       [bruceApi, 403],
-      [bipiApi, 204],
+      [bipiApi, 200],
     ] as const) {
       const response = await checkAccess(api)
       expect(response.status()).toBe(status)
@@ -175,7 +175,7 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
           preflight: 'HIT',
         })
         const granted = await apiCheckAccess(bruceApi, campUri)
-        expect(granted.status()).toBe(204)
+        expect(granted.status()).toBe(200)
         expect(granted.headers()['xkey']).toContain(campId)
 
         // making it private again revokes it immediately, although bruce's access check was cached

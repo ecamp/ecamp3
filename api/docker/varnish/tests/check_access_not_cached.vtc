@@ -3,7 +3,7 @@ varnishtest "A client requesting the access check through the cache always gets 
 server s1 {
     rxreq
     expect req.url == "/authorization/check_access?iri=/api/camps/1"
-    txresp -status 204 -hdr "Cache-Control: public, s-maxage=60"
+    txresp -status 200 -hdr "Cache-Control: public, s-maxage=60"
 
     rxreq
     expect req.url == "/authorization/check_access?iri=/api/camps/1"
@@ -18,7 +18,7 @@ varnish v1 -vcl+backend {
 client c1 {
     txreq -url "/authorization/check_access?iri=/api/camps/1" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpA; localhost_jwt_s=sigA"
     rxresp
-    expect resp.status == 204
+    expect resp.status == 200
 
     # the answer for another user is not taken from the cache
     txreq -url "/authorization/check_access?iri=/api/camps/1" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpX; localhost_jwt_s=sigX"

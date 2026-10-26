@@ -42,7 +42,7 @@ class AccessTagsTest extends ECampApiTestCase {
 
         $response = $this->checkAccess('campPrototype', ['email' => static::$fixtures['user4unrelated']->getEmail()]);
 
-        $this->assertResponseStatusCodeSame(204);
+        $this->assertResponseStatusCodeSame(200);
         $this->assertContains($camp->getId(), $this->getTags($response));
     }
 

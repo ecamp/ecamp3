@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Security\ResourceReadAccessChecker;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Authenticator\Token\JWTPostAuthenticationToken;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -26,22 +27,22 @@ class CheckAccessController {
     ) {}
 
     #[Route('/authorization/check_access', name: self::ROUTE, methods: ['GET'])]
-    public function __invoke(Request $request): Response {
+    public function __invoke(Request $request): JsonResponse {
         $iri = $request->query->all()['iri'] ?? null;
         if (!is_string($iri) || '' === $iri) {
-            return new Response(null, Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => "Query parameter 'iri' is required"], Response::HTTP_BAD_REQUEST);
         }
 
         $ttl = $this->isGranted($iri) ? $this->getTokenTtl() : 0;
 
         if ($ttl <= 0) {
-            $response = new Response(null, Response::HTTP_FORBIDDEN);
+            $response = new JsonResponse(['granted' => false, 'iri' => $iri], Response::HTTP_FORBIDDEN);
             $response->setCache(['no_store' => true, 'private' => true]);
 
             return $response;
         }
 
-        $response = new Response(null, Response::HTTP_NO_CONTENT);
+        $response = new JsonResponse(['granted' => true, 'iri' => $iri], Response::HTTP_OK);
         $response->setCache(['public' => true, 'max_age' => 0, 's_maxage' => $ttl]);
 
         return $response;

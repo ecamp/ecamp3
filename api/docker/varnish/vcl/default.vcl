@@ -131,7 +131,7 @@ sub vcl_backend_response {
 
   if (bereq.http.X-Cache-Phase == "preflight") {
     # only cache the decision to grant access
-    if (beresp.status != 204) {
+    if (beresp.status != 200) {
       set beresp.uncacheable = true;
       set beresp.ttl = 120s;
       return (deliver);
@@ -164,7 +164,7 @@ sub vcl_backend_response {
 sub vcl_deliver {
   # Continue the original request with the answer of the API
   if (req.http.X-Cache-Phase == "preflight") {
-    if (resp.status == 204) {
+    if (resp.status == 200) {
       set req.http.X-Cache-Grant = req.http.X-Cache-Check-Iri;
     } else {
       set req.http.X-Cache-Denied = "true";
