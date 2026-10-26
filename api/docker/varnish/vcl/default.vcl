@@ -8,6 +8,7 @@ import var;
 include "./_config.vcl";
 include "./fos_tags_xkey.vcl";
 include "./fos_debug.vcl";
+include "./purge_all.vcl";
 
 sub vcl_recv {
 
@@ -30,6 +31,7 @@ sub vcl_recv {
   # Support xkey purge requests
   # see https://raw.githubusercontent.com/varnish/varnish-modules/master/src/vmod_xkey.vcc
   call fos_tags_xkey_recv;
+  call purge_all_recv;
 
   if (req.http.X-Cache-Phase != "preflight") {
     # exclude API documentation, profiler and graphql endpoint

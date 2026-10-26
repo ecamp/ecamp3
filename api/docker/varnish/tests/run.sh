@@ -5,6 +5,7 @@
 set -e
 
 export COOKIE_PREFIX=localhost_
+export ENABLE_PURGE_ALL=true
 TEST_VCL_DIR=$(mktemp -d)
 cp /varnish/vcl/*.vcl "$TEST_VCL_DIR"
 : > "$TEST_VCL_DIR/_config.vcl"

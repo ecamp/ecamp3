@@ -87,8 +87,15 @@ services:
       - ./api/docker/varnish/vcl/:/etc/varnish/:ro
       - varnish_data:/var/lib/varnish
     command: -a :8081,HTTP -p http_max_hdr=96
+    # the purge port is only published to purge the cache before e2e tests
+    ports:
+      - target: 8081
+        published: 3005
+        host_ip: 127.0.0.1
+        protocol: tcp
     environment:
       - COOKIE_PREFIX=localhost_
+      - ENABLE_PURGE_ALL=true
       - SEND_XKEY_HEADERS_DOWNSTREAM=${SEND_XKEY_HEADERS_DOWNSTREAM:-true}
       - VARNISH_HTTP_PORT=8080
 

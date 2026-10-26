@@ -9,7 +9,7 @@ import {
   apiPost,
   getAuthContext,
   getCacheInfo,
-  purgeCachedResponses,
+  purgeCache,
 } from '@/utils/helpers'
 
 /**
@@ -20,12 +20,13 @@ import {
 test.describe('cache test: shared responses', { tag: '@mature' }, () => {
   test.describe.configure({ mode: 'serial' })
 
+  test.beforeEach(purgeCache)
+
   const uri = `/api/camps/${grgrCampId}/categories`
 
   test('shares a response between users with access, checking access once per user', async () => {
     const bipiApi = await getAuthContext(bipiUser)
     const castorApi = await getAuthContext(castorUser)
-    await purgeCachedResponses(bipiApi, '/api/categories/ebfd46a1c181', 'name', 'purge')
 
     // a miss is authorized by the API itself, no access check
     expect(await getCacheInfo(bipiApi, uri)).toEqual({

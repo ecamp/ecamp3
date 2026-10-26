@@ -8,6 +8,7 @@ import {
 export const API_ROOT_URL = process.env.API_ROOT_URL || 'http://localhost:3000/api'
 export const API_ROOT_URL_CACHED =
   process.env.API_ROOT_URL_CACHED || 'http://localhost:3004'
+export const CACHE_PURGE_URL = process.env.CACHE_PURGE_URL || 'http://localhost:3005'
 
 export async function login(
   request: APIRequestContext,
@@ -111,24 +112,17 @@ export async function waitForCacheMiss(request: APIRequestContext, uri: string) 
 }
 
 /**
- * Removes the cached responses containing a resource, by writing a different value to a property of the
- * resource and then the original value back. Responses stay cached for a long time and are shared between
- * users, so a test can only expect a cache miss for a response after purging it.
+ * Removes all responses from the cache. Responses are shared between users and stay cached for a long time,
+ * so a test can only expect a cache miss for a response after purging the cache.
  */
-export async function purgeCachedResponses(
-  request: APIRequestContext,
-  uri: string,
-  property: string,
-  temporaryValue: unknown
-) {
+export async function purgeCache() {
   await test.step(
-    `Purge cached responses containing ${uri}`,
+    'Purge cache',
     async () => {
-      const original = (await (await apiGet(request, uri)).json())[property]
-      expect((await apiPatch(request, uri, { [property]: temporaryValue })).ok()).toBe(
-        true
-      )
-      expect((await apiPatch(request, uri, { [property]: original })).ok()).toBe(true)
+      const purgeContext = await request.newContext()
+      const response = await purgeContext.fetch(CACHE_PURGE_URL, { method: 'PURGEALL' })
+      expect(response.status()).toBe(200)
+      await purgeContext.dispose()
     },
     { box: true }
   )

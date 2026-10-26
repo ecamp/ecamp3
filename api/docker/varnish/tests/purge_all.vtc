@@ -1,0 +1,45 @@
+varnishtest "All cached responses can be purged on the purge port"
+
+server s1 {
+    rxreq
+    txresp -hdr "X-Cache-Security-Delegate: public" -hdr "Cache-Control: public, s-maxage=60" -body "content types"
+
+    rxreq
+    txresp -hdr "X-Cache-Security-Delegate: public" -hdr "Cache-Control: public, s-maxage=60" -body "content types"
+} -start
+
+# the first address is used by the clients as usual, the second one is the purge port
+varnish v1 -arg "-a 127.0.0.1:0 -a 127.0.0.1:8081" -vcl+backend {
+    include "${vcldir}/default.vcl";
+} -start
+
+client c1 {
+    txreq -url "/content_types" -hdr "Accept: application/hal+json"
+    rxresp
+    expect resp.status == 200
+
+    # cached
+    txreq -url "/content_types" -hdr "Accept: application/hal+json"
+    rxresp
+    expect resp.status == 200
+
+    # not allowed on the port which is used by clients
+    txreq -req PURGEALL -url "/"
+    rxresp
+    expect resp.status == 405
+} -run
+
+client c2 -connect "127.0.0.1:8081" {
+    txreq -req PURGEALL -url "/"
+    rxresp
+    expect resp.status == 200
+} -run
+
+client c3 {
+    # fetched again after the purge
+    txreq -url "/content_types" -hdr "Accept: application/hal+json"
+    rxresp
+    expect resp.status == 200
+} -run
+
+server s1 -wait

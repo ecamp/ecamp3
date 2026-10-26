@@ -1,8 +1,15 @@
-import { apiGet, expectCacheHit, loginAndSetCookie } from '@/utils/helpers'
+import {
+  expectCacheHit,
+  expectCacheMiss,
+  loginAndSetCookie,
+  purgeCache,
+} from '@/utils/helpers'
 import { test } from '@playwright/test'
 
 const user1 = 'test@example.com'
 const user2 = 'castor@example.com'
+
+test.beforeEach(purgeCache)
 
 test(
   'shares the root endpoint between users',
@@ -15,8 +22,7 @@ test(
     const page1 = await context1.newPage()
     await loginAndSetCookie(page1, context1, user1)
 
-    // the response stays cached across test runs
-    await apiGet(context1.request, uri)
+    await expectCacheMiss(context1.request, uri)
     await expectCacheHit(context1.request, uri)
 
     await context1.close()

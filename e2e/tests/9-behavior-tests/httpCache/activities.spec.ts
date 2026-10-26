@@ -14,7 +14,7 @@ import {
   expectCacheHit,
   waitForCacheMiss,
   apiGet,
-  purgeCachedResponses,
+  purgeCache,
   apiPatch,
   apiPost,
   apiDelete,
@@ -56,18 +56,12 @@ const collectionXKeys =
 test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () => {
   test.describe.configure({ mode: 'serial' })
 
+  test.beforeEach(purgeCache)
+
   test('caches /camps/{campId}/activities between users with access', async () => {
     const uri = `/api/camps/${skilagerCampId}/activities`
 
     const bipiApi = await getAuthContext(bipiUser)
-
-    // the response is shared between users and stays cached across test runs (bruce can edit this camp)
-    await purgeCachedResponses(
-      await getAuthContext(bruceWayneUser),
-      '/api/activities/a13fadc97610',
-      'title',
-      'purge'
-    )
 
     // first request is a cache miss
     const request = await apiGet(bipiApi, uri)
