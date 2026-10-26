@@ -1,7 +1,7 @@
 <template>
   <View class="content-node storyboard-container">
     <InstanceName :content-node="contentNode" :icon="mdiScriptTextOutline" />
-    <View v-if="anyContent" class="storyboard-header-row">
+    <View class="storyboard-header-row">
       <View class="storyboard-header-cell storyboard-column-1" :class="headerClass">
         <Text>{{ $tc('contentNode.storyboard.entity.section.fields.column1') }}</Text>
       </View>
@@ -82,9 +82,6 @@ export default {
         })),
         (section) => section.position
       )
-    },
-    anyContent() {
-      return this.sections.some(sectionHasContent)
     },
   },
 }
