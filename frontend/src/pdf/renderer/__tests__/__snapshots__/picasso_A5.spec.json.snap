@@ -1513,7 +1513,7 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LS 1.1 Stadt Game 🐭",
+                                  "value": "LS 1.1 Stadt Game 🐭 (PA 1 h)",
                                 },
                               ],
                               "parent": [Circular],
@@ -1556,46 +1556,6 @@
                             "flexGrow": "1",
                             "height": "0",
                             "maxHeight": "4pt",
-                          },
-                          "type": "VIEW",
-                        },
-                        {
-                          "box": {},
-                          "children": [
-                            {
-                              "box": {},
-                              "children": [
-                                {
-                                  "parent": [Circular],
-                                  "type": "TEXT_INSTANCE",
-                                  "value": "PA 1 h",
-                                },
-                              ],
-                              "parent": [Circular],
-                              "props": {},
-                              "style": {},
-                              "type": "TEXT",
-                            },
-                          ],
-                          "parent": [Circular],
-                          "props": {
-                            "class": "picasso-schedule-entry-ys-physical-activity-duration-container",
-                            "key": 0,
-                            "style": {
-                              "color": "#000",
-                              "fontSize": "8pt",
-                            },
-                          },
-                          "style": {
-                            "bottom": "0",
-                            "color": "#000",
-                            "fontSize": "8pt",
-                            "justifyContent": "flex-end",
-                            "left": "0",
-                            "padding": "0 4pt 2pt",
-                            "position": "absolute",
-                            "right": "0",
-                            "top": "0",
                           },
                           "type": "VIEW",
                         },
