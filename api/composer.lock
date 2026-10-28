@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "442a108d1919bc38eebce33ad179caeb",
+    "content-hash": "d67aaa3de432ecd4147ffc9168f2c0b2",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -11891,16 +11891,16 @@
         },
         {
             "name": "brianium/paratest",
-            "version": "v7.27.2",
+            "version": "v7.27.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paratestphp/paratest.git",
-                "reference": "3b1189e2e36ac3e958d8cb362433862123eb7566"
+                "reference": "428bbd887c2e811686c9bfd7e0eda8f09cff6964"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/3b1189e2e36ac3e958d8cb362433862123eb7566",
-                "reference": "3b1189e2e36ac3e958d8cb362433862123eb7566",
+                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/428bbd887c2e811686c9bfd7e0eda8f09cff6964",
+                "reference": "428bbd887c2e811686c9bfd7e0eda8f09cff6964",
                 "shasum": ""
             },
             "require": {
@@ -11914,7 +11914,7 @@
                 "phpunit/php-code-coverage": "^14.4.1",
                 "phpunit/php-file-iterator": "^7.0.2",
                 "phpunit/php-timer": "^9",
-                "phpunit/phpunit": "^13.4.2",
+                "phpunit/phpunit": "^13.4.3",
                 "sebastian/environment": "^9.3.3",
                 "symfony/console": "^7.4.20 || ^8.1.8",
                 "symfony/process": "^7.4.19 || ^8.1.7"
@@ -11968,7 +11968,7 @@
             ],
             "support": {
                 "issues": "https://github.com/paratestphp/paratest/issues",
-                "source": "https://github.com/paratestphp/paratest/tree/v7.27.2"
+                "source": "https://github.com/paratestphp/paratest/tree/v7.27.3"
             },
             "funding": [
                 {
@@ -11980,7 +11980,7 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2026-10-16T12:01:22+00:00"
+            "time": "2026-10-21T05:29:09+00:00"
         },
         {
             "name": "clue/ndjson-react",
