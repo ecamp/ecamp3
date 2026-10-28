@@ -1999,34 +1999,81 @@
                                                     {
                                                       "parent": [Circular],
                                                       "type": "TEXT_INSTANCE",
-                                                      "value": "2. test",
+                                                      "value": "2.",
                                                     },
                                                   ],
                                                   "parent": [Circular],
                                                   "props": {
-                                                    "class": "p",
+                                                    "class": "list-item-marker",
+                                                    "style": {
+                                                      "paddingRight": 4,
+                                                      "width": 15,
+                                                    },
                                                   },
                                                   "style": {
-                                                    "marginBottom": "2pt",
+                                                    "flexShrink": "0",
+                                                    "fontFeatureSettings": {
+                                                      "tnum": 1,
+                                                    },
+                                                    "paddingRight": 4,
+                                                    "textAlign": "right",
+                                                    "width": 15,
                                                   },
                                                   "type": "TEXT",
+                                                },
+                                                {
+                                                  "box": {},
+                                                  "children": [
+                                                    {
+                                                      "box": {},
+                                                      "children": [
+                                                        {
+                                                          "parent": [Circular],
+                                                          "type": "TEXT_INSTANCE",
+                                                          "value": "test",
+                                                        },
+                                                      ],
+                                                      "parent": [Circular],
+                                                      "props": {
+                                                        "class": "p",
+                                                      },
+                                                      "style": {
+                                                        "marginBottom": "2pt",
+                                                      },
+                                                      "type": "TEXT",
+                                                    },
+                                                  ],
+                                                  "parent": [Circular],
+                                                  "props": {
+                                                    "class": "list-item-content",
+                                                  },
+                                                  "style": {
+                                                    "flexBasis": "0",
+                                                    "flexGrow": "1",
+                                                    "flexShrink": "1",
+                                                  },
+                                                  "type": "VIEW",
                                                 },
                                               ],
                                               "parent": [Circular],
                                               "props": {
-                                                "style": {
-                                                  "marginLeft": "4pt",
-                                                },
+                                                "class": "list-item",
                                               },
                                               "style": {
-                                                "marginLeft": "4pt",
+                                                "display": "flex",
+                                                "flexDirection": "row",
                                               },
                                               "type": "VIEW",
                                             },
                                           ],
                                           "parent": [Circular],
-                                          "props": {},
-                                          "style": {},
+                                          "props": {
+                                            "class": "list",
+                                          },
+                                          "style": {
+                                            "display": "flex",
+                                            "flexDirection": "column",
+                                          },
                                           "type": "VIEW",
                                         },
                                       ],
@@ -2152,34 +2199,81 @@
                                                     {
                                                       "parent": [Circular],
                                                       "type": "TEXT_INSTANCE",
-                                                      "value": "1. xyz",
+                                                      "value": "1.",
                                                     },
                                                   ],
                                                   "parent": [Circular],
                                                   "props": {
-                                                    "class": "p",
+                                                    "class": "list-item-marker",
+                                                    "style": {
+                                                      "paddingRight": 4,
+                                                      "width": 15,
+                                                    },
                                                   },
                                                   "style": {
-                                                    "marginBottom": "2pt",
+                                                    "flexShrink": "0",
+                                                    "fontFeatureSettings": {
+                                                      "tnum": 1,
+                                                    },
+                                                    "paddingRight": 4,
+                                                    "textAlign": "right",
+                                                    "width": 15,
                                                   },
                                                   "type": "TEXT",
+                                                },
+                                                {
+                                                  "box": {},
+                                                  "children": [
+                                                    {
+                                                      "box": {},
+                                                      "children": [
+                                                        {
+                                                          "parent": [Circular],
+                                                          "type": "TEXT_INSTANCE",
+                                                          "value": "xyz",
+                                                        },
+                                                      ],
+                                                      "parent": [Circular],
+                                                      "props": {
+                                                        "class": "p",
+                                                      },
+                                                      "style": {
+                                                        "marginBottom": "2pt",
+                                                      },
+                                                      "type": "TEXT",
+                                                    },
+                                                  ],
+                                                  "parent": [Circular],
+                                                  "props": {
+                                                    "class": "list-item-content",
+                                                  },
+                                                  "style": {
+                                                    "flexBasis": "0",
+                                                    "flexGrow": "1",
+                                                    "flexShrink": "1",
+                                                  },
+                                                  "type": "VIEW",
                                                 },
                                               ],
                                               "parent": [Circular],
                                               "props": {
-                                                "style": {
-                                                  "marginLeft": "4pt",
-                                                },
+                                                "class": "list-item",
                                               },
                                               "style": {
-                                                "marginLeft": "4pt",
+                                                "display": "flex",
+                                                "flexDirection": "row",
                                               },
                                               "type": "VIEW",
                                             },
                                           ],
                                           "parent": [Circular],
-                                          "props": {},
-                                          "style": {},
+                                          "props": {
+                                            "class": "list",
+                                          },
+                                          "style": {
+                                            "display": "flex",
+                                            "flexDirection": "column",
+                                          },
                                           "type": "VIEW",
                                         },
                                       ],
