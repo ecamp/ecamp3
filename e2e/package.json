@@ -16,7 +16,7 @@
     "@eslint/compat": "2.1.1",
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.64.0",
-    "@types/node": "24.19.2",
+    "@types/node": "26.6.5",
     "eslint": "10.13.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-playwright": "2.12.1",
