@@ -382,6 +382,7 @@ div.editor:deep(.editor__content .ProseMirror) {
   color: rgba(0, 0, 0, 0.87);
   line-height: 1.5;
   overflow-wrap: anywhere;
+  font-feature-settings: inherit;
 }
 
 .v-theme--light.v-input--is-disabled div.editor:deep(.editor__content .ProseMirror) {
