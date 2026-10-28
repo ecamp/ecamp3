@@ -271,7 +271,9 @@
         "startDatetime": "Heure de début",
         "time": "Moment",
         "ysPhysicalActivityDuration": "Temps consacré à l'exercice d'une activité sportive J+S",
-        "ysPhysicalActivityDurationFormatted": "TAS {duration}"
+        "ysPhysicalActivityDurationFormatted": "TAS {duration}",
+        "ysPhysicalActivityDurationOrMore": "{duration} ou plus",
+        "ysPhysicalActivityDurationOrMoreShort": "{hours}+ h"
       },
       "name": "Inscription au calendrier"
     }
