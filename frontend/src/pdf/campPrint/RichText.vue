@@ -27,6 +27,7 @@ const BLOCK_TAGS = [
   'th',
   'hr',
 ]
+const NBSP = '\u00a0'
 const INLINE_CLASSES = {
   strong: 'bold',
   b: 'bold',
@@ -50,6 +51,12 @@ function isBlank(node) {
   return node.type === 'text' && !node.content.trim()
 }
 
+function endsWithBreak(nodes) {
+  const last = nodes[nodes.length - 1]
+  if (!last || last.type !== 'tag') return false
+  return isTag(last, ['br']) || endsWithBreak(last.children)
+}
+
 function renderInline(node, context) {
   if (node.type === 'text') {
     return decode(node.content, { scope: 'strict' })
@@ -66,12 +73,13 @@ function renderInline(node, context) {
 }
 
 function renderInlineChildren(node, context) {
-  if (!node.children.length) return [' ']
+  if (!node.children.length) return [NBSP]
   return node.children.map((child) => renderInline(child, context))
 }
 
 function renderParagraph(nodes, context, className = 'p') {
-  const children = nodes.length ? nodes.map((node) => renderInline(node, context)) : [' ']
+  const children = nodes.map((node) => renderInline(node, context))
+  if (!nodes.length || endsWithBreak(nodes)) children.push(NBSP)
   return h('Text', { class: className }, children)
 }
 

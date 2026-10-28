@@ -118,6 +118,22 @@ describe('RichText', () => {
     `)
   })
 
+  it('keeps the empty line after a trailing soft break', () => {
+    expect(
+      layout(
+        '<ul><li><p><br /></p></li><li><p>test</p></li></ul><p>a<br /></p><p><strong>b<br /></strong></p>'
+      )
+    ).toMatchInlineSnapshot(`
+      "•    
+           ␣
+      •    test
+      a
+      ␣
+      b
+      ␣"
+    `)
+  })
+
   it('renders list items without paragraphs and empty items', () => {
     expect(layout('<ul><li>bare text</li><li></li><li><p></p></li></ul>'))
       .toMatchInlineSnapshot(`
