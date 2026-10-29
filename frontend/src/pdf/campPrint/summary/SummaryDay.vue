@@ -6,15 +6,13 @@
   <template v-for="{ scheduleEntry, contentNodes } in entriesWithContentNodes">
     <template v-for="chapter in contentNodes">
       <View class="summary-chapter-title" :min-presence-ahead="30">
-        <CategoryLabel
-          :category="scheduleEntry.activity().category()"
-          style="font-size: 10pt"
-        />
-        <Text :id="`${id}-${period.id}-${scheduleEntry.id}`" style="margin: 0 3pt">
-          {{ scheduleEntry.number }} {{ chapter.title }}
+        <CategoryLabel :category="scheduleEntry.activity().category()" :size="11" />
+        <Text :id="`${id}-${period.id}-${scheduleEntry.id}`">
+          <Text class="tabular-nums">{{ scheduleEntry.number }}</Text>
+          {{ chapter.title }}
         </Text>
       </View>
-      <View style="line-height: 1">
+      <View class="summary-chapter-text">
         <RichText :rich-text="chapter.data.html" />
       </View>
     </template>
@@ -93,18 +91,24 @@ export default {
   margin-bottom: 1pt;
 }
 .summary-day-title {
-  font-size: 14pt;
-  font-weight: 600;
+  font-size: 12pt;
+  font-weight: 500;
   margin: 10pt 0 3pt;
 }
 .summary-day-date {
-  font-size: 11pt;
+  font-size: 12pt;
 }
 .summary-chapter-title {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  font-weight: bold;
+  align-items: flex-start;
+  gap: 4pt;
+  font-size: 11pt;
+  font-weight: 600;
   margin: 10pt 0 4.5pt;
+}
+.summary-chapter-text {
+  font-size: 10pt;
+  line-height: 1.5;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <View class="content-node">
-    <InstanceName :content-node="contentNode" />
+  <View class="content-node" :class="{ 'content-node-compact': compact }">
+    <InstanceName :content-node="contentNode" :icon="mdiClipboardListOutline" />
 
     <View v-for="entry in checklistsWithItems" class="checklist">
       <Text class="checklist-title">{{ entry.checklist.name }}</Text>
@@ -34,22 +34,13 @@ function calculateItemNumber(item) {
 }
 
 const camp = inject('camp')
-const allChecklists = camp.checklists().items
-const allItems = allChecklists.flatMap((checklist) => checklist.checklistItems().items)
-const items = allItems
-  .filter((item) => {
-    const connectedChecklistNodes = item
-      .checklistNodes()
-      .items.map((checklistNode) => checklistNode._meta.self)
-    return connectedChecklistNodes.includes(props.contentNode._meta.self)
-  })
-  .map((item) => {
-    const number = calculateItemNumber(item)
-    return {
-      ...item,
-      number,
-    }
-  })
+const items = checklistItemsFor(props.contentNode, camp).map((item) => {
+  const number = calculateItemNumber(item)
+  return {
+    ...item,
+    number,
+  }
+})
 
 const checklists = uniqWith(
   items.map((checklistItem) => checklistItem.checklist()),
@@ -70,11 +61,31 @@ const checklistsWithItems = checklists.map((checklist) => ({
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
 import InstanceName from '../InstanceName.vue'
+import { mdiClipboardListOutline } from '@mdi/js'
+
+function checklistItemsFor(contentNode, camp) {
+  return camp
+    .checklists()
+    .items.flatMap((checklist) => checklist.checklistItems().items)
+    .filter((item) =>
+      item
+        .checklistNodes()
+        .items.some(
+          (checklistNode) => checklistNode._meta.self === contentNode._meta.self
+        )
+    )
+}
 
 export default {
   name: 'Checklist',
   components: { InstanceName },
   extends: PdfComponent,
+  isEmpty(contentNode, camp) {
+    return checklistItemsFor(contentNode, camp).length === 0
+  },
+  data() {
+    return { mdiClipboardListOutline }
+  },
 }
 </script>
 <style lang="react-pdf">
@@ -101,7 +112,7 @@ export default {
   flex-shrink: 0;
   flex-grow: 0;
   padding-right: 2pt;
-  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
 }
 .checklist-item-column-2 {
   flex-basis: 0;

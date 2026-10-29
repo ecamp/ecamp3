@@ -1,5 +1,5 @@
 <template>
-  <View class="content-node">
+  <View class="content-node" :class="{ 'content-node-compact': compact }">
     <InstanceName :content-node="contentNode" />
     <template v-for="(data, key) in contentNode.data.options">
       <View v-if="data.checked" class="ys-activity-characteristics-entry">
@@ -18,6 +18,9 @@ export default {
   name: 'YSActivityCharacteristics',
   components: { InstanceName, Checkmark },
   extends: PdfComponent,
+  isEmpty(contentNode) {
+    return !Object.values(contentNode.data.options).some((option) => option.checked)
+  },
   props: {
     contentNode: { type: Object, required: true },
   },

@@ -71,7 +71,7 @@
               "style": {
                 "flexGrow": "1",
                 "fontSize": "14pt",
-                "fontWeight": "bold",
+                "fontWeight": "600",
               },
               "type": "TEXT",
             },
@@ -107,38 +107,20 @@
           "children": [
             {
               "box": {},
-              "children": [
-                {
-                  "box": {},
-                  "children": [
-                    {
-                      "parent": [Circular],
-                      "type": "TEXT_INSTANCE",
-                      "value": "12:00 AM",
-                    },
-                  ],
-                  "parent": [Circular],
-                  "props": {
-                    "class": "picasso-time-column-text picasso-time-column-spacer-text",
-                  },
-                  "style": {
-                    "fontSize": "8pt",
-                    "opacity": "0",
-                  },
-                  "type": "TEXT",
-                },
-              ],
+              "children": [],
               "parent": [Circular],
               "props": {
-                "class": "picasso-time-column picasso-time-column-spacer",
+                "class": "picasso-time-column",
+                "style": {
+                  "width": 47,
+                },
               },
               "style": {
                 "display": "flex",
                 "flexDirection": "column",
                 "flexGrow": "0",
                 "flexShrink": "0",
-                "marginBottom": "0",
-                "marginTop": "0",
+                "width": 47,
               },
               "type": "VIEW",
             },
@@ -159,8 +141,8 @@
                     "class": "picasso-day-header-text",
                   },
                   "style": {
-                    "fontSize": "8pt",
-                    "fontWeight": "bold",
+                    "fontSize": "10pt",
+                    "fontWeight": "600",
                     "margin": "0 auto 2pt",
                   },
                   "type": "TEXT",
@@ -171,6 +153,7 @@
                 "class": "picasso-day-header picasso-day-header-left-border",
               },
               "style": {
+                "backgroundColor": "#cfd8dc",
                 "borderLeft": "1pt solid white",
                 "borderRight": "1pt solid white",
                 "display": "flex",
@@ -199,8 +182,8 @@
                     "class": "picasso-day-header-text",
                   },
                   "style": {
-                    "fontSize": "8pt",
-                    "fontWeight": "bold",
+                    "fontSize": "10pt",
+                    "fontWeight": "600",
                     "margin": "0 auto 2pt",
                   },
                   "type": "TEXT",
@@ -211,6 +194,7 @@
                 "class": "picasso-day-header",
               },
               "style": {
+                "backgroundColor": "#cfd8dc",
                 "borderRight": "1pt solid white",
                 "display": "flex",
                 "flexBasis": "0",
@@ -238,8 +222,8 @@
                     "class": "picasso-day-header-text",
                   },
                   "style": {
-                    "fontSize": "8pt",
-                    "fontWeight": "bold",
+                    "fontSize": "10pt",
+                    "fontWeight": "600",
                     "margin": "0 auto 2pt",
                   },
                   "type": "TEXT",
@@ -250,6 +234,7 @@
                 "class": "picasso-day-header",
               },
               "style": {
+                "backgroundColor": "#cfd8dc",
                 "borderRight": "1pt solid white",
                 "display": "flex",
                 "flexBasis": "0",
@@ -277,8 +262,8 @@
                     "class": "picasso-day-header-text",
                   },
                   "style": {
-                    "fontSize": "8pt",
-                    "fontWeight": "bold",
+                    "fontSize": "10pt",
+                    "fontWeight": "600",
                     "margin": "0 auto 2pt",
                   },
                   "type": "TEXT",
@@ -289,6 +274,7 @@
                 "class": "picasso-day-header",
               },
               "style": {
+                "backgroundColor": "#cfd8dc",
                 "borderRight": "1pt solid white",
                 "display": "flex",
                 "flexBasis": "0",
@@ -301,38 +287,20 @@
             },
             {
               "box": {},
-              "children": [
-                {
-                  "box": {},
-                  "children": [
-                    {
-                      "parent": [Circular],
-                      "type": "TEXT_INSTANCE",
-                      "value": "12:00 AM",
-                    },
-                  ],
-                  "parent": [Circular],
-                  "props": {
-                    "class": "picasso-time-column-text picasso-time-column-spacer-text",
-                  },
-                  "style": {
-                    "fontSize": "8pt",
-                    "opacity": "0",
-                  },
-                  "type": "TEXT",
-                },
-              ],
+              "children": [],
               "parent": [Circular],
               "props": {
-                "class": "picasso-time-column picasso-time-column-spacer",
+                "class": "picasso-time-column",
+                "style": {
+                  "width": 47,
+                },
               },
               "style": {
                 "display": "flex",
                 "flexDirection": "column",
                 "flexGrow": "0",
                 "flexShrink": "0",
-                "marginBottom": "0",
-                "marginTop": "0",
+                "width": 47,
               },
               "type": "VIEW",
             },
@@ -374,9 +342,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -412,9 +383,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -450,9 +424,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -488,9 +465,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -526,9 +506,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -564,9 +547,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -602,9 +588,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -640,9 +629,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -678,9 +670,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -716,9 +711,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -754,9 +752,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -792,9 +793,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -830,9 +834,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -868,9 +875,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -906,9 +916,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -944,9 +957,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -982,9 +998,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -1020,9 +1039,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -1058,9 +1080,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -1088,11 +1113,11 @@
                     "class": "picasso-time-column-container",
                   },
                   "style": {
-                    "bottom": "6pt",
+                    "bottom": "4.84pt",
                     "left": "0",
                     "position": "absolute",
                     "right": "0",
-                    "top": "-6pt",
+                    "top": "-4.84pt",
                   },
                   "type": "VIEW",
                 },
@@ -1101,7 +1126,7 @@
               "props": {
                 "class": "picasso-time-column",
                 "style": {
-                  "width": 40,
+                  "width": 47,
                 },
               },
               "style": {
@@ -1109,7 +1134,7 @@
                 "flexDirection": "column",
                 "flexGrow": "0",
                 "flexShrink": "0",
-                "width": 40,
+                "width": 47,
               },
               "type": "VIEW",
             },
@@ -1147,7 +1172,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1182,7 +1207,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1217,7 +1242,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1252,7 +1277,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1287,7 +1312,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1322,7 +1347,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1357,7 +1382,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1392,7 +1417,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1427,7 +1452,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -1462,7 +1487,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 0,
@@ -1513,7 +1538,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LS 1.1 Stadt Game 🐭 (PA 1 h)",
+                                  "value": "LS ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "1.1",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Stadt Game 🐭 (PA 1 h)",
                                 },
                               ],
                               "parent": [Circular],
@@ -1583,58 +1633,25 @@
                                   "box": {},
                                   "children": [
                                     {
-                                      "box": {},
-                                      "children": [
-                                        {
-                                          "parent": [Circular],
-                                          "type": "TEXT_INSTANCE",
-                                          "value": "IC",
-                                        },
-                                      ],
                                       "parent": [Circular],
-                                      "props": {
-                                        "class": "responsibles-initials",
-                                        "style": {
-                                          "color": "#fff",
-                                        },
-                                      },
-                                      "style": {
-                                        "color": "#fff",
-                                        "fontSize": "6pt",
-                                        "lineHeight": "1.2",
-                                        "textAlign": "center",
-                                      },
-                                      "type": "TEXT",
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "inactive@test.com (Inactive)",
                                     },
                                   ],
                                   "parent": [Circular],
-                                  "props": {
-                                    "class": "responsibles-avatar",
-                                    "style": {
-                                      "backgroundColor": "#4d4d4d",
-                                    },
-                                  },
-                                  "style": {
-                                    "backgroundColor": "#4d4d4d",
-                                    "borderRadius": "6pt",
-                                    "display": "flex",
-                                    "flexDirection": "column",
-                                    "height": "12pt",
-                                    "justifyContent": "center",
-                                    "width": "12pt",
-                                  },
-                                  "type": "VIEW",
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
                                 },
                               ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -1739,7 +1756,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 1.2 Anreise",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "1.2",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Anreise",
                                 },
                               ],
                               "parent": [Circular],
@@ -1804,16 +1846,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -1918,7 +1968,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LA 1.A Lagerbau",
+                                  "value": "LA ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "1.A",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Lagerbau",
                                 },
                               ],
                               "parent": [Circular],
@@ -1983,16 +2058,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -2097,7 +2180,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 1.3 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "1.3",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -2162,16 +2270,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -2276,7 +2392,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 1.4 Takeoff",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "1.4",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Takeoff",
                                 },
                               ],
                               "parent": [Circular],
@@ -2341,16 +2482,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -2455,7 +2604,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 1.5 Flugzeugabsturz",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "1.5",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Flugzeugabsturz",
                                 },
                               ],
                               "parent": [Circular],
@@ -2520,16 +2694,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -2626,10 +2808,9 @@
               ],
               "parent": [Circular],
               "props": {
-                "class": "picasso-day-column picasso-day-column-left-border",
+                "class": "picasso-day-column",
               },
               "style": {
-                "borderLeft": "1pt solid grey",
                 "display": "flex",
                 "flexBasis": "0",
                 "flexDirection": "column",
@@ -2673,7 +2854,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -2708,7 +2889,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -2743,7 +2924,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -2778,7 +2959,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -2813,7 +2994,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -2848,7 +3029,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -2883,7 +3064,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -2918,7 +3099,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -2953,7 +3134,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -2988,7 +3169,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 0,
@@ -3039,7 +3220,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LS 2.1 Morgenturnen",
+                                  "value": "LS ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.1",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Morgenturnen",
                                 },
                               ],
                               "parent": [Circular],
@@ -3104,16 +3310,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -3218,7 +3432,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 2.2 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.2",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -3283,16 +3522,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -3397,7 +3644,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 2.3 Lagerbau",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.3",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Lagerbau",
                                 },
                               ],
                               "parent": [Circular],
@@ -3462,16 +3734,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -3576,7 +3856,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LS 2.4 Insel erkunden",
+                                  "value": "LS ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.4",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Insel erkunden",
                                 },
                               ],
                               "parent": [Circular],
@@ -3641,16 +3946,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -3755,7 +4068,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 2.5 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.5",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -3820,16 +4158,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -3934,7 +4280,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LS 2.6 Angriff der Aborigines",
+                                  "value": "LS ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.6",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Angriff der Aborigines",
                                 },
                               ],
                               "parent": [Circular],
@@ -3999,16 +4370,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -4113,7 +4492,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 2.7 Pfadiversprechen",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.7",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Pfadiversprechen",
                                 },
                               ],
                               "parent": [Circular],
@@ -4178,16 +4582,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -4292,7 +4704,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 2.8 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.8",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -4357,16 +4794,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -4471,7 +4916,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 2.9 Essen zurückerobern",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "2.9",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen zurückerobern",
                                 },
                               ],
                               "parent": [Circular],
@@ -4536,16 +5006,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -4688,7 +5166,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -4723,7 +5201,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -4758,7 +5236,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -4793,7 +5271,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -4828,7 +5306,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -4863,7 +5341,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -4898,7 +5376,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -4933,7 +5411,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -4968,7 +5446,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -5003,7 +5481,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 0,
@@ -5054,7 +5532,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LS 3.1 Morgenturnern",
+                                  "value": "LS ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.1",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Morgenturnern",
                                 },
                               ],
                               "parent": [Circular],
@@ -5119,16 +5622,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -5233,7 +5744,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 3.2 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.2",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -5298,16 +5834,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -5412,7 +5956,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 3.3 Atelier",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.3",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Atelier",
                                 },
                               ],
                               "parent": [Circular],
@@ -5477,16 +6046,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -5591,7 +6168,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 3.4 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.4",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -5656,16 +6258,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -5770,7 +6380,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LA 3.A Pfadiversprechen",
+                                  "value": "LA ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.A",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Pfadiversprechen",
                                 },
                               ],
                               "parent": [Circular],
@@ -5835,16 +6470,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -5949,7 +6592,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LS 3.5 Abschluss geländegame",
+                                  "value": "LS ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.5",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Abschluss geländegame",
                                 },
                               ],
                               "parent": [Circular],
@@ -6014,16 +6682,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -6128,7 +6804,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 3.6 Vorbereitung BiPi Feuer",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.6",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Vorbereitung BiPi Feuer",
                                 },
                               ],
                               "parent": [Circular],
@@ -6193,16 +6894,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -6307,7 +7016,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 3.7 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.7",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -6372,16 +7106,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -6486,7 +7228,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 3.8 Bi-Pi Feuer",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "3.8",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Bi-Pi Feuer",
                                 },
                               ],
                               "parent": [Circular],
@@ -6551,16 +7318,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -6703,7 +7478,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -6738,7 +7513,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -6773,7 +7548,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -6808,7 +7583,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -6843,7 +7618,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -6878,7 +7653,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -6913,7 +7688,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -6948,7 +7723,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -6983,7 +7758,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 1,
@@ -7018,7 +7793,7 @@
                         },
                       },
                       "style": {
-                        "backgroundColor": "lightgrey",
+                        "backgroundColor": "#eceff1",
                         "display": "flex",
                         "flexBasis": "0",
                         "flexGrow": 0,
@@ -7069,7 +7844,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LS 4.1 Morgenturnen",
+                                  "value": "LS ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "4.1",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Morgenturnen",
                                 },
                               ],
                               "parent": [Circular],
@@ -7134,16 +7934,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -7248,7 +8056,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 4.2 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "4.2",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -7313,16 +8146,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -7427,7 +8268,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LA 4.A Lagerabbau",
+                                  "value": "LA ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "4.A",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Lagerabbau",
                                 },
                               ],
                               "parent": [Circular],
@@ -7492,16 +8358,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -7606,7 +8480,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "ES 4.3 Essen",
+                                  "value": "ES ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "4.3",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Essen",
                                 },
                               ],
                               "parent": [Circular],
@@ -7671,16 +8570,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -7785,7 +8692,32 @@
                                 {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
-                                  "value": "LP 4.4 Heimreise",
+                                  "value": "LP ",
+                                },
+                                {
+                                  "box": {},
+                                  "children": [
+                                    {
+                                      "parent": [Circular],
+                                      "type": "TEXT_INSTANCE",
+                                      "value": "4.4",
+                                    },
+                                  ],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "class": "tabular-nums",
+                                  },
+                                  "style": {
+                                    "fontFeatureSettings": {
+                                      "tnum": 1,
+                                    },
+                                  },
+                                  "type": "TEXT",
+                                },
+                                {
+                                  "parent": [Circular],
+                                  "type": "TEXT_INSTANCE",
+                                  "value": " Heimreise",
                                 },
                               ],
                               "parent": [Circular],
@@ -7850,16 +8782,24 @@
                             },
                             {
                               "box": {},
-                              "children": [],
+                              "children": [
+                                {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {},
+                                  "style": {},
+                                  "type": "TEXT",
+                                },
+                              ],
                               "parent": [Circular],
                               "props": {
-                                "class": "responsibles-avatars picasso-schedule-entry-responsibles",
-                                "key": 0,
+                                "class": "picasso-schedule-entry-responsibles-names",
+                                "key": 1,
                               },
                               "style": {
-                                "alignItems": "flex-end",
-                                "display": "flex",
-                                "flexDirection": "row",
+                                "fontStyle": "italic",
+                                "textAlign": "right",
                               },
                               "type": "VIEW",
                             },
@@ -7988,9 +8928,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8026,9 +8969,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8064,9 +9010,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8102,9 +9051,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8140,9 +9092,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8178,9 +9133,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8216,9 +9174,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8254,9 +9215,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8292,9 +9256,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8330,9 +9297,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8368,9 +9338,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8406,9 +9379,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8444,9 +9420,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8482,9 +9461,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8520,9 +9502,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8558,9 +9543,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8596,9 +9584,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8634,9 +9625,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8672,9 +9666,12 @@
                           ],
                           "parent": [Circular],
                           "props": {
-                            "class": "picasso-time-column-text",
+                            "class": "picasso-time-column-text tabular-nums",
                           },
                           "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
                             "fontSize": "8pt",
                           },
                           "type": "TEXT",
@@ -8702,11 +9699,11 @@
                     "class": "picasso-time-column-container",
                   },
                   "style": {
-                    "bottom": "6pt",
+                    "bottom": "4.84pt",
                     "left": "0",
                     "position": "absolute",
                     "right": "0",
-                    "top": "-6pt",
+                    "top": "-4.84pt",
                   },
                   "type": "VIEW",
                 },
@@ -8715,7 +9712,7 @@
               "props": {
                 "class": "picasso-time-column",
                 "style": {
-                  "width": 40,
+                  "width": 47,
                 },
               },
               "style": {
@@ -8723,7 +9720,7 @@
                 "flexDirection": "column",
                 "flexGrow": "0",
                 "flexShrink": "0",
-                "width": 40,
+                "width": 47,
               },
               "type": "VIEW",
             },
@@ -8733,7 +9730,6 @@
             "class": "picasso-calendar-container",
           },
           "style": {
-            "border": "1pt solid grey",
             "display": "flex",
             "flexDirection": "row",
             "flexGrow": "1",
@@ -8759,18 +9755,30 @@
                   "props": {
                     "class": "category-label",
                     "style": {
+                      "alignSelf": "flex-start",
                       "backgroundColor": "#4DBB52",
                       "color": "#000",
-                      "margin-right": "2pt",
+                      "fontSize": 9,
+                      "letterSpacing": 0.45,
+                      "marginTop": -1.3499999999999999,
+                      "paddingBottom": 1.3499999999999999,
+                      "paddingLeft": 5.8500000000000005,
+                      "paddingRight": 5.8500000000000005,
+                      "paddingTop": 1.3499999999999999,
                     },
                   },
                   "style": {
-                    "alignSelf": "center",
+                    "alignSelf": "flex-start",
                     "backgroundColor": "#4DBB52",
-                    "borderRadius": "18pt",
+                    "borderRadius": "999pt",
                     "color": "#000",
-                    "marginRight": "2pt",
-                    "padding": "2pt 8pt",
+                    "fontSize": 9,
+                    "letterSpacing": 0.45,
+                    "marginTop": -1.3499999999999999,
+                    "paddingBottom": 1.3499999999999999,
+                    "paddingLeft": 5.8500000000000005,
+                    "paddingRight": 5.8500000000000005,
+                    "paddingTop": 1.3499999999999999,
                   },
                   "type": "TEXT",
                 },
@@ -8794,9 +9802,9 @@
                 "class": "picasso-category",
               },
               "style": {
-                "alignItems": "center",
+                "alignItems": "flex-start",
                 "flexDirection": "row",
-                "gap": "2pt",
+                "gap": "4pt",
                 "marginBottom": "3pt",
                 "marginRight": "6pt",
               },
@@ -8818,18 +9826,30 @@
                   "props": {
                     "class": "category-label",
                     "style": {
+                      "alignSelf": "flex-start",
                       "backgroundColor": "#90B7E4",
                       "color": "#000",
-                      "margin-right": "2pt",
+                      "fontSize": 9,
+                      "letterSpacing": 0.45,
+                      "marginTop": -1.3499999999999999,
+                      "paddingBottom": 1.3499999999999999,
+                      "paddingLeft": 5.8500000000000005,
+                      "paddingRight": 5.8500000000000005,
+                      "paddingTop": 1.3499999999999999,
                     },
                   },
                   "style": {
-                    "alignSelf": "center",
+                    "alignSelf": "flex-start",
                     "backgroundColor": "#90B7E4",
-                    "borderRadius": "18pt",
+                    "borderRadius": "999pt",
                     "color": "#000",
-                    "marginRight": "2pt",
-                    "padding": "2pt 8pt",
+                    "fontSize": 9,
+                    "letterSpacing": 0.45,
+                    "marginTop": -1.3499999999999999,
+                    "paddingBottom": 1.3499999999999999,
+                    "paddingLeft": 5.8500000000000005,
+                    "paddingRight": 5.8500000000000005,
+                    "paddingTop": 1.3499999999999999,
                   },
                   "type": "TEXT",
                 },
@@ -8853,9 +9873,9 @@
                 "class": "picasso-category",
               },
               "style": {
-                "alignItems": "center",
+                "alignItems": "flex-start",
                 "flexDirection": "row",
-                "gap": "2pt",
+                "gap": "4pt",
                 "marginBottom": "3pt",
                 "marginRight": "6pt",
               },
@@ -8877,18 +9897,30 @@
                   "props": {
                     "class": "category-label",
                     "style": {
+                      "alignSelf": "flex-start",
                       "backgroundColor": "#FF9800",
                       "color": "#000",
-                      "margin-right": "2pt",
+                      "fontSize": 9,
+                      "letterSpacing": 0.45,
+                      "marginTop": -1.3499999999999999,
+                      "paddingBottom": 1.3499999999999999,
+                      "paddingLeft": 5.8500000000000005,
+                      "paddingRight": 5.8500000000000005,
+                      "paddingTop": 1.3499999999999999,
                     },
                   },
                   "style": {
-                    "alignSelf": "center",
+                    "alignSelf": "flex-start",
                     "backgroundColor": "#FF9800",
-                    "borderRadius": "18pt",
+                    "borderRadius": "999pt",
                     "color": "#000",
-                    "marginRight": "2pt",
-                    "padding": "2pt 8pt",
+                    "fontSize": 9,
+                    "letterSpacing": 0.45,
+                    "marginTop": -1.3499999999999999,
+                    "paddingBottom": 1.3499999999999999,
+                    "paddingLeft": 5.8500000000000005,
+                    "paddingRight": 5.8500000000000005,
+                    "paddingTop": 1.3499999999999999,
                   },
                   "type": "TEXT",
                 },
@@ -8912,9 +9944,9 @@
                 "class": "picasso-category",
               },
               "style": {
-                "alignItems": "center",
+                "alignItems": "flex-start",
                 "flexDirection": "row",
-                "gap": "2pt",
+                "gap": "4pt",
                 "marginBottom": "3pt",
                 "marginRight": "6pt",
               },
@@ -8936,18 +9968,30 @@
                   "props": {
                     "class": "category-label",
                     "style": {
+                      "alignSelf": "flex-start",
                       "backgroundColor": "#BBBBBB",
                       "color": "#000",
-                      "margin-right": "2pt",
+                      "fontSize": 9,
+                      "letterSpacing": 0.45,
+                      "marginTop": -1.3499999999999999,
+                      "paddingBottom": 1.3499999999999999,
+                      "paddingLeft": 5.8500000000000005,
+                      "paddingRight": 5.8500000000000005,
+                      "paddingTop": 1.3499999999999999,
                     },
                   },
                   "style": {
-                    "alignSelf": "center",
+                    "alignSelf": "flex-start",
                     "backgroundColor": "#BBBBBB",
-                    "borderRadius": "18pt",
+                    "borderRadius": "999pt",
                     "color": "#000",
-                    "marginRight": "2pt",
-                    "padding": "2pt 8pt",
+                    "fontSize": 9,
+                    "letterSpacing": 0.45,
+                    "marginTop": -1.3499999999999999,
+                    "paddingBottom": 1.3499999999999999,
+                    "paddingLeft": 5.8500000000000005,
+                    "paddingRight": 5.8500000000000005,
+                    "paddingTop": 1.3499999999999999,
                   },
                   "type": "TEXT",
                 },
@@ -8971,9 +10015,9 @@
                 "class": "picasso-category",
               },
               "style": {
-                "alignItems": "center",
+                "alignItems": "flex-start",
                 "flexDirection": "row",
-                "gap": "2pt",
+                "gap": "4pt",
                 "marginBottom": "3pt",
                 "marginRight": "6pt",
               },
@@ -9137,7 +10181,7 @@
         "flexDirection": "column",
         "fontFamily": "InterDisplay",
         "fontSize": "12pt",
-        "padding": "30pt",
+        "padding": "42.5pt",
       },
       "type": "PAGE",
     },

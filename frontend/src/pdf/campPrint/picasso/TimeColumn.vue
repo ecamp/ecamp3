@@ -9,14 +9,14 @@
           alignItems: align === 'left' ? 'flex-start' : 'flex-end',
         }"
       >
-        <Text class="picasso-time-column-text">{{ time }}</Text>
+        <Text class="picasso-time-column-text tabular-nums">{{ time }}</Text>
       </View>
     </View>
   </View>
 </template>
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
-import longestTime from './longestTime.js'
+import { timeColumnWidth } from './longestTime.js'
 
 export default {
   name: 'TimeColumn',
@@ -27,8 +27,7 @@ export default {
   },
   computed: {
     width() {
-      // we could do better than this heuristic...
-      return 5 * longestTime(this.times, this.$date).length
+      return timeColumnWidth(this.times, this.$date)
     },
     displayedTimes() {
       return this.times.map(([time, weight], index) => {
@@ -53,8 +52,8 @@ export default {
    in the time column breaks layouting of the texts inside the schedule entries.
    */
   position: absolute;
-  top: -6pt;
-  bottom: 6pt;
+  top: -4.84pt;
+  bottom: 4.84pt;
   left: 0;
   right: 0;
 }

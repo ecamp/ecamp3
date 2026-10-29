@@ -1,10 +1,12 @@
 <template>
-  <component
-    :is="contentNodeComponent"
-    v-if="contentNodeComponent"
-    :content-node="contentNode"
-  />
-  <Text v-else>{{ contentTypeName }}</Text>
+  <template v-if="!hidden">
+    <component
+      :is="contentNodeComponent"
+      v-if="contentNodeComponent"
+      :content-node="contentNode"
+    />
+    <Text v-else>{{ contentTypeName }}</Text>
+  </template>
 </template>
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
@@ -25,6 +27,9 @@ import YSPhysicalActivityDuration from './YSPhysicalActivityDuration.vue'
 export default {
   name: 'ContentNodeRenderer',
   extends: PdfComponent,
+  inject: {
+    camp: { default: null },
+  },
   props: {
     contentNode: { type: Object, required: true },
   },
@@ -49,11 +54,18 @@ export default {
         YSPhysicalActivityDuration,
       }[this.contentTypeName]
     },
+    hidden() {
+      if (!this.compact || !this.contentNodeComponent?.isEmpty) return false
+      return this.contentNodeComponent.isEmpty(this.contentNode, this.camp)
+    },
   },
 }
 </script>
 <style lang="react-pdf">
 .content-node {
+  margin-bottom: 9pt;
+}
+.content-node-compact {
   margin-bottom: 6pt;
 }
 </style>

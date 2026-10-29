@@ -63,6 +63,12 @@
       "matchPackageNames": ["/^@tiptap//"]
     },
     {
+      "description": "@mdi/font and @mdi/js must provide the same icon set",
+      "groupName": "mdi",
+      "matchFileNames": ["frontend/package.json"],
+      "matchPackageNames": ["@mdi/**"]
+    },
+    {
       "description": "@react-pdf/font depends on an exact pdfkit version",
       "groupName": "react-pdf",
       "matchPackageNames": ["@react-pdf/**", "pdfkit"]

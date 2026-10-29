@@ -1,126 +1,120 @@
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
+import RichTextList from './RichTextList.vue'
 import HTML from 'html-parse-stringify'
 import { decode } from 'html-entities'
 import { h } from 'vue'
 
-function visit(node, parent = null) {
-  const rule = rules.find((rule) => rule.shouldProcessNode(node, parent))
-  if (!rule) {
-    console.log('unknown HTML node type', node)
-    return null
-  }
-
-  return rule.processNode(node, parent)
+const BLOCK_TAGS = [
+  'p',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'ul',
+  'ol',
+  'li',
+  'div',
+  'blockquote',
+  'pre',
+  'table',
+  'thead',
+  'tbody',
+  'tr',
+  'td',
+  'th',
+  'hr',
+]
+const NBSP = '\u00a0'
+const INLINE_CLASSES = {
+  strong: 'bold',
+  b: 'bold',
+  em: 'italic',
+  i: 'italic',
+  u: 'underlined',
+  s: 'strikethrough',
+  strike: 'strikethrough',
+  del: 'strikethrough',
 }
 
-function visitChildren(children, parent) {
-  return children.length
-    ? children.map((child) => visit(child, parent))
-    : [visit({ type: 'text', content: '&nbsp;' }, parent)]
+function isTag(node, names) {
+  return node.type === 'tag' && names.includes(node.name)
 }
 
-function prependTextContent(node, prefix) {
+function isBlock(node) {
+  return isTag(node, BLOCK_TAGS)
+}
+
+function isBlank(node) {
+  return node.type === 'text' && !node.content.trim()
+}
+
+function endsWithBreak(nodes) {
+  const last = nodes[nodes.length - 1]
+  if (!last || last.type !== 'tag') return false
+  return isTag(last, ['br']) || endsWithBreak(last.children)
+}
+
+function renderInline(node, context) {
   if (node.type === 'text') {
-    node.content = prefix + (node.content || '')
-    return true
+    return decode(node.content, { scope: 'strict' })
   }
-  if (node.children?.length) {
-    for (const child of node.children) {
-      if (prependTextContent(child, prefix)) return true
+  if (isTag(node, ['br'])) {
+    return h('Text', {}, '\n')
+  }
+  const className = INLINE_CLASSES[node.name]
+  return h(
+    'Text',
+    className ? { class: className } : {},
+    renderInlineChildren(node, context)
+  )
+}
+
+function renderInlineChildren(node, context) {
+  if (!node.children.length) return [NBSP]
+  return node.children.map((child) => renderInline(child, context))
+}
+
+function renderParagraph(nodes, context, className = 'p') {
+  const children = nodes.map((node) => renderInline(node, context))
+  if (!nodes.length || endsWithBreak(nodes)) children.push(NBSP)
+  return h('Text', { class: className }, children)
+}
+
+function renderBlocks(nodes, context) {
+  const blocks = []
+  let inlineRun = []
+  const flushInlineRun = () => {
+    if (inlineRun.some((node) => !isBlank(node))) {
+      blocks.push(renderParagraph(inlineRun, context))
+    }
+    inlineRun = []
+  }
+  for (const node of nodes) {
+    if (isBlock(node)) {
+      flushInlineRun()
+      blocks.push(renderBlock(node, context))
+    } else {
+      inlineRun.push(node)
     }
   }
-  return false
+  flushInlineRun()
+  return blocks
 }
 
-const rules = [
-  {
-    shouldProcessNode: (node) => node.type === 'text',
-    processNode: (node) => decode(node.content, { scope: 'strict' }),
-  },
-  {
-    shouldProcessNode: (node) => node.type === 'tag' && node.name === 'p',
-    processNode: (node) => h('Text', { class: 'p' }, visitChildren(node.children, node)),
-  },
-  {
-    shouldProcessNode: (node) => node.type === 'tag' && node.name === 'br',
-    processNode: (_) => h('Text', {}, '\n'),
-  },
-  {
-    shouldProcessNode: (node) =>
-      node.type === 'tag' && ['h1', 'h2', 'h3'].includes(node.name),
-    processNode: function (node) {
-      return h('Text', { class: node.name }, visitChildren(node.children, node))
-    },
-  },
-  {
-    shouldProcessNode: (node) =>
-      node.type === 'tag' && (node.name === 'strong' || node.name === 'b'),
-    processNode: (node) =>
-      h('Text', { class: 'bold' }, visitChildren(node.children, node)),
-  },
-  {
-    shouldProcessNode: (node) => node.type === 'tag' && node.name === 'em',
-    processNode: (node) =>
-      h('Text', { class: 'italic' }, visitChildren(node.children, node)),
-  },
-  {
-    shouldProcessNode: (node) => node.type === 'tag' && node.name === 'u',
-    processNode: (node) =>
-      h('Text', { class: 'underlined' }, visitChildren(node.children, node)),
-  },
-  {
-    shouldProcessNode: (node) =>
-      node.type === 'tag' && (node.name === 's' || node.name === 'strike'),
-    processNode: (node) =>
-      h('Text', { class: 'strikethrough' }, visitChildren(node.children, node)),
-  },
-  {
-    shouldProcessNode: (node) => node.type === 'tag' && ['ul', 'ol'].includes(node.name),
-    processNode: (node) => h('View', visitChildren(node.children, node)),
-  },
-  {
-    shouldProcessNode: (node) => node.type === 'tag' && node.name === 'li',
-    processNode: (node, parent) => {
-      const emptyChild = {
-        type: 'text',
-        attrs: {},
-        children: [],
-      }
-      if (!node.children.length) {
-        node.children.push({ ...emptyChild })
-      }
-
-      let prefix = ''
-      if (parent.name === 'ul') {
-        prefix = '• '
-      } else if (parent.name === 'ol') {
-        const number = calculateListNumber(node, parent)
-        prefix = `${number}. `
-      }
-
-      if (prefix) {
-        prependTextContent(node, prefix)
-      }
-
-      return h(
-        'View',
-        { style: { marginLeft: '4pt' } },
-        visitChildren(node.children, node)
-      )
-    },
-  },
-]
-
-function calculateListNumber(node, parent) {
-  const index = parent.children
-    .filter((child) => child.type === 'tag' && child.name === 'li')
-    .indexOf(node)
-  if (parent.attrs.start !== undefined) {
-    const start = parseInt(parent.attrs.start)
-    if (!isNaN(start)) return start + index
+function renderBlock(node, context) {
+  if (isTag(node, ['p'])) {
+    return renderParagraph(node.children, context)
   }
-  return index + 1
+  if (isTag(node, ['h1', 'h2', 'h3'])) {
+    return renderParagraph(node.children, context, node.name)
+  }
+  if (isTag(node, ['ul', 'ol'])) {
+    return h(RichTextList, { list: node, context, renderBlocks })
+  }
+  return h('View', {}, renderBlocks(node.children, context))
 }
 
 export default {
@@ -128,6 +122,7 @@ export default {
   extends: PdfComponent,
   props: {
     richText: { type: String, default: '' },
+    fontSize: { type: Number, default: 10 },
   },
   computed: {
     parsed() {
@@ -135,7 +130,7 @@ export default {
     },
   },
   render() {
-    return [this.parsed].flat().map((node) => visit(node))
+    return renderBlocks(this.parsed, { fontSize: this.fontSize, depth: 0 })
   },
 }
 </script>

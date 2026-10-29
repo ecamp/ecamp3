@@ -17,6 +17,7 @@
           ...borderRadiusStyles[scheduleEntry.id],
         }"
         :percentage-height="positionStyles[scheduleEntry.id].percentageHeight"
+        :avatars="avatars"
         :config="config"
         :show-y-s-physical-activity-duration="showYSPhysicalActivityDuration"
       />
@@ -43,6 +44,7 @@ export default {
     times: { type: Array, required: true },
     day: { type: Object, required: true },
     scheduleEntries: { type: Array, default: () => [] },
+    avatars: { type: Boolean, default: false },
     config: { type: Object, required: true },
     showYSPhysicalActivityDuration: { type: Boolean, default: false },
   },
@@ -103,7 +105,7 @@ export default {
   flex-basis: 0;
 }
 .picasso-day-column-grid-row-grey {
-  background-color: lightgrey;
+  background-color: #eceff1;
 }
 .picasso-day-column-schedule-entry-container {
   margin: 0 2pt;

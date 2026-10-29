@@ -46,19 +46,31 @@
                       "props": {
                         "class": "category-label schedule-entry-category-label",
                         "style": {
+                          "alignSelf": "flex-start",
                           "backgroundColor": "#4DBB52",
                           "color": "#000",
+                          "fontSize": 15,
+                          "letterSpacing": 0.75,
+                          "marginTop": -0.43500000000000005,
+                          "paddingBottom": 2.25,
+                          "paddingLeft": 9.75,
+                          "paddingRight": 9.75,
+                          "paddingTop": 2.25,
                         },
                       },
                       "style": {
-                        "alignSelf": "center",
+                        "alignSelf": "flex-start",
                         "backgroundColor": "#4DBB52",
-                        "borderRadius": "18pt",
+                        "borderRadius": "999pt",
                         "color": "#000",
                         "flexShrink": "0",
-                        "fontSize": "12pt",
-                        "margin": "4pt 0",
-                        "padding": "2pt 8pt",
+                        "fontSize": 15,
+                        "letterSpacing": 0.75,
+                        "marginTop": -0.43500000000000005,
+                        "paddingBottom": 2.25,
+                        "paddingLeft": 9.75,
+                        "paddingRight": 9.75,
+                        "paddingTop": 2.25,
                       },
                       "type": "TEXT",
                     },
@@ -66,9 +78,29 @@
                       "box": {},
                       "children": [
                         {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "2.1",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "tabular-nums",
+                          },
+                          "style": {
+                            "fontFeatureSettings": {
+                              "tnum": 1,
+                            },
+                          },
+                          "type": "TEXT",
+                        },
+                        {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "2.1 Morgenturnen",
+                          "value": " Morgenturnen",
                         },
                       ],
                       "parent": [Circular],
@@ -79,7 +111,6 @@
                       },
                       "style": {
                         "flexShrink": "1",
-                        "margin": "4pt 4pt",
                       },
                       "type": "TEXT",
                     },
@@ -94,8 +125,10 @@
                     "flexBasis": "0",
                     "flexDirection": "row",
                     "flexGrow": "1",
-                    "fontSize": "14pt",
+                    "fontSize": "18pt",
                     "fontWeight": "600",
+                    "gap": "4pt",
+                    "padding": "4pt 0",
                   },
                   "type": "VIEW",
                 },
@@ -108,7 +141,7 @@
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": "Sat 5/11/2024 7:30 AM ",
+                          "value": "Sa 11/5 7:30 ",
                         },
                       ],
                       "parent": [Circular],
@@ -136,7 +169,7 @@
                         {
                           "parent": [Circular],
                           "type": "TEXT_INSTANCE",
-                          "value": " 8:00 AM",
+                          "value": " 8:00",
                         },
                       ],
                       "parent": [Circular],
@@ -157,6 +190,7 @@
                     "flexWrap": "wrap",
                     "fontSize": "11pt",
                     "justifyContent": "flex-end",
+                    "marginTop": "10.78pt",
                     "maxWidth": "33vw",
                   },
                   "type": "VIEW",
@@ -170,13 +204,13 @@
                 },
               },
               "style": {
-                "alignItems": "center",
+                "alignItems": "flex-start",
                 "borderBottom": "2pt solid #aaaaaa",
                 "borderBottomColor": "#4DBB52",
                 "display": "flex",
                 "flexDirection": "row",
                 "justifyContent": "space-between",
-                "paddingBottom": "2pt",
+                "paddingBottom": "1pt",
               },
               "type": "VIEW",
             },
@@ -189,6 +223,26 @@
                     {
                       "box": {},
                       "children": [
+                        {
+                          "box": {},
+                          "children": [
+                            {
+                              "parent": [Circular],
+                              "type": "TEXT_INSTANCE",
+                              "value": "Location:",
+                            },
+                          ],
+                          "parent": [Circular],
+                          "props": {
+                            "class": "schedule-entry-header-metadata-label",
+                          },
+                          "style": {
+                            "flexGrow": "0",
+                            "flexShrink": "0",
+                            "fontWeight": "600",
+                          },
+                          "type": "TEXT",
+                        },
                         {
                           "box": {},
                           "children": [],
@@ -252,7 +306,6 @@
                           "parent": [Circular],
                           "props": {
                             "class": "schedule-entry-header-metadata-label",
-                            "key": 0,
                           },
                           "style": {
                             "flexGrow": "0",
@@ -382,6 +435,34 @@
                               "box": {},
                               "children": [
                                 {
+                                  "box": {},
+                                  "children": [],
+                                  "parent": [Circular],
+                                  "props": {
+                                    "d": "M20.71,7.04C20.37,7.38 20.04,7.71 20.03,8.04C20,8.36 20.34,8.69 20.66,9C21.14,9.5 21.61,9.95 21.59,10.44C21.57,10.93 21.06,11.44 20.55,11.94L16.42,16.08L15,14.66L19.25,10.42L18.29,9.46L16.87,10.87L13.12,7.12L16.96,3.29C17.35,2.9 18,2.9 18.37,3.29L20.71,5.63C21.1,6 21.1,6.65 20.71,7.04M3,17.25L12.56,7.68L16.31,11.43L6.75,21H3V17.25Z",
+                                    "fill": "#757575",
+                                  },
+                                  "style": {},
+                                  "type": "PATH",
+                                },
+                              ],
+                              "parent": [Circular],
+                              "props": {
+                                "class": "content-node-icon",
+                                "key": 0,
+                                "viewBox": "0 0 24 24",
+                              },
+                              "style": {
+                                "height": "11pt",
+                                "marginBottom": "1pt",
+                                "width": "11pt",
+                              },
+                              "type": "SVG",
+                            },
+                            {
+                              "box": {},
+                              "children": [
+                                {
                                   "parent": [Circular],
                                   "type": "TEXT_INSTANCE",
                                   "value": "Notes",
@@ -394,8 +475,7 @@
                               "style": {
                                 "flexGrow": "1",
                                 "fontSize": "11pt",
-                                "fontWeight": "bold",
-                                "paddingBottom": "3pt",
+                                "fontWeight": "600",
                               },
                               "type": "TEXT",
                             },
@@ -405,12 +485,13 @@
                             "class": "content-node-title",
                           },
                           "style": {
-                            "alignItems": "baseline",
+                            "alignItems": "flex-end",
                             "borderBottom": "1.5pt solid black",
                             "display": "flex",
                             "flexDirection": "row",
-                            "justifyContent": "space-between",
-                            "marginBottom": "1pt",
+                            "gap": "3pt",
+                            "marginBottom": "6pt",
+                            "padding": "3pt 0",
                           },
                           "type": "VIEW",
                         },
@@ -439,161 +520,116 @@
                               "box": {},
                               "children": [
                                 {
-                                  "type": "TEXT_INSTANCE",
-                                  "value": " ",
-                                },
-                              ],
-                              "parent": [Circular],
-                              "props": {},
-                              "style": {},
-                              "type": "TEXT",
-                            },
-                            {
-                              "box": {},
-                              "children": [
-                                {
-                                  "box": {},
-                                  "children": [
-                                    {
-                                      "type": "TEXT_INSTANCE",
-                                      "value": "
-                    ",
-                                    },
-                                  ],
-                                  "parent": [Circular],
-                                  "props": {},
-                                  "style": {},
-                                  "type": "TEXT",
-                                },
-                                {
                                   "box": {},
                                   "children": [
                                     {
                                       "box": {},
                                       "children": [
                                         {
+                                          "parent": [Circular],
                                           "type": "TEXT_INSTANCE",
-                                          "value": "• ",
+                                          "value": "•",
                                         },
                                       ],
                                       "parent": [Circular],
-                                      "props": {},
-                                      "style": {},
+                                      "props": {
+                                        "class": "list-item-marker",
+                                        "style": {
+                                          "paddingRight": 4,
+                                          "width": 15,
+                                        },
+                                      },
+                                      "style": {
+                                        "flexShrink": "0",
+                                        "fontFeatureSettings": {
+                                          "tnum": 1,
+                                        },
+                                        "paddingRight": 4,
+                                        "textAlign": "right",
+                                        "width": 15,
+                                      },
                                       "type": "TEXT",
+                                    },
+                                    {
+                                      "box": {},
+                                      "children": [
+                                        {
+                                          "box": {},
+                                          "children": [
+                                            {
+                                              "parent": [Circular],
+                                              "type": "TEXT_INSTANCE",
+                                              "value": " ",
+                                            },
+                                          ],
+                                          "parent": [Circular],
+                                          "props": {
+                                            "class": "p",
+                                          },
+                                          "style": {
+                                            "marginBottom": "2pt",
+                                          },
+                                          "type": "TEXT",
+                                        },
+                                      ],
+                                      "parent": [Circular],
+                                      "props": {
+                                        "class": "list-item-content",
+                                      },
+                                      "style": {
+                                        "flexBasis": "0",
+                                        "flexGrow": "1",
+                                        "flexShrink": "1",
+                                      },
+                                      "type": "VIEW",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "marginLeft": "4pt",
-                                    },
+                                    "class": "list-item",
                                   },
                                   "style": {
-                                    "marginLeft": "4pt",
+                                    "display": "flex",
+                                    "flexDirection": "row",
                                   },
                                   "type": "VIEW",
                                 },
-                                {
-                                  "box": {},
-                                  "children": [
-                                    {
-                                      "type": "TEXT_INSTANCE",
-                                      "value": " ",
-                                    },
-                                  ],
-                                  "parent": [Circular],
-                                  "props": {},
-                                  "style": {},
-                                  "type": "TEXT",
-                                },
                               ],
                               "parent": [Circular],
-                              "props": {},
-                              "style": {},
+                              "props": {
+                                "class": "list",
+                              },
+                              "style": {
+                                "display": "flex",
+                                "flexDirection": "column",
+                              },
                               "type": "VIEW",
                             },
                             {
                               "box": {},
-                              "children": [
-                                {
-                                  "type": "TEXT_INSTANCE",
-                                  "value": " ",
-                                },
-                              ],
+                              "children": [],
                               "parent": [Circular],
-                              "props": {},
-                              "style": {},
-                              "type": "TEXT",
-                            },
-                            {
-                              "box": {},
-                              "children": [
-                                {
-                                  "box": {},
-                                  "children": [
-                                    {
-                                      "type": "TEXT_INSTANCE",
-                                      "value": " ",
-                                    },
-                                  ],
-                                  "parent": [Circular],
-                                  "props": {},
-                                  "style": {},
-                                  "type": "TEXT",
-                                },
-                              ],
-                              "parent": [Circular],
-                              "props": {},
-                              "style": {},
+                              "props": {
+                                "class": "list",
+                              },
+                              "style": {
+                                "display": "flex",
+                                "flexDirection": "column",
+                              },
                               "type": "VIEW",
                             },
                             {
                               "box": {},
-                              "children": [
-                                {
-                                  "type": "TEXT_INSTANCE",
-                                  "value": " ",
-                                },
-                              ],
+                              "children": [],
                               "parent": [Circular],
-                              "props": {},
-                              "style": {},
-                              "type": "TEXT",
-                            },
-                            {
-                              "box": {},
-                              "children": [
-                                {
-                                  "box": {},
-                                  "children": [
-                                    {
-                                      "type": "TEXT_INSTANCE",
-                                      "value": " ",
-                                    },
-                                  ],
-                                  "parent": [Circular],
-                                  "props": {},
-                                  "style": {},
-                                  "type": "TEXT",
-                                },
-                              ],
-                              "parent": [Circular],
-                              "props": {},
-                              "style": {},
+                              "props": {
+                                "class": "list",
+                              },
+                              "style": {
+                                "display": "flex",
+                                "flexDirection": "column",
+                              },
                               "type": "VIEW",
-                            },
-                            {
-                              "box": {},
-                              "children": [
-                                {
-                                  "type": "TEXT_INSTANCE",
-                                  "value": " ",
-                                },
-                              ],
-                              "parent": [Circular],
-                              "props": {},
-                              "style": {},
-                              "type": "TEXT",
                             },
                             {
                               "box": {},
@@ -631,7 +667,7 @@
                         "class": "content-node",
                       },
                       "style": {
-                        "marginBottom": "6pt",
+                        "marginBottom": "9pt",
                       },
                       "type": "VIEW",
                     },
@@ -689,7 +725,7 @@
         "flexDirection": "column",
         "fontFamily": "InterDisplay",
         "fontSize": "8pt",
-        "padding": "30pt",
+        "padding": "42.5pt",
       },
       "type": "PAGE",
     },

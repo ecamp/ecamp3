@@ -1,5 +1,5 @@
 <template>
-  <View v-if="duration" class="content-node">
+  <View v-if="duration" class="content-node" :class="{ 'content-node-compact': compact }">
     <InstanceName :content-node="contentNode" />
     <Text>{{ duration }}</Text>
   </View>

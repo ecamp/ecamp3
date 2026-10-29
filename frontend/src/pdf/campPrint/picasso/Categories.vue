@@ -1,7 +1,7 @@
 <template>
   <View class="picasso-categories">
     <View v-for="category in categories" class="picasso-category">
-      <CategoryLabel :category="category" style="margin-right: 2pt" />
+      <CategoryLabel :category="category" :size="9" />
       <Text>{{ category.name }}</Text>
     </View>
   </View>
@@ -42,8 +42,8 @@ export default {
 }
 .picasso-category {
   flex-direction: row;
-  align-items: center;
-  gap: 2pt;
+  align-items: flex-start;
+  gap: 4pt;
   margin-right: 6pt;
   margin-bottom: 3pt;
 }

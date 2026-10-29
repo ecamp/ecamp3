@@ -4,6 +4,7 @@
     :size="config.options.pageSize || 'A4'"
     :bookmark="$tc('print.cover.title')"
     class="page"
+    :class="{ 'page-compact': compact }"
   >
     <TocSectionStartMarker :id="id" />
     <View class="cover-camp-wrapper">
@@ -40,7 +41,7 @@ export default {
 }
 .cover-camp-organizer {
   font-size: 18pt;
-  font-weight: 600;
+  font-weight: 500;
 }
 .cover-camp-title {
   font-size: 38pt;

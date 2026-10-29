@@ -494,7 +494,10 @@
           "orientation": "Mise en page",
           "landscape": "Paysage",
           "periods": "Période(s) du camp",
-          "portrait": "Portrait"
+          "portrait": "Portrait",
+          "responsibles": "Responsables",
+          "responsiblesNames": "Noms",
+          "responsiblesAvatars": "Avatars"
         },
         "programConfig": {
           "dayOverview": "Aperçu des jours"
@@ -550,7 +553,8 @@
           "Toc": "Table des matières"
         },
         "options": "Paramètres",
-        "pageNumbers": "Numéros de page"
+        "pageNumbers": "Numéros de page",
+        "compact": "Mise en page compacte (moins d'espacement, masquer les champs vides)"
       },
       "printNuxt": {
         "downloadNuxtPdfButton": {

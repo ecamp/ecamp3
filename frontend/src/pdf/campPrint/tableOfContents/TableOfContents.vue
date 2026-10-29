@@ -1,5 +1,9 @@
 <template>
-  <Page :size="config.options.pageSize || 'A4'" class="page">
+  <Page
+    :size="config.options.pageSize || 'A4'"
+    class="page"
+    :class="{ 'page-compact': compact }"
+  >
     <slot></slot>
     <TocSectionStartMarker :id="id" />
     <Text :id="id" :bookmark="$tc('print.toc.title')" class="toc-title">{{
@@ -71,9 +75,11 @@ export default {
   text-decoration: none;
   width: 100%;
   margin-bottom: 6pt;
+  font-weight: 600;
 }
 .toc-sub-entry {
-  padding-left: 10pt;
+  padding-left: 14pt;
   margin-bottom: 4pt;
+  font-weight: normal;
 }
 </style>
