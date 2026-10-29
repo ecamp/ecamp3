@@ -249,7 +249,9 @@
         "startDatetime": "Starttime",
         "time": "Time",
         "ysPhysicalActivityDuration": "Y+S physical activity time",
-        "ysPhysicalActivityDurationFormatted": "PA {duration}"
+        "ysPhysicalActivityDurationFormatted": "PA {duration}",
+        "ysPhysicalActivityDurationOrMore": "{duration} or more",
+        "ysPhysicalActivityDurationOrMoreShort": "{hours}+ h"
       },
       "name": "Activity scheduled"
     }

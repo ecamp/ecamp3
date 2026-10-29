@@ -22,6 +22,7 @@ describe('PhysicalActivityDurationIndicator', () => {
     [30, 60, 0.5],
     [60, 60, 1],
     [90, 60, 1],
+    [120, 180, 1],
     [0, 60, 0],
     [30, 0, 0],
   ])(

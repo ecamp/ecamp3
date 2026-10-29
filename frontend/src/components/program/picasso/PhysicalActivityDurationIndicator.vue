@@ -19,6 +19,7 @@
 
 <script>
 import { ONE_MINUTE_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
+import { isYsPhysicalActivityDurationOpenEnded } from '@/common/helpers/ysPhysicalActivityDuration.js'
 
 export default {
   props: {
@@ -30,6 +31,7 @@ export default {
   computed: {
     fraction() {
       if (this.entryDuration <= 0) return 0
+      if (isYsPhysicalActivityDurationOpenEnded(this.minutes)) return 1
       return Math.min(
         1,
         Math.max(0, (this.minutes * ONE_MINUTE_IN_MILLISECONDS) / this.entryDuration)
