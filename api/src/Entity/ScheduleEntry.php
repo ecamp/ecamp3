@@ -13,8 +13,8 @@ use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Doctrine\Filter\ExpressionDateTimeFilter;
+use App\HttpCache\CacheTag;
 use App\HttpCache\CanGenerateTagsInterface;
-use App\HttpCache\DependencyKey;
 use App\Repository\ScheduleEntryRepository;
 use App\State\ScheduleEntryPersistProcessor;
 use App\State\ScheduleEntryRemoveProcessor;
@@ -382,8 +382,8 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface, CanGen
     public function getCacheTags(): array {
         return [
             $this->getPeriod()->getId(),
-            DependencyKey::of($this->getPeriod(), Period::SCHEDULE_ENTRY_NUMBERS_CACHE_KEY),
-            DependencyKey::of($this->getPeriod()->camp, Camp::DAY_NUMBERS_CACHE_KEY),
+            CacheTag::forCustomTag($this->getPeriod(), Period::SCHEDULE_ENTRY_NUMBERS_CACHE_TAG),
+            CacheTag::forCustomTag($this->getPeriod()->camp, Camp::DAY_NUMBERS_CACHE_TAG),
         ];
     }
 

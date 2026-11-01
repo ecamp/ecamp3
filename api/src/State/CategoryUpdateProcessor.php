@@ -6,7 +6,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Category;
 use App\Entity\Period;
-use App\HttpCache\DependencyKey;
+use App\HttpCache\CacheTag;
 use App\State\Util\AbstractPersistProcessor;
 use FOS\HttpCacheBundle\CacheManager;
 
@@ -34,7 +34,7 @@ class CategoryUpdateProcessor extends AbstractPersistProcessor {
         }
 
         $this->cacheManager->invalidateTags(
-            $data->camp->periods->map(fn (Period $period) => DependencyKey::of($period, Period::SCHEDULE_ENTRY_NUMBERS_CACHE_KEY))->getValues()
+            $data->camp->periods->map(fn (Period $period) => CacheTag::forCustomTag($period, Period::SCHEDULE_ENTRY_NUMBERS_CACHE_TAG))->getValues()
         );
     }
 }

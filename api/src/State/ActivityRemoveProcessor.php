@@ -7,7 +7,7 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Activity;
 use App\Entity\Comment;
 use App\Entity\Period;
-use App\HttpCache\DependencyKey;
+use App\HttpCache\CacheTag;
 use App\State\Util\AbstractRemoveProcessor;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\HttpCacheBundle\CacheManager;
@@ -29,7 +29,7 @@ class ActivityRemoveProcessor extends AbstractRemoveProcessor {
      */
     public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): void {
         $this->cacheManager->invalidateTags(array_map(
-            fn (Period $period) => DependencyKey::of($period, Period::SCHEDULE_ENTRY_NUMBERS_CACHE_KEY),
+            fn (Period $period) => CacheTag::forCustomTag($period, Period::SCHEDULE_ENTRY_NUMBERS_CACHE_TAG),
             $data->listSchedulePeriods()
         ));
 

@@ -6,7 +6,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Camp;
 use App\Entity\Period;
-use App\HttpCache\DependencyKey;
+use App\HttpCache\CacheTag;
 use App\State\Util\AbstractRemoveProcessor;
 use FOS\HttpCacheBundle\CacheManager;
 
@@ -25,6 +25,6 @@ class PeriodRemoveProcessor extends AbstractRemoveProcessor {
      * @param Period $data
      */
     public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): void {
-        $this->cacheManager->invalidateTags([DependencyKey::of($data->camp, Camp::DAY_NUMBERS_CACHE_KEY)]);
+        $this->cacheManager->invalidateTags([CacheTag::forCustomTag($data->camp, Camp::DAY_NUMBERS_CACHE_TAG)]);
     }
 }

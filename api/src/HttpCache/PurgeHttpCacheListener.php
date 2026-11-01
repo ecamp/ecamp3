@@ -42,8 +42,6 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 final readonly class PurgeHttpCacheListener {
     use ClassInfoTrait;
 
-    public const string IRI_RELATION_DELIMITER = '#';
-
     public function __construct(
         private IriConverterInterface $iriConverter,
         private ResourceClassResolverInterface $resourceClassResolver,
@@ -293,7 +291,7 @@ final readonly class PurgeHttpCacheListener {
                 $iri = $this->iriConverter->getIriFromResource($value);
             }
             if ($iri && $property) {
-                $iri .= self::IRI_RELATION_DELIMITER.$property;
+                $iri = CacheTag::forRelation($iri, $property);
             }
             if ($iri) {
                 $this->cacheManager->invalidateTags([$iri]);

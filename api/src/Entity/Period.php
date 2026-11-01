@@ -70,8 +70,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(filterClass: CampCollaboratorFilter::class)]
 #[ORM\Entity(repositoryClass: PeriodRepository::class)]
 class Period extends BaseEntity implements BelongsToCampInterface {
-    /** Cache dependency key on a period for the numbers of all of its schedule entries. */
-    public const string SCHEDULE_ENTRY_NUMBERS_CACHE_KEY = 'scheduleEntryNumbers';
+    /** Custom cache tag on a period for the numbers of all of its schedule entries. */
+    public const string SCHEDULE_ENTRY_NUMBERS_CACHE_TAG = 'scheduleEntryNumbers';
 
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'Period:Camp', 'Period:Days'],

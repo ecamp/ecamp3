@@ -7,7 +7,7 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Camp;
 use App\Entity\Day;
 use App\Entity\Period;
-use App\HttpCache\DependencyKey;
+use App\HttpCache\CacheTag;
 use App\State\Util\AbstractPersistProcessor;
 use App\Util\DateTimeUtil;
 use FOS\HttpCacheBundle\CacheManager;
@@ -47,7 +47,7 @@ class PeriodPersistProcessor extends AbstractPersistProcessor {
             return;
         }
 
-        $this->cacheManager->invalidateTags([DependencyKey::of($data->camp, Camp::DAY_NUMBERS_CACHE_KEY)]);
+        $this->cacheManager->invalidateTags([CacheTag::forCustomTag($data->camp, Camp::DAY_NUMBERS_CACHE_TAG)]);
     }
 
     public static function moveDaysAndScheduleEntries(Period $period, ?Period $originalPeriod = null) {

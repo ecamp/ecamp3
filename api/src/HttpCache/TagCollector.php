@@ -15,8 +15,6 @@ use App\Entity\HasId;
  * @author Urban Suppiger <urban@suppiger.net>
  */
 class TagCollector implements TagCollectorInterface {
-    public const IRI_RELATION_DELIMITER = '#';
-
     public function __construct(private readonly ResponseTagger $responseTagger) {}
 
     /**
@@ -62,14 +60,14 @@ class TagCollector implements TagCollectorInterface {
     private function addCacheTagsForRelation(array $context, string $iri, ApiProperty $propertyMetadata): void {
         if (isset($propertyMetadata->getExtraProperties()['cacheDependencies'])) {
             foreach ($propertyMetadata->getExtraProperties()['cacheDependencies'] as $dependency) {
-                $cacheTag = $iri.PurgeHttpCacheListener::IRI_RELATION_DELIMITER.$dependency;
+                $cacheTag = CacheTag::forRelation($iri, $dependency);
                 $this->responseTagger->addTags([$cacheTag]);
             }
 
             return;
         }
 
-        $cacheTag = $iri.PurgeHttpCacheListener::IRI_RELATION_DELIMITER.$context['api_attribute'];
+        $cacheTag = CacheTag::forRelation($iri, $context['api_attribute']);
         $this->responseTagger->addTags([$cacheTag]);
     }
 

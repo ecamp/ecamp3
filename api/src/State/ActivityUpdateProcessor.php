@@ -6,7 +6,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Activity;
 use App\Entity\Period;
-use App\HttpCache\DependencyKey;
+use App\HttpCache\CacheTag;
 use App\State\Util\AbstractPersistProcessor;
 use FOS\HttpCacheBundle\CacheManager;
 
@@ -34,7 +34,7 @@ class ActivityUpdateProcessor extends AbstractPersistProcessor {
         }
 
         $this->cacheManager->invalidateTags(array_map(
-            fn (Period $period) => DependencyKey::of($period, Period::SCHEDULE_ENTRY_NUMBERS_CACHE_KEY),
+            fn (Period $period) => CacheTag::forCustomTag($period, Period::SCHEDULE_ENTRY_NUMBERS_CACHE_TAG),
             $data->listSchedulePeriods()
         ));
     }
