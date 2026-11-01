@@ -5,9 +5,9 @@
  *
  * For original author and license information see upstream file.
  *
- * Upstream file (main branch):               https://github.com/api-platform/core/blob/main/src/Doctrine/EventListener/PurgeHttpCacheListener.php
- * Upstream file (last synchronized version): https://github.com/api-platform/core/blob/d8e2d0c5e9b48c15d60a734086b0102b6ecf95c8/src/Doctrine/EventListener/PurgeHttpCacheListener.php
- * Last synchronized commit:                  2024-03-05 / d8e2d0c5e9b48c15d60a734086b0102b6ecf95c8
+ * Upstream file (main branch):               https://github.com/api-platform/core/blob/main/src/Symfony/Doctrine/EventListener/PurgeHttpCacheListener.php
+ * Upstream file (last synchronized version): https://github.com/api-platform/core/blob/db299e9a170bbcf9fd1629641c63512265670563/src/Symfony/Doctrine/EventListener/PurgeHttpCacheListener.php
+ * Last synchronized commit:                  2026-10-19 / db299e9a170bbcf9fd1629641c63512265670563
  */
 
 declare(strict_types=1);
@@ -26,7 +26,6 @@ use ApiPlatform\Metadata\UrlGeneratorInterface;
 use ApiPlatform\Metadata\Util\ClassInfoTrait;
 use App\Entity\BaseEntity;
 use App\Entity\HasId;
-use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping\AssociationMapping;
@@ -59,7 +58,7 @@ final readonly class PurgeHttpCacheListener {
     public function preUpdate(PreUpdateEventArgs $eventArgs): void {
         $changeSet = $eventArgs->getEntityChangeSet();
         $objectManager = $eventArgs->getObjectManager();
-        $associationMappings = $objectManager->getClassMetadata(ClassUtils::getClass($eventArgs->getObject()))->getAssociationMappings();
+        $associationMappings = $objectManager->getClassMetadata($eventArgs->getObject()::class)->getAssociationMappings();
 
         foreach ($changeSet as $key => $value) {
             if (!isset($associationMappings[$key])) {
@@ -141,7 +140,7 @@ final readonly class PurgeHttpCacheListener {
     private function getOriginalEntity($entity) {
         $uow = $this->em->getUnitOfWork();
         $changeSet = $uow->getEntityChangeSet($entity);
-        $classMetadata = $this->em->getClassMetadata(ClassUtils::getClass($entity));
+        $classMetadata = $this->em->getClassMetadata($entity::class);
 
         $originalEntity = clone $entity;
         $this->em->detach($originalEntity);
@@ -168,7 +167,7 @@ final readonly class PurgeHttpCacheListener {
         $this->gatherResourceTagsForClass($resourceClass, $entity, $oldEntity);
 
         // also purge parent classes (e.g. /content_nodes)
-        $classMetadata = $this->em->getClassMetadata(ClassUtils::getClass($entity));
+        $classMetadata = $this->em->getClassMetadata($entity::class);
         foreach ($classMetadata->parentClasses as $parentClass) {
             $this->gatherResourceTagsForClass($parentClass, $entity, $oldEntity);
         }
@@ -234,7 +233,7 @@ final readonly class PurgeHttpCacheListener {
      * @psalm-suppress UndefinedClass
      */
     private function gatherRelationTags(object $entity): void {
-        $associationMappings = $this->em->getClassMetadata(ClassUtils::getClass($entity))->getAssociationMappings();
+        $associationMappings = $this->em->getClassMetadata($entity::class)->getAssociationMappings();
 
         foreach ($associationMappings as $property => $associationMapping) {
             if ($associationMapping instanceof AssociationMapping && $associationMapping->targetEntity && !$this->resourceClassResolver->isResourceClass($associationMapping->targetEntity)) {
