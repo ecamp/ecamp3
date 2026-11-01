@@ -238,7 +238,7 @@ final readonly class PurgeHttpCacheListener {
 
         foreach ($associationMappings as $property => $associationMapping) {
             if ($associationMapping instanceof AssociationMapping && $associationMapping->targetEntity && !$this->resourceClassResolver->isResourceClass($associationMapping->targetEntity)) {
-                return;
+                continue;
             }
 
             $relatedProperty = $associationMapping['isOwningSide'] ? $associationMapping['inversedBy'] : $associationMapping['mappedBy'];
