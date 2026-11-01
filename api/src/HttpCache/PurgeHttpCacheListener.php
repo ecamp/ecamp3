@@ -33,6 +33,8 @@ use Doctrine\ORM\Mapping\AssociationMapping;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\PersistentCollection;
 use FOS\HttpCacheBundle\CacheManager;
+use Symfony\Component\HttpKernel\Event\KernelEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
@@ -112,10 +114,22 @@ final readonly class PurgeHttpCacheListener {
     }
 
     /**
-     * Purges tags collected during this request, and clears the tag list.
+     * Outside of a transaction (e.g. console commands) the changes are already committed.
+     * Inside the request transaction, flushing waits for onKernelResponse.
      */
     public function postFlush(): void {
-        $this->cacheManager->flush();
+        if (!$this->em->getConnection()->isTransactionActive()) {
+            $this->cacheManager->flush();
+        }
+    }
+
+    /**
+     * Purges tags collected during this request, after the request transaction was committed.
+     */
+    public function onKernelResponse(KernelEvent $event): void {
+        if (HttpKernelInterface::MAIN_REQUEST === $event->getRequestType()) {
+            $this->cacheManager->flush();
+        }
     }
 
     private function addTagsForManyToManyRelations($collection, $entities) {
