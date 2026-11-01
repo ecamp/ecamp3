@@ -193,5 +193,79 @@ test.describe(
       await waitForCacheMiss(bipiApi, uri)
       await expectCacheHit(bipiApi, uri)
     })
+
+    test('invalidates /periods/{periodId}/schedule_entries when changing the numbering style of a category', async () => {
+      const uri = `/api/periods/${grgrPeriodId}/schedule_entries`
+      const categoryUri = '/api/categories/a023e85227ac'
+
+      const bipiApi = await getAuthContext(bipiUser)
+
+      // bring data into defined state
+      await apiPatch(bipiApi, categoryUri, { numberingStyle: '1' })
+
+      // warm up cache
+      await apiGet(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
+
+      // the category is not part of the cached response
+      await apiPatch(bipiApi, categoryUri, { numberingStyle: 'A' })
+
+      // ensure cache was invalidated
+      await waitForCacheMiss(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
+
+      // restore
+      await apiPatch(bipiApi, categoryUri, { numberingStyle: '1' })
+    })
+
+    test('invalidates /periods/{periodId}/schedule_entries when changing the category of an activity', async () => {
+      const uri = `/api/periods/${grgrPeriodId}/schedule_entries`
+      const activityUri = '/api/activities/ffd08c52288c'
+
+      const bipiApi = await getAuthContext(bipiUser)
+
+      // bring data into defined state
+      await apiPatch(bipiApi, activityUri, { category: '/api/categories/a023e85227ac' })
+
+      // warm up cache
+      await apiGet(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
+
+      // the category is not part of the cached response
+      await apiPatch(bipiApi, activityUri, { category: '/api/categories/1a869b162875' })
+
+      // ensure cache was invalidated
+      await waitForCacheMiss(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
+
+      // restore
+      await apiPatch(bipiApi, activityUri, { category: '/api/categories/a023e85227ac' })
+    })
+
+    test('invalidates /periods/{periodId}/schedule_entries of later periods when changing the dates of an earlier period', async () => {
+      const uri = `/api/periods/${harrySecondPeriodId}/schedule_entries`
+      const mainPeriodUri = `/api/periods/${harryMainPeriodId}`
+
+      const bipiApi = await getAuthContext(bipiUser)
+      const mainPeriod = await (await apiGet(bipiApi, mainPeriodUri)).json()
+
+      // warm up cache
+      await apiGet(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
+
+      // lengthen the earlier period, which shifts the day numbers of the later period
+      const end = new Date(mainPeriod.end)
+      end.setUTCDate(end.getUTCDate() + 1)
+      await apiPatch(bipiApi, mainPeriodUri, {
+        end: end.toISOString().substring(0, 10),
+      })
+
+      // ensure cache was invalidated
+      await waitForCacheMiss(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
+
+      // restore
+      await apiPatch(bipiApi, mainPeriodUri, { end: mainPeriod.end })
+    })
   }
 )
