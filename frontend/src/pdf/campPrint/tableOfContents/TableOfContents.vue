@@ -9,7 +9,7 @@
     <Text :id="id" :bookmark="$tc('print.toc.title')" class="toc-title">{{
       $tc('print.toc.title')
     }}</Text>
-    <View>
+    <View style="gap: 6pt">
       <template v-for="(entry, index) in config.contents">
         <component
           :is="entryComponents[entry.type]"
@@ -62,7 +62,7 @@ export default {
 <style lang="react-pdf">
 .toc-title {
   font-weight: 600;
-  font-size: 14pt;
+  font-size: 16pt;
   border-bottom: 2pt solid #aaaaaa;
   padding-bottom: 2pt;
   margin-bottom: 8pt;
@@ -74,7 +74,6 @@ export default {
   color: black;
   text-decoration: none;
   width: 100%;
-  margin-bottom: 6pt;
   font-weight: 600;
 }
 .toc-sub-entry {

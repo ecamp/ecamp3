@@ -31,7 +31,7 @@
           },
           "style": {
             "borderBottom": "2pt solid #aaaaaa",
-            "fontSize": "14pt",
+            "fontSize": "16pt",
             "fontWeight": "600",
             "marginBottom": "8pt",
             "paddingBottom": "2pt",
@@ -74,7 +74,6 @@
                 "flexDirection": "row",
                 "fontWeight": "600",
                 "justifyContent": "space-between",
-                "marginBottom": "6pt",
                 "textDecoration": "none",
                 "width": "100%",
               },
@@ -82,8 +81,14 @@
             },
           ],
           "parent": [Circular],
-          "props": {},
-          "style": {},
+          "props": {
+            "style": {
+              "gap": "6pt",
+            },
+          },
+          "style": {
+            "gap": "6pt",
+          },
           "type": "VIEW",
         },
       ],
