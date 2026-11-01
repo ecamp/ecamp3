@@ -16,6 +16,7 @@ use App\InputFilter;
 use App\Repository\CategoryRepository;
 use App\State\CategoryCreateProcessor;
 use App\State\CategoryRemoveProcessor;
+use App\State\CategoryUpdateProcessor;
 use App\Util\ClassInfoTrait;
 use App\Util\EntityMap;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -41,7 +42,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Patch(
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             denormalizationContext: ['groups' => ['write', 'update']],
-            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            processor: CategoryUpdateProcessor::class
         ),
         new Delete(
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',

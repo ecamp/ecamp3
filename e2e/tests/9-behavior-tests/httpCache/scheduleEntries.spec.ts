@@ -24,8 +24,8 @@ const collectionXKeys =
   /* campCollaboration for bipiUser */
   '10d8f02ce5b4 ' +
   /* scheduleEntries + links */
-  /* the first scheduleEntry also includes the period id 7fa4564a5d5d */
-  'e68f4e47517a 7fa4564a5d5d e68f4e47517a#period e68f4e47517a#activity e68f4e47517a#day ' +
+  /* the first scheduleEntry also includes the period id 7fa4564a5d5d and its dependency keys */
+  'e68f4e47517a 7fa4564a5d5d 7fa4564a5d5d^scheduleEntryNumbers 70ca971c992f^dayNumbers e68f4e47517a#period e68f4e47517a#activity e68f4e47517a#day ' +
   'f0883e931649 f0883e931649#period f0883e931649#activity f0883e931649#day ' +
   '29c9e9a07d82 29c9e9a07d82#period 29c9e9a07d82#activity 29c9e9a07d82#day ' +
   'ee85308a97d1 ee85308a97d1#period ee85308a97d1#activity ee85308a97d1#day ' +

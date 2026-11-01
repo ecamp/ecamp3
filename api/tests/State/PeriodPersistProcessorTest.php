@@ -10,6 +10,7 @@ use App\Entity\DayResponsible;
 use App\Entity\Period;
 use App\Entity\ScheduleEntry;
 use App\State\PeriodPersistProcessor;
+use FOS\HttpCacheBundle\CacheManager;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -51,7 +52,8 @@ class PeriodPersistProcessorTest extends TestCase {
         $decoratedProcessor = $this->createStub(ProcessorInterface::class);
 
         $this->processor = new PeriodPersistProcessor(
-            $decoratedProcessor
+            $decoratedProcessor,
+            $this->createStub(CacheManager::class)
         );
     }
 

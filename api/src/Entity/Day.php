@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use App\HttpCache\CanGenerateTagsInterface;
+use App\HttpCache\DependencyKey;
 use App\Repository\DayRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -228,6 +229,6 @@ class Day extends BaseEntity implements BelongsToCampInterface, CanGenerateTagsI
     }
 
     public function getCacheTags(): array {
-        return [$this->period->getId()];
+        return [$this->period->getId(), DependencyKey::of($this->period->camp, Camp::DAY_NUMBERS_CACHE_KEY)];
     }
 }

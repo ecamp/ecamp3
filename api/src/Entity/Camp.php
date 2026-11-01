@@ -77,6 +77,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Index(columns: ['randomlyGenerated'])]
 #[ORM\Index(columns: ['updateTime'])] // TODO unclear why this is necessary, but doctrine forgot about this index from BaseEntity...
 class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
+    /** Cache dependency key on a camp for the numbers of all of its days. */
+    public const string DAY_NUMBERS_CACHE_KEY = 'dayNumbers';
+
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'Camp:Periods', 'Period:Days', 'Camp:CampCollaborations', 'CampCollaboration:User'],
         'swagger_definition_name' => 'read',

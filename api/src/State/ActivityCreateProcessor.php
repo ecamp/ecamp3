@@ -7,9 +7,12 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Activity;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentType;
+use App\Entity\Period;
+use App\HttpCache\DependencyKey;
 use App\State\Util\AbstractPersistProcessor;
 use App\Util\EntityMap;
 use Doctrine\ORM\EntityManagerInterface;
+use FOS\HttpCacheBundle\CacheManager;
 
 /**
  * @template-extends AbstractPersistProcessor<Activity>
@@ -17,7 +20,8 @@ use Doctrine\ORM\EntityManagerInterface;
 class ActivityCreateProcessor extends AbstractPersistProcessor {
     public function __construct(
         ProcessorInterface $decorated,
-        private readonly EntityManagerInterface $em
+        private readonly EntityManagerInterface $em,
+        private readonly CacheManager $cacheManager,
     ) {
         parent::__construct($decorated);
     }
@@ -56,5 +60,16 @@ class ActivityCreateProcessor extends AbstractPersistProcessor {
         $rootContentNode->copyFromPrototype($rootContentNodePrototype, $entityMap);
 
         return $data;
+    }
+
+    /**
+     * @param Activity $data
+     */
+    #[\Override]
+    public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
+        $this->cacheManager->invalidateTags(array_map(
+            fn (Period $period) => DependencyKey::of($period, Period::SCHEDULE_ENTRY_NUMBERS_CACHE_KEY),
+            $data->listSchedulePeriods()
+        ));
     }
 }

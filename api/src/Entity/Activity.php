@@ -16,6 +16,7 @@ use App\InputFilter;
 use App\Repository\ActivityRepository;
 use App\State\ActivityCreateProcessor;
 use App\State\ActivityRemoveProcessor;
+use App\State\ActivityUpdateProcessor;
 use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\AssertLastCollectionItemIsNotDeleted;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -38,7 +39,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Patch(
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            validationContext: ['groups' => ['Default', 'update']]
+            validationContext: ['groups' => ['Default', 'update']],
+            processor: ActivityUpdateProcessor::class
         ),
         new Delete(
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
@@ -209,6 +211,13 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
         $this->scheduleEntries = new ArrayCollection();
         $this->activityResponsibles = new ArrayCollection();
         $this->comments = new ArrayCollection();
+    }
+
+    /**
+     * @return Period[]
+     */
+    public function listSchedulePeriods(): array {
+        return array_values(array_filter($this->scheduleEntries->map(fn (ScheduleEntry $scheduleEntry) => $scheduleEntry->period)->getValues()));
     }
 
     public function getCamp(): ?Camp {

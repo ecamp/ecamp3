@@ -8,6 +8,7 @@ use App\Entity\Activity;
 use App\Entity\ContentNode\ColumnLayout;
 use App\State\ActivityRemoveProcessor;
 use Doctrine\ORM\EntityManagerInterface;
+use FOS\HttpCacheBundle\CacheManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -28,7 +29,7 @@ class ActivityRemoveProcessorTest extends TestCase {
         $root = new ColumnLayout();
         $this->activity->setRootContentNode($root);
 
-        $this->processor = new ActivityRemoveProcessor($decoratedProcessor, $this->em);
+        $this->processor = new ActivityRemoveProcessor($decoratedProcessor, $this->em, $this->createStub(CacheManager::class));
     }
 
     public function testRemovesRootContentNode() {
