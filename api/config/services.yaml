@@ -33,6 +33,35 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    App\Service\Image\ImageProcessor:
+        arguments:
+            $maxBytes: '%env(int:IMAGE_MAX_BYTES)%'
+            $maxPixels: '%env(int:IMAGE_MAX_PIXELS)%'
+            $maxDimension: '%env(int:IMAGE_MAX_DIMENSION)%'
+            $quality: '%env(int:IMAGE_WEBP_QUALITY)%'
+
+    App\Service\Image\LocalImageStorage:
+        arguments:
+            $directory: '%env(resolve:IMAGE_STORAGE_PATH)%'
+            $prefix: '%env(IMAGE_STORAGE_PREFIX)%'
+
+    Aws\S3\S3ClientInterface:
+        factory: ['@App\Service\Image\ImageStorageFactory', 'createS3Client']
+        arguments:
+            $region: '%env(IMAGE_STORAGE_REGION)%'
+            $endpoint: '%env(IMAGE_STORAGE_ENDPOINT)%'
+            $pathStyle: '%env(bool:IMAGE_STORAGE_PATH_STYLE)%'
+
+    App\Service\Image\S3ImageStorage:
+        arguments:
+            $bucket: '%env(IMAGE_STORAGE_BUCKET)%'
+            $prefix: '%env(IMAGE_STORAGE_PREFIX)%'
+
+    App\Service\Image\ImageStorage:
+        factory: ['@App\Service\Image\ImageStorageFactory', 'create']
+        arguments:
+            $driver: '%env(IMAGE_STORAGE)%'
+
     App\Validator\MaterialItemUpdateGroupSequence:
         public: true
 

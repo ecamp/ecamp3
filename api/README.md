@@ -4,6 +4,34 @@ After starting the project using `docker compose up -d`, you can visit the API d
 
 To use the API, you will need to log in. You can use the "Login" endpoint offered in the Swagger UI for this. The example credentials should work fine in development.
 
+### Image uploads
+
+Camp members and managers can upload an image using `POST /camps/{campId}/images`
+with a multipart form field named `file`. The JSON response contains `id`, `src`,
+`mediaType`, `byteSize`, `width` and `height`. The `src` identifies the camp image;
+its download endpoint is not implemented yet.
+
+JPEG, PNG and WebP inputs are converted to WebP with EXIF orientation applied and
+metadata removed. Images are never upscaled. Limits are configured through
+`IMAGE_MAX_BYTES`, `IMAGE_MAX_PIXELS`, `IMAGE_MAX_DIMENSION` and `IMAGE_WEBP_QUALITY`.
+PHP's `upload_max_filesize`, `post_max_size` and upstream request limits must also
+permit the configured upload size. Available PHP memory can impose a lower limit.
+
+`IMAGE_STORAGE=local` stores files in `IMAGE_STORAGE_PATH`, outside the public
+directory. Deployments need persistent storage accessible to their API replicas.
+For S3-compatible storage, set `IMAGE_STORAGE=s3`, `IMAGE_STORAGE_BUCKET`,
+`IMAGE_STORAGE_REGION` and optionally `IMAGE_STORAGE_ENDPOINT` and
+`IMAGE_STORAGE_PATH_STYLE`. Credentials use the AWS SDK credential chain, including
+`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and optionally `AWS_SESSION_TOKEN`.
+The bucket must remain private.
+
+`IMAGE_STORAGE_PREFIX` isolates deployments within a bucket or local directory.
+Files use `images/{sha256}` below this prefix. The hash is calculated from the
+converted bytes. Repeated uploads reuse the global blob and its camp association.
+Changing storage configuration does not migrate existing files. Storage writes
+cannot be rolled back with database transactions; failed transactions can leave
+unreferenced files. No automatic file deletion is enabled.
+
 ### Manually using the API without a browser
 
 If you ever need to get an API token for manual use, you can use the following command:

@@ -39,6 +39,8 @@ RUN set -eux; \
 	install-php-extensions \
 	@composer \
 	intl \
+	gd \
+	exif \
 	zip \
 	apcu \
 	opcache \
