@@ -39,7 +39,10 @@
           class="program-day-table-activity"
           :href="`#scheduleEntry_${scheduleEntry.id}`"
         >
-          <CategoryLabel :category="scheduleEntry.activity().category()" :size="10" />
+          <CategoryLabel
+            :category="scheduleEntry.activity().category()"
+            :line-font-size="11"
+          />
           <Text class="program-day-activity-title">
             {{ scheduleEntry.activity().title }}
           </Text>

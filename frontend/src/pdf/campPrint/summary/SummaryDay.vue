@@ -6,7 +6,10 @@
   <template v-for="{ scheduleEntry, contentNodes } in entriesWithContentNodes">
     <template v-for="chapter in contentNodes">
       <View class="summary-chapter-title" :min-presence-ahead="30">
-        <CategoryLabel :category="scheduleEntry.activity().category()" :size="11" />
+        <CategoryLabel
+          :category="scheduleEntry.activity().category()"
+          :line-font-size="11"
+        />
         <Text :id="`${id}-${period.id}-${scheduleEntry.id}`">
           <Text class="tabular-nums">{{ scheduleEntry.number }}</Text>
           {{ chapter.title }}

@@ -9,7 +9,6 @@
       <View :id="`scheduleEntry_${scheduleEntry.id}`" class="schedule-entry-title">
         <CategoryLabel
           :category="activity.category()"
-          :size="15"
           :line-font-size="18"
           class="schedule-entry-category-label"
         />

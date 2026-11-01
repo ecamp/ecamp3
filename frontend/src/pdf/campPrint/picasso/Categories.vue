@@ -1,7 +1,7 @@
 <template>
   <View class="picasso-categories">
     <View v-for="category in categories" class="picasso-category">
-      <CategoryLabel :category="category" :size="9" />
+      <CategoryLabel :category="category" :line-font-size="9" />
       <Text>{{ category.name }}</Text>
     </View>
   </View>

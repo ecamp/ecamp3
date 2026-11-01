@@ -1,5 +1,5 @@
 <template>
-  <Text class="category-label" :style="style">
+  <Text class="category-label" :style="style" :wrap="false">
     {{ category.short }}
   </Text>
 </template>
@@ -7,30 +7,35 @@
 import PdfComponent from '@/pdf/PdfComponent.js'
 import { contrastColor } from '../../common/helpers/colors.js'
 
+const DEFAULT_TEXT_FACTOR = 0.8
 export default {
   name: 'CategoryLabel',
   extends: PdfComponent,
   props: {
     category: { type: Object, required: true },
-    size: { type: Number, default: 10 },
-    lineFontSize: { type: Number, default: null },
+    size: { type: Number, default: null },
+    lineFontSize: { type: Number, required: true },
   },
   computed: {
+    factor() {
+      return this.size != null ? this.size / this.lineFontSize : DEFAULT_TEXT_FACTOR
+    },
     style() {
-      const verticalPadding = 0.15 * this.size
-      const horizontalPadding = 0.65 * this.size
-      const lineFontSize = this.lineFontSize ?? this.size
+      const size = this.size ?? this.lineFontSize * this.factor
+      const verticalPadding = 0.15 * size
+      const horizontalPadding = 0.65 * size
       const lineHeightFactor = 1.21
       return {
         color: contrastColor(this.category.color),
         backgroundColor: this.category.color,
-        fontSize: this.size,
-        letterSpacing: 0.05 * this.size,
+        fontSize: size,
+        fontWeight: 700,
+        letterSpacing: 0.05 * size,
         paddingTop: verticalPadding,
         paddingBottom: verticalPadding,
         paddingLeft: horizontalPadding,
         paddingRight: horizontalPadding,
-        marginTop: (lineHeightFactor * (lineFontSize - this.size)) / 2 - verticalPadding,
+        marginTop: (lineHeightFactor * (this.lineFontSize - size)) / 2 - verticalPadding,
         alignSelf: 'flex-start',
       }
     },
