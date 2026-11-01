@@ -2,6 +2,7 @@
 
 namespace App\Service\Image;
 
+use App\Entity\ImageBlob;
 use Symfony\Component\Filesystem\Filesystem;
 
 final readonly class LocalImageStorage implements ImageStorage {
@@ -13,5 +14,11 @@ final readonly class LocalImageStorage implements ImageStorage {
             rtrim($this->directory, '/').'/'.$key,
             $image->data,
         );
+    }
+
+    public function getDeliveryHeaders(ImageBlob $image, bool $head = false): array {
+        $key = ltrim(trim($this->prefix, '/').'/images/'.$image->sha256, '/');
+
+        return ['X-Image-File' => rtrim($this->directory, '/').'/'.$key];
     }
 }

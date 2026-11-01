@@ -21,6 +21,10 @@ sub vcl_recv {
   # see https://raw.githubusercontent.com/varnish/varnish-modules/master/src/vmod_xkey.vcc
   call fos_tags_xkey_recv;
 
+  if (req.url ~ "^/camps/[0-9a-f]+/images(/|$)") {
+    return(pass);
+  }
+
   # exclude API documentation, profiler and graphql endpoint
   if (var.get("originalUrl") ~ "^/api/docs" 
     || var.get("originalUrl") ~ "^/api/graphql" 

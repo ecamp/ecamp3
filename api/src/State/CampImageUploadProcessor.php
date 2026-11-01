@@ -28,7 +28,7 @@ final readonly class CampImageUploadProcessor implements ProcessorInterface {
         $image = $this->uploader->upload($data->camp, $file);
         $blob = $image->imageBlob;
         $data->id = $image->getId();
-        $data->src = $this->urlGenerator->generate('camp_image_upload', ['campId' => $data->camp->getId()]).'/'.$image->getId();
+        $data->src = $this->urlGenerator->generate('camp_image_download', ['campId' => $data->camp->getId(), 'id' => $image->getId()]);
         $data->mediaType = $blob->mediaType;
         $data->byteSize = $blob->byteSize;
         $data->width = $blob->width;

@@ -42,6 +42,11 @@ security:
                 - App\Security\OAuth\HitobitoAuthenticator
 
     access_control:
+        - {
+              path: '^/camps/[0-9a-f]+/images/[0-9a-f]+$',
+              methods: [GET, HEAD],
+              roles: PUBLIC_ACCESS,
+          }
         - { path: ^/docs, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
         - { path: ^/?$, roles: PUBLIC_ACCESS } # Without /, the frontend does not know how to login
         - { path: ^/authentication_token, roles: PUBLIC_ACCESS } # Endpoint to login

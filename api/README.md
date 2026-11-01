@@ -8,8 +8,15 @@ To use the API, you will need to log in. You can use the "Login" endpoint offere
 
 Camp members and managers can upload an image using `POST /camps/{campId}/images`
 with a multipart form field named `file`. The JSON response contains `id`, `src`,
-`mediaType`, `byteSize`, `width` and `height`. The `src` identifies the camp image;
-its download endpoint is not implemented yet.
+`mediaType`, `byteSize`, `width` and `height`. The `src` identifies the camp image.
+
+`GET /camps/{campId}/images/{id}` checks camp read access before validating the
+SHA-256 ETag. Images in public camps can be read anonymously. Responses use
+`Cache-Control: private, no-cache`; matching conditional requests return 304.
+Caddy serves the local file or proxies a short-lived signed S3 request. PHP does
+not read the image bytes. The internal delivery headers are removed by Caddy,
+and image requests bypass Varnish. The API must run behind the supplied Caddy
+configuration; direct PHP responses contain internal storage information.
 
 JPEG, PNG and WebP inputs are converted to WebP with EXIF orientation applied and
 metadata removed. Images are never upscaled. Limits are configured through

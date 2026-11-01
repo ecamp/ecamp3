@@ -25,6 +25,43 @@
 
 {$CADDY_EXTRA_CONFIG}
 
+(image_tls) {
+	transport http {
+		tls
+		tls_server_name {resp.header.X-Image-Server-Name}
+	}
+}
+
+(image_plain) {
+	transport http
+}
+
+(image_proxy) {
+	header {
+		-X-Image-*
+		>ETag {resp.header.Etag}
+		>Cache-Control "private, no-cache"
+	}
+	reverse_proxy {resp.header.X-Image-Upstream} {
+		import {args[0]}
+		rewrite {resp.header.X-Image-Uri}
+		header_up Host {resp.header.X-Image-Host}
+		header_up -Cookie
+		header_up -Authorization
+		header_up -Referer
+		header_up -If-None-Match
+		header_up -If-Modified-Since
+		header_down -Set-Cookie
+		header_down -Last-Modified
+		header_down -ETag
+		header_down -Cache-Control
+		@failed status 3xx 4xx 5xx
+		handle_response @failed {
+			respond "Image unavailable" 502
+		}
+	}
+}
+
 {$SERVER_NAME:localhost} {
 	log
 
@@ -38,12 +75,40 @@
 	# Disable Topics tracking if not enabled explicitly: https://github.com/jkarlin/topics
 	header ?Permissions-Policy "browsing-topics=()"
 
+	intercept {
+		@localImage header X-Image-File *
+		handle_response @localImage {
+			route {
+				header {
+					-X-Image-File
+					>ETag {resp.header.Etag}
+					>Cache-Control "private, no-cache"
+					>Content-Type image/webp
+					-Last-Modified
+				}
+				root /
+				rewrite {resp.header.X-Image-File}
+				request_header -If-None-Match
+				request_header -If-Modified-Since
+				file_server
+			}
+		}
+		@httpsImage header X-Image-Scheme https
+		handle_response @httpsImage {
+			import image_proxy image_tls
+		}
+		@httpImage header X-Image-Scheme http
+		handle_response @httpImage {
+			import image_proxy image_plain
+		}
+	}
+
 	@phpRoute not file {path}
 	rewrite @phpRoute index.php
-	
+
 	@frontController path index.php
 	php @frontController
-	
+
 	file_server {
 		hide *.php
 	}
