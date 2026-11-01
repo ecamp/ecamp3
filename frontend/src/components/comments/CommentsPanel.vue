@@ -100,7 +100,7 @@
 import CommentComposer from '@/components/comments/CommentComposer.vue'
 import CommentsList from '@/components/comments/CommentsList.vue'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
-import CountBadge from '@/components/dashboard/CountBadge.vue'
+import CountBadge from '@/components/generic/CountBadge.vue'
 import { VDialog, VNavigationDrawer } from 'vuetify/components'
 import {
   clearActivityFilter,
