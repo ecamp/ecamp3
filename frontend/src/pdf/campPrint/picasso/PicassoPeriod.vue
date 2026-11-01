@@ -50,8 +50,24 @@ export default {
       return splitDaysIntoPages(this.days, this.maxDaysPerPage)
     },
     maxDaysPerPage() {
-      if (this.content.options.orientation !== 'L') return 4
-      return this.compact ? 8 : 7
+      switch (this.pageSize) {
+        case 'A5':
+          return this.compact ? 7 : 5
+        case 'A3':
+          switch (this.content.options.orientation) {
+            case 'P':
+              return this.compact ? 15 : 12
+            default:
+              return 16
+          }
+        default:
+          switch (this.content.options.orientation) {
+            case 'P':
+              return this.compact ? 7 : 5
+            default:
+              return this.compact ? 15 : 12
+          }
+      }
     },
     timeStep() {
       // Height / duration of each picasso row, in hours

@@ -4,10 +4,9 @@
       class="picasso-day-header-text"
       :class="{ 'picasso-day-header-text-compact': compact }"
       >{{ date }}</Text
-    >
-    <View v-if="showDayResponsibles" class="picasso-day-responsibles">
-      <Text class="picasso-day-responsibles-text">{{ dayResponsibles }}</Text>
-    </View>
+    ><Text v-if="showDayResponsibles" class="picasso-day-header-responsibles">{{
+      dayResponsibles
+    }}</Text>
   </View>
 </template>
 <script>
@@ -51,12 +50,8 @@ export default {
 .picasso-day-header-text-compact {
   font-size: 8pt;
 }
-.picasso-day-responsibles {
+.picasso-day-header-responsibles {
   font-size: 8pt;
-  margin: 3pt auto 0;
-  line-height: 1.3;
-}
-.picasso-day-responsibles-text {
-  padding-bottom: 5pt;
+  margin: 1pt auto 0;
 }
 </style>

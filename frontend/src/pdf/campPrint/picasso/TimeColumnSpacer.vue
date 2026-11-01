@@ -1,5 +1,5 @@
 <template>
-  <View class="picasso-time-column" :style="{ width }" />
+  <View class="picasso-time-column" :style="{ width, height: 0 }" />
 </template>
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'

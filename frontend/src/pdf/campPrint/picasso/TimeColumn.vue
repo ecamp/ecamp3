@@ -58,7 +58,6 @@ export default {
   right: 0;
 }
 .picasso-time-column-row {
-  padding-horizontal: 2pt;
   /* this should match the height of the borders on the day grid rows. 0 means no borders */
   flex-basis: 0;
 }

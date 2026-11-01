@@ -37,14 +37,14 @@ export default {
   font-size: 9pt;
   display: flex;
   flex-direction: row;
+  justify-content: center;
   flex-wrap: wrap;
-  margin: 2pt 0 0;
+  column-gap: 10pt;
+  row-gap: 1pt;
 }
 .picasso-category {
   flex-direction: row;
   align-items: flex-start;
-  gap: 4pt;
-  margin-right: 6pt;
-  margin-bottom: 3pt;
+  gap: 2pt;
 }
 </style>

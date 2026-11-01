@@ -7,17 +7,24 @@
   >
     <slot></slot>
     <TocSectionStartMarker :id="`${id}-${period.id}`" />
-    <View class="picasso-title-container">
+    <View class="picasso-header">
       <YSLogo
         v-if="period.camp().printYSLogoOnPicasso"
-        :size="20"
+        :size="22"
         :locale="config.language"
         class="picasso-ys-logo"
       />
-      <Text :id="`${id}-${period.id}`" :bookmark="bookmark" class="picasso-title">
-        {{ $tc('print.picasso.title', { period: period.description }) }}
-      </Text>
-      <Text class="picasso-organizer">{{ period.camp().organizer }}</Text>
+      <TimeColumnSpacer v-else :times="times.slice(0, times.length - 1)" />
+      <View class="picasso-title-container">
+        <Text :id="`${id}-${period.id}`" :bookmark="bookmark" class="picasso-title">
+          {{ $tc('print.picasso.title', { period: period.description }) }}
+        </Text>
+        <Text class="picasso-organizer">{{ period.camp().organizer }}</Text>
+      </View>
+      <TimeColumnSpacer
+        v-if="!compact && pageSize === 'A3'"
+        :times="times.slice(0, times.length - 1)"
+      />
     </View>
     <View class="picasso-calendar-header-container">
       <TimeColumnSpacer :times="times.slice(0, times.length - 1)" />
@@ -26,12 +33,18 @@
         :day="day"
         :show-day-responsibles="anyDayResponsibles"
         class="picasso-day-header"
-        :class="{ 'picasso-day-header-left-border': day.id === days[0].id }"
+        :class="{
+          'picasso-day-header-compact': compact,
+          'picasso-day-header-left-border': day.id === days.at(-1).id,
+        }"
       />
-      <TimeColumnSpacer :times="times.slice(0, times.length - 1)" />
+      <TimeColumnSpacer
+        v-if="!compact && pageSize === 'A3'"
+        :times="times.slice(0, times.length - 1)"
+      />
     </View>
     <View class="picasso-calendar-container">
-      <TimeColumn :times="times.slice(0, times.length - 1)" align="right" />
+      <TimeColumn :times="times.slice(0, times.length - 1)" align="left" />
       <DayColumn
         v-for="day in days"
         :times="times"
@@ -43,10 +56,23 @@
           content.options.showYSPhysicalActivityDuration === true
         "
       />
-      <TimeColumn :times="times.slice(0, times.length - 1)" align="left" />
+      <TimeColumn
+        v-if="!compact && pageSize === 'A3'"
+        :times="times.slice(0, times.length - 1)"
+        align="right"
+      />
     </View>
-    <Categories :period="period" :schedule-entries="scheduleEntries" />
-    <PicassoFooter :period="period" :locale="config.locale" />
+    <View class="picasso-legend">
+      <TimeColumnSpacer :times="times.slice(0, times.length - 1)" />
+      <View style="flex-basis: 0; flex-grow: 1; gap: 6pt; padding-top: 4pt; height: auto">
+        <Categories :period="period" :schedule-entries="scheduleEntries" />
+        <PicassoFooter :period="period" :locale="config.locale" />
+      </View>
+      <TimeColumnSpacer
+        v-if="!compact && pageSize === 'A3'"
+        :times="times.slice(0, times.length - 1)"
+      />
+    </View>
   </Page>
 </template>
 <script>
@@ -112,12 +138,20 @@ export default {
 }
 </script>
 <style lang="react-pdf">
-.picasso-title-container {
+.picasso-header {
   display: flex;
+  flex-grow: 0;
   flex-direction: row;
   margin-top: -4pt;
   margin-bottom: 4pt;
   align-items: center;
+}
+.picasso-title-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  flex-grow: 1;
   gap: 8pt;
 }
 .picasso-title {
@@ -131,33 +165,41 @@ export default {
 .picasso-ys-logo {
   align-self: flex-end;
   margin-top: 3pt;
-  size: 20pt;
+  margin-right: 8pt;
 }
 .picasso-calendar-header-container {
-  border-left: 1pt solid white;
-  border-right: 1pt solid white;
-  flex-grow: 1;
   display: flex;
+  flex-grow: 0;
   flex-direction: row;
-  line-height: 0.8;
 }
 .picasso-calendar-container {
   flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
   display: flex;
   flex-direction: row;
 }
 .picasso-day-header {
   background-color: #cfd8dc;
-  border-right: 1pt solid white;
+  margin-right: 1pt;
   flex-basis: 0;
   flex-grow: 1;
-  overflow: hidden;
-  padding: 4pt 0 5pt;
+  padding: 4pt 0;
   display: flex;
+  align-items: center;
+  text-align: center;
   flex-direction: column;
 }
+.picasso-day-header-compact {
+  padding: 2pt 0;
+}
 .picasso-day-header-left-border {
-  border-left: 1pt solid white;
+  margin-right: 0;
+}
+.picasso-legend {
+  flex-grow: 0;
+  display: flex;
+  flex-direction: row;
 }
 .picasso-time-column {
   flex-grow: 0;
@@ -166,6 +208,7 @@ export default {
   flex-direction: column;
 }
 .picasso-time-column-text {
+  margin-top: 0.2pt;
   font-size: 8pt;
 }
 </style>
