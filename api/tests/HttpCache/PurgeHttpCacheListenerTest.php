@@ -30,6 +30,7 @@ use App\Tests\HttpCache\Entity\DummyNoGetOperation;
 use App\Tests\HttpCache\Entity\NotAResource;
 use App\Tests\HttpCache\Entity\RelatedDummy;
 use App\Tests\HttpCache\Entity\RelatedOwningDummy;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
@@ -39,6 +40,9 @@ use FOS\HttpCacheBundle\CacheManager;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\MakerBundle\Doctrine\StaticReflectionService;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\KernelEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyAccess\PropertyPathInterface;
 
@@ -661,5 +665,61 @@ class PurgeHttpCacheListenerTest extends TestCase {
         );
         $listener->onFlush();
         $listener->postFlush();
+    }
+
+    #[AllowMockObjectsWithoutExpectations]
+    public function testPostFlushDoesNotFlushWhileTransactionIsActive(): void {
+        $cacheManager = $this->createMock(CacheManager::class);
+        $cacheManager->expects($this->never())->method('flush');
+
+        $this->createListener($cacheManager, transactionActive: true)->postFlush();
+    }
+
+    #[AllowMockObjectsWithoutExpectations]
+    public function testPostFlushFlushesWithoutTransaction(): void {
+        $cacheManager = $this->createMock(CacheManager::class);
+        $cacheManager->expects($this->once())->method('flush')->willReturn(0);
+
+        $this->createListener($cacheManager, transactionActive: false)->postFlush();
+    }
+
+    #[AllowMockObjectsWithoutExpectations]
+    public function testMainRequestResponseFlushes(): void {
+        $cacheManager = $this->createMock(CacheManager::class);
+        $cacheManager->expects($this->once())->method('flush')->willReturn(0);
+
+        $this->createListener($cacheManager, transactionActive: true)
+            ->onKernelResponse($this->createKernelEvent(HttpKernelInterface::MAIN_REQUEST))
+        ;
+    }
+
+    #[AllowMockObjectsWithoutExpectations]
+    public function testSubRequestResponseDoesNotFlush(): void {
+        $cacheManager = $this->createMock(CacheManager::class);
+        $cacheManager->expects($this->never())->method('flush');
+
+        $this->createListener($cacheManager, transactionActive: true)
+            ->onKernelResponse($this->createKernelEvent(HttpKernelInterface::SUB_REQUEST))
+        ;
+    }
+
+    private function createListener(CacheManager $cacheManager, bool $transactionActive): PurgeHttpCacheListener {
+        $connection = $this->createStub(Connection::class);
+        $connection->method('isTransactionActive')->willReturn($transactionActive);
+        $em = $this->createStub(EntityManagerInterface::class);
+        $em->method('getConnection')->willReturn($connection);
+
+        return new PurgeHttpCacheListener(
+            iriConverter: $this->iriConverterProphecy,
+            resourceClassResolver: $this->resourceClassResolverProphecy,
+            propertyAccessor: $this->propertyAccessorProphecy,
+            resourceMetadataCollectionFactory: $this->metadataFactoryProphecy,
+            cacheManager: $cacheManager,
+            em: $em,
+        );
+    }
+
+    private function createKernelEvent(int $requestType): KernelEvent {
+        return new KernelEvent($this->createStub(HttpKernelInterface::class), new Request(), $requestType);
     }
 }
