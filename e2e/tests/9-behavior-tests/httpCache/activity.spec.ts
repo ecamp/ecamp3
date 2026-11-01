@@ -23,26 +23,23 @@ const collectionXKeys =
   /* activity "Snowboardfahren" + embedded relations */
   'a13fadc97610 a13fadc97610#scheduleEntries a13fadc97610#camp a13fadc97610#category a13fadc97610#progressLabel a13fadc97610#activityResponsibles a13fadc97610#rootContentNode ' +
   /* category "Snowboard" */
-  'eddb2cd8cee0 eddb2cd8cee0#camp eddb2cd8cee0#preferredContentTypes eddb2cd8cee0#rootContentNode eddb2cd8cee0#emptyContentNodesForIriGeneration a13fadc97610#embeddedCategory ' +
+  'eddb2cd8cee0 eddb2cd8cee0#camp eddb2cd8cee0#preferredContentTypes eddb2cd8cee0#rootContentNode eddb2cd8cee0#contentNodes ' +
   /* progressLabel "Rudolf OK" */
-  'af92782262d7 af92782262d7#camp a13fadc97610#embeddedProgressLabel ' +
+  'af92782262d7 af92782262d7#camp ' +
   /* contentNodes */
   '9ace4f6be500 9ace4f6be500#root 9ace4f6be500#parent 9ace4f6be500#children 9ace4f6be500#contentType ' +
   '0f20419761b6 0f20419761b6#root 0f20419761b6#parent 0f20419761b6#children 0f20419761b6#contentType ' +
   '160f007bd04f 160f007bd04f#root 160f007bd04f#parent 160f007bd04f#children 160f007bd04f#contentType ' +
   'aa0738bc61de aa0738bc61de#root aa0738bc61de#parent aa0738bc61de#children aa0738bc61de#contentType ' +
-  'a13fadc97610#embeddedContentNodes ' +
+  'a13fadc97610#contentNodes ' +
   /* scheduleEntries */
   /* (the first schedule entry also includes the period id) */
   '29c9e9a07d82 7fa4564a5d5d 29c9e9a07d82#period 29c9e9a07d82#activity 29c9e9a07d82#day ' +
   'f08d69cae18a f08d69cae18a#period f08d69cae18a#activity f08d69cae18a#day ' +
   '7e8086d94633 7e8086d94633#period 7e8086d94633#activity 7e8086d94633#day ' +
-  'a13fadc97610#embeddedScheduleEntries ' +
   /* activityResponsible */
   '06743ccfeedd 06743ccfeedd#activity 06743ccfeedd#campCollaboration ' +
-  '21bc6661c569 21bc6661c569#activity 21bc6661c569#campCollaboration ' +
-  'a13fadc97610#embeddedActivityResponsibles ' +
-  'a13fadc97610#emptyContentNodesForIriGeneration'
+  '21bc6661c569 21bc6661c569#activity 21bc6661c569#campCollaboration'
 
 test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () => {
   test.describe.configure({ mode: 'serial' })
