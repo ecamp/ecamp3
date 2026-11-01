@@ -2,8 +2,12 @@
   <View class="content-node material" :class="{ 'content-node-compact': compact }">
     <InstanceName :content-node="contentNode" :icon="mdiPackageVariant" />
     <View v-for="item in sortedMaterialItems" class="material-item">
-      <Text class="material-item-quantity">{{ item.quantity }}</Text>
-      <Text class="material-item-unit">{{ unit(item) }}</Text>
+      <Text class="material-item-quantity" :style="{ width: quantityWidth }">{{
+        item.quantity
+      }}</Text>
+      <Text class="material-item-unit" :style="{ width: unitWidth }">{{
+        unit(item)
+      }}</Text>
       <Text class="material-item-article">{{ item.article }}</Text>
       <Text class="material-item-list">{{
         item.materialList ? item.materialList()?.name : ''
@@ -16,6 +20,7 @@ import PdfComponent from '@/pdf/PdfComponent.js'
 import InstanceName from '../InstanceName.vue'
 import { mdiPackageVariant } from '@mdi/js'
 import sortBy from 'lodash-es/sortBy.js'
+import { Font } from '@/pdf/renderer/index.js'
 
 export default {
   name: 'Material',
@@ -31,6 +36,12 @@ export default {
     return { mdiPackageVariant }
   },
   computed: {
+    quantityWidth() {
+      return this.columnWidth(this.sortedMaterialItems.map(({ quantity }) => quantity))
+    },
+    unitWidth() {
+      return this.columnWidth(this.sortedMaterialItems.map(this.unit))
+    },
     sortedMaterialItems() {
       return sortBy(this.contentNode.materialItems().items, (item) =>
         item.materialList ? item.materialList()?.name : ''
@@ -38,6 +49,14 @@ export default {
     },
   },
   methods: {
+    columnWidth(values) {
+      const font = Font.getFont({ fontFamily: 'InterDisplay' }).data
+      return values.reduce((width, value) => {
+        const { positions } = font.layout(String(value ?? ''), { tnum: 1 })
+        const advance = positions.reduce((sum, position) => sum + position.xAdvance, 0)
+        return Math.max(width, (advance * 10) / font.unitsPerEm)
+      }, 0)
+    },
     unit(item) {
       if (item.unit) return item.unit
       return item.quantity ? '×' : ''
@@ -55,14 +74,13 @@ export default {
   flex-direction: row;
   gap: 3pt;
   font-feature-settings: 'tnum';
+  margin-bottom: 4pt;
 }
 .material-item-quantity {
-  width: 20pt;
   flex-shrink: 0;
   text-align: right;
 }
 .material-item-unit {
-  width: 28pt;
   flex-shrink: 0;
 }
 .material-item-article {

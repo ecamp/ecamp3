@@ -7008,11 +7008,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -7028,10 +7031,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -7085,6 +7091,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -9537,11 +9544,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -9551,10 +9561,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -9608,6 +9621,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -9620,11 +9634,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -9634,10 +9651,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -9691,6 +9711,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -9709,11 +9730,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -9729,10 +9753,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -9786,6 +9813,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -9804,11 +9832,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -9824,10 +9855,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -9881,6 +9915,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -9893,11 +9928,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -9907,10 +9945,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -9964,6 +10005,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -11466,11 +11508,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -11486,10 +11531,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -11543,6 +11591,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -11561,11 +11610,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -11581,10 +11633,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -11638,6 +11693,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -11656,11 +11712,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -11676,10 +11735,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -11733,6 +11795,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -11751,11 +11814,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -11771,10 +11837,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -11828,6 +11897,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -16779,11 +16849,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -16799,10 +16872,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -16856,6 +16932,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -16874,11 +16951,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -16894,10 +16974,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -16951,6 +17034,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -16969,11 +17053,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -16989,10 +17076,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -17046,6 +17136,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -18971,11 +19062,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -18991,10 +19085,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -19048,6 +19145,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -19066,11 +19164,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -19086,10 +19187,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -19143,6 +19247,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -19161,11 +19266,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -19181,10 +19289,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -19238,6 +19349,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -19256,11 +19368,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -19276,10 +19391,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -19333,6 +19451,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -19351,11 +19470,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -19371,10 +19493,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -19428,6 +19553,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -19446,11 +19572,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -19466,10 +19595,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -19523,6 +19655,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -19541,11 +19674,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -19561,10 +19697,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -19618,6 +19757,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -21543,11 +21683,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -21563,10 +21706,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -21620,6 +21766,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -21638,11 +21785,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -21658,10 +21808,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -21715,6 +21868,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -21727,11 +21881,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -21741,10 +21898,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -21798,6 +21958,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -21810,11 +21971,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -21824,10 +21988,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -21881,6 +22048,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -21893,11 +22061,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -21907,10 +22078,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -21964,6 +22138,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -23725,11 +23900,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -23745,10 +23923,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -23802,6 +23983,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -23820,11 +24002,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -23840,10 +24025,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -23897,6 +24085,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -23915,11 +24104,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -23935,10 +24127,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -23992,6 +24187,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -24010,11 +24206,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -24030,10 +24229,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -24087,6 +24289,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -29026,11 +29229,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -29040,10 +29246,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -29097,6 +29306,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -29115,11 +29325,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -29135,10 +29348,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -29192,6 +29408,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -29204,11 +29421,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -29218,10 +29438,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -29275,6 +29498,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -29287,11 +29511,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -29301,10 +29528,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -29358,6 +29588,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -32967,11 +33198,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -32987,10 +33221,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -33044,6 +33281,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -33062,11 +33300,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 12.890625,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 12.890625,
                                       },
                                       "type": "TEXT",
                                     },
@@ -33082,10 +33323,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -33139,6 +33383,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -37878,11 +38123,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -37898,10 +38146,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -37955,6 +38206,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -37973,11 +38225,14 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-quantity",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
                                         "textAlign": "right",
-                                        "width": "20pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -37993,10 +38248,13 @@
                                       "parent": [Circular],
                                       "props": {
                                         "class": "material-item-unit",
+                                        "style": {
+                                          "width": 6.4453125,
+                                        },
                                       },
                                       "style": {
                                         "flexShrink": "0",
-                                        "width": "28pt",
+                                        "width": 6.4453125,
                                       },
                                       "type": "TEXT",
                                     },
@@ -38050,6 +38308,7 @@
                                       "tnum": 1,
                                     },
                                     "gap": "3pt",
+                                    "marginBottom": "4pt",
                                   },
                                   "type": "VIEW",
                                 },

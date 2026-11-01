@@ -1,9 +1,11 @@
-import { afterEach, beforeEach, expect, it, describe } from 'vitest'
+import { afterEach, beforeAll, beforeEach, expect, it, describe } from 'vitest'
+import { readFileSync } from 'node:fs'
 import wrap from './minimalHalJsonVuex.js'
 import fullCampStoreContent from './fullCampStoreContent.json'
 import courseActivityListStoreContent from './courseActivityListStoreContent.json'
 import activityWithSingleText from './activityWithSingleText.json'
 import { renderVueToPdfStructure } from '../vueRenderer.js'
+import { Font } from '../reactPdfRenderer.js'
 import SimpleDocument from './SimpleDocument.vue'
 import CampPrint from '../../CampPrint.vue'
 import { createCircularReplacer } from '@/pdf/renderer/__tests__/createCircularReplacer'
@@ -30,6 +32,13 @@ const context = createCoreContext({
 const tcMock = (...args) => {
   return translate(context, ...args)
 }
+
+beforeAll(async () => {
+  const path = '../../../assets/fonts/Inter/InterDisplay-Regular.ttf'
+  const font = readFileSync(new URL(path, import.meta.url)).toString('base64')
+  Font.register({ family: 'InterDisplay', src: `data:font/ttf;base64,${font}` })
+  await Font.load({ fontFamily: 'InterDisplay' })
+})
 
 it('renders a simple Vue component', async () => {
   // given
