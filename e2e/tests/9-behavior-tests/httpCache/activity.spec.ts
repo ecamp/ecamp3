@@ -280,4 +280,111 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
     await waitForCacheMiss(bipiApi, uri)
     await expectCacheHit(bipiApi, uri)
   })
+
+  test.describe('numbering depends on other schedule entries of the period', () => {
+    const uri = '/api/activities/ffd08c52288c'
+    // schedule entry, activity and category which are not part of the cached response
+    const otherScheduleEntryUri = '/api/schedule_entries/661817f7af15'
+    const otherActivityUri = '/api/activities/f72cf8aaed17'
+    const otherCategoryUri = '/api/categories/dfa531302823'
+    const thirdCategoryUri = '/api/categories/1a869b162875'
+
+    test('invalidates /activities/{activitiyId} when the timing of a schedule entry of another activity changes', async () => {
+      const bipiApi = await getAuthContext(bipiUser)
+
+      // bring data into defined state
+      await apiPatch(bipiApi, otherScheduleEntryUri, {
+        start: '2036-05-10T18:00:00+00:00',
+        end: '2036-05-10T19:00:00+00:00',
+      })
+
+      // warm up cache
+      await apiGet(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
+
+      // touch other scheduleEntry
+      await apiPatch(bipiApi, otherScheduleEntryUri, {
+        start: '2036-05-10T18:30:00+00:00',
+      })
+
+      // ensure cache was invalidated
+      await waitForCacheMiss(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
+
+      // restore
+      await apiPatch(bipiApi, otherScheduleEntryUri, {
+        start: '2036-05-10T18:00:00+00:00',
+      })
+    })
+
+    test('invalidates /activities/{activitiyId} when a schedule entry of another activity is added or deleted', async () => {
+      const bipiApi = await getAuthContext(bipiUser)
+
+      // warm up cache
+      await apiGet(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
+
+      // add new scheduleEntry to other activity
+      const postRes = await apiPost(bipiApi, '/api/schedule_entries', {
+        activity: otherActivityUri.replace('/api', ''),
+        period: `/periods/${grgrPeriodId}`,
+        start: '2036-05-11T05:00:00+00:00',
+        end: '2036-05-11T06:00:00+00:00',
+      })
+      const newScheduleEntryUri = (await postRes.json())._links.self.href
+
+      // ensure cache was invalidated
+      await waitForCacheMiss(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
+
+      // delete newly created scheduleEntry
+      await apiDelete(bipiApi, newScheduleEntryUri)
+
+      // ensure cache was invalidated
+      await waitForCacheMiss(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
+    })
+
+    test('invalidates /activities/{activitiyId} when the category of another activity changes', async () => {
+      const bipiApi = await getAuthContext(bipiUser)
+
+      // bring data into defined state
+      await apiPatch(bipiApi, otherActivityUri, { category: otherCategoryUri })
+
+      // warm up cache
+      await apiGet(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
+
+      // touch other activity
+      await apiPatch(bipiApi, otherActivityUri, { category: thirdCategoryUri })
+
+      // ensure cache was invalidated
+      await waitForCacheMiss(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
+
+      // restore
+      await apiPatch(bipiApi, otherActivityUri, { category: otherCategoryUri })
+    })
+
+    test('invalidates /activities/{activitiyId} when the numbering style of the category of another activity changes', async () => {
+      const bipiApi = await getAuthContext(bipiUser)
+
+      // bring data into defined state
+      await apiPatch(bipiApi, otherCategoryUri, { numberingStyle: '1' })
+
+      // warm up cache
+      await apiGet(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
+
+      // touch other category
+      await apiPatch(bipiApi, otherCategoryUri, { numberingStyle: 'A' })
+
+      // ensure cache was invalidated
+      await waitForCacheMiss(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
+
+      // restore
+      await apiPatch(bipiApi, otherCategoryUri, { numberingStyle: '1' })
+    })
+  })
 })
