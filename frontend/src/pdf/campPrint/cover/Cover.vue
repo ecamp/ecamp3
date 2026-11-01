@@ -45,7 +45,7 @@ export default {
 }
 .cover-camp-title {
   font-size: 38pt;
-  font-weight: 600;
+  font-weight: 700;
   margin: 40pt 0;
 }
 .cover-camp-motto {

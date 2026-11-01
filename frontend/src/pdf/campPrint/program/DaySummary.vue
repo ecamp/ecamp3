@@ -122,7 +122,7 @@ export default {
   flex-direction: row;
 }
 .program-day-responsibles-title {
-  font-weight: 600;
+  font-weight: 700;
 }
 .program-day-table {
   margin-top: 8pt;
@@ -168,6 +168,7 @@ export default {
 .program-day-activity-title {
   flex-grow: 1;
   flex-shrink: 0;
+  flex-basis: 0;
   max-width: 32vw;
 }
 .program-day-table-responsibles {

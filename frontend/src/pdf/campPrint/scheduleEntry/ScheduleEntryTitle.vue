@@ -24,21 +24,23 @@
       </View>
     </View>
     <View v-if="showHeaderRow" class="schedule-entry-header">
-      <View class="schedule-entry-header-metadata">
-        <View class="schedule-entry-header-metadata-entry"
-          ><Text class="schedule-entry-header-metadata-label"
-            >{{ $tc('entity.activity.fields.location') }}:</Text
-          ><Text>{{ activity.location }}</Text></View
-        >
-      </View>
+      <View
+        class="schedule-entry-header-metadata"
+        :class="{ 'schedule-entry-header-metadata-compact': compact }"
+      >
+        <Text class="schedule-entry-header-metadata-label"
+          >{{ $tc('entity.activity.fields.location') }}:</Text
+        ><Text>{{ activity.location }}</Text></View
+      >
       <View class="schedule-entry-header-divider" />
-      <View class="schedule-entry-header-metadata">
-        <View class="schedule-entry-header-metadata-entry">
-          <Text class="schedule-entry-header-metadata-label"
-            >{{ $tc('entity.activity.fields.responsible') }}:</Text
-          >
-          <Responsibles :activity="activity" style="max-width: 200pt" />
-        </View>
+      <View
+        class="schedule-entry-header-metadata"
+        :class="{ 'schedule-entry-header-metadata-compact': compact }"
+      >
+        <Text class="schedule-entry-header-metadata-label"
+          >{{ $tc('entity.activity.fields.responsible') }}:</Text
+        >
+        <Responsibles :activity="activity" style="flex-basis: 0; flex-grow: 1" />
       </View>
     </View>
   </View>
@@ -97,23 +99,21 @@ export default {
 .schedule-entry-header-title {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
+  flex-wrap: wrap;
+  align-items: flex-end;
   padding-bottom: 1pt;
-  border-bottom: 2pt solid #aaaaaa;
+  border-bottom: 2.5pt solid #aaaaaa;
 }
 .schedule-entry-header-title-compact {
   padding-bottom: 0;
 }
 .schedule-entry-title {
-  flex-basis: 0;
-  flex-grow: 1;
   display: flex;
   flex-direction: row;
   gap: 4pt;
   padding: 4pt 0;
   font-size: 18pt;
-  font-weight: 600;
+  font-weight: 700;
 }
 .schedule-entry-category-label {
   flex-shrink: 0;
@@ -123,36 +123,37 @@ export default {
 }
 .schedule-entry-date {
   font-size: 11pt;
-  margin-top: 10.78pt;
+  margin-top: -4pt;
+  margin-bottom: 6pt;
+  margin-left: auto;
   display: flex;
   flex-grow: 0;
-  flex-shrink: 1;
+  flex-shrink: 0;
   flex-direction: row;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  max-width: 33vw;
 }
 .schedule-entry-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: 0.5pt solid black;
+  border-bottom: 0.75pt solid black;
   font-size: 10pt;
   margin-bottom: 10pt;
 }
 .schedule-entry-header-divider {
-  border-left: 0.5pt solid black;
+  border-left: 0.75pt solid black;
   margin-left: 3.5pt;
   padding-left: 5pt
 }
 .schedule-entry-header-metadata {
   width: 50%;
-  padding: 2pt 0;
-}
-.schedule-entry-header-metadata-entry {
+  padding: 3pt 0;
+  display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  column-gap: 6pt;
+  align-items: baseline;
+  gap: 4pt;
+}
+.schedule-entry-header-metadata-compact {
+  padding: 2pt 0;
 }
 .schedule-entry-header-metadata-label {
   font-weight: 600;
