@@ -1,14 +1,14 @@
 <template>
   <View class="content-node" :class="{ 'content-node-compact': compact }">
-    <InstanceName :content-node="contentNode" />
+    <InstanceName :content-node="contentNode" :icon="mdiShape" />
     <template v-for="(data, key) in contentNode.data.options">
       <View
         v-if="data.checked"
         class="la-thematic-area-entry"
         :class="{ 'la-thematic-area-entry-compact': compact }"
       >
-        <Checkmark :size="8" />
-        <Text style="margin-left: 2pt">{{ translation(key) }}</Text>
+        <Checkmark :size="8" style="margin-top: 2pt" />
+        <Text class="la-thematic-area-entry-text">{{ translation(key) }}</Text>
       </View>
     </template>
   </View>
@@ -17,6 +17,7 @@
 import PdfComponent from '@/pdf/PdfComponent.js'
 import InstanceName from '../InstanceName.vue'
 import Checkmark from '../../Checkmark.vue'
+import { mdiShape } from '@mdi/js'
 
 export default {
   name: 'LAThematicArea',
@@ -27,6 +28,9 @@ export default {
   },
   props: {
     contentNode: { type: Object, required: true },
+  },
+  data() {
+    return { mdiShape }
   },
   methods: {
     translation(key) {
@@ -41,8 +45,13 @@ export default {
   flex-direction: row;
   align-items: flex-start;
   padding: 1pt 0;
+  gap: 4pt;
 }
 .la-thematic-area-entry-compact {
   padding: 0;
+}
+.la-thematic-area-entry-text {
+  flex-basis: 0;
+  flex-grow: 1;
 }
 </style>

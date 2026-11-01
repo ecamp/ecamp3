@@ -1,7 +1,10 @@
 <template>
   <View class="content-node" :class="{ 'content-node-compact': compact }">
     <InstanceName :content-node="contentNode" :icon="mdiBookOpenVariant" />
-    <View style="line-height: 0.8">
+    <View
+      class="content-node-content"
+      :class="{ 'content-node-content-compact': compact }"
+    >
       <RichText :rich-text="contentNode.data.html" />
     </View>
   </View>

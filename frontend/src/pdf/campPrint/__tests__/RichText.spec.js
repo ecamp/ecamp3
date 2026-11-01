@@ -3,8 +3,9 @@ import { h } from 'vue'
 import { renderVueToPdfStructure } from '@/pdf/renderer/vueRenderer.js'
 import RichText from '../RichText.vue'
 
-function render(richText) {
+function render(richText, compact = false) {
   const document = renderVueToPdfStructure({
+    provide: { compact },
     render: () => h('Document', {}, [h('Page', {}, [h(RichText, { richText })])]),
   })
   return document.children[0].children
@@ -54,6 +55,13 @@ function markers(nodes) {
 }
 
 describe('RichText', () => {
+  it.each([
+    [false, '3pt'],
+    [true, '1pt'],
+  ])('uses paragraph spacing for compact=%s', (compact, marginBottom) => {
+    expect(render('<p>paragraph</p>', compact)[0].style.marginBottom).toBe(marginBottom)
+  })
+
   it('renders paragraphs with inline formatting and soft breaks', () => {
     expect(
       layout(

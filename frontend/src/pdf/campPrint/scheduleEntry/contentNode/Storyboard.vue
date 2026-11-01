@@ -120,7 +120,7 @@ export default {
 }
 .storyboard-cell-compact {
   padding-top: 1pt;
-  padding-bottom: 3pt;
+  padding-bottom: 1pt;
 }
 .storyboard-column-1 {
   font-feature-settings: 'tnum';

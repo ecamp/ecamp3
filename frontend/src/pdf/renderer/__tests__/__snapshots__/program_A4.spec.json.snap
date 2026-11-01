@@ -716,7 +716,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -734,7 +734,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -789,7 +789,7 @@
                                                         "class": "p",
                                                       },
                                                       "style": {
-                                                        "marginBottom": "2pt",
+                                                        "marginBottom": "3pt",
                                                       },
                                                       "type": "TEXT",
                                                     },
@@ -934,7 +934,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -989,7 +989,7 @@
                                                         "class": "p",
                                                       },
                                                       "style": {
-                                                        "marginBottom": "2pt",
+                                                        "marginBottom": "3pt",
                                                       },
                                                       "type": "TEXT",
                                                     },
@@ -1134,7 +1134,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -1152,7 +1152,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -1170,7 +1170,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -1281,7 +1281,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -1637,19 +1637,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -1786,12 +1785,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -1928,12 +1926,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -2673,7 +2670,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -2784,7 +2781,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -2895,7 +2892,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -3006,7 +3003,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -3445,12 +3442,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -3587,12 +3583,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -3729,12 +3724,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -4474,7 +4468,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -4492,7 +4486,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -4510,7 +4504,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -4528,7 +4522,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -4546,7 +4540,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -4657,7 +4651,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -4768,7 +4762,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -4786,7 +4780,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -4804,7 +4798,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -4915,7 +4909,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -5259,12 +5253,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -5401,12 +5394,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -5543,12 +5535,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -5584,6 +5575,34 @@
                                           "props": {},
                                           "style": {},
                                           "type": "TEXT",
+                                        },
+                                        {
+                                          "box": {},
+                                          "children": [
+                                            {
+                                              "box": {},
+                                              "children": [],
+                                              "parent": [Circular],
+                                              "props": {
+                                                "d": "M11,13.5V21.5H3V13.5H11M12,2L17.5,11H6.5L12,2M17.5,13C20,13 22,15 22,17.5C22,20 20,22 17.5,22C15,22 13,20 13,17.5C13,15 15,13 17.5,13Z",
+                                                "fill": "#757575",
+                                              },
+                                              "style": {},
+                                              "type": "PATH",
+                                            },
+                                          ],
+                                          "parent": [Circular],
+                                          "props": {
+                                            "class": "content-node-icon",
+                                            "key": 0,
+                                            "viewBox": "0 0 24 24",
+                                          },
+                                          "style": {
+                                            "height": "11pt",
+                                            "marginBottom": "1pt",
+                                            "width": "11pt",
+                                          },
+                                          "type": "SVG",
                                         },
                                       ],
                                       "parent": [Circular],
@@ -6793,7 +6812,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -6916,7 +6935,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -7039,7 +7058,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -7840,19 +7859,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -8001,19 +8019,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -8150,12 +8167,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -8901,7 +8917,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -9018,7 +9034,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -9135,7 +9151,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -9252,7 +9268,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -9988,19 +10004,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -10137,12 +10152,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -10279,12 +10293,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -11030,7 +11043,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -11147,7 +11160,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -11264,7 +11277,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -11608,12 +11621,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -11750,12 +11762,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -11892,12 +11903,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -13036,7 +13046,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -13380,12 +13390,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -13522,12 +13531,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -13664,12 +13672,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -14415,7 +14422,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -14532,7 +14539,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -14649,7 +14656,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -15290,19 +15297,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -15439,12 +15445,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -15581,12 +15586,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -16731,7 +16735,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -16848,7 +16852,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -16866,7 +16870,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -16884,7 +16888,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -16902,7 +16906,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -16920,7 +16924,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -16938,7 +16942,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -17055,7 +17059,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -17172,7 +17176,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -17289,7 +17293,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -17406,7 +17410,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -18427,19 +18431,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -18588,19 +18591,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -18737,12 +18739,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -19488,7 +19489,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19506,7 +19507,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19524,7 +19525,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19542,7 +19543,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19560,7 +19561,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19578,7 +19579,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19596,7 +19597,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19614,7 +19615,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19632,7 +19633,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19650,7 +19651,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19668,7 +19669,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19686,7 +19687,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19704,7 +19705,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19722,7 +19723,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19740,7 +19741,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19758,7 +19759,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19776,7 +19777,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19893,7 +19894,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -19911,7 +19912,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -20028,7 +20029,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -20145,7 +20146,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -20262,7 +20263,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -21057,19 +21058,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -21218,19 +21218,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -21367,12 +21366,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -22517,7 +22515,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -22634,7 +22632,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -22751,7 +22749,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -22868,7 +22866,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -23604,19 +23602,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -23765,7 +23762,7 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
@@ -23783,19 +23780,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -23932,12 +23928,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -24683,7 +24678,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -24800,7 +24795,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -24917,7 +24912,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -25261,12 +25256,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -25403,12 +25397,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -25545,12 +25538,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -26689,7 +26681,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -26800,7 +26792,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -26818,7 +26810,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -26836,7 +26828,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -26854,7 +26846,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -26965,7 +26957,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -26983,7 +26975,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -27001,7 +26993,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -27019,7 +27011,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -27037,7 +27029,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -27055,7 +27047,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -27166,7 +27158,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -27184,7 +27176,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -27202,7 +27194,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -27220,7 +27212,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -27238,7 +27230,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -27256,7 +27248,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -27274,7 +27266,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -27385,7 +27377,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -27403,7 +27395,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -27421,7 +27413,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -28121,19 +28113,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -28270,12 +28261,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -28412,12 +28402,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -29562,7 +29551,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -29580,7 +29569,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -29598,7 +29587,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -29616,7 +29605,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -29634,7 +29623,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -29652,7 +29641,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -29670,7 +29659,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -29688,7 +29677,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -29706,7 +29695,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -29823,7 +29812,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -29841,7 +29830,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -30185,12 +30174,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -30339,19 +30327,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -30521,19 +30508,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -30569,6 +30555,34 @@
                                           "props": {},
                                           "style": {},
                                           "type": "TEXT",
+                                        },
+                                        {
+                                          "box": {},
+                                          "children": [
+                                            {
+                                              "box": {},
+                                              "children": [],
+                                              "parent": [Circular],
+                                              "props": {
+                                                "d": "M11,13.5V21.5H3V13.5H11M12,2L17.5,11H6.5L12,2M17.5,13C20,13 22,15 22,17.5C22,20 20,22 17.5,22C15,22 13,20 13,17.5C13,15 15,13 17.5,13Z",
+                                                "fill": "#757575",
+                                              },
+                                              "style": {},
+                                              "type": "PATH",
+                                            },
+                                          ],
+                                          "parent": [Circular],
+                                          "props": {
+                                            "class": "content-node-icon",
+                                            "key": 0,
+                                            "viewBox": "0 0 24 24",
+                                          },
+                                          "style": {
+                                            "height": "11pt",
+                                            "marginBottom": "1pt",
+                                            "width": "11pt",
+                                          },
+                                          "type": "SVG",
                                         },
                                       ],
                                       "parent": [Circular],
@@ -30673,12 +30687,14 @@
                                         "class": "checkmark",
                                         "height": "8",
                                         "style": {
+                                          "margin-top": "2pt",
                                           "transform": "scale(1)",
                                         },
+                                        "viewBox": "0 0 8 8",
                                         "width": "8",
                                       },
                                       "style": {
-                                        "marginTop": "1.5pt",
+                                        "marginTop": "2pt",
                                         "transform": "scale(1)",
                                       },
                                       "type": "SVG",
@@ -30694,12 +30710,11 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "style": {
-                                          "margin-left": "2pt",
-                                        },
+                                        "class": "la-thematic-area-entry-text",
                                       },
                                       "style": {
-                                        "marginLeft": "2pt",
+                                        "flexBasis": "0",
+                                        "flexGrow": "1",
                                       },
                                       "type": "TEXT",
                                     },
@@ -30713,6 +30728,7 @@
                                     "alignItems": "flex-start",
                                     "display": "flex",
                                     "flexDirection": "row",
+                                    "gap": "4pt",
                                     "padding": "1pt 0",
                                   },
                                   "type": "VIEW",
@@ -31459,7 +31475,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -31576,7 +31592,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -31594,7 +31610,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -31711,7 +31727,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -31729,7 +31745,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -31747,7 +31763,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -31765,7 +31781,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -31783,7 +31799,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -31801,7 +31817,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -31918,7 +31934,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -31936,7 +31952,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -32053,7 +32069,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -32170,7 +32186,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -32188,7 +32204,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -32305,7 +32321,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -32851,19 +32867,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -33012,19 +33027,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -33161,12 +33175,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -33906,7 +33919,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -33924,7 +33937,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -33942,7 +33955,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -33960,7 +33973,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -33978,7 +33991,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -33996,7 +34009,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -34014,7 +34027,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -34032,7 +34045,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -34050,7 +34063,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -34068,7 +34081,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -34086,7 +34099,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -34104,7 +34117,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -34448,12 +34461,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -34590,12 +34602,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -34732,12 +34743,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -35876,7 +35886,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -35894,7 +35904,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -35912,7 +35922,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -35930,7 +35940,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -35948,7 +35958,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -35966,7 +35976,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -36077,7 +36087,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -36095,7 +36105,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -36113,7 +36123,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -36131,7 +36141,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -36149,7 +36159,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -36260,7 +36270,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -36278,7 +36288,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -36622,12 +36632,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -36764,12 +36773,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -36906,12 +36914,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -37657,7 +37664,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -37774,7 +37781,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -37891,7 +37898,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -38425,12 +38432,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -38579,7 +38585,7 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
@@ -38597,19 +38603,18 @@
                                         "class": "p",
                                       },
                                       "style": {
-                                        "marginBottom": "2pt",
+                                        "marginBottom": "3pt",
                                       },
                                       "type": "TEXT",
                                     },
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -38746,12 +38751,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -39890,7 +39894,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -39908,7 +39912,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -39926,7 +39930,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -40037,7 +40041,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -40148,7 +40152,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -40492,12 +40496,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -40634,12 +40637,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -40776,12 +40778,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -40817,6 +40818,34 @@
                                           "props": {},
                                           "style": {},
                                           "type": "TEXT",
+                                        },
+                                        {
+                                          "box": {},
+                                          "children": [
+                                            {
+                                              "box": {},
+                                              "children": [],
+                                              "parent": [Circular],
+                                              "props": {
+                                                "d": "M11,13.5V21.5H3V13.5H11M12,2L17.5,11H6.5L12,2M17.5,13C20,13 22,15 22,17.5C22,20 20,22 17.5,22C15,22 13,20 13,17.5C13,15 15,13 17.5,13Z",
+                                                "fill": "#757575",
+                                              },
+                                              "style": {},
+                                              "type": "PATH",
+                                            },
+                                          ],
+                                          "parent": [Circular],
+                                          "props": {
+                                            "class": "content-node-icon",
+                                            "key": 0,
+                                            "viewBox": "0 0 24 24",
+                                          },
+                                          "style": {
+                                            "height": "11pt",
+                                            "marginBottom": "1pt",
+                                            "width": "11pt",
+                                          },
+                                          "type": "SVG",
                                         },
                                       ],
                                       "parent": [Circular],
@@ -40921,12 +40950,14 @@
                                         "class": "checkmark",
                                         "height": "8",
                                         "style": {
+                                          "margin-top": "2pt",
                                           "transform": "scale(1)",
                                         },
+                                        "viewBox": "0 0 8 8",
                                         "width": "8",
                                       },
                                       "style": {
-                                        "marginTop": "1.5pt",
+                                        "marginTop": "2pt",
                                         "transform": "scale(1)",
                                       },
                                       "type": "SVG",
@@ -40942,12 +40973,11 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "style": {
-                                          "margin-left": "2pt",
-                                        },
+                                        "class": "la-thematic-area-entry-text",
                                       },
                                       "style": {
-                                        "marginLeft": "2pt",
+                                        "flexBasis": "0",
+                                        "flexGrow": "1",
                                       },
                                       "type": "TEXT",
                                     },
@@ -40961,6 +40991,7 @@
                                     "alignItems": "flex-start",
                                     "display": "flex",
                                     "flexDirection": "row",
+                                    "gap": "4pt",
                                     "padding": "1pt 0",
                                   },
                                   "type": "VIEW",
@@ -41001,12 +41032,14 @@
                                         "class": "checkmark",
                                         "height": "8",
                                         "style": {
+                                          "margin-top": "2pt",
                                           "transform": "scale(1)",
                                         },
+                                        "viewBox": "0 0 8 8",
                                         "width": "8",
                                       },
                                       "style": {
-                                        "marginTop": "1.5pt",
+                                        "marginTop": "2pt",
                                         "transform": "scale(1)",
                                       },
                                       "type": "SVG",
@@ -41022,12 +41055,11 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "style": {
-                                          "margin-left": "2pt",
-                                        },
+                                        "class": "la-thematic-area-entry-text",
                                       },
                                       "style": {
-                                        "marginLeft": "2pt",
+                                        "flexBasis": "0",
+                                        "flexGrow": "1",
                                       },
                                       "type": "TEXT",
                                     },
@@ -41041,6 +41073,7 @@
                                     "alignItems": "flex-start",
                                     "display": "flex",
                                     "flexDirection": "row",
+                                    "gap": "4pt",
                                     "padding": "1pt 0",
                                   },
                                   "type": "VIEW",
@@ -41081,12 +41114,14 @@
                                         "class": "checkmark",
                                         "height": "8",
                                         "style": {
+                                          "margin-top": "2pt",
                                           "transform": "scale(1)",
                                         },
+                                        "viewBox": "0 0 8 8",
                                         "width": "8",
                                       },
                                       "style": {
-                                        "marginTop": "1.5pt",
+                                        "marginTop": "2pt",
                                         "transform": "scale(1)",
                                       },
                                       "type": "SVG",
@@ -41102,12 +41137,11 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "style": {
-                                          "margin-left": "2pt",
-                                        },
+                                        "class": "la-thematic-area-entry-text",
                                       },
                                       "style": {
-                                        "marginLeft": "2pt",
+                                        "flexBasis": "0",
+                                        "flexGrow": "1",
                                       },
                                       "type": "TEXT",
                                     },
@@ -41121,6 +41155,7 @@
                                     "alignItems": "flex-start",
                                     "display": "flex",
                                     "flexDirection": "row",
+                                    "gap": "4pt",
                                     "padding": "1pt 0",
                                   },
                                   "type": "VIEW",
@@ -42260,7 +42295,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -42371,7 +42406,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -42389,7 +42424,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -42733,12 +42768,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -42875,12 +42909,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },
@@ -43017,12 +43050,11 @@
                                   "children": [],
                                   "parent": [Circular],
                                   "props": {
-                                    "style": {
-                                      "line-height": "0.8",
-                                    },
+                                    "class": "content-node-content",
                                   },
                                   "style": {
                                     "lineHeight": "0.8",
+                                    "minHeight": "15.5pt",
                                   },
                                   "type": "VIEW",
                                 },

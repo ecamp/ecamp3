@@ -540,7 +540,7 @@
                                 "class": "p",
                               },
                               "style": {
-                                "marginBottom": "2pt",
+                                "marginBottom": "3pt",
                               },
                               "type": "TEXT",
                             },
@@ -595,7 +595,7 @@
                                             "class": "p",
                                           },
                                           "style": {
-                                            "marginBottom": "2pt",
+                                            "marginBottom": "3pt",
                                           },
                                           "type": "TEXT",
                                         },
@@ -673,19 +673,18 @@
                                 "class": "p",
                               },
                               "style": {
-                                "marginBottom": "2pt",
+                                "marginBottom": "3pt",
                               },
                               "type": "TEXT",
                             },
                           ],
                           "parent": [Circular],
                           "props": {
-                            "style": {
-                              "line-height": "0.8",
-                            },
+                            "class": "content-node-content",
                           },
                           "style": {
                             "lineHeight": "0.8",
+                            "minHeight": "15.5pt",
                           },
                           "type": "VIEW",
                         },

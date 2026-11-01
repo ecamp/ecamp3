@@ -1,6 +1,6 @@
 <template>
   <View v-if="duration" class="content-node" :class="{ 'content-node-compact': compact }">
-    <InstanceName :content-node="contentNode" />
+    <InstanceName :content-node="contentNode" :icon="mdiRun" />
     <Text>{{ duration }}</Text>
   </View>
 </template>
@@ -8,6 +8,7 @@
 import PdfComponent from '@/pdf/PdfComponent.js'
 import InstanceName from '../InstanceName.vue'
 import { ysPhysicalActivityDuration } from '@/common/helpers/ysPhysicalActivityDuration.js'
+import { mdiRun } from '@mdi/js'
 
 export default {
   name: 'YSPhysicalActivityDuration',
@@ -18,6 +19,9 @@ export default {
   },
   props: {
     contentNode: { type: Object, required: true },
+  },
+  data() {
+    return { mdiRun }
   },
   computed: {
     duration() {

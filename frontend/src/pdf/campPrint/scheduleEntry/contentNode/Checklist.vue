@@ -106,6 +106,7 @@ export default {
 }
 .checklist-item-column {
   flex-grow: 1;
+  line-height: 0.8;
 }
 .checklist-item-column-1 {
   flex-basis: 17pt;

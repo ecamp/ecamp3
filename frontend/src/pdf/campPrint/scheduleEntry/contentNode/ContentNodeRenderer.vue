@@ -66,6 +66,13 @@ export default {
   margin-bottom: 9pt;
 }
 .content-node-compact {
-  margin-bottom: 6pt;
+  margin-bottom: 4pt;
+}
+.content-node-content {
+  line-height: 0.8;
+  min-height: 15.5pt;
+}
+.content-node-content-compact {
+  min-height: auto;
 }
 </style>

@@ -65,9 +65,10 @@ function renderInline(node, context) {
     return h('Text', {}, '\n')
   }
   const className = INLINE_CLASSES[node.name]
+  const compactClassName = context.compact && className ? className + '-compact' : ''
   return h(
     'Text',
-    className ? { class: className } : {},
+    className ? { class: [className, compactClassName].filter(Boolean).join(' ') } : {},
     renderInlineChildren(node, context)
   )
 }
@@ -80,7 +81,12 @@ function renderInlineChildren(node, context) {
 function renderParagraph(nodes, context, className = 'p') {
   const children = nodes.map((node) => renderInline(node, context))
   if (!nodes.length || endsWithBreak(nodes)) children.push(NBSP)
-  return h('Text', { class: className }, children)
+  const compactClassName = context.compact ? className + '-compact' : ''
+  return h(
+    'Text',
+    { class: [className, compactClassName].filter(Boolean).join(' ') },
+    children
+  )
 }
 
 function renderBlocks(nodes, context) {
@@ -130,13 +136,20 @@ export default {
     },
   },
   render() {
-    return renderBlocks(this.parsed, { fontSize: this.fontSize, depth: 0 })
+    return renderBlocks(this.parsed, {
+      fontSize: this.fontSize,
+      depth: 0,
+      compact: this.compact,
+    })
   },
 }
 </script>
 <style lang="react-pdf">
 .p {
-  margin-bottom: 2pt;
+  margin-bottom: 3pt;
+}
+.p-compact {
+  margin-bottom: 1pt;
 }
 .bold {
   font-weight: bold;
