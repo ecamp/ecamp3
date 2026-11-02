@@ -23,6 +23,14 @@ class Dummy extends BaseEntity {
     #[ORM\OneToOne(targetEntity: RelatedOwningDummy::class, inversedBy: 'ownedDummy', cascade: ['persist'])]
     public $relatedOwningDummy;
 
+    #[ORM\ManyToMany(targetEntity: RelatedDummy::class)]
+    public $manyToManyDummies;
+
+    #[SerializedName('manyToManyDummies')]
+    public function getEmbeddedManyToManyDummies() {
+        return $this->manyToManyDummies;
+    }
+
     public function getRelatedDummy(): ?RelatedDummy {
         return $this->relatedDummy;
     }

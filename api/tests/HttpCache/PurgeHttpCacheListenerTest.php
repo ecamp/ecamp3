@@ -24,12 +24,14 @@ use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 use ApiPlatform\Metadata\ResourceClassResolverInterface;
 use ApiPlatform\Metadata\UrlGeneratorInterface;
 use App\HttpCache\PurgeHttpCacheListener;
+use App\HttpCache\RelationTagResolver;
 use App\Tests\HttpCache\Entity\ContainNonResource;
 use App\Tests\HttpCache\Entity\Dummy;
 use App\Tests\HttpCache\Entity\DummyNoGetOperation;
 use App\Tests\HttpCache\Entity\NotAResource;
 use App\Tests\HttpCache\Entity\RelatedDummy;
 use App\Tests\HttpCache\Entity\RelatedOwningDummy;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
@@ -41,9 +43,6 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\MakerBundle\Doctrine\StaticReflectionService;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyAccess\PropertyPathInterface;
-use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
-use Symfony\Component\Serializer\Mapping\Loader\AttributeLoader;
-use Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter;
 
 use function PHPUnit\Framework\assertThat;
 use function PHPUnit\Framework\containsEqual;
@@ -55,6 +54,8 @@ use function PHPUnit\Framework\logicalAnd;
  * @internal
  */
 class PurgeHttpCacheListenerTest extends TestCase {
+    use CreatesRelationTagResolver;
+
     private CacheManager $cacheManagerProphecy;
     private ResourceClassResolverInterface $resourceClassResolverProphecy;
     private UnitOfWork $uowProphecy;
@@ -265,7 +266,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $metadataFactoryProphecy,
             cacheManager: $cacheManagerProphecy,
             em: $entityManager,
-            nameConverter: $this->nameConverter(),
+            relationTagResolver: $this->relationTagResolver(),
         );
         $listener->onFlush();
         $listener->postFlush();
@@ -343,7 +344,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $metadataFactoryProphecy,
             cacheManager: $cacheManagerProphecy,
             em: $emProphecy,
-            nameConverter: $this->nameConverter(),
+            relationTagResolver: $this->relationTagResolver(),
         );
         $listener->preUpdate($eventArgs);
         $listener->postFlush();
@@ -389,7 +390,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $metadataFactoryProphecy,
             cacheManager: $cacheManagerProphecy,
             em: $emProphecy,
-            nameConverter: $this->nameConverter(),
+            relationTagResolver: $this->relationTagResolver(),
         );
         $listener->preUpdate($eventArgs);
         $listener->postFlush();
@@ -435,7 +436,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $metadataFactoryProphecy,
             cacheManager: $cacheManagerProphecy,
             em: $emProphecy,
-            nameConverter: $this->nameConverter(),
+            relationTagResolver: $this->relationTagResolver(),
         );
         $listener->onFlush();
     }
@@ -518,7 +519,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $metadataFactoryProphecy,
             cacheManager: $cacheManagerProphecy,
             em: $emProphecy,
-            nameConverter: $this->nameConverter(),
+            relationTagResolver: $this->relationTagResolver(),
         );
         $listener->onFlush();
     }
@@ -581,10 +582,59 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $metadataFactoryProphecy,
             cacheManager: $cacheManagerProphecy,
             em: $emProphecy,
+            relationTagResolver: $this->relationTagResolver(),
         );
         $listener->onFlush();
 
         $this->assertSame(['/related_dummies/1#dummies'], $invalidatedTags);
+    }
+
+    #[AllowMockObjectsWithoutExpectations]
+    public function testInverseSideAssociationIsNotTagged(): void {
+        $relatedDummy = new RelatedDummy();
+        $relatedDummy->setId('100');
+        $dummy = new Dummy();
+        $dummy->setId('1');
+        $relatedDummy->dummies = new ArrayCollection([$dummy]);
+
+        $cacheManagerProphecy = $this->createMock(CacheManager::class);
+        $cacheManagerProphecy->expects($this->never())->method('invalidateTags');
+
+        $metadataFactoryProphecy = $this->createStub(ResourceMetadataCollectionFactoryInterface::class);
+        $metadataFactoryProphecy->method('create')->willReturn(new ResourceMetadataCollection('RelatedDummy', [
+            new ApiResource('RelatedDummy')->withShortName('RelatedDummy'),
+        ]));
+
+        $resourceClassResolverProphecy = $this->createStub(ResourceClassResolverInterface::class);
+        $resourceClassResolverProphecy->method('getResourceClass')->willReturn(RelatedDummy::class);
+        $resourceClassResolverProphecy->method('isResourceClass')->willReturn(true);
+
+        $uowProphecy = $this->createStub(UnitOfWork::class);
+        $uowProphecy->method('getScheduledEntityInsertions')->willReturn([$relatedDummy]);
+        $uowProphecy->method('getScheduledEntityDeletions')->willReturn([]);
+        $uowProphecy->method('getScheduledEntityUpdates')->willReturn([]);
+        $uowProphecy->method('getScheduledCollectionUpdates')->willReturn([]);
+        $uowProphecy->method('getScheduledCollectionDeletions')->willReturn([]);
+
+        $classMetadata = new ClassMetadata(RelatedDummy::class);
+        $classMetadata->mapOneToMany(['fieldName' => 'dummies', 'targetEntity' => Dummy::class, 'mappedBy' => 'relatedDummy']);
+        $emProphecy = $this->createStub(EntityManagerInterface::class);
+        $emProphecy->method('getUnitOfWork')->willReturn($uowProphecy);
+        $emProphecy->method('getClassMetadata')->willReturn($classMetadata);
+
+        $propertyAccessorProphecy = $this->createMock(PropertyAccessorInterface::class);
+        $propertyAccessorProphecy->expects($this->never())->method('getValue');
+
+        $listener = new PurgeHttpCacheListener(
+            iriConverter: $this->createStub(IriConverterInterface::class),
+            resourceClassResolver: $resourceClassResolverProphecy,
+            propertyAccessor: $propertyAccessorProphecy,
+            resourceMetadataCollectionFactory: $metadataFactoryProphecy,
+            cacheManager: $cacheManagerProphecy,
+            em: $emProphecy,
+            relationTagResolver: $this->relationTagResolver(),
+        );
+        $listener->onFlush();
     }
 
     /**
@@ -630,7 +680,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $this->metadataFactoryProphecy,
             cacheManager: $this->cacheManagerProphecy,
             em: $em,
-            nameConverter: $this->nameConverter(),
+            relationTagResolver: $this->relationTagResolver(),
         );
         $listener->onFlush();
         $listener->postFlush();
@@ -681,7 +731,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $this->metadataFactoryProphecy,
             cacheManager: $this->cacheManagerProphecy,
             em: $em,
-            nameConverter: $this->nameConverter(),
+            relationTagResolver: $this->relationTagResolver(),
         );
         $listener->onFlush();
         $listener->postFlush();
@@ -732,13 +782,13 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $this->metadataFactoryProphecy,
             cacheManager: $this->cacheManagerProphecy,
             em: $this->emProphecy,
-            nameConverter: $this->nameConverter(),
+            relationTagResolver: $this->relationTagResolver(),
         );
         $listener->onFlush();
         $listener->postFlush();
     }
 
-    private function nameConverter(): MetadataAwareNameConverter {
-        return new MetadataAwareNameConverter(new ClassMetadataFactory(new AttributeLoader()));
+    private function relationTagResolver(): RelationTagResolver {
+        return $this->createRelationTagResolver();
     }
 }

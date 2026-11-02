@@ -9,7 +9,6 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Serializer\TagCollectorInterface;
 use App\Entity\HasId;
 use Doctrine\Common\Util\ClassUtils;
-use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 /**
  * Collects cache tags during normalization.
@@ -17,11 +16,9 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
  * @author Urban Suppiger <urban@suppiger.net>
  */
 class TagCollector implements TagCollectorInterface {
-    public const IRI_RELATION_DELIMITER = '#';
-
     public function __construct(
         private readonly ResponseTagger $responseTagger,
-        private readonly NameConverterInterface $nameConverter,
+        private readonly RelationTagResolver $relationTagResolver,
     ) {}
 
     /**
@@ -65,10 +62,15 @@ class TagCollector implements TagCollectorInterface {
     }
 
     private function addCacheTagForRelation(array $context, string $iri): void {
-        $class = isset($context['object']) ? ClassUtils::getClass($context['object']) : null;
-        $relation = $this->nameConverter->normalize($context['api_attribute'], $class);
+        $object = $context['object'] ?? null;
+        if (!$object) {
+            return;
+        }
 
-        $this->responseTagger->addTags([$iri.PurgeHttpCacheListener::IRI_RELATION_DELIMITER.$relation]);
+        $tag = $this->relationTagResolver->createRelationTag($iri, ClassUtils::getClass($object), $context['api_attribute']);
+        if (null !== $tag) {
+            $this->responseTagger->addTags([$tag]);
+        }
     }
 
     /**

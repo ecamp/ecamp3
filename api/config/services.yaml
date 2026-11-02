@@ -202,7 +202,6 @@ services:
             $iriConverter: '@api_platform.iri_converter'
             $resourceClassResolver: '@api_platform.resource_class_resolver'
             $propertyAccessor: '@api_platform.property_accessor'
-            $nameConverter: '@serializer.name_converter.metadata_aware'
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: onFlush }
@@ -210,6 +209,8 @@ services:
 
     api_platform.http_cache.tag_collector:
         class: App\HttpCache\TagCollector
+
+    App\HttpCache\RelationTagResolver:
         arguments:
             $nameConverter: '@serializer.name_converter.metadata_aware'
 

@@ -100,11 +100,6 @@ class CreatePeriodTest extends ECampApiTestCase {
             $camp1->getId().'#periods',
         ];
 
-        /** @var Period $period */
-        $period = $this->getEntityManager()->getRepository(Period::class)->find($periodId);
-        foreach ($period->days as $day) {
-            $expectedTags[] = $day->getId().'#period';
-        }
         self::assertEqualsCanonicalizing($expectedTags, $cacheManager->getInvalidatedTags());
     }
 
