@@ -71,7 +71,7 @@ import PdfComponent from '@/pdf/PdfComponent.js'
 import Responsibles from '../Responsibles.vue'
 import { contrastColor } from '../../../common/helpers/colors.js'
 import { ysPhysicalActivityDurationFormatted } from '../../../common/helpers/ysPhysicalActivityDuration.js'
-import { activityResponsiblesCommaSeparated } from '../../../common/helpers/activityResponsibles.js'
+import { activityResponsibleNames } from '../../../common/helpers/activityResponsibles.js'
 
 const MAX_FONT_SIZE = 8
 
@@ -117,11 +117,12 @@ export default {
       return ` (${this.ysPhysicalActivityDuration.replace(/ /g, '\u00a0')})`
     },
     responsibleNames() {
-      return activityResponsiblesCommaSeparated(
+      const names = activityResponsibleNames(
         this.scheduleEntry.activity(),
         this.$tc.bind(this)
       )
-        .split(/(?<=,) /)
+      return names
+        .map((name, index) => (index < names.length - 1 ? `${name},` : name))
         .reverse()
     },
     linkTarget() {
