@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\HttpCache\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 /**
  * Dummy.
@@ -23,6 +24,11 @@ class Dummy extends BaseEntity {
     public $relatedOwningDummy;
 
     public function getRelatedDummy(): ?RelatedDummy {
+        return $this->relatedDummy;
+    }
+
+    #[SerializedName('relatedDummy')]
+    public function getEmbeddedRelatedDummy(): ?RelatedDummy {
         return $this->relatedDummy;
     }
 

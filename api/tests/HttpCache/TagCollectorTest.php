@@ -10,8 +10,10 @@ use App\Tests\HttpCache\Entity\Dummy;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AttributeLoader;
+use Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter;
 
-use function PHPUnit\Framework\exactly;
 use function PHPUnit\Framework\never;
 use function PHPUnit\Framework\once;
 
@@ -26,7 +28,10 @@ class TagCollectorTest extends TestCase {
     protected function setUp(): void {
         // given
         $this->responseTagger = $this->createMock(ResponseTagger::class);
-        $this->tagCollector = new TagCollector($this->responseTagger);
+        $this->tagCollector = new TagCollector(
+            $this->responseTagger,
+            new MetadataAwareNameConverter(new ClassMetadataFactory(new AttributeLoader()))
+        );
     }
 
     public function testNoTagForEmptyContext() {
@@ -89,40 +94,25 @@ class TagCollectorTest extends TestCase {
         ]);
     }
 
-    public function testWithExtraCacheDependency() {
+    public function testRelationTagUsesSerializedName() {
         // given
         $object = new Dummy();
         $object->setId('123');
 
         // then
-        $seen = [];
         $this->responseTagger
-            ->expects(exactly(2))
+            ->expects(once())
             ->method('addTags')
-            ->willReturnCallback(function (array $tags) use (&$seen) {
-                $valid = $tags === ['123#PROPERTY_NAME'] || $tags === ['123#OTHER_DEPENDENCY'];
-                if ($valid) {
-                    $seen[] = $tags[0];
-                }
-
-                return $valid;
-            })
+            ->with(['123#relatedDummy'])
         ;
 
         // when
         $this->tagCollector->collect([
             'iri' => '/dummy/123',
             'object' => $object,
-            'property_metadata' => new ApiProperty(
-                extraProperties: [
-                    'cacheDependencies' => ['PROPERTY_NAME', 'OTHER_DEPENDENCY'],
-                ]
-            ),
-            'api_attribute' => 'propertyName',
+            'property_metadata' => new ApiProperty(),
+            'api_attribute' => 'embeddedRelatedDummy',
         ]);
-
-        $this->assertContains('123#PROPERTY_NAME', $seen);
-        $this->assertContains('123#OTHER_DEPENDENCY', $seen);
     }
 
     public function testNoTagForHalLinks() {
