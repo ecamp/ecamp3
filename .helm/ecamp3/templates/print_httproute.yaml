@@ -17,19 +17,19 @@ spec:
         - path:
             type: PathPrefix
             value: {{ .Values.print.subpath }}
+      {{- if and .Values.gateway.basicAuth.enabled (.Values.gateway.className | contains "traefik") }}
       filters:
-        {{- if and .Values.gateway.basicAuth.enabled (.Values.gateway.className | contains "traefik") }}
         - type: ExtensionRef
           extensionRef:
             group: traefik.io
             kind: Middleware
             name: {{ printf "%s-basic-auth" (include "app.name" .) | quote }}
-        {{- end }}
+      {{- end }}
       backendRefs:
         - name: {{ include "print.name" . }}
           port: {{ .Values.print.service.port }}
+      {{- if .Values.print.gateway.readTimeoutSeconds }}
       timeouts:
-        {{- if .Values.print.gateway.readTimeoutSeconds }}
         backendRequest: "{{ .Values.print.gateway.readTimeoutSeconds }}s"
-        {{- end }}
+      {{- end }}
 {{- end }}
