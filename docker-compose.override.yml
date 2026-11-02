@@ -30,6 +30,9 @@ services:
       PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT:-500M}
       PERFORMANCE_TEST_DEBUG_OUTPUT: ${PERFORMANCE_TEST_DEBUG_OUTPUT:-}
     user: ${USER_ID:-1000}
+    post_start:
+      - command: chown ${USER_ID:-1000}:0 /var/lib/ecamp/images
+        user: root
 
   playwright-cli:
     profiles:

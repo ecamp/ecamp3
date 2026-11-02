@@ -56,6 +56,7 @@ services:
       - mock-oauth2
     volumes:
       - ./api/config/jwt:/app/config/jwt:rw,delegated
+      - image-data:/var/lib/ecamp/images
     ports:
       - target: 2019
         published: 2019
@@ -63,6 +64,7 @@ services:
     environment:
       APP_ENV: ${APP_ENV:-prod}
       APP_DEBUG: ${APP_DEBUG:-0}
+      IMAGE_STORAGE_PATH: /var/lib/ecamp/images
       DATA_MIGRATIONS_DIR: ${DATA_MIGRATIONS_DIR:-dev-data}
       DATABASE_URL: "postgresql://ecamp3:ecamp3@database:5432/ecamp3dev?serverVersion\
         =15&charset=utf8"
@@ -264,6 +266,7 @@ services:
       - CI=${CI:-}
 
 volumes:
+  image-data:
   db-data-postgres: null
   caddy_data:
   caddy_config:
