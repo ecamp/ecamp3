@@ -1,4 +1,14 @@
 {
+  "richTextImages": {
+    "increase": "Augmenter la largeur de l’image",
+    "decrease": "Réduire la largeur de l’image",
+    "add": "Ajouter une image",
+    "uploading": "Téléversement de l’image…",
+    "alt": "Description de l’image",
+    "width": "Largeur (pixels)",
+    "invalid": "Choisis une image JPEG, PNG ou WebP de 10 Mio maximum.",
+    "failed": "L’image n’a pas pu être téléversée. Réessaie."
+  },
   "components": {
     "summary": {
       "summaryDay": {

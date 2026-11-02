@@ -10,6 +10,7 @@ export default {
   },
   extends: VField,
   props: {
+    imageCampUri: { type: String, default: null },
     withExtensions: {
       type: Boolean,
       default: false,

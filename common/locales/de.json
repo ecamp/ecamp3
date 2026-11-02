@@ -1,4 +1,14 @@
 {
+  "richTextImages": {
+    "increase": "Bild verbreitern",
+    "decrease": "Bild verkleinern",
+    "add": "Bild hinzufügen",
+    "uploading": "Bild wird hochgeladen…",
+    "alt": "Bildbeschreibung",
+    "width": "Breite (Pixel)",
+    "invalid": "Wähle ein JPEG-, PNG- oder WebP-Bild bis 10 MiB.",
+    "failed": "Das Bild konnte nicht hochgeladen werden. Versuche es erneut."
+  },
   "components": {
     "summary": {
       "summaryDay": {

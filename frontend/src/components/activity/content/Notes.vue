@@ -3,6 +3,7 @@
     <api-richtext
       :uri="contentNode._meta.self"
       path="data.html"
+      :image-camp-uri="camp._meta.self"
       :label="$t('contentNode.notes.name')"
       rows="4"
       auto-grow

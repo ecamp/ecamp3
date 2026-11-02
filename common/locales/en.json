@@ -1,4 +1,14 @@
 {
+  "richTextImages": {
+    "increase": "Increase image width",
+    "decrease": "Decrease image width",
+    "add": "Add image",
+    "uploading": "Uploading image…",
+    "alt": "Image description",
+    "width": "Width (pixels)",
+    "invalid": "Choose a JPEG, PNG or WebP image up to 10 MiB.",
+    "failed": "The image could not be uploaded. Try again."
+  },
   "components": {
     "summary": {
       "summaryDay": {

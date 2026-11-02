@@ -4,22 +4,42 @@
 </template>
 
 <script>
-import DOMPurify from 'isomorphic-dompurify'
+import { prepareRichText } from '@/helpers/prepareRichText.js'
 
 export default {
   props: {
     richText: { type: String, default: '' },
   },
+  async setup(props) {
+    const config = useRuntimeConfig()
+    const headers = useRequestHeaders(['cookie'])
+    if (config.basicAuthToken) headers.Authorization = `Basic ${config.basicAuthToken}`
+    const imageHtml = await prepareRichText(props.richText, async (path) => {
+      const data = await $fetch(
+        `${config.internalApiRootUrl.replace(/\/$/, '')}/${path}`,
+        {
+          headers: { ...headers, Accept: 'image/webp' },
+          responseType: 'arrayBuffer',
+        }
+      )
+      return `data:image/webp;base64,${Buffer.from(data).toString('base64')}`
+    })
+    return { imageHtml }
+  },
   computed: {
     purifiedHtml() {
-      return DOMPurify.sanitize(this.richText)
-
-      // we could also be more restrictive and whitelist the allowed tags
-      // at the moment not needed, as we already whitelist tags on the server
-      // this is really more of a safety-net, if anything goes wrong on the server-side
-      //
-      // return DOMPurify.sanitize(this.richText, { ALLOWED_TAGS: ['p', 'strong'] })
+      return this.imageHtml
     },
   },
 }
 </script>
+
+<style scoped>
+div :deep(img) {
+  max-width: 100%;
+  max-height: 140mm;
+  height: auto;
+  object-fit: contain;
+  break-inside: avoid;
+}
+</style>

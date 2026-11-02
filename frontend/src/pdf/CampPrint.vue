@@ -46,6 +46,7 @@ export default {
   name: 'CampPrint',
   extends: PdfComponent,
   props: {
+    images: { type: Object, default: () => ({}) },
     config: { type: Object, required: true },
   },
   computed: {

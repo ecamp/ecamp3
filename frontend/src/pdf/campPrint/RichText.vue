@@ -4,19 +4,19 @@ import HTML from 'html-parse-stringify'
 import { decode } from 'html-entities'
 import { h } from 'vue'
 
-function visit(node, parent = null) {
+function visit(node, parent = null, images = {}) {
   const rule = rules.find((rule) => rule.shouldProcessNode(node, parent))
   if (!rule) {
     console.log('unknown HTML node type', node)
     return null
   }
 
-  return rule.processNode(node, parent)
+  return rule.processNode(node, parent, images)
 }
 
-function visitChildren(children, parent) {
+function visitChildren(children, parent, images = {}) {
   return children.length
-    ? children.map((child) => visit(child, parent))
+    ? children.map((child) => visit(child, parent, images))
     : [visit({ type: 'text', content: '&nbsp;' }, parent)]
 }
 
@@ -33,14 +33,66 @@ function prependTextContent(node, prefix) {
   return false
 }
 
+function splitImageParents(node) {
+  if (node.type !== 'tag' || node.name === 'img') return [node]
+  const result = []
+  let children = []
+  const flush = () => {
+    if (children.length) result.push({ ...node, children })
+    children = []
+  }
+  for (const child of (node.children ?? []).flatMap(splitImageParents)) {
+    if (child.type === 'tag' && child.name === 'img') {
+      flush()
+      result.push(child)
+    } else {
+      children.push(child)
+    }
+  }
+  flush()
+  return result.length ? result : [node]
+}
+
 const rules = [
+  {
+    shouldProcessNode: (node) => node.type === 'tag' && node.name === 'img',
+    processNode: (node, _, images) => {
+      const src = images[node.attrs.src]
+      if (!src) throw new Error('Image is missing from PDF preparation')
+      const width = Math.min(Number(node.attrs.width) || 400, 400) * 0.75
+      return h('Image', {
+        src,
+        style: { width, maxWidth: '100%', maxHeight: 400, objectFit: 'contain' },
+      })
+    },
+  },
   {
     shouldProcessNode: (node) => node.type === 'text',
     processNode: (node) => decode(node.content, { scope: 'strict' }),
   },
   {
     shouldProcessNode: (node) => node.type === 'tag' && node.name === 'p',
-    processNode: (node) => h('Text', { class: 'p' }, visitChildren(node.children, node)),
+    processNode: (node, _, images) => {
+      const children = (node.children ?? []).flatMap(splitImageParents)
+      const output = []
+      let text = []
+      const flush = () => {
+        if (text.length) output.push(h('Text', { class: 'p' }, text))
+        text = []
+      }
+      for (const child of children) {
+        if (child.type === 'tag' && child.name === 'img') {
+          flush()
+          output.push(visit(child, node, images))
+        } else {
+          text.push(visit(child, node, images))
+        }
+      }
+      flush()
+      return output.length
+        ? output
+        : h('Text', { class: 'p' }, visitChildren(children, node, images))
+    },
   },
   {
     shouldProcessNode: (node) => node.type === 'tag' && node.name === 'br',
@@ -77,11 +129,12 @@ const rules = [
   },
   {
     shouldProcessNode: (node) => node.type === 'tag' && ['ul', 'ol'].includes(node.name),
-    processNode: (node) => h('View', visitChildren(node.children, node)),
+    processNode: (node, _, images) =>
+      h('View', visitChildren(node.children, node, images)),
   },
   {
     shouldProcessNode: (node) => node.type === 'tag' && node.name === 'li',
-    processNode: (node, parent) => {
+    processNode: (node, parent, images) => {
       const emptyChild = {
         type: 'text',
         attrs: {},
@@ -106,7 +159,7 @@ const rules = [
       return h(
         'View',
         { style: { marginLeft: '4pt' } },
-        visitChildren(node.children, node)
+        visitChildren(node.children, node, images)
       )
     },
   },
@@ -126,6 +179,7 @@ function calculateListNumber(node, parent) {
 export default {
   name: 'RichText',
   extends: PdfComponent,
+  inject: { pdfImages: { default: () => ({}) } },
   props: {
     richText: { type: String, default: '' },
   },
@@ -135,7 +189,7 @@ export default {
     },
   },
   render() {
-    return [this.parsed].flat().map((node) => visit(node))
+    return [this.parsed].flat().map((node) => visit(node, null, this.pdfImages))
   },
 }
 </script>

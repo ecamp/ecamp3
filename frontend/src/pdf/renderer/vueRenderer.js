@@ -13,6 +13,7 @@ export function renderVueToPdfStructure(root, props = {}, onProgress = async () 
     {
       install(app, options) {
         app.config.globalProperties.api = options.store
+        app.provide('pdfImages', options.images ?? {})
         app.config.globalProperties.$tc = options.$tc
         app.config.globalProperties.$date = dayjs
         app.config.globalProperties.$toc = {}

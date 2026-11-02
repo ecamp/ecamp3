@@ -1,4 +1,14 @@
 {
+  "richTextImages": {
+    "increase": "Aumenta la larghezza dell’immagine",
+    "decrease": "Riduci la larghezza dell’immagine",
+    "add": "Aggiungi immagine",
+    "uploading": "Caricamento dell’immagine…",
+    "alt": "Descrizione dell’immagine",
+    "width": "Larghezza (pixel)",
+    "invalid": "Scegli un’immagine JPEG, PNG o WebP fino a 10 MiB.",
+    "failed": "Impossibile caricare l’immagine. Riprova."
+  },
   "components": {
     "summary": {
       "summaryDay": {
