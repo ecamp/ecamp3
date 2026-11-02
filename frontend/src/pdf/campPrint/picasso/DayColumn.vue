@@ -10,13 +10,13 @@
     </View>
     <View class="picasso-day-column-schedule-entry-container">
       <PicassoScheduleEntry
-        v-for="scheduleEntry in relevantScheduleEntries"
+        v-for="{ scheduleEntry, variant, style, percentageHeight } in scheduleEntryItems"
+        :key="scheduleEntry.id"
         :schedule-entry="scheduleEntry"
-        :style="{
-          ...positionStyles[scheduleEntry.id],
-          ...borderRadiusStyles[scheduleEntry.id],
-        }"
-        :percentage-height="positionStyles[scheduleEntry.id].percentageHeight"
+        :style="style"
+        :variant="variant"
+        :percentage-height="percentageHeight"
+        :avatars="avatars"
         :config="config"
         :show-y-s-physical-activity-duration="showYSPhysicalActivityDuration"
       />
@@ -33,8 +33,6 @@ import {
   positionStyles,
 } from '../../../common/helpers/picasso.js'
 
-import keyBy from 'lodash-es/keyBy.js'
-
 export default {
   name: 'DayColumn',
   components: { PicassoScheduleEntry },
@@ -43,6 +41,7 @@ export default {
     times: { type: Array, required: true },
     day: { type: Object, required: true },
     scheduleEntries: { type: Array, default: () => [] },
+    avatars: { type: Boolean, default: false },
     config: { type: Object, required: true },
     showYSPhysicalActivityDuration: { type: Boolean, default: false },
   },
@@ -50,33 +49,31 @@ export default {
     relevantScheduleEntries() {
       return filterScheduleEntriesByDay(this.scheduleEntries, this.day, this.times)
     },
-    positionStyles() {
-      return positionStyles(this.relevantScheduleEntries, this.day, this.times)
-    },
-    borderRadiusStyles() {
-      const radius = '2pt'
-      return keyBy(
-        this.relevantScheduleEntries.map((scheduleEntry) => {
-          const start = this.$date.utc(scheduleEntry.start)
-          const startsOnThisDay =
-            start.isSameOrAfter(dayStart(this.day, this.times)) &&
-            start.isSameOrBefore(dayEnd(this.day, this.times))
-          const topStyles = startsOnThisDay
-            ? { borderTopRightRadius: radius, borderTopLeftRadius: radius }
-            : {}
+    scheduleEntryItems() {
+      const entries = this.relevantScheduleEntries
+      const positions = positionStyles(entries, this.day, this.times)
+      const from = dayStart(this.day, this.times)
+      const to = dayEnd(this.day, this.times)
+      return entries.map((scheduleEntry) => {
+        const start = this.$date.utc(scheduleEntry.start)
+        const startsOnThisDay = start.isSameOrAfter(from) && start.isSameOrBefore(to)
 
-          const end = this.$date.utc(scheduleEntry.end)
-          const endsOnThisDay =
-            end.isSameOrAfter(dayStart(this.day, this.times)) &&
-            end.isSameOrBefore(dayEnd(this.day, this.times))
-          const bottomStyles = endsOnThisDay
-            ? { borderBottomRightRadius: radius, borderBottomLeftRadius: radius }
-            : {}
+        const end = this.$date.utc(scheduleEntry.end)
+        const endsOnThisDay = end.isSameOrAfter(from) && end.isSameOrBefore(to)
 
-          return { id: scheduleEntry.id, ...bottomStyles, ...topStyles }
-        }),
-        'id'
-      )
+        const { top, right, bottom, left, percentageHeight } = positions[scheduleEntry.id]
+
+        let variant = 'fullday'
+        if (startsOnThisDay && endsOnThisDay) variant = 'default'
+        else if (startsOnThisDay) variant = 'start'
+        else if (endsOnThisDay) variant = 'end'
+        return {
+          scheduleEntry,
+          variant,
+          style: { top, right, bottom, left },
+          percentageHeight,
+        }
+      })
     },
   },
 }
@@ -103,10 +100,10 @@ export default {
   flex-basis: 0;
 }
 .picasso-day-column-grid-row-grey {
-  background-color: lightgrey;
+  background-color: #eceff1;
 }
 .picasso-day-column-schedule-entry-container {
-  margin: 0 2pt;
+  margin: 0 4pt 0 0;
   position: absolute;
   top: 0;
   bottom: 0;

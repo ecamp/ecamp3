@@ -1,7 +1,7 @@
 <template>
   <View class="picasso-categories">
     <View v-for="category in categories" class="picasso-category">
-      <CategoryLabel :category="category" style="margin-right: 2pt" />
+      <CategoryLabel :category="category" :line-font-size="9" />
       <Text>{{ category.name }}</Text>
     </View>
   </View>
@@ -37,14 +37,14 @@ export default {
   font-size: 9pt;
   display: flex;
   flex-direction: row;
+  justify-content: center;
   flex-wrap: wrap;
-  margin: 2pt 0 0;
+  column-gap: 10pt;
+  row-gap: 1pt;
 }
 .picasso-category {
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   gap: 2pt;
-  margin-right: 6pt;
-  margin-bottom: 3pt;
 }
 </style>

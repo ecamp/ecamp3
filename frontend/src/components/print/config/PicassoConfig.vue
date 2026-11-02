@@ -10,14 +10,26 @@
       :readonly="periods.length === 1"
       @update:model-value="$emit('update:modelValue', modelValue)"
     />
-    <e-select
-      v-model="options.orientation"
-      :label="$t('components.print.config.picassoConfig.orientation')"
-      :items="orientations"
-      path="orientation"
-      variant="underlined"
-      @update:model-value="$emit('update:modelValue', modelValue)"
-    />
+    <div class="e-form-container" :class="{ 'e-picasso-config__row': landscape }">
+      <e-select
+        v-model="options.orientation"
+        :label="$t('components.print.config.picassoConfig.orientation')"
+        :items="orientations"
+        path="orientation"
+        variant="underlined"
+        class="flex-grow-1"
+        @update:model-value="$emit('update:modelValue', modelValue)"
+      />
+      <e-select
+        v-model="options.responsibles"
+        :label="$t('components.print.config.picassoConfig.responsibles')"
+        :items="responsiblesDisplays"
+        path="responsibles"
+        variant="underlined"
+        class="flex-grow-1"
+        @update:model-value="$emit('update:modelValue', modelValue)"
+      />
+    </div>
     <e-checkbox
       v-if="hasYSPhysicalActivityDuration"
       v-model="options.showYSPhysicalActivityDuration"
@@ -61,6 +73,16 @@ export default {
           text: this.$t('components.print.config.picassoConfig.portrait'),
         },
       ],
+      responsiblesDisplays: [
+        {
+          value: 'names',
+          text: this.$t('components.print.config.picassoConfig.responsiblesNames'),
+        },
+        {
+          value: 'avatars',
+          text: this.$t('components.print.config.picassoConfig.responsiblesAvatars'),
+        },
+      ],
     }
   },
   computed: {
@@ -71,6 +93,9 @@ export default {
       set(v) {
         this.$emit('update:modelValue', v)
       },
+    },
+    landscape() {
+      return this.options.orientation === 'L'
     },
     periods() {
       return this.camp.periods().items.map((p) => ({
@@ -111,6 +136,7 @@ export default {
         camp.periods().items.length === 1 ? [camp.periods().items[0]._meta.self] : [],
       orientation: 'L',
       showYSPhysicalActivityDuration: false,
+      responsibles: 'names',
       filter: repairFilterConfig(null, camp),
     }
   },
@@ -131,8 +157,22 @@ export default {
     if (!['L', 'P'].includes(config.options.orientation)) {
       config.options.orientation = 'L'
     }
+    if (!['names', 'avatars'].includes(config.options.responsibles)) {
+      config.options.responsibles = 'names'
+    }
     config.options.filter = repairFilterConfig(config.options.filter, camp)
     return config
   },
 }
 </script>
+
+<style scoped>
+.e-picasso-config__row {
+  display: flex;
+  gap: 8px;
+}
+
+.e-picasso-config__row > :deep(.e-form-container + .e-form-container) {
+  margin-top: 0;
+}
+</style>

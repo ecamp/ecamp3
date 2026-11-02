@@ -32,7 +32,7 @@
               },
               "style": {
                 "fontSize": "38pt",
-                "fontWeight": "600",
+                "fontWeight": "700",
                 "margin": "40pt 0",
                 "textAlign": "center",
               },
@@ -81,7 +81,7 @@
         "flexDirection": "column",
         "fontFamily": "InterDisplay",
         "fontSize": "12pt",
-        "padding": "30pt",
+        "padding": "42.5pt",
       },
       "type": "PAGE",
     },

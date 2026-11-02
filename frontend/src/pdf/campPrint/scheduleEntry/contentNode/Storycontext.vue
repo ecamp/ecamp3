@@ -1,7 +1,10 @@
 <template>
-  <View class="content-node">
-    <InstanceName :content-node="contentNode" />
-    <View style="line-height: 0.8">
+  <View class="content-node" :class="{ 'content-node-compact': compact }">
+    <InstanceName :content-node="contentNode" :icon="mdiBookOpenVariant" />
+    <View
+      class="content-node-content"
+      :class="{ 'content-node-content-compact': compact }"
+    >
       <RichText :rich-text="contentNode.data.html" />
     </View>
   </View>
@@ -9,14 +12,22 @@
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
 import InstanceName from '../InstanceName.vue'
+import { mdiBookOpenVariant } from '@mdi/js'
 import RichText from '../../RichText.vue'
+import { isEmptyHtml } from '../../helpers.js'
 
 export default {
   name: 'Storycontext',
   components: { RichText, InstanceName },
   extends: PdfComponent,
+  isEmpty(contentNode) {
+    return isEmptyHtml(contentNode.data.html)
+  },
   props: {
     contentNode: { type: Object, required: true },
+  },
+  data() {
+    return { mdiBookOpenVariant }
   },
 }
 </script>
