@@ -1,4 +1,4 @@
-import { hourShort } from '@/common/helpers/dateHelperUTCFormatted.js'
+import { hourShort } from '@/helpers/dateHelperUTCFormatted.js'
 
 export default function shortScheduleEntryDescription(scheduleEntry, tc) {
   if (!scheduleEntry || scheduleEntry._meta.loading) return ''

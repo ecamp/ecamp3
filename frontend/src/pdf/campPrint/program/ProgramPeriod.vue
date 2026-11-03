@@ -52,8 +52,8 @@
 import PdfComponent from '@/pdf/PdfComponent.js'
 import ProgramDay from './ProgramDay.vue'
 import ScheduleEntryContents from '../scheduleEntry/ScheduleEntryContents.vue'
-import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
-import { filterScheduleEntriesByDay } from '@/common/helpers/picasso.js'
+import { filterMatchScheduleEntry } from '@/helpers/filterMatchScheduleEntry.js'
+import { filterScheduleEntriesByDay } from '@/helpers/picasso.js'
 import TocSectionStartMarker from '../TocSectionStartMarker.vue'
 import sortBy from 'lodash-es/sortBy.js'
 

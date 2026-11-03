@@ -1,8 +1,8 @@
 import axios from 'axios'
 import VueI18n from '@/plugins/i18n'
 import { setLocale as veeValidateSetLocale } from '@vee-validate/i18n'
-import dayjs from '@/common/helpers/dayjs.js'
-import { toDayjsLocale } from '@/common/helpers/dayjs.js'
+import dayjs from '@/helpers/dayjs.js'
+import { toDayjsLocale } from '@/helpers/dayjs.js'
 
 const LANG_KEY = 'language'
 

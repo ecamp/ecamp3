@@ -3,7 +3,7 @@ import { slugify } from '@/plugins/slugify.js'
 import { isAdmin, isLoggedIn } from '@/plugins/auth'
 import { isValidProvider } from '@/plugins/hitobito'
 import { apiStore, store } from '@/plugins/store'
-import { campShortTitle } from '@/common/helpers/campShortTitle'
+import { campShortTitle } from '@/helpers/campShortTitle'
 import { getEnv } from '@/environment.js'
 import {
   clearChunkReloadGuard,

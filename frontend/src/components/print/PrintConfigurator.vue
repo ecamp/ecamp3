@@ -130,7 +130,7 @@ import { componentI18n } from '../../plugins/i18n/index.js'
 import repairConfig from './repairPrintConfig.js'
 import StoryConfig from '@/components/print/config/StoryConfig.vue'
 import SafetyConsiderationsConfig from '@/components/print/config/SafetyConsiderationsConfig.vue'
-import campShortTitle from '@/common/helpers/campShortTitle.js'
+import campShortTitle from '@/helpers/campShortTitle.js'
 import jsonStringifyReactiveValue from '@/components/print/jsonStringifyReactiveValue.js'
 
 export default {

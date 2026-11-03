@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
+import { rangeShort } from '@/helpers/dateHelperUTCFormatted.js'
 import { scheduleEntryRoute } from '@/router.js'
 export default {
   name: 'ErrorExistingActivitiesList',

@@ -5,7 +5,7 @@
 </template>
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
-import { contrastColor } from '../../common/helpers/colors.js'
+import { contrastColor } from '../../helpers/colors.js'
 
 const DEFAULT_TEXT_FACTOR = 0.8
 export default {

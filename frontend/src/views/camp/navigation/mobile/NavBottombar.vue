@@ -28,7 +28,7 @@
 
 <script>
 import { campRoute, materialListRoute } from '@/router'
-import campShortTitle from '@/common/helpers/campShortTitle.js'
+import campShortTitle from '@/helpers/campShortTitle.js'
 
 export default {
   name: 'NavBottombar',

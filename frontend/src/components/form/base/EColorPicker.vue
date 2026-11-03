@@ -114,7 +114,7 @@ Displays a field as a color picker (can be used with v-model)
 
 <script>
 import { formComponentValidation } from '@/mixins/formComponentValidation.js'
-import { contrastColor } from '@/common/helpers/colors.js'
+import { contrastColor } from '@/helpers/colors.js'
 import ColorSwatch from '@/components/form/base/ColorPicker/ColorSwatch.vue'
 import { debounce } from 'lodash-es'
 import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'

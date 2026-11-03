@@ -39,7 +39,7 @@
 
 <script>
 import EAutocomplete from '@/components/form/base/EAutocomplete.vue'
-import materialListsSorted from '@/common/helpers/materialListsSorted.js'
+import materialListsSorted from '@/helpers/materialListsSorted.js'
 import { serverErrorToString, violationsToFlatArray } from '@/helpers/serverError.js'
 import { componentI18n } from '@/plugins/i18n/index.js'
 

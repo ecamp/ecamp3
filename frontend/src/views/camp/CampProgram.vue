@@ -164,8 +164,8 @@ import {
   processRouteQuery,
   transformValuesToHalId,
 } from '@/helpers/querySyncHelper.js'
-import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
-import campShortTitle from '@/common/helpers/campShortTitle.js'
+import { filterMatchScheduleEntry } from '@/helpers/filterMatchScheduleEntry.js'
+import campShortTitle from '@/helpers/campShortTitle.js'
 
 const REMINDER_TIMEOUT = 5000
 

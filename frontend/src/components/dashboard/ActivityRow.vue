@@ -136,7 +136,7 @@ import {
   openCommentsForActivity,
 } from '@/components/comments/commentsState.js'
 import { scheduleEntryRoute } from '@/router.js'
-import { ysPhysicalActivityDurationFormatted } from '@/common/helpers/ysPhysicalActivityDuration.js'
+import { ysPhysicalActivityDurationFormatted } from '@/helpers/ysPhysicalActivityDuration.js'
 
 export default {
   name: 'ActivityRow',

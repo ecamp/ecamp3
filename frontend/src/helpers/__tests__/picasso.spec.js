@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { splitDaysIntoPages, calculateBedtime } from '../picasso.js'
-import dayjs from '@/common/helpers/dayjs.js'
+import dayjs from '@/helpers/dayjs.js'
 
 describe('splitPicassoIntoPages', () => {
   function daysBetween(start, end) {

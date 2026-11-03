@@ -39,7 +39,7 @@ import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdf
 import LockButton from '@/components/generic/LockButton.vue'
 import LockUnlockListItem from '@/components/generic/LockUnlockListItem.vue'
 import PeriodSwitcher from '@/components/program/PeriodSwitcher.vue'
-import campShortTitle from '@/common/helpers/campShortTitle.js'
+import campShortTitle from '@/helpers/campShortTitle.js'
 
 export default {
   name: 'Story',

@@ -22,7 +22,7 @@
 import CollaboratorEdit from '@/components/collaborator/CollaboratorEdit.vue'
 import CollaboratorListItem from '@/components/collaborator/CollaboratorListItem.vue'
 import { sortBy } from 'lodash-es'
-import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import campCollaborationDisplayName from '@/helpers/campCollaborationDisplayName.js'
 import isOwnCampCollaboration from './isOwnCampCollaboration.js'
 
 const ROLE_ORDER = ['manager', 'member', 'guest']

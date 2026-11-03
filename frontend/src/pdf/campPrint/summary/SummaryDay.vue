@@ -23,11 +23,11 @@
 </template>
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
-import { dateLong } from '../../../common/helpers/dateHelperUTCFormatted.js'
+import { dateLong } from '../../../helpers/dateHelperUTCFormatted.js'
 import CategoryLabel from '../CategoryLabel.vue'
 import RichText from '../RichText.vue'
 import { isEmptyHtml } from '../helpers.js'
-import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
+import { filterMatchScheduleEntry } from '@/helpers/filterMatchScheduleEntry.js'
 
 export default {
   name: 'SummaryDay',

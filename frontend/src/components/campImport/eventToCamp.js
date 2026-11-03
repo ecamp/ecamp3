@@ -1,4 +1,4 @@
-import dayjs from '@/common/helpers/dayjs.js'
+import dayjs from '@/helpers/dayjs.js'
 
 // Hitobito allows longer values than eCamp, therefore values are truncated to their maximum eCamp lengths
 const TITLE_MAX_LENGTH = 32

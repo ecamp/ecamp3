@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser'
 import { renderPdf } from './renderPdf.js'
-import dayjs, { toDayjsLocale } from '@/common/helpers/dayjs.js'
+import dayjs, { toDayjsLocale } from '@/helpers/dayjs.js'
 
 // Work around an incompatibility between comlink, vite and react-pdf...
 // Comlink works with a globally defined function 'start'. And apparently the way we import

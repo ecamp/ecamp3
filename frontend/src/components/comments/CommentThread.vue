@@ -110,7 +110,7 @@
 import CommentCard from '@/components/comments/CommentCard.vue'
 import CommentComposer from '@/components/comments/CommentComposer.vue'
 import CommentTime from '@/components/comments/CommentTime.vue'
-import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import campCollaborationDisplayName from '@/helpers/campCollaborationDisplayName.js'
 import { serverErrorToString } from '@/helpers/serverError.js'
 
 const REMOVAL_DURATION = 2000

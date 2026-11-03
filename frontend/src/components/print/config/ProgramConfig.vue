@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
+import { filterMatchScheduleEntry } from '@/helpers/filterMatchScheduleEntry.js'
 import DialogScheduleEntryFilter from './DialogScheduleEntryFilter.vue'
 import repairFilterConfig from '../../program/repairFilterConfig.js'
 

@@ -69,9 +69,9 @@
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
 import Responsibles from '../Responsibles.vue'
-import { contrastColor } from '../../../common/helpers/colors.js'
-import { ysPhysicalActivityDurationFormatted } from '../../../common/helpers/ysPhysicalActivityDuration.js'
-import { activityResponsibleNames } from '../../../common/helpers/activityResponsibles.js'
+import { contrastColor } from '../../../helpers/colors.js'
+import { ysPhysicalActivityDurationFormatted } from '../../../helpers/ysPhysicalActivityDuration.js'
+import { activityResponsibleNames } from '../../../helpers/activityResponsibles.js'
 
 const MAX_FONT_SIZE = 8
 

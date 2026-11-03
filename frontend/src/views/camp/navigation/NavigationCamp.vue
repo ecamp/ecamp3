@@ -10,7 +10,7 @@
 import NavTopbar from '@/views/camp/navigation/desktop/NavTopbar.vue'
 import NavBottombar from '@/views/camp/navigation/mobile/NavBottombar.vue'
 import NavSidebar from '@/views/camp/navigation/mobile/NavSidebar.vue'
-import { campShortTitle } from '@/common/helpers/campShortTitle'
+import { campShortTitle } from '@/helpers/campShortTitle'
 
 export default {
   name: 'NavigationCamp',

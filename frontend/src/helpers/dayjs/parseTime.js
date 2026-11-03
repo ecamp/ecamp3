@@ -1,4 +1,4 @@
-import dayjs from '../dayjs'
+import dayjs from '../dayjs.js'
 import { HTML5_FMT } from '../dateFormat'
 
 /**
