@@ -11,7 +11,7 @@ import CampPrint from '../../CampPrint.vue'
 import { createCircularReplacer } from '@/pdf/renderer/__tests__/createCircularReplacer'
 import { cloneDeep } from 'lodash-es'
 import dayjs from '../../../helpers/dayjs.js'
-import enCommon from '../../../common/locales/en.json'
+import en from '../../../locales/en.json'
 import {
   compileToFunction,
   createCoreContext,
@@ -23,7 +23,7 @@ import {
 const context = createCoreContext({
   locale: 'en',
   fallbackLocale: 'en',
-  messages: { en: enCommon },
+  messages: { en },
   messageResolver: resolveValue,
   messageCompiler: compileToFunction,
   localeFallbacker: fallbackWithLocaleChain,

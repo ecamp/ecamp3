@@ -1,4 +1,9 @@
 {
+  "print": {
+    "story": {
+      "title": "Fil rouge"
+    }
+  },
   "components": {
     "print": {
       "printConfigurator": {

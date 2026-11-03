@@ -1,17 +1,6 @@
 import { createI18n } from 'vue-i18n'
 import deepmerge from 'deepmerge'
 
-import itCommon from '@/common/locales/it.json'
-import itCHScoutCommon from '@/common/locales/it-CH-scout.json'
-import frCommon from '@/common/locales/fr.json'
-import frCHScoutCommon from '@/common/locales/fr-CH-scout.json'
-import enCommon from '@/common/locales/en.json'
-import enCHScoutCommon from '@/common/locales/en-CH-scout.json'
-import deCommon from '@/common/locales/de.json'
-import deCHScoutCommon from '@/common/locales/de-CH-scout.json'
-import rmCommon from '@/common/locales/rm.json'
-import rmCHScoutCommon from '@/common/locales/rm-CH-scout.json'
-
 import it from '@/locales/it.json'
 import itCHScout from '@/locales/it-CH-scout.json'
 import fr from '@/locales/fr.json'
@@ -45,21 +34,7 @@ const i18n = createI18n({
       it: { $vuetify: vuetifyIt },
     },
 
-    // eCamp common locales
-    {
-      it: itCommon,
-      'it-CH-scout': itCHScoutCommon,
-      fr: frCommon,
-      'fr-CH-scout': frCHScoutCommon,
-      en: enCommon,
-      'en-CH-scout': enCHScoutCommon,
-      de: deCommon,
-      'de-CH-scout': deCHScoutCommon,
-      rm: rmCommon,
-      'rm-CH-scout': rmCHScoutCommon,
-    },
-
-    // eCamp frontend only locales
+    // eCamp locales
     {
       it,
       'it-CH-scout': itCHScout,
