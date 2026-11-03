@@ -22,4 +22,6 @@ class ContainNonResource extends BaseEntity {
      * @var NotAResource[]
      */
     public $collectionOfNotAResource;
+
+    public ?RelatedDummy $relatedDummy = null;
 }
