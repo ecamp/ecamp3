@@ -1,13 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import {
-  activityResponsibleNames,
-  activityResponsiblesCommaSeparated,
-} from '../activityResponsibles.js'
+import { activityResponsibleNames } from '../activityResponsibles.js'
 
 describe('activityResponsibles', () => {
   it('resolves camp collaboration with and without user', () => {
     expect(
-      activityResponsiblesCommaSeparated(
+      activityResponsibleNames(
         {
           activityResponsibles: () => ({
             items: [
@@ -28,12 +25,12 @@ describe('activityResponsibles', () => {
         },
         null
       )
-    ).toEqual('test@example.com, dummyUser')
+    ).toEqual(['test@example.com', 'dummyUser'])
   })
 
-  it('return empty string if no resonsibles', () => {
+  it('returns empty array without responsibles', () => {
     expect(
-      activityResponsiblesCommaSeparated(
+      activityResponsibleNames(
         {
           activityResponsibles: () => ({
             items: [],
@@ -41,11 +38,11 @@ describe('activityResponsibles', () => {
         },
         null
       )
-    ).toEqual('')
+    ).toEqual([])
   })
 
-  it('return empty string for null object', () => {
-    expect(activityResponsiblesCommaSeparated(null, null)).toEqual('')
+  it('returns empty array for null object', () => {
+    expect(activityResponsibleNames(null, null)).toEqual([])
   })
 
   it('returns names containing commas as single entries', () => {
@@ -74,7 +71,7 @@ describe('activityResponsibles', () => {
     ).toEqual(['Muster, Max', 'test@example.com'])
   })
 
-  it('returns empty array for null object', () => {
-    expect(activityResponsibleNames(null, null)).toEqual([])
+  it('returns empty array for undefined object', () => {
+    expect(activityResponsibleNames(undefined, null)).toEqual([])
   })
 })

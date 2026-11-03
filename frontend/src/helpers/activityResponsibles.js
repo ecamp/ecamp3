@@ -13,8 +13,4 @@ const activityResponsibleNames = (activity, tc) => {
     )
 }
 
-const activityResponsiblesCommaSeparated = (activity, tc) => {
-  return activityResponsibleNames(activity, tc).join(', ')
-}
-
-export { activityResponsibleNames, activityResponsiblesCommaSeparated }
+export { activityResponsibleNames }
