@@ -193,7 +193,6 @@ class Day extends BaseEntity implements BelongsToCampInterface, CanGenerateTagsI
     #[ApiProperty(
         readableLink: true,
         uriTemplate: DayResponsible::DAY_SUBRESOURCE_URI_TEMPLATE,
-        extraProperties: ['cacheDependencies' => ['dayResponsibles']]
     )]
     #[SerializedName('dayResponsibles')]
     #[Groups(['Day:DayResponsibles'])]

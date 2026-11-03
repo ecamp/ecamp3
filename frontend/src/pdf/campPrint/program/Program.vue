@@ -12,7 +12,13 @@
       <slot />
     </ProgramPeriod>
   </template>
-  <Page v-else :id="id" class="page program-page" :size="config.options.pageSize || 'A4'">
+  <Page
+    v-else
+    :id="id"
+    class="page program-page"
+    :class="{ 'page-compact': compact }"
+    :size="config.options.pageSize || 'A4'"
+  >
     <slot />
     <ProgramPeriod
       v-for="period in periods"

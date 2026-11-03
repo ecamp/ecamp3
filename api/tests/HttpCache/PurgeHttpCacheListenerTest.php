@@ -41,6 +41,9 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\MakerBundle\Doctrine\StaticReflectionService;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyAccess\PropertyPathInterface;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AttributeLoader;
+use Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter;
 
 use function PHPUnit\Framework\assertThat;
 use function PHPUnit\Framework\containsEqual;
@@ -262,6 +265,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $metadataFactoryProphecy,
             cacheManager: $cacheManagerProphecy,
             em: $entityManager,
+            nameConverter: $this->nameConverter(),
         );
         $listener->onFlush();
         $listener->postFlush();
@@ -339,6 +343,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $metadataFactoryProphecy,
             cacheManager: $cacheManagerProphecy,
             em: $emProphecy,
+            nameConverter: $this->nameConverter(),
         );
         $listener->preUpdate($eventArgs);
         $listener->postFlush();
@@ -384,6 +389,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $metadataFactoryProphecy,
             cacheManager: $cacheManagerProphecy,
             em: $emProphecy,
+            nameConverter: $this->nameConverter(),
         );
         $listener->preUpdate($eventArgs);
         $listener->postFlush();
@@ -429,6 +435,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $metadataFactoryProphecy,
             cacheManager: $cacheManagerProphecy,
             em: $emProphecy,
+            nameConverter: $this->nameConverter(),
         );
         $listener->onFlush();
     }
@@ -511,6 +518,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $metadataFactoryProphecy,
             cacheManager: $cacheManagerProphecy,
             em: $emProphecy,
+            nameConverter: $this->nameConverter(),
         );
         $listener->onFlush();
     }
@@ -622,6 +630,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $this->metadataFactoryProphecy,
             cacheManager: $this->cacheManagerProphecy,
             em: $em,
+            nameConverter: $this->nameConverter(),
         );
         $listener->onFlush();
         $listener->postFlush();
@@ -672,6 +681,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $this->metadataFactoryProphecy,
             cacheManager: $this->cacheManagerProphecy,
             em: $em,
+            nameConverter: $this->nameConverter(),
         );
         $listener->onFlush();
         $listener->postFlush();
@@ -722,8 +732,13 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $this->metadataFactoryProphecy,
             cacheManager: $this->cacheManagerProphecy,
             em: $this->emProphecy,
+            nameConverter: $this->nameConverter(),
         );
         $listener->onFlush();
         $listener->postFlush();
+    }
+
+    private function nameConverter(): MetadataAwareNameConverter {
+        return new MetadataAwareNameConverter(new ClassMetadataFactory(new AttributeLoader()));
     }
 }

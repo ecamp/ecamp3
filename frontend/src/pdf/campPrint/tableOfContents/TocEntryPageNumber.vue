@@ -22,5 +22,6 @@ export default {
 .toc-entry-page-number {
   width: 24pt;
   text-align: right;
+  font-feature-settings: 'tnum';
 }
 </style>
