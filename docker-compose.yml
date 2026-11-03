@@ -10,7 +10,6 @@ services:
     volumes:
       - ./.prettierrc:/.prettierrc:delegated
       - ./frontend:/app:delegated
-      - ./common:/common:delegated
       - ./.cache/npm:/tmp/.npm:delegated
     environment:
       - NPM_CONFIG_UPDATE_NOTIFIER=false
@@ -110,7 +109,7 @@ services:
     volumes:
       - ./.prettierrc:/.prettierrc
       - ./print:/app:delegated
-      - ./common:/common:delegated
+      - ./frontend/src/common:/frontend/src/common:delegated
       - ./.cache/npm:/tmp/.npm:delegated
     environment:
       - NUXT_HOST=0.0.0.0
@@ -240,7 +239,6 @@ services:
     container_name: 'ecamp3-translation'
     volumes:
       - ./translation:/translation:delegated
-      - ./common:/common:delegated
       - ./frontend:/frontend:delegated
       - ./print:/print:delegated
     working_dir: /translation

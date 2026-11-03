@@ -70,7 +70,6 @@ jobs:
             [
               ".github/workflows/continuous-integration.yml",
               "api/**",
-              "common/**",
               "e2e/**",
               "frontend/**",
               "print/**",

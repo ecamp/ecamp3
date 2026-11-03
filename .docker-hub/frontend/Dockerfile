@@ -5,8 +5,6 @@ ARG SENTRY_ORG
 ARG SENTRY_FRONTEND_PROJECT
 ARG SENTRY_RELEASE_NAME
 
-COPY common /common
-
 WORKDIR /app
 COPY frontend/package*.json frontend/.npmrc ./
 COPY frontend/public ./public

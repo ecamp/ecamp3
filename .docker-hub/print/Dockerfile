@@ -5,7 +5,7 @@ ARG SENTRY_ORG
 ARG SENTRY_PRINT_PROJECT
 ARG SENTRY_RELEASE_NAME
 
-COPY common /common
+COPY frontend/src/common /frontend/src/common
 
 WORKDIR /app
 

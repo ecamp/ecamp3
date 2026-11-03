@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import YSActivityCharacteristics from '../components/scheduleEntry/contentNode/YSActivityCharacteristics.vue'
-import fr from '../../common/locales/fr.json'
+import fr from '../common/locales/fr.json'
 
 describe('YSActivityCharacteristics print', () => {
   it('prints only selected forms with their translations', () => {

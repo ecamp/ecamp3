@@ -16,7 +16,7 @@ docker compose --profile=playwright-cli up -d
 - `/api/` Symfony/API Platform backend.
 - `/frontend/` Main Vue 3 frontend served by Vite.
 - `/frontend-old/` Legacy Vue 2 frontend; NEVER CHANGE THIS.
-- `/common/` Shared JavaScript utilities, ESLint rules, and locale files used by the Node-based apps.
+- `/frontend/src/common/` JavaScript utilities, ESLint rules, and locale files used by the frontend and print backend.
 - `/frontend/src/pdf/` Client-side PDF rendering code used by the frontend.
 - `/print/` Separate, Nuxt-based print backend.
 - `/e2e/` Playwright end-to-end tests.
@@ -108,10 +108,10 @@ For targeted frontend changes, prefer focused unit tests or lint checks before r
 Legacy Vue 2 frontend. The Docker service name is `frontend-old`.
 NEVER CHANGE THIS
 
-## /common directory
+## /frontend/src/common directory
 
-Shared code and locale files are mounted into the Node-based services.
-When changing shared code, run checks for every affected consumer, commonly `frontend`, or `print`.
+The print backend also uses these files.
+When changing shared code, run checks for both `frontend` and `print`.
 When changing shared locale files, also consider the `/translation` instructions.
 
 ## /print directory
