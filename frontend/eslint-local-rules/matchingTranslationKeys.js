@@ -1,5 +1,7 @@
-import { packageDirectory } from './packageDirectory.js'
 import path from 'path'
+import { fileURLToPath } from 'node:url'
+
+const frontendDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 
 export default function createMatchingTranslationKeys(utils) {
   /**
@@ -135,17 +137,16 @@ export default function createMatchingTranslationKeys(utils) {
       ],
     },
     create(context) {
-      const filename = context.filename
+      const filename = context.filename.replaceAll('\\', '/')
       if (!shouldProcessFile(filename)) {
         // Return no visitor logic if the file is not of interest to us
         return {}
       }
 
       const extension = path.extname(filename)
-      const filesystemPrefix = packageDirectory(filename)
-      const filepath = filename
-        .replace(new RegExp(`^${escapeForRegExp(filesystemPrefix)}/`), '')
-        // Optionally, remove src/ from the file path. We have this in frontend, but not in print
+      const filepath = path
+        .relative(frontendDirectory, filename)
+        .replaceAll('\\', '/')
         .replace(/^src\//, '')
         .replace(new RegExp(`${escapeForRegExp(extension)}$`), '')
 
