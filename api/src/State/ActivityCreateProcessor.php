@@ -7,6 +7,7 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Activity;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentType;
+use App\Service\Image\CampImageCopyService;
 use App\State\Util\AbstractPersistProcessor;
 use App\Util\EntityMap;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,7 +18,8 @@ use Doctrine\ORM\EntityManagerInterface;
 class ActivityCreateProcessor extends AbstractPersistProcessor {
     public function __construct(
         ProcessorInterface $decorated,
-        private readonly EntityManagerInterface $em
+        private readonly EntityManagerInterface $em,
+        private readonly CampImageCopyService $campImageCopyService,
     ) {
         parent::__construct($decorated);
     }
@@ -54,6 +56,7 @@ class ActivityCreateProcessor extends AbstractPersistProcessor {
         // deep copy from category root node
         $entityMap = new EntityMap($targetCamp);
         $rootContentNode->copyFromPrototype($rootContentNodePrototype, $entityMap);
+        $this->campImageCopyService->copy($entityMap);
 
         return $data;
     }

@@ -13,6 +13,7 @@ use App\Repository\CampRepository;
 use App\Service\Hitobito\ClientProvider;
 use App\Service\Hitobito\EventAccessChecker;
 use App\Service\Hitobito\HitobitoProvider;
+use App\Service\Image\CampImageCopyService;
 use App\State\Util\AbstractPersistProcessor;
 use App\Util\EntityMap;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,7 +30,8 @@ class CampCreateProcessor extends AbstractPersistProcessor {
         private readonly EntityManagerInterface $em,
         private readonly ClientProvider $hitobitoClientProvider,
         private readonly EventAccessChecker $hitobitoEventAccessChecker,
-        private readonly CampRepository $campRepository
+        private readonly CampRepository $campRepository,
+        private readonly CampImageCopyService $campImageCopyService,
     ) {
         parent::__construct($decorated);
     }
@@ -54,6 +56,7 @@ class CampCreateProcessor extends AbstractPersistProcessor {
         if (null !== $data->campPrototype) {
             $entityMap = new EntityMap($data);
             $data->copyFromPrototype($data->campPrototype, $entityMap);
+            $this->campImageCopyService->copy($entityMap);
         }
 
         foreach ($data->periods as $period) {

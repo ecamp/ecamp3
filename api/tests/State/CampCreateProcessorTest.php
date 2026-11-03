@@ -12,6 +12,7 @@ use App\Entity\User;
 use App\Repository\CampRepository;
 use App\Service\Hitobito\ClientProvider;
 use App\Service\Hitobito\EventAccessChecker;
+use App\Service\Image\CampImageCopyService;
 use App\State\CampCreateProcessor;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
@@ -19,6 +20,7 @@ use PHPUnit\Framework\Constraint\Callback;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @internal
@@ -42,6 +44,7 @@ class CampCreateProcessorTest extends TestCase {
             $this->createStub(ClientProvider::class),
             $this->createStub(EventAccessChecker::class),
             $this->createStub(CampRepository::class),
+            new CampImageCopyService($this->em, $this->security, $this->createStub(UrlGeneratorInterface::class)),
         );
     }
 
