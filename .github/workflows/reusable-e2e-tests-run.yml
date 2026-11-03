@@ -51,7 +51,7 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: .cache
-          key: docker-compose-${{ hashFiles('frontend/package-lock.json', 'print/package-lock.json', 'api/composer.lock') }}-${{ matrix.browser }}
+          key: docker-compose-${{ hashFiles('frontend/package-lock.json', 'api/composer.lock') }}-${{ matrix.browser }}
           restore-keys: |
             docker-compose-
 
@@ -70,7 +70,7 @@ jobs:
       - run: docker compose -f docker-compose.yml run --rm api migrate-database
 
       # start necessary containers
-      - run: docker compose -f docker-compose.yml up -d api frontend print browserless database docker-host http-cache http-cache-logs mail pg-admin reverse-proxy
+      - run: docker compose -f docker-compose.yml up -d api frontend database docker-host http-cache http-cache-logs mail pg-admin reverse-proxy
 
       # pull playwright while container are starting up
       - run: docker compose pull e2e
