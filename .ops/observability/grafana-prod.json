@@ -2672,13 +2672,7 @@
           "id": "filterFieldsByName",
           "options": {
             "include": {
-              "names": [
-                "Time",
-                "ecamp3-browserless",
-                "ecamp3-frontend",
-                "ecamp3-print",
-                "ecamp3-api"
-              ]
+              "names": ["Time", "ecamp3-frontend", "ecamp3-api"]
             }
           }
         }
@@ -4082,7 +4076,7 @@
               "type": "percentiles"
             }
           ],
-          "query": "((escapedUrl: \"^app.ecamp3.ch/api\") OR (escapedUrl: \"^app.ecamp3.ch/print\")) and not escapedUrl : \"reset_password\" and not escapedUrl: \"activate\"",
+          "query": "(escapedUrl: \"^app.ecamp3.ch/api\") and not escapedUrl : \"reset_password\" and not escapedUrl: \"activate\"",
           "refId": "A",
           "timeField": "@timestamp"
         }
