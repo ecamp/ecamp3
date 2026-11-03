@@ -522,11 +522,11 @@
           }
         }
       },
-      "printClient": {
-        "downloadClientPdfButton": {
+      "generator": {
+        "downloadPdfButton": {
           "label": "Télécharger le PDF"
         },
-        "downloadClientPdfListItem": {
+        "downloadPdfListItem": {
           "label": "Télécharger le PDF"
         },
         "generatePdfMixin": {
@@ -543,7 +543,7 @@
             "failed": "Echec"
           }
         },
-        "printPreviewClient": {
+        "printPreview": {
           "previewError": "Une erreur est survenue. Veuillez réessayer avec des paramètres d'impression différents, ou recharger la page.",
           "previewIframeTitle": "Aperçu avant impression"
         }

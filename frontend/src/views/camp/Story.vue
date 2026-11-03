@@ -23,7 +23,7 @@
             @click="editMode = !editMode"
           />
           <v-divider />
-          <DownloadClientPdf :config="printConfig" />
+          <DownloadPdfListItem :config="printConfig" />
         </v-list>
       </v-menu>
     </template>
@@ -35,7 +35,7 @@
 import ContentCard from '@/components/layout/ContentCard.vue'
 import StoryPeriod from '@/components/story/StoryPeriod.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
-import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdfListItem.vue'
+import DownloadPdfListItem from '@/components/print/generator/DownloadPdfListItem.vue'
 import LockButton from '@/components/generic/LockButton.vue'
 import LockUnlockListItem from '@/components/generic/LockUnlockListItem.vue'
 import PeriodSwitcher from '@/components/program/PeriodSwitcher.vue'
@@ -47,7 +47,7 @@ export default {
     PeriodSwitcher,
     StoryPeriod,
     ContentCard,
-    DownloadClientPdf,
+    DownloadPdfListItem,
     LockButton,
     LockUnlockListItem,
   },

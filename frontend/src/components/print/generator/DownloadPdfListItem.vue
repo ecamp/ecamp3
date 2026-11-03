@@ -2,7 +2,7 @@
   <v-list-item
     :readonly="loading"
     :lines="loading ? 'two' : 'one'"
-    :title="$t('components.print.printClient.downloadClientPdfListItem.label')"
+    :title="$t('components.print.generator.downloadPdfListItem.label')"
     :subtitle="loading ? state : undefined"
     @click.stop="generatePdf"
   >
@@ -20,7 +20,7 @@ import { generatePdfMixin } from './generatePdfMixin.js'
 import { useToast } from '@/components/toast/useToast.js'
 
 export default {
-  name: 'DownloadClientPdfListItem',
+  name: 'DownloadPdfListItem',
   mixins: [generatePdfMixin],
   setup() {
     const toast = useToast()

@@ -90,17 +90,17 @@
     </PagesOverview>
 
     <v-card-text class="e-button-container">
-      <DownloadClientPdfButton :config="cnf" />
+      <DownloadPdfButton :config="cnf" />
     </v-card-text>
 
     <template v-if="isDev">
       <v-tabs v-model="previewTab" :mandatory="false" class="px-4">
-        <v-tab value="client">Client print preview</v-tab>
+        <v-tab value="preview">Print preview</v-tab>
       </v-tabs>
       <v-tabs-window v-if="previewTab" v-model="previewTab">
-        <v-tabs-window-item value="client">
-          <print-preview-client
-            v-if="previewTab === 'client'"
+        <v-tabs-window-item value="preview">
+          <print-preview
+            v-if="previewTab === 'preview'"
             :config="cnf"
             width="100%"
             height="600"
@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import PrintPreviewClient from './print-client/PrintPreviewClient.vue'
+import PrintPreview from './generator/PrintPreview.vue'
 import CoverConfig from './config/CoverConfig.vue'
 import PicassoConfig from './config/PicassoConfig.vue'
 import SummaryConfig from './config/SummaryConfig.vue'
@@ -123,7 +123,7 @@ import ActivityListConfig from './config/ActivityListConfig.vue'
 import TocConfig from './config/TocConfig.vue'
 import PagesOverview from './configurator/PagesOverview.vue'
 import PagesConfig from './configurator/PagesConfig.vue'
-import DownloadClientPdfButton from '@/components/print/print-client/DownloadClientPdfButton.vue'
+import DownloadPdfButton from '@/components/print/generator/DownloadPdfButton.vue'
 import { getEnv } from '@/environment.js'
 import { cloneDeep } from 'lodash-es'
 import { componentI18n } from '../../plugins/i18n/index.js'
@@ -136,10 +136,10 @@ import jsonStringifyReactiveValue from '@/components/print/jsonStringifyReactive
 export default {
   name: 'PrintConfigurator',
   components: {
-    DownloadClientPdfButton,
+    DownloadPdfButton,
     PagesConfig,
     PagesOverview,
-    PrintPreviewClient,
+    PrintPreview,
     CoverConfig,
     PicassoConfig,
     SummaryConfig,

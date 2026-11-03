@@ -532,11 +532,11 @@
           }
         }
       },
-      "printClient": {
-        "downloadClientPdfButton": {
+      "generator": {
+        "downloadPdfButton": {
           "label": "Download PDF"
         },
-        "downloadClientPdfListItem": {
+        "downloadPdfListItem": {
           "label": "Download PDF"
         },
         "generatePdfMixin": {
@@ -553,7 +553,7 @@
             "failed": "Failed"
           }
         },
-        "printPreviewClient": {
+        "printPreview": {
           "previewError": "Something did not work. Please try again with different printing settings, or reload the page.",
           "previewIframeTitle": "Print preview"
         }

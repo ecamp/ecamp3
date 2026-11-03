@@ -291,17 +291,17 @@
           }
         }
       },
-      "printClient": {
-        "downloadClientPdfButton": {
+      "generator": {
+        "downloadPdfButton": {
           "label": "Telechargiar il PDF"
         },
-        "downloadClientPdfListItem": {
+        "downloadPdfListItem": {
           "label": "Telechargiar il PDF"
         },
         "generatePdfMixin": {
           "error": "Insatge n'ha betg funcziunà. Emprova anc ina giada u rechargia la pagina."
         },
-        "printPreviewClient": {
+        "printPreview": {
           "previewError": "Insatge n'ha betg funcziunà. Emprova anc ina giada cun auters parameters da stampa u rechargia la pagina.",
           "previewIframeTitle": "Prevista da stampa"
         }

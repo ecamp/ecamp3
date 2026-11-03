@@ -2,7 +2,7 @@
   <div style="position: relative">
     <iframe
       :src="urlWithPagemodes"
-      :title="$t('components.print.printClient.printPreviewClient.previewIframeTitle')"
+      :title="$t('components.print.generator.printPreview.previewIframeTitle')"
       class="d-block"
       v-bind="$attrs"
       height="800px"
@@ -14,7 +14,7 @@
       content-class="w-100 h-100 text-white"
     >
       <div v-if="error">
-        {{ $t('components.print.printClient.printPreviewClient.previewError') }}
+        {{ $t('components.print.generator.printPreview.previewError') }}
       </div>
       <div v-else class="d-flex flex-column gap-3 align-center h-100 justify-center">
         <v-progress-circular :model-value="progress" size="24"></v-progress-circular>
@@ -33,7 +33,7 @@ import { useToast } from '@/components/toast/useToast.js'
 const RENDER_IN_WORKER = true
 
 export default {
-  name: 'PrintPreviewClient',
+  name: 'PrintPreview',
   mixins: [generatePdfMixin],
   props: {
     config: {

@@ -532,11 +532,11 @@
           }
         }
       },
-      "printClient": {
-        "downloadClientPdfButton": {
+      "generator": {
+        "downloadPdfButton": {
           "label": "PDF herunterladen"
         },
-        "downloadClientPdfListItem": {
+        "downloadPdfListItem": {
           "label": "PDF herunterladen"
         },
         "generatePdfMixin": {
@@ -553,7 +553,7 @@
             "failed": "Abgebrochen"
           }
         },
-        "printPreviewClient": {
+        "printPreview": {
           "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu.",
           "previewIframeTitle": "Druckvorschau"
         }

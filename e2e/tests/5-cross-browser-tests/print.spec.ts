@@ -1,12 +1,10 @@
-// ClientPrint
-
 import { test, expect } from '@playwright/test'
 import { getPdfProperties } from '@/utils/getPdfProperties'
 import { loginAndSetCookie } from '@/utils/helpers'
 
 import { readFileSync } from 'fs'
 
-test.describe('Client print test', { tag: '@mature' }, () => {
+test.describe('Print test', { tag: '@mature' }, () => {
   test.beforeEach(async ({ page, request }) => {
     await loginAndSetCookie(page, request, 'test@example.com')
   })

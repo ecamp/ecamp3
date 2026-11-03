@@ -444,17 +444,17 @@
           }
         }
       },
-      "printClient": {
-        "downloadClientPdfButton": {
+      "generator": {
+        "downloadPdfButton": {
           "label": "Scarica il PDF"
         },
-        "downloadClientPdfListItem": {
+        "downloadPdfListItem": {
           "label": "Scarica il PDF"
         },
         "generatePdfMixin": {
           "error": "Qualcosa non ha funzionato. Riprova o ricarica la pagina."
         },
-        "printPreviewClient": {
+        "printPreview": {
           "previewError": "Qualcosa non ha funzionato. Riprova con altre impostazioni di stampa o ricarica la pagina.",
           "previewIframeTitle": "Anteprima di stampa"
         }

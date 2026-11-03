@@ -3,7 +3,7 @@
     <v-btn color="primary" variant="outlined" :disabled="loading" @click="generatePdf">
       <v-icon>mdi-printer</v-icon>
       <div class="mx-1">
-        {{ $t('components.print.printClient.downloadClientPdfButton.label') }}
+        {{ $t('components.print.generator.downloadPdfButton.label') }}
       </div>
     </v-btn>
     <div class="progress-wrapper">
@@ -22,7 +22,7 @@ import { generatePdfMixin } from './generatePdfMixin.js'
 import { useToast } from '@/components/toast/useToast.js'
 
 export default {
-  name: 'DownloadClientPdfButton',
+  name: 'DownloadPdfButton',
   mixins: [generatePdfMixin],
   setup() {
     const toast = useToast()
