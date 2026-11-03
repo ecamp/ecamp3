@@ -581,6 +581,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
             resourceMetadataCollectionFactory: $metadataFactoryProphecy,
             cacheManager: $cacheManagerProphecy,
             em: $emProphecy,
+            nameConverter: $this->nameConverter(),
         );
         $listener->onFlush();
 
