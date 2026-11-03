@@ -1,5 +1,8 @@
 name: CD for feature branches
 
+permissions:
+  contents: read
+
 on:
   pull_request_target:
     types: [opened, reopened, labeled, synchronize]
@@ -22,6 +25,8 @@ jobs:
   build-and-push:
     if: (github.event_name == 'workflow_dispatch') || (contains(github.event.pull_request.labels.*.name, 'deploy!') && github.event.pull_request.state == 'open')
     name: Build and push docker images
+    permissions:
+      contents: read
     uses: ./.github/workflows/reusable-build-and-push.yml
     with:
       sha: ${{ github.event.pull_request.head.sha }}
@@ -33,6 +38,10 @@ jobs:
   upgrade-or-install-deployment:
     name: Upgrade or install deployment
     needs: build-and-push
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: write
     uses: ./.github/workflows/reusable-ecamp3-deployment.yml
     with:
       name: pr${{ github.event.pull_request.number }}
