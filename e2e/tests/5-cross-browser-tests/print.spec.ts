@@ -18,7 +18,7 @@ test.describe('Print test', { tag: '@mature' }, () => {
     await page.locator('a:has-text("Drucken")').click()
 
     const downloadPromise = page.waitForEvent('download')
-    await page.locator('button:has-text("PDF herunterladen (Layout #2)")').click()
+    await page.getByRole('button', { name: 'PDF herunterladen', exact: true }).click()
     const download = await downloadPromise
 
     const path = await download.path()
@@ -27,5 +27,26 @@ test.describe('Print test', { tag: '@mature' }, () => {
 
     expect(download.suggestedFilename()).toBe('Pfila-2023.pdf')
     expect(pdfProps.numPages).toBe(25)
+  })
+
+  test('downloads Picasso PDF from camp program', async ({ page }) => {
+    await page.goto('/camps')
+    await page.getByRole('link', { name: /^GRGR (?!nach)/ }).click()
+    await page.locator('a:has-text("Programm")').click()
+    await page.getByTestId('campprogram-menu').click()
+
+    const downloadPromise = page.waitForEvent('download')
+    await page
+      .locator('.v-list-item')
+      .filter({ hasText: /^PDF herunterladen$/ })
+      .click()
+    const download = await downloadPromise
+
+    const path = await download.path()
+    const buffer = readFileSync(path)
+    const pdfProps = await getPdfProperties(buffer)
+
+    expect(download.suggestedFilename()).toBe('Pfila-2023-Hauptlager.pdf')
+    expect(pdfProps.numPages).toBe(1)
   })
 })
