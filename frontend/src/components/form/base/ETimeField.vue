@@ -22,7 +22,7 @@
 
 <script>
 import { formComponentValidation } from '@/mixins/formComponentValidation.js'
-import parseTime from '@/common/helpers/dayjs/parseTime.js'
+import parseTime from '@/helpers/dayjs/parseTime.js'
 
 export default {
   name: 'ETimeField',

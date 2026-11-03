@@ -16,7 +16,7 @@ const translations = {
 }
 const translate = (key) => translations[key]
 
-it('renders only selected forms in the client PDF', () => {
+it('renders only selected forms in the PDF', () => {
   const wrapper = shallowMount(YSActivityCharacteristics, {
     props: { contentNode: { data: { options } } },
     global: {

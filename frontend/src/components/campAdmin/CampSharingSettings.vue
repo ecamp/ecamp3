@@ -90,7 +90,7 @@
 import ContentGroup from '@/components/layout/ContentGroup.vue'
 import router, { campRoute } from '@/router.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
-import userDisplayName from '@/common/helpers/userDisplayName.js'
+import userDisplayName from '@/helpers/userDisplayName.js'
 import DialogShare from '@/components/campAdmin/DialogShare.vue'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 import { useToast } from '@/components/toast/useToast.js'

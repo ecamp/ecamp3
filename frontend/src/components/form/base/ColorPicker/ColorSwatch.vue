@@ -13,7 +13,7 @@
   ></v-btn>
 </template>
 <script>
-import { contrastColor } from '@/common/helpers/colors.js'
+import { contrastColor } from '@/helpers/colors.js'
 
 export default {
   name: 'ColorSwatch',

@@ -41,7 +41,7 @@
 <script>
 import UserAvatar from '@/components/user/UserAvatar.vue'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
-import campCollaborationDisplayName from '../../../../common/helpers/campCollaborationDisplayName'
+import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 
 export default {
   name: 'CollaboratorListItem',

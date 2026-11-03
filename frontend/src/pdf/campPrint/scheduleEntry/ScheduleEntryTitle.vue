@@ -50,7 +50,7 @@ import PdfComponent from '@/pdf/PdfComponent.js'
 import CategoryLabel from '../CategoryLabel.vue'
 import Responsibles from '../Responsibles.vue'
 import TocSectionStartMarker from '../TocSectionStartMarker.vue'
-import { dateShort, hourShort } from '../../../common/helpers/dateHelperUTCFormatted.js'
+import { dateShort, hourShort } from '../../../helpers/dateHelperUTCFormatted.js'
 
 export default {
   name: 'ScheduleEntryTitle',

@@ -35,7 +35,7 @@ Displays details on a single camp and allows to edit them.
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import ContentGroup from '@/components/layout/ContentGroup.vue'
 import ApiForm from '@/components/form/api/ApiForm.vue'
-import campShortTitle from '@/common/helpers/campShortTitle.js'
+import campShortTitle from '@/helpers/campShortTitle.js'
 
 export default {
   name: 'CampSettings',

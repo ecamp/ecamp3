@@ -1,9 +1,9 @@
-import { prepareInMainThread } from '@/pdf/prepareInMainThread.js'
+//import { prepareInMainThread } from '@/pdf/prepareInMainThread.js'
 import cloneDeep from 'lodash-es/cloneDeep.js'
 import { proxy } from 'comlink'
 
 export const generatePdf = async (data, onProgress) => {
-  await prepareInMainThread(data.config)
+  //await prepareInMainThread(data.config)
 
   const serializableData = prepareDataForSerialization(data)
 

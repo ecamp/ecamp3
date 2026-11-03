@@ -2225,14 +2225,7 @@
           "id": "filterFieldsByName",
           "options": {
             "include": {
-              "names": [
-                "caddy",
-                "ecamp3-browserless",
-                "ecamp3-frontend",
-                "ecamp3-print",
-                "php",
-                "Time"
-              ]
+              "names": ["caddy", "ecamp3-frontend", "php", "Time"]
             }
           }
         }

@@ -20,7 +20,7 @@ import PdfComponent from '@/pdf/PdfComponent.js'
 import SummaryDay from './SummaryDay.vue'
 import sortBy from 'lodash-es/sortBy.js'
 import camelCase from 'lodash-es/camelCase.js'
-import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
+import { filterMatchScheduleEntry } from '@/helpers/filterMatchScheduleEntry.js'
 import TocSectionStartMarker from '../TocSectionStartMarker.vue'
 
 export default {

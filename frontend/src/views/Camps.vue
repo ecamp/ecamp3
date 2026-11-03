@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import dayjs from '@/common/helpers/dayjs.js'
+import dayjs from '@/helpers/dayjs.js'
 import { isAdmin } from '@/plugins/auth'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'

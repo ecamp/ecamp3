@@ -32,7 +32,7 @@
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
 import ProgramPeriod from './ProgramPeriod.vue'
-import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
+import { filterMatchScheduleEntry } from '@/helpers/filterMatchScheduleEntry.js'
 
 export default {
   name: 'Program',

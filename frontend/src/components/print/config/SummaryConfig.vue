@@ -1,5 +1,5 @@
 <script>
-import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
+import { filterMatchScheduleEntry } from '@/helpers/filterMatchScheduleEntry.js'
 
 export const SUMMARY_CONTENTTYPES = ['Storycontext', 'SafetyConsiderations']
 

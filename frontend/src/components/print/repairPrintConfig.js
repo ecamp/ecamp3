@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash-es'
-import campShortTitle from '@/common/helpers/campShortTitle.js'
+import campShortTitle from '@/helpers/campShortTitle.js'
 
 export default function repairConfig(
   config,

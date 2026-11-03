@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { contrastColor } from '@/common/helpers/colors.js'
+import { contrastColor } from '@/helpers/colors.js'
 import GenericChip from '@/components/generic/GenericChip.vue'
 
 export default {

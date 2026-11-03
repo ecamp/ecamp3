@@ -151,7 +151,7 @@ import BooleanFilter from '@/components/dashboard/BooleanFilter.vue'
 import FilterDivider from '@/components/dashboard/FilterDivider.vue'
 import { mapGetters } from 'vuex'
 import { clone, keyBy, sortBy } from 'lodash-es'
-import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import campCollaborationDisplayName from '@/helpers/campCollaborationDisplayName.js'
 
 function filterEquals(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2)

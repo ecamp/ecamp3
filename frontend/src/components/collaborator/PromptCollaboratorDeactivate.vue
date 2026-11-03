@@ -28,11 +28,11 @@
 
 <script>
 import DialogBase from '@/components/dialog/DialogBase.vue'
-import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import campCollaborationDisplayName from '@/helpers/campCollaborationDisplayName.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import PopoverPrompt from '@/components/prompt/PopoverPrompt.vue'
 import isOwnCampCollaboration from './isOwnCampCollaboration.js'
-import campShortTitle from '@/common/helpers/campShortTitle.js'
+import campShortTitle from '@/helpers/campShortTitle.js'
 import { useToast } from '@/components/toast/useToast.js'
 
 export default {

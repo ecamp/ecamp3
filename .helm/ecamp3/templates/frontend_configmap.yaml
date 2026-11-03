@@ -10,7 +10,6 @@ data:
     window.environment = {
       API_ROOT_URL: '{{ include "api.url" . }}',
       COOKIE_PREFIX: '{{ include "api.cookiePrefix" . }}',
-      PRINT_URL: '{{ include "print.url" . }}',
     {{- if .Values.frontend.sentryDsn }}
       SENTRY_FRONTEND_DSN: '{{ .Values.frontend.sentryDsn }}',
       SENTRY_ENVIRONMENT: '{{ .Values.domain }}',
@@ -24,6 +23,7 @@ data:
       TERMS_OF_SERVICE_LINK_TEMPLATE: '{{ .Values.termsOfServiceLinkTemplate }}',
       NEWS_LINK: '{{ .Values.newsLink }}',
       HELP_LINK: '{{ .Values.helpLink }}',
+      CONTACT_LINK: '{{ .Values.contactLink }}',
     {{- if .Values.recaptcha.siteKey }}
       RECAPTCHA_SITE_KEY: '{{ .Values.recaptcha.siteKey }}',
     {{- else }}

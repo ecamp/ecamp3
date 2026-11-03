@@ -57,7 +57,7 @@
 
 <script>
 import { materialListRoute } from '@/router.js'
-import materialListsSorted from '@/common/helpers/materialListsSorted.js'
+import materialListsSorted from '@/helpers/materialListsSorted.js'
 
 export default {
   name: 'MaterialLists',

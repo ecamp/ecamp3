@@ -31,7 +31,7 @@ import {
   dayStart,
   dayEnd,
   positionStyles,
-} from '../../../common/helpers/picasso.js'
+} from './helpers.js'
 
 export default {
   name: 'DayColumn',
