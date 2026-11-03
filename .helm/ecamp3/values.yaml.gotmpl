@@ -109,47 +109,6 @@ frontend:
       memory: {{ .Environment.Values | getOrNil "FRONTEND_MEMORY" | default "10Mi" | quote }}
   loginInfoTextKey: {{ .Environment.Values | get "LOGIN_INFO_TEXT_KEY" | default "prod" | quote }}
 
-print:
-  subpath: "/print"
-  gateway:
-    readTimeoutSeconds: {{ .Environment.Values | getOrNil "PRINT_GATEWAY_READ_TIMEOUT_SECONDS" | quote }}
-  image:
-    repository: "docker.io/{{ $dockerUser }}/ecamp3-print"
-    pullPolicy: IfNotPresent
-    # Overrides the image tag whose shared default is .Values.imageTag
-    tag:
-  sentryDsn: {{ .Environment.Values | getOrNil "PRINT_SENTRY_DSN" | quote }}
-  browserWsEndpoint: {{ .Environment.Values | getOrNil "BROWSER_WS_ENDPOINT" | quote }}
-  service:
-    type: ClusterIP
-    port: 3003
-  replicaCount: 1
-  renderHTMLTimeoutMs: {{ .Environment.Values | getOrNil "PRINT_RENDER_HTML_TIMEOUT_MS" }}
-  renderPDFTimeoutMs: {{ .Environment.Values | getOrNil "PRINT_RENDER_PDF_TIMEOUT_MS" }}
-  resources:
-    requests:
-      cpu: {{ .Environment.Values | getOrNil "PRINT_CPU" | default "300m" | quote }}
-      memory: {{ .Environment.Values | getOrNil "PRINT_MEMORY" | default "150Mi" | quote }}
-
-browserless:
-  enabled: true
-  domain:
-  image:
-    repository: "ghcr.io/browserless/chromium"
-    pullPolicy: IfNotPresent
-    # renovate: datasource=docker depName=ghcr.io/browserless/chromium
-    tag: "v2.38.2"
-  service:
-    type: ClusterIP
-    port: 3000
-  maxConcurrentSessions: {{ .Environment.Values | getOrNil "BROWSERLESS_MAXCONCURRENTSESSIONS" | default 1 }}
-  connectionTimeout: {{ .Environment.Values | getOrNil "BROWSERLESS_CONNECTION_TIMEOUT_MS" | default "30000" | quote }}
-  maxQueueLength: {{ .Environment.Values | getOrNil "BROWSERLESS_MAXQUEUELENGTH" | default 5 }}
-  resources:
-    requests:
-      cpu: {{ .Environment.Values | getOrNil "BROWSERLESS_CPU" | default "500m" }}
-      memory: {{ .Environment.Values | getOrNil "BROWSERLESS_MEMORY" | default "800Mi" }}
-
 mail:
   dummyEnabled: {{ not (.Environment.Values | getOrNil "MAILER_DSN") }}
   # If using a real mail server, the connection uri to send emails to
