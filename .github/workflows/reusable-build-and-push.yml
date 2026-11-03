@@ -218,7 +218,6 @@ jobs:
               "SENTRY_AUTH_TOKEN" : "${{ secrets.SENTRY_AUTH_TOKEN }}",
               "SENTRY_FRONTEND_PROJECT" : "${{ vars.SENTRY_FRONTEND_PROJECT }}",
               "SENTRY_ORG" : "${{ vars.SENTRY_ORG }}",
-              "SENTRY_PRINT_PROJECT" : "${{ vars.SENTRY_PRINT_PROJECT }}",
               "SENTRY_RELEASE_NAME" : "${{ inputs.sha }}",
             }
             const args = JSON.parse(`${{ toJSON(matrix.build-config.args) }}`)
