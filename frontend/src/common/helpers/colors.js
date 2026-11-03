@@ -83,4 +83,11 @@ function campCollaborationColor(campCollaboration) {
   }
 }
 
-export { contrastColor, lighten, defaultColor, userColor, campCollaborationColor, idToColor }
+export {
+  contrastColor,
+  lighten,
+  defaultColor,
+  userColor,
+  campCollaborationColor,
+  idToColor,
+}

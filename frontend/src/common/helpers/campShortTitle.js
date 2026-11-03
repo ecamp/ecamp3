@@ -27,20 +27,21 @@ const ADDITIONAL_SHORTNERS = [
     text: '$1$2La',
   },
   {
-    regex: /Campo? (.*? ?)(?:(?: ?d[ei] )?(Pentec[ôo]te|Pentecoste|primavera|printemps|p[âa]ques|pasqua)|(?:d')?([ée]t[eé]|automne|hiver)|(estivo|autunnale|invernale)|(?:de[l ]l[' ])?(Ascensione?))? (.*? ?)*?((?:19|20)\d{2})?/gi,
+    regex:
+      /Campo? (.*? ?)(?:(?: ?d[ei] )?(Pentec[ôo]te|Pentecoste|primavera|printemps|p[âa]ques|pasqua)|(?:d')?([ée]t[eé]|automne|hiver)|(estivo|autunnale|invernale)|(?:de[l ]l[' ])?(Ascensione?))? (.*? ?)*?((?:19|20)\d{2})?/gi,
     text: '$2$3$4$5 $1$6$7',
   },
-  { regex: /\bPrintemps/gi, text: 'Prt', },
-  { regex: /\bPrimavera/gi, text: 'Prim', },
-  { regex: /\bP[aâ]ques/gi, text: 'Pâq', },
-  { regex: /\bPasqua/gi, text: 'Pas', },
-  { regex: /\bAutomne/gi, text: 'Aut', },
-  { regex: /\bAutunno/gi, text: 'Aut', },
-  { regex: /\bHiver/gi, text: 'Hiv', },
-  { regex: /\bInverno/gi, text: 'Inv', },
-  { regex: /\bPentec[oô]s?te/gi, text: 'Pent', },
-  { regex: /\bAscensione?/gi, text: 'Asc', },
-  { regex: /\bEstate/gi, text: 'Est', },
+  { regex: /\bPrintemps/gi, text: 'Prt' },
+  { regex: /\bPrimavera/gi, text: 'Prim' },
+  { regex: /\bP[aâ]ques/gi, text: 'Pâq' },
+  { regex: /\bPasqua/gi, text: 'Pas' },
+  { regex: /\bAutomne/gi, text: 'Aut' },
+  { regex: /\bAutunno/gi, text: 'Aut' },
+  { regex: /\bHiver/gi, text: 'Hiv' },
+  { regex: /\bInverno/gi, text: 'Inv' },
+  { regex: /\bPentec[oô]s?te/gi, text: 'Pent' },
+  { regex: /\bAscensione?/gi, text: 'Asc' },
+  { regex: /\bEstate/gi, text: 'Est' },
 
   { regex: /\b(?:und|et?)\b/g, text: '&' },
   { regex: /\b(?:19|20)(\d{2})\b/g, text: '$1' },
@@ -48,7 +49,11 @@ const ADDITIONAL_SHORTNERS = [
 ]
 
 function campShortTitle(camp) {
-  if (camp?.shortTitle != null && camp.shortTitle !== '' && typeof camp.shortTitle !== 'symbol') {
+  if (
+    camp?.shortTitle != null &&
+    camp.shortTitle !== '' &&
+    typeof camp.shortTitle !== 'symbol'
+  ) {
     return `${camp.shortTitle}`.substring(0, 16)
   }
 

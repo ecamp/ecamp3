@@ -49,7 +49,7 @@ const tcMockString = (string) => {
   }
 }
 
-describe.skip('timeDurationShort', function() {
+describe.skip('timeDurationShort', function () {
   it.each([
     ['only day(s)', '1d', '2020-06-07T10:00:00.000Z', '2020-06-08T10:00:00.000Z'],
     ['only hour(s)', '1h', '2020-06-07T10:00:00.000Z', '2020-06-07T11:00:00.000Z'],
@@ -121,10 +121,9 @@ describe.each([
   ['dateShort', dateShort, 'Tu 1.1.'],
   ['dateLong', dateLong, 'Tu 01/01/2019'],
   ['hourShort', hourShort, '20:00'],
-  ['hourLong', hourLong, '20:00']])('%s', (name, func, expected) => {
+  ['hourLong', hourLong, '20:00'],
+])('%s', (name, func, expected) => {
   it('should format dateTime', () => {
-    expect(
-      func('2019-01-01T20:00:00.000Z', tcMock)
-    ).toEqual(expected)
+    expect(func('2019-01-01T20:00:00.000Z', tcMock)).toEqual(expected)
   })
 })

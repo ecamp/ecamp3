@@ -15,16 +15,12 @@ const filterMatchScheduleEntry = (scheduleEntry, filter, context = {}) => {
     (filter.day === null ||
       filter.day === undefined ||
       filter.day.length === 0 ||
-      filter.day.includes(
-        scheduleEntry.day()._meta.self
-      )) &&
+      filter.day.includes(scheduleEntry.day()._meta.self)) &&
     // filter by categories: OR filter
     (filter.category === null ||
       filter.category === undefined ||
       filter.category.length === 0 ||
-      filter.category.includes(
-        scheduleEntry.activity().category()._meta.self
-      )) &&
+      filter.category.includes(scheduleEntry.activity().category()._meta.self)) &&
     // filter by responsibles: AND filter
     (filter.responsible === null ||
       filter.responsible === undefined ||

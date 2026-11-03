@@ -39,10 +39,10 @@ export const dayjsLocaleMap = {
 }
 
 export function toDayjsLocale(locale) {
-  const twoLetterLocale = locale.substring(0, 2);
+  const twoLetterLocale = locale.substring(0, 2)
   return Object.keys(dayjsLocaleMap).includes(twoLetterLocale)
     ? dayjsLocaleMap[twoLetterLocale]
-    : locale;
+    : locale
 }
 
 /**

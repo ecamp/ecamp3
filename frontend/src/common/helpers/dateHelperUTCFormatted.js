@@ -27,18 +27,18 @@ function timeDurationShort(start, end, tc) {
 function durationShort(duration, tc) {
   return tc(
     Math.abs(duration.asDays()) >= 1
-        ? duration.hours() === 0
-          ? duration.minutes() === 0
-            ? 'global.datetime.duration.daysOnly'
-            : 'global.datetime.duration.daysAndMinutes'
-          : duration.minutes() === 0
-            ? 'global.datetime.duration.daysAndHours'
-            : 'global.datetime.duration.daysAndHoursAndMinutes'
-        : Math.abs(duration.asMinutes()) < 60
-          ? 'global.datetime.duration.minutesOnly'
-          : duration.minutes() === 0
-            ? 'global.datetime.duration.hoursOnly'
-            : 'global.datetime.duration.hoursAndMinutes',
+      ? duration.hours() === 0
+        ? duration.minutes() === 0
+          ? 'global.datetime.duration.daysOnly'
+          : 'global.datetime.duration.daysAndMinutes'
+        : duration.minutes() === 0
+          ? 'global.datetime.duration.daysAndHours'
+          : 'global.datetime.duration.daysAndHoursAndMinutes'
+      : Math.abs(duration.asMinutes()) < 60
+        ? 'global.datetime.duration.minutesOnly'
+        : duration.minutes() === 0
+          ? 'global.datetime.duration.hoursOnly'
+          : 'global.datetime.duration.hoursAndMinutes',
     {
       days: Math.floor(duration.asDays()),
       hours: duration.hours(),

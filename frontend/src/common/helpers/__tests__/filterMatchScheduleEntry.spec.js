@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from 'vitest'
 import { filterMatchScheduleEntry } from '../filterMatchScheduleEntry.js'
 
 const scheduleEntry = {
@@ -9,11 +9,15 @@ const scheduleEntry = {
     category: () => ({ _meta: { self: '/categories/1a2b3c4d' } }),
     activityResponsibles: () => ({
       items: [
-        { campCollaboration: () => ({ _meta: { self: '/camp_collaborations/1a2b3c4d' } }) },
-        { campCollaboration: () => ({ _meta: { self: '/camp_collaborations/ffffffff' } }) },
-      ]
+        {
+          campCollaboration: () => ({ _meta: { self: '/camp_collaborations/1a2b3c4d' } }),
+        },
+        {
+          campCollaboration: () => ({ _meta: { self: '/camp_collaborations/ffffffff' } }),
+        },
+      ],
     }),
-    progressLabel: () => ({ _meta: { self: '/progress_labels/1a2b3c4d' } })
+    progressLabel: () => ({ _meta: { self: '/progress_labels/1a2b3c4d' } }),
   }),
 }
 
@@ -48,10 +52,22 @@ describe('filterMatchScheduleEntry', () => {
     [{ responsible: null }, true],
     [{ responsible: ['/camp_collaborations/1a2b3c4d'] }, true],
     [{ responsible: ['/camp_collaborations/00000000'] }, false],
-    [{ responsible: ['/camp_collaborations/1a2b3c4d', '/camp_collaborations/00000000'] }, false],
-    [{ responsible: ['/camp_collaborations/00000000', '/camp_collaborations/1a2b3c4d'] }, false],
-    [{ responsible: ['/camp_collaborations/1a2b3c4d', '/camp_collaborations/ffffffff'] }, true],
-    [{ responsible: ['/camp_collaborations/ffffffff', '/camp_collaborations/1a2b3c4d'] }, true],
+    [
+      { responsible: ['/camp_collaborations/1a2b3c4d', '/camp_collaborations/00000000'] },
+      false,
+    ],
+    [
+      { responsible: ['/camp_collaborations/00000000', '/camp_collaborations/1a2b3c4d'] },
+      false,
+    ],
+    [
+      { responsible: ['/camp_collaborations/1a2b3c4d', '/camp_collaborations/ffffffff'] },
+      true,
+    ],
+    [
+      { responsible: ['/camp_collaborations/ffffffff', '/camp_collaborations/1a2b3c4d'] },
+      true,
+    ],
     [{ progressLabel: undefined }, true],
     [{ progressLabel: null }, true],
     [{ progressLabel: '/progress_labels/1a2b3c4d' }, true],
@@ -60,83 +76,116 @@ describe('filterMatchScheduleEntry', () => {
     [{ progressLabel: ['/progress_labels/00000000'] }, false],
     [{ progressLabel: ['/progress_labels/1a2b3c4d', '/progress_labels/00000000'] }, true],
     [{ progressLabel: ['/progress_labels/00000000', '/progress_labels/1a2b3c4d'] }, true],
-    [{
-      period: '/periods/1a2b3c4d',
-      day: ['/days/1a2b3c4d'],
-      category: ['/categories/1a2b3c4d'],
-      responsible: ['/camp_collaborations/1a2b3c4d'],
-      progressLabel: ['/progress_labels/1a2b3c4d'],
-    }, true],
-    [{
-      period: null,
-      day: ['/days/1a2b3c4d'],
-      category: ['/categories/1a2b3c4d'],
-      responsible: ['/camp_collaborations/1a2b3c4d'],
-      progressLabel: ['/progress_labels/1a2b3c4d'],
-    }, true],
-    [{
-      period: '/periods/1a2b3c4d',
-      day: null,
-      category: ['/categories/1a2b3c4d'],
-      responsible: ['/camp_collaborations/1a2b3c4d'],
-      progressLabel: ['/progress_labels/1a2b3c4d'],
-    }, true],
-    [{
-      period: '/periods/1a2b3c4d',
-      day: ['/days/1a2b3c4d'],
-      category: null,
-      responsible: ['/camp_collaborations/1a2b3c4d'],
-      progressLabel: ['/progress_labels/1a2b3c4d'],
-    }, true],
-    [{
-      period: '/periods/1a2b3c4d',
-      day: ['/days/1a2b3c4d'],
-      category: ['/categories/1a2b3c4d'],
-      responsible: null,
-      progressLabel: ['/progress_labels/1a2b3c4d'],
-    }, true],
-    [{
-      period: '/periods/1a2b3c4d',
-      day: ['/days/1a2b3c4d'],
-      category: ['/categories/1a2b3c4d'],
-      responsible: ['/camp_collaborations/1a2b3c4d'],
-      progressLabel: null,
-    }, true],
-    [{
-      period: '/periods/00000000',
-      day: ['/days/1a2b3c4d'],
-      category: ['/categories/1a2b3c4d'],
-      responsible: ['/camp_collaborations/1a2b3c4d'],
-      progressLabel: ['/progress_labels/1a2b3c4d'],
-    }, false],
-    [{
-      period: '/periods/1a2b3c4d',
-      day: ['/days/00000000'],
-      category: ['/categories/1a2b3c4d'],
-      responsible: ['/camp_collaborations/1a2b3c4d'],
-      progressLabel: ['/progress_labels/1a2b3c4d'],
-    }, false],
-    [{
-      period: '/periods/1a2b3c4d',
-      day: ['/days/1a2b3c4d'],
-      category: ['/categories/00000000'],
-      responsible: ['/camp_collaborations/1a2b3c4d'],
-      progressLabel: ['/progress_labels/1a2b3c4d'],
-    }, false],
-    [{
-      period: '/periods/1a2b3c4d',
-      day: ['/days/1a2b3c4d'],
-      category: ['/categories/1a2b3c4d'],
-      responsible: ['/camp_collaborations/00000000'],
-      progressLabel: ['/progress_labels/1a2b3c4d'],
-    }, false],
-    [{
-      period: '/periods/1a2b3c4d',
-      day: ['/days/1a2b3c4d'],
-      category: ['/categories/1a2b3c4d'],
-      responsible: ['/camp_collaborations/1a2b3c4d'],
-      progressLabel: ['/progress_labels/00000000'],
-    }, false],
+    [
+      {
+        period: '/periods/1a2b3c4d',
+        day: ['/days/1a2b3c4d'],
+        category: ['/categories/1a2b3c4d'],
+        responsible: ['/camp_collaborations/1a2b3c4d'],
+        progressLabel: ['/progress_labels/1a2b3c4d'],
+      },
+      true,
+    ],
+    [
+      {
+        period: null,
+        day: ['/days/1a2b3c4d'],
+        category: ['/categories/1a2b3c4d'],
+        responsible: ['/camp_collaborations/1a2b3c4d'],
+        progressLabel: ['/progress_labels/1a2b3c4d'],
+      },
+      true,
+    ],
+    [
+      {
+        period: '/periods/1a2b3c4d',
+        day: null,
+        category: ['/categories/1a2b3c4d'],
+        responsible: ['/camp_collaborations/1a2b3c4d'],
+        progressLabel: ['/progress_labels/1a2b3c4d'],
+      },
+      true,
+    ],
+    [
+      {
+        period: '/periods/1a2b3c4d',
+        day: ['/days/1a2b3c4d'],
+        category: null,
+        responsible: ['/camp_collaborations/1a2b3c4d'],
+        progressLabel: ['/progress_labels/1a2b3c4d'],
+      },
+      true,
+    ],
+    [
+      {
+        period: '/periods/1a2b3c4d',
+        day: ['/days/1a2b3c4d'],
+        category: ['/categories/1a2b3c4d'],
+        responsible: null,
+        progressLabel: ['/progress_labels/1a2b3c4d'],
+      },
+      true,
+    ],
+    [
+      {
+        period: '/periods/1a2b3c4d',
+        day: ['/days/1a2b3c4d'],
+        category: ['/categories/1a2b3c4d'],
+        responsible: ['/camp_collaborations/1a2b3c4d'],
+        progressLabel: null,
+      },
+      true,
+    ],
+    [
+      {
+        period: '/periods/00000000',
+        day: ['/days/1a2b3c4d'],
+        category: ['/categories/1a2b3c4d'],
+        responsible: ['/camp_collaborations/1a2b3c4d'],
+        progressLabel: ['/progress_labels/1a2b3c4d'],
+      },
+      false,
+    ],
+    [
+      {
+        period: '/periods/1a2b3c4d',
+        day: ['/days/00000000'],
+        category: ['/categories/1a2b3c4d'],
+        responsible: ['/camp_collaborations/1a2b3c4d'],
+        progressLabel: ['/progress_labels/1a2b3c4d'],
+      },
+      false,
+    ],
+    [
+      {
+        period: '/periods/1a2b3c4d',
+        day: ['/days/1a2b3c4d'],
+        category: ['/categories/00000000'],
+        responsible: ['/camp_collaborations/1a2b3c4d'],
+        progressLabel: ['/progress_labels/1a2b3c4d'],
+      },
+      false,
+    ],
+    [
+      {
+        period: '/periods/1a2b3c4d',
+        day: ['/days/1a2b3c4d'],
+        category: ['/categories/1a2b3c4d'],
+        responsible: ['/camp_collaborations/00000000'],
+        progressLabel: ['/progress_labels/1a2b3c4d'],
+      },
+      false,
+    ],
+    [
+      {
+        period: '/periods/1a2b3c4d',
+        day: ['/days/1a2b3c4d'],
+        category: ['/categories/1a2b3c4d'],
+        responsible: ['/camp_collaborations/1a2b3c4d'],
+        progressLabel: ['/progress_labels/00000000'],
+      },
+      false,
+    ],
     [{ hasComments: undefined }, true],
     [{ hasComments: false }, true],
     [{ hasComments: true }, false],
@@ -151,8 +200,16 @@ describe('filterMatchScheduleEntry', () => {
       [{ hasComments: false }, { activitiesWithComments: new Map() }, true],
       [{ hasComments: true }, {}, false],
       [{ hasComments: true }, { activitiesWithComments: new Map() }, false],
-      [{ hasComments: true }, { activitiesWithComments: new Map([['/activities/00000000', 1]]) }, false],
-      [{ hasComments: true }, { activitiesWithComments: new Map([['/activities/1a2b3c4d', 2]]) }, true],
+      [
+        { hasComments: true },
+        { activitiesWithComments: new Map([['/activities/00000000', 1]]) },
+        false,
+      ],
+      [
+        { hasComments: true },
+        { activitiesWithComments: new Map([['/activities/1a2b3c4d', 2]]) },
+        true,
+      ],
     ])('maps %o with context %o to %s', (filter, context, expected) => {
       expect(filterMatchScheduleEntry(scheduleEntry, filter, context)).toEqual(expected)
     })

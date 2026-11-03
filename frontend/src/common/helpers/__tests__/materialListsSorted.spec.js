@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from 'vitest'
 import materialListsSorted from '../materialListsSorted.js'
 
 describe('materialListsSorted', () => {
