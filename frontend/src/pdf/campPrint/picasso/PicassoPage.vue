@@ -85,7 +85,7 @@ import DayColumn from './DayColumn.vue'
 import Categories from './Categories.vue'
 import PicassoFooter from './PicassoFooter.vue'
 import { filterDayResponsiblesByDay } from '@/helpers/dayResponsibles.js'
-import { times } from '@/helpers/picasso.js'
+import { times } from './helpers.js'
 import { filterMatchScheduleEntry } from '@/helpers/filterMatchScheduleEntry.js'
 import TocSectionStartMarker from '../TocSectionStartMarker.vue'
 

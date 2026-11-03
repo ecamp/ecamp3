@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { splitDaysIntoPages, calculateBedtime } from '../picasso.js'
+import { splitDaysIntoPages, calculateBedtime } from '../helpers.js'
 import dayjs from '@/helpers/dayjs.js'
 
 describe('splitPicassoIntoPages', () => {

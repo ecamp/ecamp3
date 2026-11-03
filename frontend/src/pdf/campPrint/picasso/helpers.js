@@ -1,9 +1,9 @@
 import { minBy, maxBy, sortBy, keyBy } from 'lodash-es'
-import dayjs from './dayjs.js'
+import dayjs from '@/helpers/dayjs.js'
 import { arrange } from './scheduleEntryLayout.js'
 
 /**
- * @typedef {import('./dayjs.js').dayjs} Dayjs
+ * @typedef {import('@/helpers/dayjs.js').dayjs} Dayjs
  */
 
 /**
@@ -274,12 +274,13 @@ export function positionPercentage(milliseconds, times) {
 }
 
 export function filterScheduleEntriesByDay(scheduleEntries, day, times) {
-  return scheduleEntries.filter((scheduleEntry) => {
-    return (
-      dayjs.utc(scheduleEntry.start).isBefore(dayEnd(day, times)) &&
-      dayjs.utc(scheduleEntry.end).isAfter(dayStart(day, times))
-    )
-  })
+  const startOfDay = dayStart(day, times)
+  const endOfDay = dayEnd(day, times)
+  return scheduleEntries.filter(
+    (scheduleEntry) =>
+      dayjs.utc(scheduleEntry.start).isBefore(endOfDay) &&
+      dayjs.utc(scheduleEntry.end).isAfter(startOfDay)
+  )
 }
 
 /**
