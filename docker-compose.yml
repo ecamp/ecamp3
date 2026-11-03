@@ -28,7 +28,6 @@ services:
     volumes:
       - ./.prettierrc:/.prettierrc:delegated
       - ./frontend-old:/app:delegated
-      - ./common:/common:delegated
       #- ./pdf:/pdf:delegated
       - ./.cache/npm:/tmp/.npm:delegated
     environment:
