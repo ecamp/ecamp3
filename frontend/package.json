@@ -108,7 +108,7 @@
     "@vue/server-renderer": "3.5.44",
     "@vue/shared": "3.5.44",
     "@vue/test-utils": "2.5.1",
-    "autoprefixer": "10.6.1",
+    "autoprefixer": "10.6.2",
     "esbuild": "0.28.2",
     "eslint": "10.13.0",
     "eslint-config-prettier": "10.1.8",
