@@ -16,6 +16,42 @@ use Symfony\Component\Filesystem\Filesystem;
  * @internal
  */
 class ImageStorageTest extends TestCase {
+    public function testLocalDeletionIsRepeatableAndUsesTheConfiguredPrefix(): void {
+        $directory = sys_get_temp_dir().'/image-storage-'.bin2hex(random_bytes(8));
+        $storage = new LocalImageStorage($directory, 'branch/');
+        $image = new ProcessedImage('delete image', 12, 6);
+        $blob = new ImageBlob();
+        $blob->sha256 = $image->sha256;
+
+        try {
+            $storage->store($image);
+            $storage->delete($blob);
+            $storage->delete($blob);
+            self::assertFileDoesNotExist($directory.'/branch/images/'.$blob->sha256);
+        } finally {
+            new Filesystem()->remove($directory);
+        }
+    }
+
+    public function testS3DeletionUsesTheConfiguredBucketAndPrefix(): void {
+        $handler = new MockHandler([new Result()]);
+        $client = new S3Client([
+            'version' => '2006-03-01',
+            'region' => 'eu-central-1',
+            'credentials' => ['key' => 'test', 'secret' => 'test'],
+            'handler' => $handler,
+        ]);
+        $blob = new ImageBlob();
+        $blob->sha256 = hash('sha256', 'delete image');
+
+        new S3ImageStorage($client, 'preview', 'branch/')->delete($blob);
+
+        $command = $handler->getLastCommand();
+        self::assertSame('DeleteObject', $command->getName());
+        self::assertSame('preview', $command['Bucket']);
+        self::assertSame('branch/images/'.$blob->sha256, $command['Key']);
+    }
+
     public function testS3DeliveryUsesAShortLivedSignedUrlWithoutDownloading(): void {
         $client = new S3Client([
             'version' => '2006-03-01',

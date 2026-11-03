@@ -1,0 +1,55 @@
+{{- if .Values.api.imageCleanup.enabled }}
+{{- if and (eq .Values.api.imageStorage.driver "local") (not .Values.api.imageStorage.existingClaim) }}
+{{- fail "Image cleanup with local storage requires IMAGE_STORAGE_EXISTING_CLAIM shared with the API." }}
+{{- end }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "api.name" . }}-image-cleanup
+  labels:
+    {{- include "app.commonLabels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.api.imageCleanup.schedule | quote }}
+  timeZone: {{ .Values.api.imageCleanup.timeZone | quote }}
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      template:
+        spec:
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          serviceAccountName: {{ include "app.serviceAccountName" . }}
+          securityContext:
+            {{- toYaml .Values.podSecurityContext | nindent 12 }}
+          enableServiceLinks: false
+          restartPolicy: Never
+          containers:
+            - name: image-cleanup
+              {{- include "api.container" . | nindent 4 }}
+              command: ["/bin/sh", "-ec"]
+              args:
+                - |
+                  php bin/console app:cleanup-camp-images --no-interaction
+                  php bin/console app:cleanup-image-blobs --no-interaction
+              resources:
+                {{- toYaml .Values.api.resources | nindent 16 }}
+          volumes:
+            - name: jwt-keypair
+              secret:
+                secretName: {{ include "api.name" . }}
+                items:
+                  - key: jwt-public-key
+                    path: public.pem
+                  - key: jwt-private-key
+                    path: private.pem
+            {{- if .Values.api.imageStorage.existingClaim }}
+            - name: image-data
+              persistentVolumeClaim:
+                claimName: {{ .Values.api.imageStorage.existingClaim | quote }}
+            {{- end }}
+{{- end }}

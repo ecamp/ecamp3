@@ -92,6 +92,8 @@ class CampImageCopyServiceTest extends TestCase {
     }
 
     public function testKeepsReferencesWithinTheSameCampUnchanged(): void {
+        $this->source->unreferencedSince = new \DateTime();
+        $this->source->imageBlob->unreferencedSince = new \DateTime();
         $map = new EntityMap($this->source->camp);
         $html = '<p><img src="'.$this->sourceUrl().'" alt="" /></p>';
         $node = $this->addNote($map, $html);
@@ -100,6 +102,8 @@ class CampImageCopyServiceTest extends TestCase {
         $this->service->copy($map);
 
         self::assertSame($html, $node->data['html']);
+        self::assertNull($this->source->unreferencedSince);
+        self::assertNull($this->source->imageBlob->unreferencedSince);
     }
 
     public function testAllowsReadingPublicImagesWithoutCollaboration(): void {

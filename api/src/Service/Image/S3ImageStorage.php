@@ -21,6 +21,13 @@ final readonly class S3ImageStorage implements ImageStorage {
         ]);
     }
 
+    public function delete(ImageBlob $image): void {
+        $this->client->deleteObject([
+            'Bucket' => $this->bucket,
+            'Key' => ltrim(trim($this->prefix, '/').'/images/'.$image->sha256, '/'),
+        ]);
+    }
+
     public function getDeliveryHeaders(ImageBlob $image, bool $head = false): array {
         $command = $this->client->getCommand($head ? 'HeadObject' : 'GetObject', [
             'Bucket' => $this->bucket,

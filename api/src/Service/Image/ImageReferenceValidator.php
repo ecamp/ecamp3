@@ -17,11 +17,14 @@ final readonly class ImageReferenceValidator {
         }
         $document = HTMLDocument::createFromString($html, LIBXML_NOERROR, 'UTF-8');
         foreach ($document->getElementsByTagName('img') as $image) {
+            $campImage = null;
             if (null === $camp || !preg_match('~^/(?:api/)?camps/([0-9a-f]{12,16})/images/([0-9a-f]{12,16})$~D', $image->getAttribute('src'), $match)
                 || $match[1] !== $camp->getId()
-                || null === $this->em->getRepository(CampImage::class)->findOneBy(['id' => $match[2], 'camp' => $camp])) {
+                || null === $campImage = $this->em->getRepository(CampImage::class)->findOneBy(['id' => $match[2], 'camp' => $camp])) {
                 throw new UnprocessableEntityHttpException('Images must belong to this camp.');
             }
+            $campImage->unreferencedSince = null;
+            $campImage->imageBlob->unreferencedSince = null;
         }
     }
 }

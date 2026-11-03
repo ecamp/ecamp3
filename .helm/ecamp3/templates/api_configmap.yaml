@@ -6,6 +6,15 @@ metadata:
     {{- include "api.selectorLabels" . | nindent 4 }}
     {{- include "app.commonLabels" . | nindent 4 }}
 data:
+  CAMP_IMAGE_RETENTION_DAYS: {{ .Values.api.imageCleanup.campImageRetentionDays | quote }}
+  IMAGE_BLOB_RETENTION_DAYS: {{ .Values.api.imageCleanup.imageBlobRetentionDays | quote }}
+  IMAGE_STORAGE: {{ .Values.api.imageStorage.driver | quote }}
+  IMAGE_STORAGE_PATH: "/app/var/images"
+  IMAGE_STORAGE_PREFIX: {{ .Values.api.imageStorage.prefix | quote }}
+  IMAGE_STORAGE_BUCKET: {{ .Values.api.imageStorage.bucket | quote }}
+  IMAGE_STORAGE_ENDPOINT: {{ .Values.api.imageStorage.endpoint | quote }}
+  IMAGE_STORAGE_REGION: {{ .Values.api.imageStorage.region | quote }}
+  IMAGE_STORAGE_PATH_STYLE: {{ .Values.api.imageStorage.pathStyle | quote }}
   ADDITIONAL_TRUSTED_HOSTS: {{ .Values.domain | quote }}
   {{- if and (.Values.api.authenticationTokenTtl) (ne (.Values.api.authenticationTokenTtl | toString) "<no value>") }}
   AUTHENTICATION_TOKEN_TTL: {{ .Values.api.authenticationTokenTtl | quote }}

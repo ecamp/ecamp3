@@ -37,7 +37,24 @@ Files use `images/{sha256}` below this prefix. The hash is calculated from the
 converted bytes. Repeated uploads reuse the global blob and its camp association.
 Changing storage configuration does not migrate existing files. Storage writes
 cannot be rolled back with database transactions; failed transactions can leave
-unreferenced files. No automatic file deletion is enabled.
+unreferenced files without a database record; these are not covered by cleanup.
+
+### Image cleanup
+
+Run `app:cleanup-camp-images` followed by `app:cleanup-image-blobs` using `php bin/console`.
+Each command marks unused records, clears the timestamp of referenced records and
+deletes records whose unused period exceeds the configured retention.
+`CAMP_IMAGE_RETENTION_DAYS` and `IMAGE_BLOB_RETENTION_DAYS` must be positive integers
+and default to 7. The blob retention period starts when its last camp image is gone.
+Blob cleanup also removes the stored file; storage failures retain the database
+record for a subsequent attempt. Both commands report their changes.
+
+The Helm CronJob is enabled with `IMAGE_CLEANUP_ENABLED=true`. Its defaults are
+`IMAGE_CLEANUP_SCHEDULE="0 3 * * *"` and `IMAGE_CLEANUP_TIME_ZONE="Europe/Zurich"`.
+It runs both commands sequentially. For local storage, `IMAGE_STORAGE_EXISTING_CLAIM`
+must name a persistent volume claim accessible to the API and cleanup pods.
+For S3, `IMAGE_STORAGE_CREDENTIALS_SECRET` can name a Secret containing AWS credential
+environment variables; workload credentials from the AWS SDK chain also work.
 
 ### Manually using the API without a browser
 

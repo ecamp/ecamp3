@@ -26,6 +26,21 @@ featureToggle:
   hitobito: {{ .Environment.Values | getOrNil "FEATURE_HITOBITO" | default false }}
 
 api:
+  imageCleanup:
+    enabled: {{ .Environment.Values | getOrNil "IMAGE_CLEANUP_ENABLED" | default false }}
+    schedule: {{ .Environment.Values | getOrNil "IMAGE_CLEANUP_SCHEDULE" | default "0 3 * * *" | quote }}
+    timeZone: {{ .Environment.Values | getOrNil "IMAGE_CLEANUP_TIME_ZONE" | default "Europe/Zurich" | quote }}
+    campImageRetentionDays: {{ .Environment.Values | get "CAMP_IMAGE_RETENTION_DAYS" 7 }}
+    imageBlobRetentionDays: {{ .Environment.Values | get "IMAGE_BLOB_RETENTION_DAYS" 7 }}
+  imageStorage:
+    driver: {{ .Environment.Values | getOrNil "IMAGE_STORAGE" | default "local" | quote }}
+    existingClaim: {{ .Environment.Values | getOrNil "IMAGE_STORAGE_EXISTING_CLAIM" | default "" | quote }}
+    prefix: {{ .Environment.Values | getOrNil "IMAGE_STORAGE_PREFIX" | default "" | quote }}
+    bucket: {{ .Environment.Values | getOrNil "IMAGE_STORAGE_BUCKET" | default "" | quote }}
+    endpoint: {{ .Environment.Values | getOrNil "IMAGE_STORAGE_ENDPOINT" | default "" | quote }}
+    region: {{ .Environment.Values | getOrNil "IMAGE_STORAGE_REGION" | default "eu-central-1" | quote }}
+    pathStyle: {{ .Environment.Values | getOrNil "IMAGE_STORAGE_PATH_STYLE" | default false }}
+    credentialsSecret: {{ .Environment.Values | getOrNil "IMAGE_STORAGE_CREDENTIALS_SECRET" | default "" | quote }}
   authenticationTokenTtl: {{ .Environment.Values | getOrNil "API_AUTHENTICATION_TOKEN_TTL" }}
   dataMigrationsDir: {{ .Environment.Values | getOrNil "API_DATA_MIGRATIONS_DIR" | default "prod-data" }}
   subpath: "/api"

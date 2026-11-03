@@ -23,7 +23,10 @@ final readonly class CampImageCopyService {
         $targetCamp = $entityMap->getTargetCamp();
         $images = [];
         foreach ($entityMap->getEntities() as $entity) {
-            if (!$entity instanceof SingleText || !str_contains($entity->data['html'], '<img')) {
+            if (!$entity instanceof SingleText) {
+                continue;
+            }
+            if (!str_contains($entity->data['html'], '<img')) {
                 continue;
             }
 
@@ -41,6 +44,9 @@ final readonly class CampImageCopyService {
                     throw new AccessDeniedHttpException('Access to the source image is denied.');
                 }
                 if ($source->camp->getId() === $targetCamp->getId()) {
+                    $source->unreferencedSince = null;
+                    $source->imageBlob->unreferencedSince = null;
+
                     continue;
                 }
 

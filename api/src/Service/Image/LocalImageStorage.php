@@ -16,6 +16,10 @@ final readonly class LocalImageStorage implements ImageStorage {
         );
     }
 
+    public function delete(ImageBlob $image): void {
+        new Filesystem()->remove($this->getDeliveryHeaders($image)['X-Image-File']);
+    }
+
     public function getDeliveryHeaders(ImageBlob $image, bool $head = false): array {
         $key = ltrim(trim($this->prefix, '/').'/images/'.$image->sha256, '/');
 

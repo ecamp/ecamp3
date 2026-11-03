@@ -13,12 +13,14 @@ final readonly class ImageUploadService {
         private ImageProcessor $processor,
         private ImageStorage $storage,
         private EntityManagerInterface $em,
+        private ImageLifecycleLock $lock,
     ) {}
 
     public function upload(Camp $camp, UploadedFile $file): CampImage {
         $image = $this->processor->process($file);
 
         return $this->em->wrapInTransaction(function () use ($camp, $image): CampImage {
+            $this->lock->acquire();
             $this->em->getConnection()->executeQuery(
                 'SELECT pg_advisory_xact_lock(hashtext(:hash))',
                 ['hash' => $image->sha256],

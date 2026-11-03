@@ -40,6 +40,39 @@ services:
             $maxDimension: '%env(int:IMAGE_MAX_DIMENSION)%'
             $quality: '%env(int:IMAGE_WEBP_QUALITY)%'
 
+    App\Service\Image\ImageCleanupService:
+        arguments:
+            $campImageRetentionDays: '%env(int:CAMP_IMAGE_RETENTION_DAYS)%'
+            $imageBlobRetentionDays: '%env(int:IMAGE_BLOB_RETENTION_DAYS)%'
+
+    App\State\ImageWriteProcessor:
+        abstract: true
+        autoconfigure: false
+
+    app.image_write.single_text:
+        class: App\State\ImageWriteProcessor
+        decorates: App\State\ContentNode\SingleTextPersistProcessor
+        arguments:
+            $decorated: '@.inner'
+
+    app.image_write.activity:
+        class: App\State\ImageWriteProcessor
+        decorates: App\State\ActivityCreateProcessor
+        arguments:
+            $decorated: '@.inner'
+
+    app.image_write.category:
+        class: App\State\ImageWriteProcessor
+        decorates: App\State\CategoryCreateProcessor
+        arguments:
+            $decorated: '@.inner'
+
+    app.image_write.camp:
+        class: App\State\ImageWriteProcessor
+        decorates: App\State\CampCreateProcessor
+        arguments:
+            $decorated: '@.inner'
+
     App\Service\Image\LocalImageStorage:
         arguments:
             $directory: '%env(resolve:IMAGE_STORAGE_PATH)%'
