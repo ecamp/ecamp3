@@ -47,8 +47,27 @@ export default {
       })
     },
     pages() {
-      const maxDaysPerPage = this.content.options.orientation === 'L' ? 8 : 4
-      return splitDaysIntoPages(this.days, maxDaysPerPage)
+      return splitDaysIntoPages(this.days, this.maxDaysPerPage)
+    },
+    maxDaysPerPage() {
+      switch (this.pageSize) {
+        case 'A5':
+          return this.compact ? 7 : 5
+        case 'A3':
+          switch (this.content.options.orientation) {
+            case 'P':
+              return this.compact ? 15 : 12
+            default:
+              return 16
+          }
+        default:
+          switch (this.content.options.orientation) {
+            case 'P':
+              return this.compact ? 7 : 5
+            default:
+              return this.compact ? 15 : 12
+          }
+      }
     },
     timeStep() {
       // Height / duration of each picasso row, in hours

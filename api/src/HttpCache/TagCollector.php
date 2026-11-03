@@ -8,6 +8,8 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Serializer\TagCollectorInterface;
 use App\Entity\HasId;
+use Doctrine\Common\Util\ClassUtils;
+use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 /**
  * Collects cache tags during normalization.
@@ -15,7 +17,10 @@ use App\Entity\HasId;
  * @author Urban Suppiger <urban@suppiger.net>
  */
 class TagCollector implements TagCollectorInterface {
-    public function __construct(private readonly ResponseTagger $responseTagger) {}
+    public function __construct(
+        private readonly ResponseTagger $responseTagger,
+        private readonly NameConverterInterface $nameConverter,
+    ) {}
 
     /**
      * Collect cache tags for cache invalidation.
@@ -35,7 +40,7 @@ class TagCollector implements TagCollectorInterface {
         }
 
         if (isset($context['property_metadata'])) {
-            $this->addCacheTagsForRelation($context, $iri, $context['property_metadata']);
+            $this->addCacheTagForRelation($context, $iri);
 
             return;
         }
@@ -57,17 +62,10 @@ class TagCollector implements TagCollectorInterface {
         $this->responseTagger->addTags([$iri]);
     }
 
-    private function addCacheTagsForRelation(array $context, string $iri, ApiProperty $propertyMetadata): void {
-        if (isset($propertyMetadata->getExtraProperties()['cacheDependencies'])) {
-            foreach ($propertyMetadata->getExtraProperties()['cacheDependencies'] as $dependency) {
-                $cacheTag = CacheTag::forRelation($iri, $dependency);
-                $this->responseTagger->addTags([$cacheTag]);
-            }
-
-            return;
-        }
-
-        $cacheTag = CacheTag::forRelation($iri, $context['api_attribute']);
+    private function addCacheTagForRelation(array $context, string $iri): void {
+        $class = isset($context['object']) ? ClassUtils::getClass($context['object']) : null;
+        $relation = $this->nameConverter->normalize($context['api_attribute'], $class);
+        $cacheTag = CacheTag::forRelation($iri, $relation);
         $this->responseTagger->addTags([$cacheTag]);
     }
 

@@ -422,7 +422,10 @@
           "activity": "Attività"
         },
         "picassoConfig": {
-          "orientation": "Layout della pagina"
+          "orientation": "Layout della pagina",
+          "responsibles": "Responsabili",
+          "responsiblesNames": "Nomi",
+          "responsiblesAvatars": "Avatar"
         },
         "programConfig": {
           "dayOverview": "Panoramica della giornata di stampa"
@@ -456,6 +459,7 @@
       },
       "printConfigurator": {
         "add": "Aggiungi contenuti",
+        "compact": "Layout compatto (meno spaziatura, nascondi i campi vuoti)",
         "config": {
           "Activity": "Attività singola",
           "Cover": "Pagina di copertina",

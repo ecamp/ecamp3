@@ -11,6 +11,7 @@
       ) in days"
       :id="isFirstPeriod && dayIndex === 0 ? id : undefined"
       class="page program-page"
+      :class="{ 'page-compact': compact }"
       :size="config.options.pageSize || 'A4'"
     >
       <slot />
@@ -148,7 +149,7 @@ export default {
 <style lang="react-pdf">
 .program-period-title {
   font-size: 10pt;
-  font-weight: bold;
+  font-weight: 600;
   text-align: center;
 }
 </style>
