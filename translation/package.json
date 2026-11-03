@@ -14,16 +14,7 @@
     "sort-frontend-it": "node deepl.js ../frontend/src/locales/it.json ../frontend/src/locales/it.json",
     "sort-frontend-it-ch-scout": "node deepl.js ../frontend/src/locales/it-CH-scout.json ../frontend/src/locales/it-CH-scout.json",
     "sort-frontend": "npm run sort-frontend-de && npm run sort-frontend-de-ch-scout && npm run sort-frontend-en && npm run sort-frontend-en-ch-scout && npm run sort-frontend-fr && npm run sort-frontend-fr-ch-scout && npm run sort-frontend-it && npm run sort-frontend-it-ch-scout",
-    "sort-print-de": "node deepl.js ../print/locales/de.json ../print/locales/de.json",
-    "sort-print-de-ch-scout": "node deepl.js ../print/locales/de-CH-scout.json ../print/locales/de-CH-scout.json",
-    "sort-print-en": "node deepl.js ../print/locales/en.json ../print/locales/en.json",
-    "sort-print-en-ch-scout": "node deepl.js ../print/locales/en-CH-scout.json ../print/locales/en-CH-scout.json",
-    "sort-print-fr": "node deepl.js ../print/locales/fr.json ../print/locales/fr.json",
-    "sort-print-fr-ch-scout": "node deepl.js ../print/locales/fr-CH-scout.json ../print/locales/fr-CH-scout.json",
-    "sort-print-it": "node deepl.js ../print/locales/it.json ../print/locales/it.json",
-    "sort-print-it-ch-scout": "node deepl.js ../print/locales/it-CH-scout.json ../print/locales/it-CH-scout.json",
-    "sort-print": "npm run sort-print-de && npm run sort-print-de-ch-scout && npm run sort-print-en && npm run sort-print-en-ch-scout && npm run sort-print-fr && npm run sort-print-fr-ch-scout && npm run sort-print-it && npm run sort-print-it-ch-scout",
-    "sort": "npm run sort-frontend && npm run sort-print",
+    "sort": "npm run sort-frontend",
     "translate-frontend-en-de": "node deepl.js ../frontend/src/locales/en.json ../frontend/src/locales/de.json",
     "translate-frontend-en-de-ch-scout": "node deepl.js ../frontend/src/locales/en-CH-scout.json ../frontend/src/locales/de-CH-scout.json",
     "translate-frontend-en-fr": "node deepl.js ../frontend/src/locales/en.json ../frontend/src/locales/fr.json",
@@ -31,13 +22,6 @@
     "translate-frontend-en-it": "node deepl.js ../frontend/src/locales/en.json ../frontend/src/locales/it.json",
     "translate-frontend-en-it-ch-scout": "node deepl.js ../frontend/src/locales/en-CH-scout.json ../frontend/src/locales/it-CH-scout.json",
     "translate-frontend-en": "npm run translate-frontend-en-de && npm run translate-frontend-en-de-ch-scout && npm run translate-frontend-en-fr && npm run translate-frontend-en-fr-ch-scout && npm run translate-frontend-en-it && npm run translate-frontend-en-it-ch-scout",
-    "translate-print-en-de": "node deepl.js ../print/locales/en.json ../print/locales/de.json",
-    "translate-print-en-de-ch-scout": "node deepl.js ../print/src/locales/en-CH-scout.json ../print/locales/de-CH-scout.json",
-    "translate-print-en-fr": "node deepl.js ../print/locales/en.json ../print/locales/fr.json",
-    "translate-print-en-fr-ch-scout": "node deepl.js ../print/locales/en-CH-scout.json ../print/locales/fr-CH-scout.json",
-    "translate-print-en-it": "node deepl.js ../print/locales/en.json ../print/locales/it.json",
-    "translate-print-en-it-ch-scout": "node deepl.js ../print/locales/en-CH-scout.json ../print/locales/it-CH-scout.json",
-    "translate-print-en": "npm run translate-print-en-de && npm run translate-print-en-de-ch-scout && npm run translate-print-en-fr && npm run translate-print-en-fr-ch-scout && npm run translate-print-en-it && npm run translate-print-en-it-ch-scout",
-    "translate-en": "npm run translate-frontend-en && npm run translate-print-en"
+    "translate-en": "npm run translate-frontend-en"
   }
 }

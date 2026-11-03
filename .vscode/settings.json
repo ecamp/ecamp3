@@ -5,5 +5,5 @@
   "eslint.format.enable": false,
   "phpunit.files": "api/tests/**/*Test.php",
   "phpunit.args": ["-capi/phpunit.nodocker.xml"],
-  "eslint.workingDirectories": ["./frontend", "./print"]
+  "eslint.workingDirectories": ["./frontend"]
 }

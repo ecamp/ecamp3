@@ -99,9 +99,6 @@ Alternatively you can
   # API/PHP fixes in running container
   docker compose exec php composer cs-fix
 
-  # Print fixes in running container
-  docker compose exec print npm run lint
-
   # PDF fixes in running container
   docker compose exec pdf npm run lint
 
@@ -117,7 +114,6 @@ Alternatively you can
   ```shell
   docker compose run --rm frontend npm run lint
   docker compose run --rm php composer cs-fix
-  docker compose run --rm print npm run lint
   docker compose run --rm pdf npm run lint
   ```
 

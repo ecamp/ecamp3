@@ -75,7 +75,6 @@
     },
     {
       "matchDepNames": [
-        "browserless/chromium",
         "caddy",
         "krakjoe/apcu",
         "mailhog/mailhog",
@@ -87,10 +86,6 @@
       ],
       "groupName": "docker-images",
       "schedule": ["after 10pm on sunday", "before 7am on monday"]
-    },
-    {
-      "matchDepNames": ["browserless/chromium"],
-      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<compatibility>\\w+)-(?<build>\\d+)\\.(\\d+)\\.(\\d+)?$"
     },
     {
       "matchDepNames": ["dunglas/frankenphp"],
