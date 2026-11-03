@@ -527,15 +527,12 @@
           }
         }
       },
-      "localPdfDownloadButton": {
-        "error": "Something didn't work. Try again, or reload the page."
-      },
       "printClient": {
         "downloadClientPdfButton": {
-          "label": "Download PDF (layout #2)"
+          "label": "Download PDF"
         },
         "downloadClientPdfListItem": {
-          "label": "Download PDF (layout #2)"
+          "label": "Download PDF"
         },
         "generatePdfMixin": {
           "error": "Something did not work. Please try again, or try reloading the page.",
@@ -576,23 +573,6 @@
           "A3": "Smaller (for printing on A4 or A3)",
           "A4": "Normal (for printing on A4 or A5)",
           "A5": "Bigger (for printing on A6)"
-        }
-      },
-      "printNuxt": {
-        "downloadNuxtPdfButton": {
-          "label": "Download PDF (layout #1)"
-        },
-        "downloadNuxtPdfListItem": {
-          "label": "Download PDF (layout #1)"
-        },
-        "generatePdfMixin": {
-          "error": "Something did not work. Please try again, or try reloading the page.",
-          "queueFull": "All our PDF printers are busy at the moment. Please try again later."
-        },
-        "printPreviewNuxt": {
-          "openPreview": "Open preview in new window",
-          "previewError": "Something did not work. Please try again with different printing settings, or reload the page.",
-          "previewIframeTitle": "Print preview"
         }
       }
     },

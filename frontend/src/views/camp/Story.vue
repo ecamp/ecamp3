@@ -23,7 +23,6 @@
             @click="editMode = !editMode"
           />
           <v-divider />
-          <DownloadNuxtPdf :config="printConfig" />
           <DownloadClientPdf :config="printConfig" />
         </v-list>
       </v-menu>
@@ -36,7 +35,6 @@
 import ContentCard from '@/components/layout/ContentCard.vue'
 import StoryPeriod from '@/components/story/StoryPeriod.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
-import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
 import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdfListItem.vue'
 import LockButton from '@/components/generic/LockButton.vue'
 import LockUnlockListItem from '@/components/generic/LockUnlockListItem.vue'
@@ -50,7 +48,6 @@ export default {
     StoryPeriod,
     ContentCard,
     DownloadClientPdf,
-    DownloadNuxtPdf,
     LockButton,
     LockUnlockListItem,
   },

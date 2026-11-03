@@ -9,7 +9,10 @@
         "deleted": "(supprimé)",
         "deletedAuthor": "Personne supprimée"
       },
-      "commentComposer": { "placeholder": "Écrire un commentaire", "replyPlaceholder": "Écrire une réponse" },
+      "commentComposer": {
+        "placeholder": "Écrire un commentaire",
+        "replyPlaceholder": "Écrire une réponse"
+      },
       "commentThread": {
         "reopen": "Rouvrir",
         "reply": "Répondre",
@@ -17,7 +20,10 @@
         "resolved": "Résolu",
         "resolvedBy": "Résolu par {user}"
       },
-      "commentTime": { "today": "Aujourd’hui, {time}", "yesterday": "Hier, {time}" },
+      "commentTime": {
+        "today": "Aujourd’hui, {time}",
+        "yesterday": "Hier, {time}"
+      },
       "commentsList": {
         "empty": "Aucun commentaire pour le moment.",
         "noResolvedComments": "Aucun commentaire résolu.",
@@ -511,15 +517,12 @@
           }
         }
       },
-      "localPdfDownloadButton": {
-        "error": "Une erreur est survenue. Essaie à nouveau, ou recharge la page."
-      },
       "printClient": {
         "downloadClientPdfButton": {
-          "label": "Télécharger le PDF (mise en page #2)"
+          "label": "Télécharger le PDF"
         },
         "downloadClientPdfListItem": {
-          "label": "Télécharger le PDF (mise en page #2)"
+          "label": "Télécharger le PDF"
         },
         "generatePdfMixin": {
           "error": "Une erreur est survenue. Essaie à nouveau, ou recharge la page.",
@@ -555,23 +558,6 @@
         "options": "Paramètres",
         "pageNumbers": "Numéros de page",
         "compact": "Mise en page compacte (moins d'espacement, masquer les champs vides)"
-      },
-      "printNuxt": {
-        "downloadNuxtPdfButton": {
-          "label": "Télécharger le PDF (mise en page #1)"
-        },
-        "downloadNuxtPdfListItem": {
-          "label": "Télécharger le PDF (mise en page #1)"
-        },
-        "generatePdfMixin": {
-          "error": "Une erreur est survenue. Essaie à nouveau, ou recharge la page.",
-          "queueFull": "Toutes nos imprimantes PDF sont occupées en ce moment. Veuillez réessayer plus tard."
-        },
-        "printPreviewNuxt": {
-          "openPreview": "Ouvrir l'aperçu dans une nouvelle fenêtre",
-          "previewError": "Une erreur est survenue. Veuillez réessayer avec des paramètres d'impression différents, ou recharger la page.",
-          "previewIframeTitle": "Aperçu avant impression"
-        }
       }
     },
     "program": {

@@ -439,15 +439,12 @@
           }
         }
       },
-      "localPdfDownloadButton": {
-        "error": "Qualcosa non ha funzionato. Riprova o ricarica la pagina."
-      },
       "printClient": {
         "downloadClientPdfButton": {
-          "label": "Scarica il PDF (layout #2)"
+          "label": "Scarica il PDF"
         },
         "downloadClientPdfListItem": {
-          "label": "Scarica il PDF (layout #2)"
+          "label": "Scarica il PDF"
         },
         "generatePdfMixin": {
           "error": "Qualcosa non ha funzionato. Riprova o ricarica la pagina."
@@ -468,23 +465,6 @@
           "SafetyConsiderations": "Considerazioni sulla sicurezza",
           "Story": "Riassunto della storia",
           "Toc": "Indice dei contenuti"
-        }
-      },
-      "printNuxt": {
-        "downloadNuxtPdfButton": {
-          "label": "Scarica il PDF (layout #1)"
-        },
-        "downloadNuxtPdfListItem": {
-          "label": "Scarica il PDF (layout #1)"
-        },
-        "generatePdfMixin": {
-          "error": "Qualcosa non ha funzionato. Riprova o ricarica la pagina.",
-          "queueFull": "Tutte le nostre stampanti PDF sono occupate al momento. Riprova più tardi."
-        },
-        "printPreviewNuxt": {
-          "openPreview": "Apri l'anteprima in una nuova finestra",
-          "previewError": "Qualcosa non ha funzionato. Riprova con altre impostazioni di stampa o ricarica la pagina.",
-          "previewIframeTitle": "Anteprima di stampa"
         }
       }
     },
