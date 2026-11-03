@@ -560,6 +560,9 @@
       },
       "printConfigurator": {
         "add": "Add content",
+        "layoutInfoTitle": "Where is the print layout selection?",
+        "layoutInfo": "We've combined the strengths of both print layouts into one new layout. Under «Settings», you can enable the compact layout, which is similar to the previous layout #2. Have we overlooked something, or has something stopped working? {contactLink}.",
+        "contactLink": "Get in touch with us",
         "config": {
           "Activity": "Single activity",
           "ActivityList": "Activity list (courses)",

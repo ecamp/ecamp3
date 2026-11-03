@@ -89,8 +89,35 @@
       </template>
     </PagesOverview>
 
-    <v-card-text class="e-button-container">
+    <v-card-text>
       <DownloadPdfButton :config="cnf" />
+      <v-alert
+        variant="tonal"
+        border="start"
+        size="small"
+        color="info"
+        density="compact"
+        max-width="700"
+        class="mt-4"
+      >
+        <div class="text-blue-darken-3">
+          <h3>
+            <v-icon icon="mdi-information-outline" size="small" left />
+            {{ $t('components.print.printConfigurator.layoutInfoTitle') }}
+          </h3>
+          <i18n-t keypath="components.print.printConfigurator.layoutInfo" scope="global">
+            <template #contactLink>
+              <a
+                :href="contactLink"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-inherit"
+                >{{ $t('components.print.printConfigurator.contactLink') }}</a
+              >
+            </template>
+          </i18n-t>
+        </div>
+      </v-alert>
     </v-card-text>
 
     <template v-if="isDev">
@@ -177,6 +204,9 @@ export default {
     }
   },
   computed: {
+    contactLink() {
+      return getEnv().CONTACT_LINK
+    },
     contentComponents() {
       return {
         Cover: CoverConfig,

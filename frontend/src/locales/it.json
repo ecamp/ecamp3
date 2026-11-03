@@ -461,6 +461,9 @@
       },
       "printConfigurator": {
         "add": "Aggiungi contenuti",
+        "layoutInfoTitle": "Dov'è la scelta del layout di stampa?",
+        "layoutInfo": "Abbiamo riunito i vantaggi di entrambi i layout di stampa in un nuovo layout. Nelle impostazioni puoi attivare il layout compatto, simile al precedente layout #2. Abbiamo dimenticato qualcosa o qualcosa non funziona più? {contactLink}.",
+        "contactLink": "Contattaci",
         "compact": "Layout compatto (meno spaziatura, nascondi i campi vuoti)",
         "config": {
           "Activity": "Attività singola",

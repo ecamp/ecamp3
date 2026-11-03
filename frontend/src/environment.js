@@ -19,6 +19,7 @@ export function getEnv() {
       env.TERMS_OF_SERVICE_LINK_TEMPLATE ?? 'https://ecamp3.ch/{lang}/tos',
     NEWS_LINK: env.NEWS_LINK ?? 'https://ecamp3.ch/blog',
     HELP_LINK: env.HELP_LINK ?? 'https://ecamp3.ch/faq',
+    CONTACT_LINK: env.CONTACT_LINK ?? 'https://ecamp3.ch/contact',
     FEATURE_DEVELOPER: (env.VITE_FEATURE_DEVELOPER ?? 'true') === 'true',
     FEATURE_COMMENTS: (env.VITE_FEATURE_COMMENTS ?? 'true') === 'true',
     FEATURE_HITOBITO: (env.VITE_FEATURE_HITOBITO ?? 'true') === 'true',

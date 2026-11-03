@@ -1,11 +1,12 @@
 <template>
   <div class="button-wrapper">
-    <v-btn color="primary" variant="outlined" :disabled="loading" @click="generatePdf">
-      <v-icon>mdi-printer</v-icon>
-      <div class="mx-1">
-        {{ $t('components.print.generator.downloadPdfButton.label') }}
-      </div>
-    </v-btn>
+    <v-btn
+      color="primary"
+      prepend-icon="mdi-download"
+      :text="$t('components.print.generator.downloadPdfButton.label')"
+      :disabled="loading"
+      @click="generatePdf"
+    />
     <div class="progress-wrapper">
       <v-progress-circular
         v-if="loading"
@@ -36,22 +37,15 @@ export default {
 
 .button-wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 8px;
-  align-items: flex-start;
-  @media #{map.get(settings.$display-breakpoints, 'lg-and-up')} {
-    flex-direction: row;
-    align-items: center;
-  }
+  flex-wrap: wrap;
+  align-items: center;
 }
 .progress-wrapper {
   display: flex;
   flex-direction: row;
   gap: 8px;
   align-items: center;
-  @media #{map.get(settings.$display-breakpoints, 'md-and-down')} {
-    width: 100%;
-    justify-content: flex-start;
-  }
 }
 </style>

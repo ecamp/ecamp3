@@ -23,6 +23,7 @@ data:
       TERMS_OF_SERVICE_LINK_TEMPLATE: '{{ .Values.termsOfServiceLinkTemplate }}',
       NEWS_LINK: '{{ .Values.newsLink }}',
       HELP_LINK: '{{ .Values.helpLink }}',
+      CONTACT_LINK: '{{ .Values.contactLink }}',
     {{- if .Values.recaptcha.siteKey }}
       RECAPTCHA_SITE_KEY: '{{ .Values.recaptcha.siteKey }}',
     {{- else }}

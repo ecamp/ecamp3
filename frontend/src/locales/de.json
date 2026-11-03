@@ -560,6 +560,9 @@
       },
       "printConfigurator": {
         "add": "Inhalt hinzufügen",
+        "layoutInfoTitle": "Wo ist die Druckauswahl?",
+        "layoutInfo": "Wir haben die Vorteile beider Drucklayouts in einem neuen Layout vereint. Unter «Einstellungen» kannst du das kompakte Layout aktivieren, das dem bisherigen Layout #2 ähnelt. Haben wir etwas übersehen oder funktioniert etwas nicht mehr? {contactLink}.",
+        "contactLink": "Melde dich bei uns",
         "config": {
           "Activity": "Einzelne Aktivität",
           "ActivityList": "Aktivitätenliste (Kurse)",

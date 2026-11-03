@@ -550,6 +550,9 @@
       },
       "printConfigurator": {
         "add": "Ajouter du contenu",
+        "layoutInfoTitle": "Où est le choix de mise en page ?",
+        "layoutInfo": "Nous avons réuni les avantages des deux mises en page dans une nouvelle mise en page. Dans les paramètres, tu peux activer la mise en page compacte, qui ressemble à l'ancienne mise en page #2. Avons-nous oublié quelque chose ou quelque chose ne fonctionne-t-il plus ? {contactLink}.",
+        "contactLink": "Contacte-nous",
         "config": {
           "Activity": "Activité unique",
           "ActivityList": "Liste des blocs (cours)",
