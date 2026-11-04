@@ -8,12 +8,15 @@ use App\Entity\Activity;
 use App\Entity\Period;
 use App\HttpCache\CacheTag;
 use App\State\Util\AbstractPersistProcessor;
+use App\Util\GetPeriodsFromActivityTrait;
 use FOS\HttpCacheBundle\CacheManager;
 
 /**
  * @template-extends AbstractPersistProcessor<Activity>
  */
 class ActivityUpdateProcessor extends AbstractPersistProcessor {
+    use GetPeriodsFromActivityTrait;
+
     public function __construct(
         ProcessorInterface $decorated,
         private readonly CacheManager $cacheManager,
@@ -35,7 +38,7 @@ class ActivityUpdateProcessor extends AbstractPersistProcessor {
 
         $this->cacheManager->invalidateTags(array_map(
             fn (Period $period) => CacheTag::forCustomTag($period, Period::SCHEDULE_ENTRY_NUMBERS_CACHE_TAG),
-            $data->listSchedulePeriods()
+            $this->getPeriodsFromActivity($data)
         ));
     }
 }

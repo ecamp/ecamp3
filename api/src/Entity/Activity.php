@@ -213,13 +213,6 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
         $this->comments = new ArrayCollection();
     }
 
-    /**
-     * @return Period[]
-     */
-    public function listSchedulePeriods(): array {
-        return array_values(array_filter($this->scheduleEntries->map(fn (ScheduleEntry $scheduleEntry) => $scheduleEntry->period)->getValues()));
-    }
-
     public function getCamp(): ?Camp {
         return $this->camp ?? $this->category?->camp;
     }

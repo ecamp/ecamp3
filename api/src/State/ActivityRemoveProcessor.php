@@ -9,6 +9,7 @@ use App\Entity\Comment;
 use App\Entity\Period;
 use App\HttpCache\CacheTag;
 use App\State\Util\AbstractRemoveProcessor;
+use App\Util\GetPeriodsFromActivityTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\HttpCacheBundle\CacheManager;
 
@@ -16,6 +17,8 @@ use FOS\HttpCacheBundle\CacheManager;
  * @template-extends AbstractRemoveProcessor<Activity>
  */
 class ActivityRemoveProcessor extends AbstractRemoveProcessor {
+    use GetPeriodsFromActivityTrait;
+
     public function __construct(
         ProcessorInterface $decorated,
         private readonly EntityManagerInterface $em,
@@ -30,7 +33,7 @@ class ActivityRemoveProcessor extends AbstractRemoveProcessor {
     public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): void {
         $this->cacheManager->invalidateTags(array_map(
             fn (Period $period) => CacheTag::forCustomTag($period, Period::SCHEDULE_ENTRY_NUMBERS_CACHE_TAG),
-            $data->listSchedulePeriods()
+            $this->getPeriodsFromActivity($data)
         ));
 
         // Deleting rootContentNode would normally be done automatically with orphanRemoval:true
