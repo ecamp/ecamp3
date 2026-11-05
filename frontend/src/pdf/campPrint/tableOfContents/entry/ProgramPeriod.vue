@@ -34,8 +34,8 @@
 </template>
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
-import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
-import { dateLong } from '@/common/helpers/dateHelperUTCFormatted.js'
+import { filterMatchScheduleEntry } from '@/helpers/filterMatchScheduleEntry.js'
+import { dateLong } from '@/helpers/dateHelperUTCFormatted.js'
 import TocEntryPageNumber from '../TocEntryPageNumber.vue'
 import sortBy from 'lodash-es/sortBy.js'
 import CategoryLabel from '@/pdf/campPrint/CategoryLabel.vue'

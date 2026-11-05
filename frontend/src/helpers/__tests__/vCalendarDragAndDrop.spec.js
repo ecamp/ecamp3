@@ -3,7 +3,7 @@ import {
   roundTimeToNearestQuarterHour,
   roundTimeUpToNextQuarterHour,
 } from '@/helpers/vCalendarDragAndDrop.js'
-import dayjs from '@/common/helpers/dayjs.js'
+import dayjs from '@/helpers/dayjs.js'
 
 describe.skip('toTime', () => {
   // const dateTimesToTest = [

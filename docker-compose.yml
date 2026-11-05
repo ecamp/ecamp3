@@ -10,7 +10,6 @@ services:
     volumes:
       - ./.prettierrc:/.prettierrc:delegated
       - ./frontend:/app:delegated
-      - ./common:/common:delegated
       - ./.cache/npm:/tmp/.npm:delegated
     environment:
       - NPM_CONFIG_UPDATE_NOTIFIER=false
@@ -29,7 +28,6 @@ services:
     volumes:
       - ./.prettierrc:/.prettierrc:delegated
       - ./frontend-old:/app:delegated
-      - ./common:/common:delegated
       #- ./pdf:/pdf:delegated
       - ./.cache/npm:/tmp/.npm:delegated
     environment:
@@ -103,28 +101,6 @@ services:
       - varnish_data:/var/lib/varnish:ro
     command: varnishncsa
 
-  print:
-    image: node:26.12.1
-    container_name: 'ecamp3-print'
-    user: ${USER_ID:-1000}
-    volumes:
-      - ./.prettierrc:/.prettierrc
-      - ./print:/app:delegated
-      - ./common:/common:delegated
-      - ./.cache/npm:/tmp/.npm:delegated
-    environment:
-      - NUXT_HOST=0.0.0.0
-      - NUXT_PORT=3003
-      - NITRO_PORT=3003
-      - NPM_CONFIG_UPDATE_NOTIFIER=false
-      - NPM_CONFIG_CACHE=/tmp/.npm
-      - CI=${CI:-}
-    env_file:
-      - ./print/print.env
-    working_dir: /app
-    command: ./docker-setup.sh
-    stop_signal: SIGKILL
-
   database:
     image: postgres:18-alpine
     container_name: 'ecamp3-database'
@@ -179,18 +155,6 @@ services:
     cap_add: ['NET_ADMIN', 'NET_RAW']
     restart: on-failure
 
-  browserless:
-    image: ghcr.io/browserless/chromium:v2.38.2
-    container_name: 'ecamp3-browserless'
-    ports:
-      - '3010:3000'
-    environment:
-      - TOKEN=1234
-      - CONCURRENT=1
-      - TIMEOUT=40000
-      - QUEUED=10
-      - ENABLE_DEBUGGER=false
-
   e2e:
     image: mcr.microsoft.com/playwright:v1.64.1-noble
     profiles: ['e2e']
@@ -222,7 +186,6 @@ services:
       - frontend-old
       - mock-oauth2
       - http-cache
-      - print
       - mail
       - pg-admin
     ports:
@@ -240,9 +203,7 @@ services:
     container_name: 'ecamp3-translation'
     volumes:
       - ./translation:/translation:delegated
-      - ./common:/common:delegated
       - ./frontend:/frontend:delegated
-      - ./print:/print:delegated
     working_dir: /translation
     command: tail -F anything
 

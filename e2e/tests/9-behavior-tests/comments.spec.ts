@@ -104,6 +104,8 @@ test.describe('comments on an activity', () => {
     await expect(cards.first().locator('button.ec-comment-card__delete')).toBeEnabled()
 
     await thread.getByTestId('comment-thread-resolve').click()
+    await page.mouse.move(0, 0)
+    await expect(thread.getByTestId('comment-thread-countdown')).toBeVisible()
     await expect(thread).toHaveCount(0)
 
     await panel.getByTestId('comments-resolved-toggle').locator('.v-chip').last().click()

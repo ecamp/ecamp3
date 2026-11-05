@@ -5,17 +5,17 @@
   </v-avatar>
 </template>
 <script>
-import campCollaborationInitials from '@/common/helpers/campCollaborationInitials.js'
+import campCollaborationInitials from '@/helpers/campCollaborationInitials.js'
 import {
   contrastColor,
   userColor,
   campCollaborationColor,
   defaultColor,
-} from '@/common/helpers/colors.js'
-import { range } from '@/common/helpers/interpolation.js'
-import userInitials from '@/common/helpers/userInitials.js'
-import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
-import userDisplayName from '@/common/helpers/userDisplayName.js'
+} from '@/helpers/colors.js'
+import { range } from '@/helpers/interpolation.js'
+import userInitials from '@/helpers/userInitials.js'
+import campCollaborationDisplayName from '@/helpers/campCollaborationDisplayName.js'
+import userDisplayName from '@/helpers/userDisplayName.js'
 
 export default {
   name: 'UserAvatar',

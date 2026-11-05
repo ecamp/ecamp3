@@ -86,7 +86,7 @@
   </div>
 </template>
 <script>
-import dayjs from '@/common/helpers/dayjs.js'
+import dayjs from '@/helpers/dayjs.js'
 
 import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'

@@ -1,4 +1,24 @@
 {
+  "entity": {
+    "camp": {
+      "fields": {
+        "courseKind": "Kursbezeichnung (bei J+S Kurs: J+S Bezeichnung)",
+        "courseNumber": "Kursnummer",
+        "printYSLogoOnPicasso": "J+S-Logo auf Grobprogramm drucken (bei J+S-Kursen aktivieren)",
+        "trainingAdvisorName": "Bürgerlicher Name von LKB"
+      }
+    },
+    "profile": {
+      "fields": {
+        "nickname": "Pfadiname"
+      }
+    },
+    "user": {
+      "fields": {
+        "nickname": "Pfadiname"
+      }
+    }
+  },
   "components": {
     "campCreate": {
       "campCreateStep1": {
@@ -9,13 +29,6 @@
   "contentNode": {
     "storycontext": {
       "name": "Roter Faden"
-    }
-  },
-  "entity": {
-    "user": {
-      "fields": {
-        "nickname": "Pfadiname"
-      }
     }
   },
   "global": {

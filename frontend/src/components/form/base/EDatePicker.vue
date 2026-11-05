@@ -48,9 +48,9 @@ Displays a field as a date picker (can be used with v-model)
 
 <script>
 import BasePicker from './BasePicker.vue'
-import { HTML5_FMT } from '@/common/helpers/dateFormat.js'
+import { HTML5_FMT } from '@/helpers/dateFormat.js'
 import { formComponentValidation } from '@/mixins/formComponentValidation.js'
-import dayjs from '@/common/helpers/dayjs.js'
+import dayjs from '@/helpers/dayjs.js'
 
 export default {
   name: 'DatePicker',

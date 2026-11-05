@@ -7,7 +7,7 @@
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
 import InstanceName from '../InstanceName.vue'
-import { ysPhysicalActivityDuration } from '@/common/helpers/ysPhysicalActivityDuration.js'
+import { ysPhysicalActivityDuration } from '@/helpers/ysPhysicalActivityDuration.js'
 import { mdiRun } from '@mdi/js'
 
 export default {

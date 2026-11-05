@@ -44,32 +44,6 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end }}
 
 {{/*
-Name for all nuxt-print-related resources.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-*/}}
-{{- define "print.name" -}}
-{{- $name := default .Chart.Name .Values.chartNameOverride }}
-{{- if contains $name (include "app.name" .) }}
-{{- printf "%s-print" (include "app.name" .) | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- printf "%s-%s-print" (include "app.name" .) $name | trunc 63 | trimSuffix "-" }}
-{{- end }}
-{{- end }}
-
-{{/*
-Name for all print+browserless resources.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-*/}}
-{{- define "print-browserless.name" -}}
-{{- $name := default .Chart.Name .Values.chartNameOverride }}
-{{- if contains $name (include "app.name" .) }}
-{{- printf "%s-print-browserless" (include "app.name" .) | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- printf "%s-%s-print-browserless" (include "app.name" .) $name | trunc 63 | trimSuffix "-" }}
-{{- end }}
-{{- end }}
-
-{{/*
 Name for all dummy-mailserver-related resources.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
@@ -79,19 +53,6 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- printf "%s-mail" (include "app.name" .) | trunc 63 | trimSuffix "-" }}
 {{- else }}
 {{- printf "%s-%s-mail" (include "app.name" .) $name | trunc 63 | trimSuffix "-" }}
-{{- end }}
-{{- end }}
-
-{{/*
-Name for all browserless-related resources.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-*/}}
-{{- define "browserless.name" -}}
-{{- $name := default .Chart.Name .Values.chartNameOverride }}
-{{- if contains $name (include "app.name" .) }}
-{{- printf "%s-browserless" (include "app.name" .) | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- printf "%s-%s-browserless" (include "app.name" .) $name | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
 
@@ -163,13 +124,6 @@ The full URL where the frontend will be available.
 {{- end }}
 
 {{/*
-The full URL where the print service will be available.
-*/}}
-{{- define "print.url" -}}
-{{- printf "https://%s%s" .Values.domain .Values.print.subpath }}
-{{- end }}
-
-{{/*
 The full URL where the dummy mail catcher service will be available.
 */}}
 {{- define "mail.url" -}}
@@ -219,26 +173,10 @@ app.kubernetes.io/name: {{ include "chart.name" . }}-frontend
 {{- end }}
 
 {{/*
-Selector labels for Print
-*/}}
-{{- define "print.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "chart.name" . }}-print
-{{ include "app.commonSelectorLabels" . }}
-{{- end }}
-
-{{/*
 Selector labels for Mail
 */}}
 {{- define "mail.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "chart.name" . }}-mail
-{{ include "app.commonSelectorLabels" . }}
-{{- end }}
-
-{{/*
-Selector labels for Browserless
-*/}}
-{{- define "browserless.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "chart.name" . }}-browserless
 {{ include "app.commonSelectorLabels" . }}
 {{- end }}
 

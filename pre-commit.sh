@@ -32,9 +32,6 @@ execute_or_run "frontend" "ecamp3-frontend" "frontend" "npm run lint" &
 # API/PHP
 execute_or_run "api" "ecamp3-api" "php" "composer cs-fix" &
 
-# Print
-execute_or_run "print" "ecamp3-print" "print" "npm run lint" &
-
 # E2E
 execute_or_run "e2e" "ecamp3-e2e" "e2e" "npm run lint" true
 

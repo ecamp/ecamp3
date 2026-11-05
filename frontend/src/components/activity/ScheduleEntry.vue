@@ -113,8 +113,7 @@ Displays a single scheduleEntry
         </template>
 
         <v-list>
-          <DownloadNuxtPdf :config="printConfig" />
-          <DownloadClientPdf :config="printConfig" />
+          <DownloadPdfListItem :config="printConfig" />
 
           <v-divider v-if="!isOutsider" />
 
@@ -307,8 +306,7 @@ import router, {
   periodRoute,
   scheduleEntryRoute,
 } from '@/router.js'
-import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
-import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdfListItem.vue'
+import DownloadPdfListItem from '@/components/print/generator/DownloadPdfListItem.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
@@ -336,8 +334,7 @@ export default {
     ApiTextField,
     RootNode,
     ActivityResponsibles,
-    DownloadClientPdf,
-    DownloadNuxtPdf,
+    DownloadPdfListItem,
     CategoryChip,
     ClipboardInfoDialog,
   },

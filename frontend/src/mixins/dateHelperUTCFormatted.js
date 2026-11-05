@@ -8,7 +8,7 @@ import {
   rangeShort,
   rangeLongEnd,
   dateRange,
-} from '@/common/helpers/dateHelperUTCFormatted.js'
+} from '@/helpers/dateHelperUTCFormatted.js'
 
 export const dateHelperUTCFormatted = {
   methods: {

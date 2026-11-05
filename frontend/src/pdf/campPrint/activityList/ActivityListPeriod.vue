@@ -17,7 +17,7 @@
 import PdfComponent from '@/pdf/PdfComponent.js'
 import ActivityListScheduleEntry from './ActivityListScheduleEntry.vue'
 import camelCase from 'lodash-es/camelCase.js'
-import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
+import { filterMatchScheduleEntry } from '@/helpers/filterMatchScheduleEntry.js'
 
 export default {
   name: 'ActivityListPeriod',

@@ -89,8 +89,7 @@ Show all activity schedule entries of a single period.
             </template>
           </v-list-item>
           <v-divider />
-          <DownloadNuxtPdf :config="printConfig" />
-          <DownloadClientPdf :config="printConfig" />
+          <DownloadPdfListItem :config="printConfig" />
         </v-list>
       </v-menu>
     </template>
@@ -156,8 +155,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import Picasso from '@/components/program/picasso/Picasso.vue'
 import ScheduleEntries from '@/components/program/ScheduleEntries.vue'
 import PeriodSwitcher from '@/components/program/PeriodSwitcher.vue'
-import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
-import DownloadClientPdf from '@/components/print/print-client/DownloadClientPdfListItem.vue'
+import DownloadPdfListItem from '@/components/print/generator/DownloadPdfListItem.vue'
 import LockButton from '@/components/generic/LockButton.vue'
 import LockUnlockListItem from '@/components/generic/LockUnlockListItem.vue'
 import ScheduleEntryFilters from '@/components/program/ScheduleEntryFilters.vue'
@@ -166,8 +164,8 @@ import {
   processRouteQuery,
   transformValuesToHalId,
 } from '@/helpers/querySyncHelper.js'
-import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
-import campShortTitle from '@/common/helpers/campShortTitle.js'
+import { filterMatchScheduleEntry } from '@/helpers/filterMatchScheduleEntry.js'
+import campShortTitle from '@/helpers/campShortTitle.js'
 
 const REMINDER_TIMEOUT = 5000
 
@@ -175,8 +173,7 @@ export default {
   name: 'CampProgram',
   components: {
     ScheduleEntryFilters,
-    DownloadNuxtPdf,
-    DownloadClientPdf,
+    DownloadPdfListItem,
     PeriodSwitcher,
     ContentCard,
     Picasso,

@@ -27,7 +27,7 @@
 <script>
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 import DialogMaterialListEdit from '@/components/campAdmin/DialogMaterialListEdit.vue'
-import materialListsSorted from '@/common/helpers/materialListsSorted.js'
+import materialListsSorted from '@/helpers/materialListsSorted.js'
 
 export default {
   name: 'MaterialListsEdit',

@@ -50,7 +50,7 @@
 
 <script>
 import DialogScheduleEntryFilter from './DialogScheduleEntryFilter.vue'
-import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
+import { filterMatchScheduleEntry } from '@/helpers/filterMatchScheduleEntry.js'
 import repairFilterConfig from '../../program/repairFilterConfig.js'
 
 export default {

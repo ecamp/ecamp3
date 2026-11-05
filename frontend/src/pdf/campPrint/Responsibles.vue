@@ -23,9 +23,9 @@
 </template>
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
-import { campCollaborationColor, contrastColor } from '@/common/helpers/colors.js'
-import campCollaborationInitials from '@/common/helpers/campCollaborationInitials.js'
-import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import { campCollaborationColor, contrastColor } from '@/helpers/colors.js'
+import campCollaborationInitials from '@/helpers/campCollaborationInitials.js'
+import campCollaborationDisplayName from '@/helpers/campCollaborationDisplayName.js'
 
 export default {
   name: 'Responsibles',

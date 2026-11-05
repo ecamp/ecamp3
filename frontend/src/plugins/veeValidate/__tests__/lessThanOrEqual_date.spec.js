@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import lessThanOrEqual_date from '../lessThanOrEqual_date.js'
-import dayjs from '@/common/helpers/dayjs.js'
+import dayjs from '@/helpers/dayjs.js'
 
 const mockI18n = {
   $tc: (key) => key,

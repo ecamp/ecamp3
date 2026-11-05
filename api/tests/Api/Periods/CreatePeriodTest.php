@@ -82,6 +82,32 @@ class CreatePeriodTest extends ECampApiTestCase {
         $this->assertJsonContains($this->getExampleReadPayload());
     }
 
+    public function testCreatePeriodPurgesCacheTags() {
+        $client = static::createClientWithCredentials();
+        $cacheManager = $this->mockCacheManager();
+
+        $response = $client->request('POST', '/periods', ['json' => $this->getExampleWritePayload()]);
+
+        $this->assertResponseStatusCodeSame(201);
+
+        $camp1 = static::getFixture('camp1');
+        $periodId = $response->toArray()['id'];
+        $expectedTags = [
+            '/periods',
+            '/days',
+            '/periods/'.$periodId.'/days',
+            $periodId.'#days',
+            $camp1->getId().'#periods',
+        ];
+
+        /** @var Period $period */
+        $period = $this->getEntityManager()->getRepository(Period::class)->find($periodId);
+        foreach ($period->days as $day) {
+            $expectedTags[] = $day->getId().'#period';
+        }
+        self::assertEqualsCanonicalizing($expectedTags, $cacheManager->getInvalidatedTags());
+    }
+
     public function testCreatePeriodInCampPrototypeIsDeniedForUnrelatedUser() {
         static::createClientWithCredentials()->request('POST', '/periods', ['json' => $this->getExampleWritePayload([
             'camp' => $this->getIriFor('campPrototype'),
