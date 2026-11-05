@@ -100,6 +100,7 @@ class DeletePeriodTest extends ECampApiTestCase {
             $period->getId(),
             $period->getId().'#days',
             $camp->getId().'#periods',
+            $camp->getId().'^dayNumbers',
             $campCollaboration->getId().'#dayResponsibles',
             $day1->getId(),
             $day1->getId().'#period',
