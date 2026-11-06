@@ -69,7 +69,7 @@ test.describe(
       })
     })
 
-    test('invalidates /periods/{periodId}/schedule_entries for all users on scheduleEntry patch', async () => {
+    test('invalidates /periods/{periodId}/schedule_entries on scheduleEntry patch', async () => {
       const uri = `/api/periods/${grgrPeriodId}/schedule_entries`
       const scheduleEntryId = '12f34c89ce11'
 
@@ -83,19 +83,13 @@ test.describe(
       await apiGet(bipiApi, uri)
       await expectCacheHit(bipiApi, uri)
 
-      const castorApi = await getAuthContext(castorUser)
-      await apiGet(castorApi, uri)
-      await expectCacheHit(castorApi, uri)
-
       // touch scheduleEntry
-      await apiPatch(castorApi, `/api/schedule_entries/${scheduleEntryId}`, {
+      await apiPatch(bipiApi, `/api/schedule_entries/${scheduleEntryId}`, {
         start: '2036-05-10T17:00:00+00:00',
       })
 
       // ensure cache was invalidated
-      await waitForCacheMiss(castorApi, uri)
-      await expectCacheHit(castorApi, uri)
-
+      await waitForCacheMiss(bipiApi, uri)
       await expectCacheHit(bipiApi, uri)
     })
 

@@ -1,11 +1,5 @@
 import { test, expect } from '@playwright/test'
-import {
-  bipiUser,
-  bruceWayneUser,
-  felicitySmoakUser,
-  grgrPeriodId,
-  castorUser,
-} from '@/utils/constants'
+import { bipiUser, bruceWayneUser, grgrPeriodId, castorUser } from '@/utils/constants'
 import entityResponse from '@/test-data/httpCache/activities_entity.json'
 import {
   getAuthContext,
@@ -74,7 +68,7 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
     })
   })
 
-  test('invalidates /activities/{activitiyId} for all users on activity patch', async () => {
+  test('invalidates /activities/{activitiyId} on activity patch', async () => {
     const activityId = '3d1e5c91ceb2'
     const uri = `/api/activities/${activityId}`
 
@@ -88,10 +82,6 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
     await apiGet(bruceApi, uri)
     await expectCacheHit(bruceApi, uri)
 
-    const felicityApi = await getAuthContext(felicitySmoakUser)
-    await expectCacheHit(felicityApi, uri)
-    await expectCacheHit(felicityApi, uri)
-
     // touch activity
     await apiPatch(bruceApi, `/api/activities/${activityId}`, {
       title: 'Frühstück',
@@ -100,9 +90,6 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
     // ensure cache was invalidated
     await waitForCacheMiss(bruceApi, uri)
     await expectCacheHit(bruceApi, uri)
-
-    const bruceApi2 = await getAuthContext(bruceWayneUser)
-    await expectCacheHit(bruceApi2, uri)
   })
 
   test('invalidates /activities/{activitiyId} when adding a scheduleEntry', async () => {

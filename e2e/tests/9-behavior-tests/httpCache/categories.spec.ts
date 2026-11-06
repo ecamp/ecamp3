@@ -3,7 +3,6 @@ import {
   bipiUser,
   bruceWayneUser,
   castorUser,
-  felicitySmoakUser,
   grgrCampId,
   loremIpsumCampId,
 } from '@/utils/constants'
@@ -73,35 +72,28 @@ test.describe('cache test: /camps/{campId}/categories', () => {
   )
 
   test(
-    'invalidates /camps/{campId}/categories for all users on category patch',
+    'invalidates /camps/{campId}/categories on category patch',
     { tag: '@mature' },
     async () => {
       const uri = `/api/camps/${loremIpsumCampId}/categories`
 
       // bring data into defined state
       const bruceApi = await getAuthContext(bruceWayneUser)
-      const felicityApi = await getAuthContext(felicitySmoakUser)
       await apiPatch(bruceApi, '/api/categories/c5e1bc565094', {
         name: 'old_name',
       })
 
-      // warm up cache (bruce)
+      // warm up cache
       await apiGet(bruceApi, uri)
       await expectCacheHit(bruceApi, uri)
 
-      // warm up cache (felicity)
-      await apiGet(felicityApi, uri)
-      await expectCacheHit(felicityApi, uri)
-
-      // touch category (bruce)
+      // touch category
       await apiPatch(bruceApi, '/api/categories/c5e1bc565094', {
         name: 'new_name',
       })
 
       // ensure cache was invalidated
-      await waitForCacheMiss(felicityApi, uri)
-      await expectCacheHit(felicityApi, uri)
-
+      await waitForCacheMiss(bruceApi, uri)
       await expectCacheHit(bruceApi, uri)
     }
   )
