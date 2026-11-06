@@ -29,11 +29,22 @@ class CacheSecurityDelegateTest extends ECampApiTestCase {
             'camp checklists' => ['/camps/{id}/checklists', 'camp1', 'camp1'],
             'period days' => ['/periods/{id}/days', 'period1', 'camp1'],
             'period schedule entries' => ['/periods/{id}/schedule_entries', 'period1', 'camp1'],
+            'activity of another camp' => ['/activities/{id}', 'activity1camp2', 'camp2'],
+            'schedule entries of another camp' => ['/periods/{id}/schedule_entries', 'period1camp2', 'camp2'],
         ];
     }
 
     public function testContentTypesArePublic() {
         $response = static::createClientWithCredentials()->request('GET', '/content_types');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertSame(['public'], $response->getHeaders()[self::HEADER]);
+    }
+
+    public function testContentTypeIsPublic() {
+        $contentType = static::getFixture('contentTypeSafetyConsiderations');
+
+        $response = static::createClientWithCredentials()->request('GET', '/content_types/'.$contentType->getId());
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertSame(['public'], $response->getHeaders()[self::HEADER]);
