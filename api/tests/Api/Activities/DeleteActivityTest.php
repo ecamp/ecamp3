@@ -161,4 +161,17 @@ class DeleteActivityTest extends ECampApiTestCase {
             ]);
         }
     }
+
+    public function testDeleteActivityPurgesAllScheduleEntryNumbersInAffectedPeriods() {
+        $client = static::createClientWithCredentials();
+        $cacheManager = $this->mockCacheManager();
+
+        $activity = static::getFixture('activity1');
+        $client->request('DELETE', '/activities/'.$activity->getId());
+
+        $this->assertResponseStatusCodeSame(204);
+        $tags = $cacheManager->getInvalidatedTags();
+        self::assertContains(static::getFixture('period1')->getId().'^scheduleEntryNumbers', $tags);
+        self::assertContains(static::getFixture('period2')->getId().'^scheduleEntryNumbers', $tags);
+    }
 }

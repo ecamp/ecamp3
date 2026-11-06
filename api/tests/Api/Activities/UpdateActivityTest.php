@@ -349,7 +349,7 @@ class UpdateActivityTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchActivityCategoryPurgesAllScheduleEntryNumbersOfAffectedPeriods() {
+    public function testPatchActivityCategoryPurgesAllScheduleEntryNumbersInAffectedPeriods() {
         $client = static::createClientWithCredentials();
         $cacheManager = $this->mockCacheManager();
 

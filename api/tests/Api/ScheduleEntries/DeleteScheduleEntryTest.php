@@ -138,4 +138,15 @@ class DeleteScheduleEntryTest extends ECampApiTestCase {
             ],
         ]);
     }
+
+    public function testDeleteScheduleEntryPurgesAllScheduleEntryNumbersInThePeriod() {
+        $client = static::createClientWithCredentials();
+        $cacheManager = $this->mockCacheManager();
+
+        $scheduleEntry = static::getFixture('scheduleEntry3');
+        $client->request('DELETE', '/schedule_entries/'.$scheduleEntry->getId());
+
+        $this->assertResponseStatusCodeSame(204);
+        self::assertContains(static::getFixture('period2')->getId().'^scheduleEntryNumbers', $cacheManager->getInvalidatedTags());
+    }
 }
