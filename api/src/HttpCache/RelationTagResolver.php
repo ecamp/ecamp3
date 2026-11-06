@@ -9,15 +9,13 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 /**
- * Decides which relations of an entity get a relation tag (<id>#<relation>), and builds the tag.
+ * Decides which relations of an entity get a relation tag, and under which name.
  *
  * A relation tag is only needed if the row holding the foreign key is not the tagged entity itself: a changed
  * foreign key already purges the entity owning it. That leaves the inverse side of an association, and both
  * sides of a many-to-many association.
  */
 class RelationTagResolver {
-    public const string IRI_RELATION_DELIMITER = '#';
-
     /** @var array<class-string, array<string, bool>> */
     private array $taggedRelationsByClass = [];
 
@@ -45,7 +43,7 @@ class RelationTagResolver {
             return null;
         }
 
-        return $id.self::IRI_RELATION_DELIMITER.$this->nameConverter->normalize($property, $class);
+        return CacheTag::forRelation($id, $this->nameConverter->normalize($property, $class));
     }
 
     /**
