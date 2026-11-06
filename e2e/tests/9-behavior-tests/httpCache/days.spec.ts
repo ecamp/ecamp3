@@ -5,6 +5,7 @@ import {
   grgrPeriodId,
   harryMainPeriodId,
   harrySecondPeriodId,
+  bruceWayneUser,
 } from '@/utils/constants'
 import {
   expectCacheHit,
@@ -15,6 +16,7 @@ import {
   apiPost,
   apiDelete,
   getAuthContext,
+  getCacheInfo,
 } from '@/utils/helpers'
 import collectionResponse from '@/test-data/httpCache/days_collection.json'
 
@@ -39,7 +41,7 @@ test.describe('cache test: /periods/{periodId}/days', { tag: '@mature' }, () => 
 
   test.beforeEach(purgeCache)
 
-  test('caches /periods/{periodId}/days between users with access', async () => {
+  test('shares cache for /periods/{periodId}/days between users with camp access', async () => {
     const uri = `/api/periods/${grgrPeriodId}/days`
 
     const bipiApi = await getAuthContext(bipiUser)
@@ -57,6 +59,13 @@ test.describe('cache test: /periods/{periodId}/days', { tag: '@mature' }, () => 
     // request with another user with access is a cache hit
     const castorApi = await getAuthContext(castorUser)
     await expectCacheHit(castorApi, uri)
+
+    // a user without access to the camp does not get the shared response
+    const outsiderApi = await getAuthContext(bruceWayneUser)
+    expect(await getCacheInfo(outsiderApi, uri)).toMatchObject({
+      status: 404,
+      cache: 'PASS',
+    })
   })
 
   test('invalidates /periods/{periodId}/days when changing the period dates', async () => {

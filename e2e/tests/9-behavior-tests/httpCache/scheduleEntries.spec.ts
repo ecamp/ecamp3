@@ -17,6 +17,7 @@ import {
   apiPost,
   apiDelete,
   getAuthContext,
+  getCacheInfo,
 } from '@/utils/helpers'
 import collectionResponse from '@/test-data/httpCache/schedule_entries_collection.json'
 
@@ -41,7 +42,7 @@ test.describe(
 
     test.beforeEach(purgeCache)
 
-    test('caches /periods/{periodId}/schedule_entries between users with access', async () => {
+    test('shares cache for /periods/{periodId}/schedule_entries between users with camp access', async () => {
       const uri = `/api/periods/${skilagerPeriodId}/schedule_entries`
 
       const bipiApi = await getAuthContext(bipiUser)
@@ -59,6 +60,13 @@ test.describe(
       // request with another user with access is a cache hit
       const bruceApi = await getAuthContext(bruceWayneUser)
       await expectCacheHit(bruceApi, uri)
+
+      // a user without access to the camp does not get the shared response
+      const outsiderApi = await getAuthContext(castorUser)
+      expect(await getCacheInfo(outsiderApi, uri)).toMatchObject({
+        status: 404,
+        cache: 'PASS',
+      })
     })
 
     test('invalidates /periods/{periodId}/schedule_entries for all users on scheduleEntry patch', async () => {

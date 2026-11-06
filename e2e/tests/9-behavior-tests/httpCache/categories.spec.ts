@@ -18,6 +18,7 @@ import {
   apiPost,
   apiDelete,
   getAuthContext,
+  getCacheInfo,
 } from '@/utils/helpers'
 import collectionResponse from '@/test-data/httpCache/categories_collection.json'
 
@@ -41,7 +42,7 @@ test.describe('cache test: /camps/{campId}/categories', () => {
   test.beforeEach(purgeCache)
 
   test(
-    'caches /camps/{campId}/categories between users with access',
+    'shares cache for /camps/{campId}/categories between users with camp access',
     { tag: '@mature' },
     async () => {
       const uri = `/api/camps/${grgrCampId}/categories`
@@ -61,6 +62,13 @@ test.describe('cache test: /camps/{campId}/categories', () => {
       // request with another user with access is a cache hit
       const castorApi = await getAuthContext(castorUser)
       await expectCacheHit(castorApi, uri)
+
+      // a user without access to the camp does not get the shared response
+      const outsiderApi = await getAuthContext(bruceWayneUser)
+      expect(await getCacheInfo(outsiderApi, uri)).toMatchObject({
+        status: 404,
+        cache: 'PASS',
+      })
     }
   )
 

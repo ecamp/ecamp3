@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { bipiUser, castorUser, basiskursCampId } from '@/utils/constants'
+import { bipiUser, castorUser, basiskursCampId, bruceWayneUser } from '@/utils/constants'
 import {
   getAuthContext,
   expectCacheHit,
@@ -9,6 +9,7 @@ import {
   apiPatch,
   apiPost,
   apiDelete,
+  getCacheInfo,
 } from '@/utils/helpers'
 import collectionResponse from '@/test-data/httpCache/checklists_collection.json'
 
@@ -23,7 +24,7 @@ test.describe('cache test: /camps/checklists', { tag: '@mature' }, () => {
 
   test.beforeEach(purgeCache)
 
-  test('caches /camp/{campId}/checklists between users with access', async () => {
+  test('shares cache for /camps/{campId}/checklists between users with camp access', async () => {
     const uri = `/api/camps/${basiskursCampId}/checklists`
 
     const bipiApi = await getAuthContext(bipiUser)
@@ -41,6 +42,13 @@ test.describe('cache test: /camps/checklists', { tag: '@mature' }, () => {
     // request with another user with access is a cache hit
     const castorApi = await getAuthContext(castorUser)
     await expectCacheHit(castorApi, uri)
+
+    // a user without access to the camp does not get the shared response
+    const outsiderApi = await getAuthContext(bruceWayneUser)
+    expect(await getCacheInfo(outsiderApi, uri)).toMatchObject({
+      status: 404,
+      cache: 'PASS',
+    })
   })
 
   test('invalidates /camp/{campId}/checklists on checklist patch', async () => {

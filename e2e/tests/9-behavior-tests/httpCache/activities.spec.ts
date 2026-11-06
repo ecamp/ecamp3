@@ -7,6 +7,7 @@ import {
   grgrPeriodId,
   loremIpsumCampId,
   skilagerCampId,
+  castorUser,
 } from '@/utils/constants'
 import collectionResponse from '@/test-data/httpCache/activities_collection.json'
 import {
@@ -18,6 +19,7 @@ import {
   apiPatch,
   apiPost,
   apiDelete,
+  getCacheInfo,
 } from '@/utils/helpers'
 
 const collectionXKeys =
@@ -58,7 +60,7 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
 
   test.beforeEach(purgeCache)
 
-  test('caches /camps/{campId}/activities between users with access', async () => {
+  test('shares cache for /camps/{campId}/activities between users with camp access', async () => {
     const uri = `/api/camps/${skilagerCampId}/activities`
 
     const bipiApi = await getAuthContext(bipiUser)
@@ -76,6 +78,13 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
     // request with another user with access is a cache hit
     const bruceApi = await getAuthContext(bruceWayneUser)
     await expectCacheHit(bruceApi, uri)
+
+    // a user without access to the camp does not get the shared response
+    const outsiderApi = await getAuthContext(castorUser)
+    expect(await getCacheInfo(outsiderApi, uri)).toMatchObject({
+      status: 404,
+      cache: 'PASS',
+    })
   })
 
   test('invalidates /camps/{campId}/activities for all users on activity patch', async () => {
