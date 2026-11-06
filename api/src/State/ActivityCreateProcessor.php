@@ -7,17 +7,24 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Activity;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentType;
+use App\Entity\Period;
+use App\HttpCache\CacheTag;
 use App\State\Util\AbstractPersistProcessor;
 use App\Util\EntityMap;
+use App\Util\GetPeriodsFromActivityTrait;
 use Doctrine\ORM\EntityManagerInterface;
+use FOS\HttpCacheBundle\CacheManager;
 
 /**
  * @template-extends AbstractPersistProcessor<Activity>
  */
 class ActivityCreateProcessor extends AbstractPersistProcessor {
+    use GetPeriodsFromActivityTrait;
+
     public function __construct(
         ProcessorInterface $decorated,
-        private readonly EntityManagerInterface $em
+        private readonly EntityManagerInterface $em,
+        private readonly CacheManager $cacheManager,
     ) {
         parent::__construct($decorated);
     }
@@ -56,5 +63,16 @@ class ActivityCreateProcessor extends AbstractPersistProcessor {
         $rootContentNode->copyFromPrototype($rootContentNodePrototype, $entityMap);
 
         return $data;
+    }
+
+    /**
+     * @param Activity $data
+     */
+    #[\Override]
+    public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
+        $this->cacheManager->invalidateTags(array_map(
+            fn (Period $period) => CacheTag::forCustomTag($period, Period::SCHEDULE_ENTRY_NUMBERS_CACHE_TAG),
+            $this->getPeriodsFromActivity($data)
+        ));
     }
 }

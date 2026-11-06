@@ -42,8 +42,6 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 final readonly class PurgeHttpCacheListener {
     use ClassInfoTrait;
 
-    public const string IRI_RELATION_DELIMITER = '#';
-
     public function __construct(
         private IriConverterInterface $iriConverter,
         private ResourceClassResolverInterface $resourceClassResolver,
@@ -294,7 +292,7 @@ final readonly class PurgeHttpCacheListener {
                 $iri = $this->iriConverter->getIriFromResource($value);
             }
             if ($iri && $property) {
-                $iri .= self::IRI_RELATION_DELIMITER.$this->nameConverter->normalize($property, $this->getObjectClass($value));
+                $iri = CacheTag::forRelation($iri, $this->nameConverter->normalize($property, $this->getObjectClass($value)));
             }
             if ($iri) {
                 $this->cacheManager->invalidateTags([$iri]);

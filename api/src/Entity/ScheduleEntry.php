@@ -13,8 +13,11 @@ use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Doctrine\Filter\ExpressionDateTimeFilter;
+use App\HttpCache\CacheTag;
 use App\HttpCache\CanGenerateTagsInterface;
 use App\Repository\ScheduleEntryRepository;
+use App\State\ScheduleEntryPersistProcessor;
+use App\State\ScheduleEntryRemoveProcessor;
 use App\Util\DateTimeUtil;
 use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\ScheduleEntryPostGroupSequence;
@@ -36,12 +39,14 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new Patch(
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
-            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            processor: ScheduleEntryPersistProcessor::class
         ),
         new Delete(
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             validationContext: ['groups' => ['delete', 'ScheduleEntry:delete']],
-            validate: true
+            validate: true,
+            processor: ScheduleEntryRemoveProcessor::class
         ),
         new GetCollection(
             security: 'is_authenticated()',
@@ -68,7 +73,8 @@ use Symfony\Component\Validator\Constraints as Assert;
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             denormalizationContext: ['groups' => ['write', 'create']],
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.activity === null',
-            validationContext: ['groups' => ScheduleEntryPostGroupSequence::class]
+            validationContext: ['groups' => ScheduleEntryPostGroupSequence::class],
+            processor: ScheduleEntryPersistProcessor::class
         ),
     ],
     normalizationContext: ['groups' => ['read']],
@@ -374,7 +380,11 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface, CanGen
     }
 
     public function getCacheTags(): array {
-        return [$this->getPeriod()->getId()];
+        return [
+            $this->getPeriod()->getId(),
+            CacheTag::forCustomTag($this->getPeriod(), Period::SCHEDULE_ENTRY_NUMBERS_CACHE_TAG),
+            CacheTag::forCustomTag($this->getPeriod()->camp, Camp::DAY_NUMBERS_CACHE_TAG),
+        ];
     }
 
     /**

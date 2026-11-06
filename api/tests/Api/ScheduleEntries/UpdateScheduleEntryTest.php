@@ -519,4 +519,21 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
             'ysPhysicalActivityDurationMinutes' => 90,
         ]);
     }
+
+    public function testPatchScheduleEntryPurgesAllScheduleEntryNumbersInOldAndNewPeriod() {
+        $client = static::createClientWithCredentials();
+        $cacheManager = $this->mockCacheManager();
+
+        $scheduleEntry = static::getFixture('scheduleEntry1');
+        $client->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
+            'period' => $this->getIriFor('period2'),
+            'start' => '2023-04-15T00:10:00+00:00',
+            'end' => '2023-04-15T00:40:00+00:00',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(200);
+        $tags = $cacheManager->getInvalidatedTags();
+        self::assertContains(static::getFixture('period1')->getId().'^scheduleEntryNumbers', $tags);
+        self::assertContains(static::getFixture('period2')->getId().'^scheduleEntryNumbers', $tags);
+    }
 }

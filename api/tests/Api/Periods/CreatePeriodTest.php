@@ -98,6 +98,7 @@ class CreatePeriodTest extends ECampApiTestCase {
             '/periods/'.$periodId.'/days',
             $periodId.'#days',
             $camp1->getId().'#periods',
+            $camp1->getId().'^dayNumbers',
         ];
 
         /** @var Period $period */

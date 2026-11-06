@@ -613,4 +613,17 @@ class UpdatePeriodTest extends ECampApiTestCase {
         ], $day1responsibleCampCollaborations);
         $this->assertEqualsCanonicalizing([], $day2responsibleCampCollaborations);
     }
+
+    public function testPatchPeriodDatesPurgesAllDayNumbersInTheCamp() {
+        $client = static::createClientWithCredentials();
+        $cacheManager = $this->mockCacheManager();
+
+        $period = static::getFixture('period2');
+        $client->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+            'end' => '2023-04-18',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(200);
+        self::assertContains(static::getFixture('camp1')->getId().'^dayNumbers', $cacheManager->getInvalidatedTags());
+    }
 }

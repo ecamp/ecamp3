@@ -348,4 +348,19 @@ class UpdateActivityTest extends ECampApiTestCase {
             'location' => str_repeat('a', 64),
         ]);
     }
+
+    public function testPatchActivityCategoryPurgesAllScheduleEntryNumbersInAffectedPeriods() {
+        $client = static::createClientWithCredentials();
+        $cacheManager = $this->mockCacheManager();
+
+        $activity = static::getFixture('activity1');
+        $client->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
+            'category' => $this->getIriFor('category2'),
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(200);
+        $tags = $cacheManager->getInvalidatedTags();
+        self::assertContains(static::getFixture('period1')->getId().'^scheduleEntryNumbers', $tags);
+        self::assertContains(static::getFixture('period2')->getId().'^scheduleEntryNumbers', $tags);
+    }
 }

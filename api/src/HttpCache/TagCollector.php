@@ -17,8 +17,6 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
  * @author Urban Suppiger <urban@suppiger.net>
  */
 class TagCollector implements TagCollectorInterface {
-    public const IRI_RELATION_DELIMITER = '#';
-
     public function __construct(
         private readonly ResponseTagger $responseTagger,
         private readonly NameConverterInterface $nameConverter,
@@ -67,8 +65,8 @@ class TagCollector implements TagCollectorInterface {
     private function addCacheTagForRelation(array $context, string $iri): void {
         $class = isset($context['object']) ? ClassUtils::getClass($context['object']) : null;
         $relation = $this->nameConverter->normalize($context['api_attribute'], $class);
-
-        $this->responseTagger->addTags([$iri.PurgeHttpCacheListener::IRI_RELATION_DELIMITER.$relation]);
+        $cacheTag = CacheTag::forRelation($iri, $relation);
+        $this->responseTagger->addTags([$cacheTag]);
     }
 
     /**

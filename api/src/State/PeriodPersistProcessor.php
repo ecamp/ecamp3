@@ -3,15 +3,26 @@
 namespace App\State;
 
 use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProcessorInterface;
+use App\Entity\Camp;
 use App\Entity\Day;
 use App\Entity\Period;
+use App\HttpCache\CacheTag;
 use App\State\Util\AbstractPersistProcessor;
 use App\Util\DateTimeUtil;
+use FOS\HttpCacheBundle\CacheManager;
 
 /**
  * @template-extends AbstractPersistProcessor<Period>
  */
 class PeriodPersistProcessor extends AbstractPersistProcessor {
+    public function __construct(
+        ProcessorInterface $decorated,
+        private readonly CacheManager $cacheManager,
+    ) {
+        parent::__construct($decorated);
+    }
+
     /**
      * @param Period $data
      */
@@ -22,6 +33,21 @@ class PeriodPersistProcessor extends AbstractPersistProcessor {
         self::addMissingDays($data);
 
         return $data;
+    }
+
+    /**
+     * @param Period $data
+     */
+    #[\Override]
+    public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
+        /** @var null|Period $before */
+        $before = $context['previous_data'] ?? null;
+
+        if ($before && $before->start == $data->start && $before->end == $data->end) {
+            return;
+        }
+
+        $this->cacheManager->invalidateTags([CacheTag::forCustomTag($data->camp, Camp::DAY_NUMBERS_CACHE_TAG)]);
     }
 
     public static function moveDaysAndScheduleEntries(Period $period, ?Period $originalPeriod = null) {

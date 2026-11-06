@@ -30,8 +30,8 @@ const collectionXKeys =
   /* embedded progress labels: */
   'af92782262d7 af92782262d7#camp ' +
   /* embedded schedule entries: */
-  /* (the first schedule entry also includes the period id) */
-  '29c9e9a07d82 7fa4564a5d5d 29c9e9a07d82#period 29c9e9a07d82#activity 29c9e9a07d82#day ' +
+  /* (the first schedule entry also includes the period id and related custom cache tags) */
+  '29c9e9a07d82 7fa4564a5d5d 7fa4564a5d5d^scheduleEntryNumbers 70ca971c992f^dayNumbers 29c9e9a07d82#period 29c9e9a07d82#activity 29c9e9a07d82#day ' +
   'f08d69cae18a f08d69cae18a#period f08d69cae18a#activity f08d69cae18a#day ' +
   '7e8086d94633 7e8086d94633#period 7e8086d94633#activity 7e8086d94633#day ' +
   /* embedded activitiy responsibles: */
@@ -107,6 +107,39 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
 
     const bruceApi2 = await getAuthContext(bruceWayneUser)
     await expectCacheMiss(bruceApi2, uri)
+  })
+
+  test('invalidates /activities/{activityId} when a schedule entry of another activity shifts its numbers', async () => {
+    const uri = '/api/activities/ffd08c52288c'
+    const otherScheduleEntryUri = '/api/schedule_entries/661817f7af15'
+
+    const bipiApi = await getAuthContext(bipiUser)
+
+    // bring data into defined state
+    await apiPatch(bipiApi, otherScheduleEntryUri, {
+      start: '2036-05-10T18:00:00+00:00',
+      end: '2036-05-10T19:00:00+00:00',
+    })
+
+    // warm up cache
+    await apiGet(bipiApi, uri)
+    await expectCacheHit(bipiApi, uri)
+
+    // touch a schedule entry which is not part of the cached response
+    await apiPatch(bipiApi, otherScheduleEntryUri, {
+      start: '2036-05-10T18:30:00+00:00',
+      end: '2036-05-10T19:30:00+00:00',
+    })
+
+    // ensure cache was invalidated
+    await waitForCacheMiss(bipiApi, uri)
+    await expectCacheHit(bipiApi, uri)
+
+    // restore
+    await apiPatch(bipiApi, otherScheduleEntryUri, {
+      start: '2036-05-10T18:00:00+00:00',
+      end: '2036-05-10T19:00:00+00:00',
+    })
   })
 
   test('invalidates /camps/{campId}/activities for new activity', async () => {
