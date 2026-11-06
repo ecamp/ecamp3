@@ -28,6 +28,7 @@
       <View
         v-for="scheduleEntry in scheduleEntries"
         class="program-day-table-row"
+        :class="{ 'program-day-table-row-compact': compact }"
         :wrap="false"
       >
         <Text class="program-day-table-time">
@@ -40,7 +41,7 @@
         >
           <CategoryLabel
             :category="scheduleEntry.activity().category()"
-            class="program-day-category"
+            :line-font-size="11"
           />
           <Text class="program-day-activity-title">
             {{ scheduleEntry.activity().title }}
@@ -57,7 +58,7 @@
 import PdfComponent from '@/pdf/PdfComponent.js'
 import CategoryLabel from '../CategoryLabel.vue'
 import Responsibles from '../Responsibles.vue'
-import { dayResponsiblesCommaSeparated } from '../../../common/helpers/dayResponsibles.js'
+import { dayResponsiblesCommaSeparated } from '../../../helpers/dayResponsibles.js'
 
 export default {
   name: 'DaySummary',
@@ -110,7 +111,7 @@ export default {
   background-color: black;
   color: white;
   font-size: 15pt;
-  font-weight: 600;
+  font-weight: 500;
   margin-top: 4pt;
   padding: 5pt;
 }
@@ -121,7 +122,7 @@ export default {
   flex-direction: row;
 }
 .program-day-responsibles-title {
-  font-weight: 600;
+  font-weight: 700;
 }
 .program-day-table {
   margin-top: 8pt;
@@ -133,7 +134,10 @@ export default {
   flex-direction: row;
   align-items: flex-start;
   border-bottom: 0.5pt solid #d1d5db;
-  padding: 3pt 0;
+  padding: 5pt 0 3.5pt;
+}
+.program-day-table-row-compact {
+  padding: 3pt 0 1.5pt;
 }
 .program-day-table-header {
   border-bottom: 0.5pt solid black;
@@ -147,6 +151,7 @@ export default {
 .program-day-table-number {
   width: 30pt;
   flex-shrink: 0;
+  font-feature-settings: 'tnum';
 }
 .program-day-table-activity {
   display: flex;
@@ -156,17 +161,14 @@ export default {
   flex-grow: 1;
   flex-shrink: 0;
   padding-right: 5pt;
+  gap: 4pt;
   text-decoration: none;
   color: unset;
-}
-.program-day-category {
-  font-size: 7pt;
-  margin-right: 4pt;
-  margin-bottom: auto;
 }
 .program-day-activity-title {
   flex-grow: 1;
   flex-shrink: 0;
+  flex-basis: 0;
   max-width: 32vw;
 }
 .program-day-table-responsibles {

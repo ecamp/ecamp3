@@ -1,5 +1,10 @@
 {
   "components": {
+    "summary": {
+      "summaryDay": {
+        "noContent": "Les activités de cette journée ne contiennent aucun contenu {contentType}."
+      }
+    },
     "comments": {
       "commentCard": {
         "campComment": "Tout le camp",
@@ -9,7 +14,10 @@
         "deleted": "(supprimé)",
         "deletedAuthor": "Personne supprimée"
       },
-      "commentComposer": { "placeholder": "Écrire un commentaire", "replyPlaceholder": "Écrire une réponse" },
+      "commentComposer": {
+        "placeholder": "Écrire un commentaire",
+        "replyPlaceholder": "Écrire une réponse"
+      },
       "commentThread": {
         "reopen": "Rouvrir",
         "reply": "Répondre",
@@ -17,7 +25,10 @@
         "resolved": "Résolu",
         "resolvedBy": "Résolu par {user}"
       },
-      "commentTime": { "today": "Aujourd’hui, {time}", "yesterday": "Hier, {time}" },
+      "commentTime": {
+        "today": "Aujourd’hui, {time}",
+        "yesterday": "Hier, {time}"
+      },
       "commentsList": {
         "empty": "Aucun commentaire pour le moment.",
         "noResolvedComments": "Aucun commentaire résolu.",
@@ -494,7 +505,10 @@
           "orientation": "Mise en page",
           "landscape": "Paysage",
           "periods": "Période(s) du camp",
-          "portrait": "Portrait"
+          "portrait": "Portrait",
+          "responsibles": "Responsables",
+          "responsiblesNames": "Noms",
+          "responsiblesAvatars": "Avatars"
         },
         "programConfig": {
           "dayOverview": "Aperçu des jours"
@@ -508,15 +522,12 @@
           }
         }
       },
-      "localPdfDownloadButton": {
-        "error": "Une erreur est survenue. Essaie à nouveau, ou recharge la page."
-      },
-      "printClient": {
-        "downloadClientPdfButton": {
-          "label": "Télécharger le PDF (mise en page #2)"
+      "generator": {
+        "downloadPdfButton": {
+          "label": "Télécharger le PDF"
         },
-        "downloadClientPdfListItem": {
-          "label": "Télécharger le PDF (mise en page #2)"
+        "downloadPdfListItem": {
+          "label": "Télécharger le PDF"
         },
         "generatePdfMixin": {
           "error": "Une erreur est survenue. Essaie à nouveau, ou recharge la page.",
@@ -532,13 +543,16 @@
             "failed": "Echec"
           }
         },
-        "printPreviewClient": {
+        "printPreview": {
           "previewError": "Une erreur est survenue. Veuillez réessayer avec des paramètres d'impression différents, ou recharger la page.",
           "previewIframeTitle": "Aperçu avant impression"
         }
       },
       "printConfigurator": {
         "add": "Ajouter du contenu",
+        "layoutInfoTitle": "Où est le choix de mise en page ?",
+        "layoutInfo": "Nous avons réuni les avantages des deux mises en page dans une nouvelle mise en page. Dans les paramètres, tu peux activer la mise en page compacte, qui ressemble à l'ancienne mise en page #2. Avons-nous oublié quelque chose ou quelque chose ne fonctionne-t-il plus ? {contactLink}.",
+        "contactLink": "Contacte-nous",
         "config": {
           "Activity": "Activité unique",
           "ActivityList": "Liste des blocs (cours)",
@@ -550,24 +564,8 @@
           "Toc": "Table des matières"
         },
         "options": "Paramètres",
-        "pageNumbers": "Numéros de page"
-      },
-      "printNuxt": {
-        "downloadNuxtPdfButton": {
-          "label": "Télécharger le PDF (mise en page #1)"
-        },
-        "downloadNuxtPdfListItem": {
-          "label": "Télécharger le PDF (mise en page #1)"
-        },
-        "generatePdfMixin": {
-          "error": "Une erreur est survenue. Essaie à nouveau, ou recharge la page.",
-          "queueFull": "Toutes nos imprimantes PDF sont occupées en ce moment. Veuillez réessayer plus tard."
-        },
-        "printPreviewNuxt": {
-          "openPreview": "Ouvrir l'aperçu dans une nouvelle fenêtre",
-          "previewError": "Une erreur est survenue. Veuillez réessayer avec des paramètres d'impression différents, ou recharger la page.",
-          "previewIframeTitle": "Aperçu avant impression"
-        }
+        "pageNumbers": "Numéros de page",
+        "compact": "Mise en page compacte (moins d'espacement, masquer les champs vides)"
       }
     },
     "program": {
@@ -670,7 +668,299 @@
       }
     }
   },
+  "contentNode": {
+    "checklist": {
+      "info": "Sélectionnez les éléments pertinents de la check-list qui sont couverts par cette activité (objectifs du cours, etc.).",
+      "name": "Check-lists"
+    },
+    "columnLayout": {
+      "entity": {
+        "column": {
+          "name": "Colonne|Colonne {name}"
+        }
+      },
+      "name": "Disposition des colonnes"
+    },
+    "laThematicArea": {
+      "entity": {
+        "option": {
+          "campsiteAndSurroundings": {
+            "description": "Aménagement d’un camp/des environs, démontage, aménagement d’une place de jeu et fabrication d’engins de sport.",
+            "name": "Campement/Environs"
+          },
+          "natureAndEnvironment": {
+            "description": "Faune et flore, protection de l’environnement dans le cadre du camp, météorologie et astronomie, techniques de transmission, préparation et allumage d’un feu.",
+            "name": "Nature et environment"
+          },
+          "outdoorTechnique": {
+            "description": "Planification d’une randonnée, lecture de carte (p. ex. check-list NORDA), croquis, utilisation d’instruments (p.ex. boussole, récepteur GPS, alti- mètre, etc.), orientation dans le terrain.",
+            "name": "Techniques de plein air"
+          },
+          "pioneeringTechnique": {
+            "description": "Aménagement d’un bivouac, construction d’un igloo, connaissance du matériel et de l’équipement, entretien du matériel, construction et démontage des installations, cordages et nœuds, tyroliennes, ponts de cordes, descentes en rappel.",
+            "name": "Technique de pionnier"
+          },
+          "preventionAndIntegration": {
+            "description": "Activités favorisant la prévention et l’intégration ou développant les compétences des participants dans ce domaine.",
+            "name": "Prévention et intégration"
+          },
+          "security": {
+            "description": "Sécurité lors des activités au camp, mesures à prendre en cas d’accident et alerte, premiers secours, réflexions sur la sécurité.",
+            "name": "Sécurité"
+          }
+        }
+      },
+      "info": "Une activité de camp J+S doit aborder au moins un des sujets énumérés.{br}Sélectionne les sujets abordés dans ce bloc.",
+      "name": "Domaine thématique AC"
+    },
+    "learningObjectives": {
+      "info": "Formuler en objectifs les compétences que les participant·e·s auront après cette activité.",
+      "name": "Objectifs d’apprentissage"
+    },
+    "learningTopics": {
+      "info": "Lister les sujets sur lesquels les participant·e·s apprendront quelque chose dans cette activité.",
+      "name": "Sujets d'apprentissage"
+    },
+    "material": {
+      "info": "Tu peux saisir ici les besoins en matériel pour ce bloc.{br}Tu peux gérer les listes de matériel dans le menu 'Admin'.{br}Tu peux trouver un résumé des achats dans le menu 'Matériel'.",
+      "name": "Matériel"
+    },
+    "notes": {
+      "info": "Tu peux y inscrire tes notes, par exemple des idées, des tâches à faire, des questions ouvertes, des contacts, des correspondances avec les transports publics, etc.",
+      "name": "Remarques"
+    },
+    "responsiveLayout": {
+      "mainContent": "Contenu principal",
+      "name": "Disposition par défaut",
+      "printAboveMainContent": "Imprimer au-dessus du contenu principal",
+      "printBelowMainContent": "Imprimer sous le contenu principal"
+    },
+    "safetyConsiderations": {
+      "info": "Certains blocs nécessitent de réfléchir aux risques. Tu peux enregistrer ces réflexions ici.{br}Enregistre les risques que tu as identifiés - et comment tu peux y faire face.",
+      "name": "Considérations sur la sécurité"
+    },
+    "storyboard": {
+      "entity": {
+        "section": {
+          "fields": {
+            "column1": "Heure",
+            "column2Html": "Programme",
+            "column3": "Responsable"
+          },
+          "name": "Section du programme | Sections du programme"
+        }
+      },
+      "info": "Ici, tu peux planifier le contenu de ce bloc.{br}Dans la colonne de gauche [Temps], tu peux enregistrer la durée des différents éléments.{br}Dans la colonne de droite [Responsable], tu peux assigner des personnes.",
+      "name": "Sections du programme"
+    },
+    "storycontext": {
+      "info": "Décris comment ce bloc s'intègre dans l'histoire du camp.{br}Tu peux trouver un résumé de tous les éléments de l'histoire dans le menu 'Histoire'.{br}Tu peux aussi d'abord élaborer une histoire continue dans le menu 'Histoire' - pour que tu puisses parfaitement intégrer le contenu du bloc dans l'histoire.",
+      "name": "Histoire"
+    },
+    "ysActivityCharacteristics": {
+      "entity": {
+        "option": {
+          "community": {
+            "name": "Renforcer la cohésion du groupe avec bienveillance"
+          },
+          "gamesAndSports": {
+            "name": "Participer avec créativité à la conception de jeux et d’activités sportives variées"
+          },
+          "gettingInvolved": {
+            "name": "Prendre conscience de ses propres besoins et idées et les faire valoir consciemment"
+          },
+          "natureAndEnvironment": {
+            "name": "Interagir de manière respectueuse avec son environnement"
+          },
+          "outdoorTechnique": {
+            "name": "Utiliser efficacement des techniques de vie en plein air et de construction de camp"
+          },
+          "travellingSafety": {
+            "name": "Pratiquer des activités itinérantes de manière sûre et prévoyante"
+          }
+        }
+      },
+      "info": "Sélectionne les formes caractéristiques abordées dans cette activité.",
+      "name": "Formes caractéristiques J+S"
+    },
+    "ysPhysicalActivityDuration": {
+      "info": "Saisis le temps consacré à l'exercice d'une activité sportive J+S pour chaque inscription au calendrier de cette activité. Il est aussi affiché dans le programme général.",
+      "name": "Temps consacré à l'exercice d'une activité sportive J+S",
+      "none": "Non spécifié",
+      "templateHint": "Le temps consacré à l'exercice d'une activité sportive J+S est saisi dans chaque activité, par inscription au calendrier."
+    }
+  },
+  "entity": {
+    "activity": {
+      "fields": {
+        "category": "Catégorie d'activité",
+        "location": "Lieu",
+        "progressLabel": "Statut",
+        "responsible": "Responsable",
+        "title": "Titre"
+      },
+      "name": "Activité",
+      "new": "Nouvelle activité"
+    },
+    "activityProgressLabel": {
+      "fields": {
+        "title": "Titre"
+      }
+    },
+    "camp": {
+      "collaborators": {
+        "guest": "Invité",
+        "invite": "Inviter",
+        "manager": "Administration",
+        "member": "Membre"
+      },
+      "fields": {
+        "addressCity": "Ville",
+        "addressName": "Nom",
+        "addressStreet": "Rue",
+        "addressZipcode": "Code postal",
+        "coachName": "Nom du·de la coach J+S",
+        "courseKind": "Type de cours (pour les cours J+S : terminologie J+S)",
+        "courseNumber": "Numéro de cours",
+        "kind": "Type de camp (chalet, tente, itinérant, été, automne)",
+        "motto": "Fil rouge / Thème",
+        "organizer": "Organisateur",
+        "printYSLogoOnPicasso": "Imprimer le logo J+S sur le programme général (requis pour les cours J+S)",
+        "shortTitle": "Nom du camp court",
+        "title": "Nom du camp",
+        "trainingAdvisorName": "Nom du coach J+S"
+      },
+      "name": "Camp",
+      "prototype": "Modèle de camp"
+    },
+    "campCollaboration": {
+      "fields": {
+        "abbreviation": "Abréviation",
+        "color": "Couleur",
+        "inviteEmail": "E-mail",
+        "role": "Role",
+        "status": "Statut"
+      },
+      "status": {
+        "established": "Actif",
+        "inactive": "Inactif",
+        "invited": "Invité"
+      }
+    },
+    "category": {
+      "fields": {
+        "color": "Couleur",
+        "name": "Nom",
+        "numberingStyle": "Style de numérotation",
+        "short": "Abréviation"
+      },
+      "name": "Catégories d'activités",
+      "numberingStyles": {
+        "1": "1, 2, 3 - numéros",
+        "-": "pas de numérotation",
+        "A": "A, B, C - lettres majuscules",
+        "I": "I, II, III - chiffres romains majuscules",
+        "a": "a, b, c - lettres minuscules",
+        "i": "i, ii, iii - chiffres romains minuscules"
+      }
+    },
+    "checklist": {
+      "fields": {
+        "copyChecklistSource": "Exemple",
+        "name": "Nom"
+      },
+      "name": "Check-list | Check-lists"
+    },
+    "checklistItem": {
+      "fields": {
+        "text": "Texte"
+      },
+      "name": "Elément de check-list"
+    },
+    "contentType": {
+      "name": "Type de contenu | Types de contenu"
+    },
+    "day": {
+      "fields": {
+        "dayResponsibles": "Responsable du jour"
+      },
+      "name": "Jour | Jours"
+    },
+    "materialItem": {
+      "fields": {
+        "article": "Article",
+        "list": "Liste de matériel",
+        "quantity": "Quantité",
+        "reference": "Activité / Période",
+        "unit": "Unité"
+      }
+    },
+    "materialList": {
+      "fields": {
+        "name": "Nom"
+      },
+      "name": "Liste de matériel"
+    },
+    "period": {
+      "defaultDescription": "Camp principal",
+      "fields": {
+        "description": "Description",
+        "end": "Fin",
+        "start": "Début"
+      },
+      "name": "Période | Périodes"
+    },
+    "profile": {
+      "fields": {
+        "abbreviation": "Abréviation",
+        "color": "Couleur",
+        "email": "Adresse e-mail",
+        "firstname": "Prénom",
+        "language": "Langue",
+        "nickname": "Surnom",
+        "password": "Mot de passe",
+        "surname": "Nom de famille"
+      },
+      "name": "Profil"
+    },
+    "scheduleEntry": {
+      "fields": {
+        "duration": "Durée",
+        "endDate": "Date de fin",
+        "endDatetime": "Heure de fin",
+        "nr": "No.",
+        "startDate": "Date de début",
+        "startDatetime": "Heure de début",
+        "time": "Moment",
+        "ysPhysicalActivityDuration": "Temps consacré à l'exercice d'une activité sportive J+S",
+        "ysPhysicalActivityDurationFormatted": "TAS {duration}",
+        "ysPhysicalActivityDurationOrMore": "{duration} ou plus",
+        "ysPhysicalActivityDurationOrMoreShort": "{hours}+ h"
+      },
+      "name": "Inscription au calendrier"
+    }
+  },
   "global": {
+    "datetime": {
+      "dateLong": "dd L",
+      "dateRangeStart": "dd DD.MM.",
+      "dateRangeEnd": "dd L",
+      "dateShort": "dd D.M.",
+      "dateTimeLong": "dd L LT",
+      "duration": {
+        "daysAndHours": "{days} d {hours} h",
+        "daysAndHoursAndMinutes": "{days} d {hours} h {minutes} min",
+        "daysAndMinutes": "{days} d {minutes} min",
+        "hoursAndMinutes": "{hours} h {minutes} min",
+        "daysOnly": "{days} d",
+        "hoursOnly": "{hours} h",
+        "minutesOnly": "{minutes} min"
+      },
+      "hourLong": "LT",
+      "hourShort": "H:mm",
+      "vuetifyTimePickerFormat": "24hr"
+    },
+    "shortScheduleEntryDescription": "jour{dayNumber} {startTime}",
     "button": {
       "add": "Ajouter",
       "back": "Retour",
@@ -712,9 +1002,6 @@
       "guest": "Lecture uniquement",
       "manager": "Lecture, écriture & administration du camp",
       "member": "Lecture & écriture"
-    },
-    "datetime": {
-      "vuetifyTimePickerFormat": "24hr"
     },
     "hitobito": {
       "providers": {
@@ -762,6 +1049,41 @@
     },
     "warning": {
       "delete": "Veux-tu vraiment le supprimer ? | Veux-tu vraiment supprimer \"{entity}\" ?"
+    }
+  },
+  "print": {
+    "activity": {
+      "title": "Activité"
+    },
+    "activityList": {
+      "title": "Liste d'activités"
+    },
+    "config": {
+      "periods": "Période(s) du camp"
+    },
+    "cover": {
+      "title": "Page de couverture"
+    },
+    "picasso": {
+      "picassoFooter": {
+        "coach": "Coach: {coach}",
+        "courseNumber": "Numéro de cours: {courseNumber}",
+        "leaders": "Responsable: {leaders}",
+        "trainingAdvisor": "Conseiller à la formation: {trainingAdvisor}"
+      },
+      "title": "Aperçu du programme {period}"
+    },
+    "program": {
+      "title": "Programme"
+    },
+    "safetyConsiderations": {
+      "title": "Considérations sur la sécurité"
+    },
+    "story": {
+      "title": "Histoire"
+    },
+    "toc": {
+      "title": "Table des matières"
     }
   },
   "views": {

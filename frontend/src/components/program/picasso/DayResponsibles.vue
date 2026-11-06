@@ -33,7 +33,7 @@
 
 <script>
 import { serverErrorToString } from '@/helpers/serverError.js'
-import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import campCollaborationDisplayName from '@/helpers/campCollaborationDisplayName.js'
 
 export default {
   name: 'DayResponsibles',

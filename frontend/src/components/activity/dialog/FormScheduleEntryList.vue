@@ -43,7 +43,7 @@
 import FormScheduleEntryItem from './FormScheduleEntryItem.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import { uniqueId } from 'lodash-es'
-import dayjs from '@/common/helpers/dayjs.js'
+import dayjs from '@/helpers/dayjs.js'
 
 export default {
   name: 'FormScheduleEntryList',

@@ -1,28 +1,28 @@
 <template>
   <View class="picasso-footer">
     <View class="picasso-footer-column">
-      <Text v-if="camp.courseKind || camp.kind" class="picasso-footer-field">{{
+      <Text v-if="camp.courseKind || camp.kind">{{
         joinWithoutBlanks([camp.courseKind, camp.kind])
       }}</Text>
-      <Text v-if="camp.courseNumber" class="picasso-footer-field">{{
+      <Text v-if="camp.courseNumber">{{
         $tc('print.picasso.picassoFooter.courseNumber', {
           courseNumber: camp.courseNumber,
         })
       }}</Text>
-      <Text v-if="camp.motto" class="picasso-footer-field">{{ camp.motto }}</Text>
+      <Text v-if="camp.motto">{{ camp.motto }}</Text>
     </View>
     <View class="picasso-footer-column">
-      <Text v-if="address" class="picasso-footer-field">{{ address }}</Text>
-      <Text v-if="dates" class="picasso-footer-field">{{ dates }}</Text>
+      <Text v-if="address">{{ address }}</Text>
+      <Text v-if="dates">{{ dates }}</Text>
     </View>
     <View class="picasso-footer-column">
-      <Text v-if="leaders" class="picasso-footer-field">{{
+      <Text v-if="leaders">{{
         $tc('print.picasso.picassoFooter.leaders', { leaders })
       }}</Text>
-      <Text v-if="camp.coachName" class="picasso-footer-field">{{
+      <Text v-if="camp.coachName">{{
         $tc('print.picasso.picassoFooter.coach', { coach: camp.coachName })
       }}</Text>
-      <Text v-if="camp.trainingAdvisorName" class="picasso-footer-field">{{
+      <Text v-if="camp.trainingAdvisorName">{{
         $tc('print.picasso.picassoFooter.trainingAdvisor', {
           trainingAdvisor: camp.trainingAdvisorName,
         })
@@ -32,7 +32,7 @@
 </template>
 <script>
 import PdfComponent from '@/pdf/PdfComponent.js'
-import campCollaborationLegalName from '../../../common/helpers/campCollaborationLegalName.js'
+import campCollaborationLegalName from '../../../helpers/campCollaborationLegalName.js'
 
 export default {
   name: 'PicassoFooter',
@@ -97,20 +97,18 @@ export default {
   font-size: 9pt;
   display: flex;
   flex-direction: row;
-  margin-top: 6pt;
   border: 1pt solid grey;
-  padding: 0 0 3pt;
+  padding: 1pt 2pt 2pt;
   justify-content: space-between;
+  gap: 4pt;
 }
 .picasso-footer-column {
   max-width: 33%;
+  display: flex;
+  flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 6pt;
+  gap: 2pt;
   line-height: 0.5;
-  padding: 2pt 3pt 3pt;
-}
-.picasso-footer-field {
-  margin-bottom: 6pt;
 }
 </style>

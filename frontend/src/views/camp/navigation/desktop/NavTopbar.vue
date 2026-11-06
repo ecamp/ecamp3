@@ -52,7 +52,7 @@ import Logo from '@/components/navigation/Logo.vue'
 import { campRoute, materialListRoute } from '@/router.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin.js'
 import { getEnv } from '@/environment.js'
-import campShortTitle from '@/common/helpers/campShortTitle.js'
+import campShortTitle from '@/helpers/campShortTitle.js'
 import TopNavigationItem from '@/components/navigation/TopNavigationItem.vue'
 
 export default {

@@ -19,7 +19,7 @@
 
 <script>
 import { ONE_MINUTE_IN_MILLISECONDS } from '@/helpers/vCalendarDragAndDrop.js'
-import { isYsPhysicalActivityDurationOpenEnded } from '@/common/helpers/ysPhysicalActivityDuration.js'
+import { isYsPhysicalActivityDurationOpenEnded } from '@/helpers/ysPhysicalActivityDuration.js'
 
 export default {
   props: {

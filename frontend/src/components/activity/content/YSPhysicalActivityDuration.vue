@@ -27,7 +27,7 @@ import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import {
   ysPhysicalActivityDuration,
   ysPhysicalActivityDurationOptions,
-} from '@/common/helpers/ysPhysicalActivityDuration.js'
+} from '@/helpers/ysPhysicalActivityDuration.js'
 
 export default {
   name: 'YSPhysicalActivityDuration',

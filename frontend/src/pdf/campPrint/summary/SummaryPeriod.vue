@@ -20,7 +20,7 @@ import PdfComponent from '@/pdf/PdfComponent.js'
 import SummaryDay from './SummaryDay.vue'
 import sortBy from 'lodash-es/sortBy.js'
 import camelCase from 'lodash-es/camelCase.js'
-import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
+import { filterMatchScheduleEntry } from '@/helpers/filterMatchScheduleEntry.js'
 import TocSectionStartMarker from '../TocSectionStartMarker.vue'
 
 export default {
@@ -58,7 +58,7 @@ export default {
 <style lang="react-pdf">
 .summary-period-title {
   font-size: 10pt;
-  font-weight: bold;
+  font-weight: 600;
   text-align: center;
 }
 </style>

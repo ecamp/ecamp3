@@ -43,9 +43,9 @@ Allows 15min steps only
 
 <script>
 import BasePicker from './BasePicker.vue'
-import { HTML5_FMT } from '@/common/helpers/dateFormat.js'
+import { HTML5_FMT } from '@/helpers/dateFormat.js'
 import { formComponentValidation } from '@/mixins/formComponentValidation.js'
-import parseTime from '@/common/helpers/dayjs/parseTime.js'
+import parseTime from '@/helpers/dayjs/parseTime.js'
 
 export default {
   name: 'ETimePicker',

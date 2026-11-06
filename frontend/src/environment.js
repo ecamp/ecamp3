@@ -8,7 +8,6 @@ export function getEnv() {
   return {
     API_ROOT_URL: env.VITE_API_ROOT_URL ?? '/api',
     COOKIE_PREFIX: env.VITE_COOKIE_PREFIX ?? 'localhost_',
-    PRINT_URL: env.VITE_PRINT_URL ?? '/print',
     SENTRY_FRONTEND_DSN: env.VITE_SENTRY_FRONTEND_DSN,
     SENTRY_ENVIRONMENT: env.VITE_SENTRY_ENVIRONMENT ?? 'local',
     DEPLOYMENT_TIME: env.VITE_DEPLOYMENT_TIME ?? '',
@@ -20,6 +19,7 @@ export function getEnv() {
       env.TERMS_OF_SERVICE_LINK_TEMPLATE ?? 'https://ecamp3.ch/{lang}/tos',
     NEWS_LINK: env.NEWS_LINK ?? 'https://ecamp3.ch/blog',
     HELP_LINK: env.HELP_LINK ?? 'https://ecamp3.ch/faq',
+    CONTACT_LINK: env.CONTACT_LINK ?? 'https://ecamp3.ch/contact',
     FEATURE_DEVELOPER: (env.VITE_FEATURE_DEVELOPER ?? 'true') === 'true',
     FEATURE_COMMENTS: (env.VITE_FEATURE_COMMENTS ?? 'true') === 'true',
     FEATURE_HITOBITO: (env.VITE_FEATURE_HITOBITO ?? 'true') === 'true',

@@ -35,7 +35,7 @@ import Picasso from '@/components/program/picasso/Picasso.vue'
 import SideBar from '@/components/navigation/SideBar.vue'
 import ScheduleEntries from '@/components/program/ScheduleEntries.vue'
 
-import { HTML5_FMT } from '@/common/helpers/dateFormat.js'
+import { HTML5_FMT } from '@/helpers/dateFormat.js'
 import DaySwitcher from '@/components/activity/DaySwitcher.vue'
 import { firstActivityScheduleEntry } from '@/router.js'
 import scheduleEntryRouteChange from '@/helpers/scheduleEntryRouteChange.js'

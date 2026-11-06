@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { setupVuetify } from '/tests/setupVuetify.js'
-import dayjs from '@/common/helpers/dayjs.js'
+import dayjs from '@/helpers/dayjs.js'
 import CommentThread from '@/components/comments/CommentThread.vue'
 import { reactive } from 'vue'
 import flushPromises from 'flush-promises'

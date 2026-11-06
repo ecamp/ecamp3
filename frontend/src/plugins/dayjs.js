@@ -1,4 +1,4 @@
-import dayjs from '@/common/helpers/dayjs.js'
+import dayjs from '@/helpers/dayjs.js'
 
 export default {
   install: (app) => {

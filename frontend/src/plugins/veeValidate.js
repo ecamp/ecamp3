@@ -2,7 +2,7 @@ import { configure, defineRule } from 'vee-validate'
 import { localize } from '@vee-validate/i18n'
 import { all } from '@vee-validate/rules'
 import i18n from '@/plugins/i18n'
-import dayjs from '@/common/helpers/dayjs.js'
+import dayjs from '@/helpers/dayjs.js'
 
 import greaterThan from '@/plugins/veeValidate/greaterThan'
 import greaterThan_dateTime from '@/plugins/veeValidate/greaterThan_dateTime.js'

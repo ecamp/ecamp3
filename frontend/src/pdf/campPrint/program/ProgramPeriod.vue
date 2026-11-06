@@ -11,6 +11,7 @@
       ) in days"
       :id="isFirstPeriod && dayIndex === 0 ? id : undefined"
       class="page program-page"
+      :class="{ 'page-compact': compact }"
       :size="config.options.pageSize || 'A4'"
     >
       <slot />
@@ -51,8 +52,8 @@
 import PdfComponent from '@/pdf/PdfComponent.js'
 import ProgramDay from './ProgramDay.vue'
 import ScheduleEntryContents from '../scheduleEntry/ScheduleEntryContents.vue'
-import { filterMatchScheduleEntry } from '@/common/helpers/filterMatchScheduleEntry.js'
-import { filterScheduleEntriesByDay } from '@/common/helpers/picasso.js'
+import { filterMatchScheduleEntry } from '@/helpers/filterMatchScheduleEntry.js'
+import { filterScheduleEntriesByDay } from '@/pdf/campPrint/picasso/helpers.js'
 import TocSectionStartMarker from '../TocSectionStartMarker.vue'
 import sortBy from 'lodash-es/sortBy.js'
 
@@ -148,7 +149,7 @@ export default {
 <style lang="react-pdf">
 .program-period-title {
   font-size: 10pt;
-  font-weight: bold;
+  font-weight: 600;
   text-align: center;
 }
 </style>

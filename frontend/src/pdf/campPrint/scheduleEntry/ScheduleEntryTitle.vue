@@ -3,15 +3,18 @@
   <View :wrap="false" :min-presence-ahead="75">
     <View
       class="schedule-entry-header-title"
+      :class="{ 'schedule-entry-header-title-compact': compact }"
       :style="{ borderBottomColor: activity.category().color }"
     >
       <View :id="`scheduleEntry_${scheduleEntry.id}`" class="schedule-entry-title">
         <CategoryLabel
           :category="activity.category()"
+          :line-font-size="18"
           class="schedule-entry-category-label"
         />
         <Text :id="id" :bookmark="bookmarkTitle" class="schedule-entry-number-and-title">
-          {{ scheduleEntry.number }} {{ activity.title }}
+          <Text class="tabular-nums">{{ scheduleEntry.number }}</Text>
+          {{ activity.title }}
         </Text>
       </View>
       <View class="schedule-entry-date">
@@ -20,24 +23,24 @@
         <Text>&nbsp;{{ endAt }}</Text>
       </View>
     </View>
-    <View v-if="showHeaderData" class="schedule-entry-header">
-      <View class="schedule-entry-header-metadata">
-        <View class="schedule-entry-header-metadata-entry"
-          ><Text v-if="activity.location" class="schedule-entry-header-metadata-label"
-            >{{ $tc('entity.activity.fields.location') }}:</Text
-          ><Text>{{ activity.location }}</Text></View
-        >
-      </View>
+    <View v-if="showHeaderRow" class="schedule-entry-header">
+      <View
+        class="schedule-entry-header-metadata"
+        :class="{ 'schedule-entry-header-metadata-compact': compact }"
+      >
+        <Text class="schedule-entry-header-metadata-label"
+          >{{ $tc('entity.activity.fields.location') }}:</Text
+        ><Text>{{ activity.location }}</Text></View
+      >
       <View class="schedule-entry-header-divider" />
-      <View class="schedule-entry-header-metadata">
-        <View class="schedule-entry-header-metadata-entry">
-          <Text
-            v-if="activity.activityResponsibles().items.length"
-            class="schedule-entry-header-metadata-label"
-            >{{ $tc('entity.activity.fields.responsible') }}:</Text
-          >
-          <Responsibles :activity="activity" style="max-width: 200pt" />
-        </View>
+      <View
+        class="schedule-entry-header-metadata"
+        :class="{ 'schedule-entry-header-metadata-compact': compact }"
+      >
+        <Text class="schedule-entry-header-metadata-label"
+          >{{ $tc('entity.activity.fields.responsible') }}:</Text
+        >
+        <Responsibles :activity="activity" style="flex-basis: 0; flex-grow: 1" />
       </View>
     </View>
   </View>
@@ -47,6 +50,7 @@ import PdfComponent from '@/pdf/PdfComponent.js'
 import CategoryLabel from '../CategoryLabel.vue'
 import Responsibles from '../Responsibles.vue'
 import TocSectionStartMarker from '../TocSectionStartMarker.vue'
+import { dateShort, hourShort } from '../../../helpers/dateHelperUTCFormatted.js'
 
 export default {
   name: 'ScheduleEntryTitle',
@@ -69,25 +73,23 @@ export default {
         .filter((entry) => entry)
         .join(' ')
     },
-    start() {
-      return this.$date.utc(this.scheduleEntry.start)
-    },
-    end() {
-      return this.$date.utc(this.scheduleEntry.end)
-    },
     startAt() {
-      return this.start.format('ddd l LT')
+      const start = this.scheduleEntry.start
+      return `${dateShort(start, this.$tc)} ${hourShort(start, this.$tc)}`
     },
     endAt() {
-      return this.start.format('ddd l') === this.end.format('ddd l')
-        ? this.end.format('LT')
-        : this.end.format('ddd l LT')
+      const { start, end } = this.scheduleEntry
+      if (dateShort(start, this.$tc) === dateShort(end, this.$tc)) {
+        return hourShort(end, this.$tc)
+      }
+      return `${dateShort(end, this.$tc)} ${hourShort(end, this.$tc)}`
     },
-    showHeaderData() {
+    showHeaderRow() {
+      if (!this.showHeader) return false
+      if (!this.compact) return true
       return (
-        (this.activity.location.length ||
-          this.activity.activityResponsibles().items.length) &&
-        this.showHeader
+        this.activity.location.length > 0 ||
+        this.activity.activityResponsibles().items.length > 0
       )
     },
   },
@@ -97,59 +99,61 @@ export default {
 .schedule-entry-header-title {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 2pt;
-  border-bottom: 2pt solid #aaaaaa;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  padding-bottom: 1pt;
+  border-bottom: 2.5pt solid #aaaaaa;
+}
+.schedule-entry-header-title-compact {
+  padding-bottom: 0;
 }
 .schedule-entry-title {
-  flex-basis: 0;
-  flex-grow: 1;
   display: flex;
   flex-direction: row;
-  font-size: 14pt;
-  font-weight: 600;
+  gap: 4pt;
+  padding: 4pt 0;
+  font-size: 18pt;
+  font-weight: 700;
 }
 .schedule-entry-category-label {
-  margin: 4pt 0;
-  font-size: 12pt;
   flex-shrink: 0;
 }
 .schedule-entry-number-and-title {
-  margin: 4pt 4pt;
   flex-shrink: 1;
 }
 .schedule-entry-date {
   font-size: 11pt;
+  margin-top: -4pt;
+  margin-bottom: 6pt;
+  margin-left: auto;
   display: flex;
   flex-grow: 0;
-  flex-shrink: 1;
+  flex-shrink: 0;
   flex-direction: row;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  max-width: 33vw;
 }
 .schedule-entry-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: 0.5pt solid black;
+  border-bottom: 0.75pt solid black;
   font-size: 10pt;
   margin-bottom: 10pt;
 }
 .schedule-entry-header-divider {
-  border-left: 0.5pt solid black;
+  border-left: 0.75pt solid black;
   margin-left: 3.5pt;
   padding-left: 5pt
 }
 .schedule-entry-header-metadata {
   width: 50%;
-  padding: 2pt 0;
-}
-.schedule-entry-header-metadata-entry {
+  padding: 3pt 0;
+  display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  column-gap: 6pt;
+  align-items: baseline;
+  gap: 4pt;
+}
+.schedule-entry-header-metadata-compact {
+  padding: 2pt 0;
 }
 .schedule-entry-header-metadata-label {
   font-weight: 600;

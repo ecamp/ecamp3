@@ -94,8 +94,8 @@ import ScheduleEntryLinks from '@/components/material/ScheduleEntryLinks.vue'
 import TiptapEditor from '@/components/form/tiptap/TiptapEditor.vue'
 import UserAvatar from '@/components/user/UserAvatar.vue'
 import { mapGetters } from 'vuex'
-import { campCollaborationColor, lighten } from '@/common/helpers/colors'
-import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import { campCollaborationColor, lighten } from '@/helpers/colors'
+import campCollaborationDisplayName from '@/helpers/campCollaborationDisplayName.js'
 
 export default {
   name: 'CommentCard',

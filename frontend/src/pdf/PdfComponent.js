@@ -3,6 +3,10 @@ import camelCase from 'lodash-es/camelCase.js'
 
 export default {
   name: 'PdfComponent',
+  inject: {
+    compact: { default: false },
+    pageSize: { default: 'A4' },
+  },
   props: {
     id: { type: String, default: '' },
     index: { type: Number, default: -1 },

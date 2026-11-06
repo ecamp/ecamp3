@@ -9,7 +9,7 @@ if (args.length != 2) {
     ' > use this script with source and target translation-file\r\n' +
       ' > node ' +
       process.argv[1] +
-      ' ../frontend/src/common/locales/en.json ../frontend/src/common/locales/fr.json'
+      ' ../frontend/src/locales/en.json ../frontend/src/locales/fr.json'
   )
   process.exit()
 }

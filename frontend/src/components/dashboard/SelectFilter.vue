@@ -59,7 +59,7 @@
 
 <script>
 import { get, keyBy } from 'lodash-es'
-import CountBadge from '@/components/dashboard/CountBadge.vue'
+import CountBadge from '@/components/generic/CountBadge.vue'
 
 export default {
   name: 'SelectFilter',

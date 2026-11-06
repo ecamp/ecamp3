@@ -1,9 +1,12 @@
 <template>
   <View>
-    <Text class="picasso-day-header-text">{{ date }}</Text>
-    <View v-if="showDayResponsibles" class="picasso-day-responsibles">
-      <Text class="picasso-day-responsibles-text">{{ dayResponsibles }}</Text>
-    </View>
+    <Text
+      class="picasso-day-header-text"
+      :class="{ 'picasso-day-header-text-compact': compact }"
+      >{{ date }}</Text
+    ><Text v-if="showDayResponsibles" class="picasso-day-header-responsibles">{{
+      dayResponsibles
+    }}</Text>
   </View>
 </template>
 <script>
@@ -11,7 +14,7 @@ import PdfComponent from '@/pdf/PdfComponent.js'
 import {
   dayResponsiblesCommaSeparated,
   filterDayResponsiblesByDay,
-} from '../../../common/helpers/dayResponsibles.js'
+} from '../../../helpers/dayResponsibles.js'
 
 export default {
   name: 'DayHeader',
@@ -40,16 +43,15 @@ export default {
 </script>
 <style lang="react-pdf">
 .picasso-day-header-text {
-  font-size: 8pt;
-  font-weight: bold;
+  font-size: 10pt;
+  font-weight: 600;
   margin: 0 auto 2pt;
 }
-.picasso-day-responsibles {
+.picasso-day-header-text-compact {
   font-size: 8pt;
-  margin: 3pt auto 0;
-  line-height: 1.3;
 }
-.picasso-day-responsibles-text {
-  padding-bottom: 5pt;
+.picasso-day-header-responsibles {
+  font-size: 8pt;
+  margin: 1pt auto 0;
 }
 </style>

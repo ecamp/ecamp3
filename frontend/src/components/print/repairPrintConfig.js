@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash-es'
-import campShortTitle from '@/common/helpers/campShortTitle.js'
+import campShortTitle from '@/helpers/campShortTitle.js'
 
 export default function repairConfig(
   config,
@@ -27,6 +27,9 @@ export default function repairConfig(
     configClone.options.pageNumbers !== false
   ) {
     configClone.options.pageNumbers = false
+  }
+  if (configClone.options.compact !== true && configClone.options.compact !== false) {
+    configClone.options.compact = false
   }
   if (!['A5', 'A4', 'A3'].includes(configClone.options.pageSize)) {
     configClone.options.pageSize = 'A4'

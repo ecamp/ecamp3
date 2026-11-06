@@ -11,10 +11,8 @@
 /api/build
 /api/var
 /api/vendor
-/common
 /e2e
 /frontend
 /frontend-old
 /pdf
-/print
 /translation
