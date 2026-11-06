@@ -18,6 +18,11 @@ App\Entity\ScheduleEntry:
     activity: '@activity1'
     startOffset: 1980
     endOffset: 2040
+  scheduleEntry3:
+    period: '@period2'
+    activity: '@activity1'
+    startOffset: 3360
+    endOffset: 3420
 
 # Root node
 App\Entity\ContentNode\ColumnLayout:

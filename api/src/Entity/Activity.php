@@ -16,6 +16,7 @@ use App\InputFilter;
 use App\Repository\ActivityRepository;
 use App\State\ActivityCreateProcessor;
 use App\State\ActivityRemoveProcessor;
+use App\State\ActivityUpdateProcessor;
 use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\AssertLastCollectionItemIsNotDeleted;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -38,7 +39,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Patch(
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            validationContext: ['groups' => ['Default', 'update']]
+            validationContext: ['groups' => ['Default', 'update']],
+            processor: ActivityUpdateProcessor::class
         ),
         new Delete(
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',

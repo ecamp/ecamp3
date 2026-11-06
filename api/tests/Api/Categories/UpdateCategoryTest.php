@@ -594,4 +594,19 @@ class UpdateCategoryTest extends ECampApiTestCase {
             $contentTypeSafetyConsiderations->getId().'#categories', // SafetyConsiderations was previously in the list, so this is purged because it was removed
         ], $cacheManager->getInvalidatedTags());
     }
+
+    public function testPatchCategoryNumberingStylePurgesAllScheduleEntryNumbersInTheCamp() {
+        $client = static::createClientWithCredentials();
+        $cacheManager = $this->mockCacheManager();
+
+        $category = static::getFixture('category1');
+        $client->request('PATCH', '/categories/'.$category->getId(), ['json' => [
+            'numberingStyle' => 'A',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(200);
+        $tags = $cacheManager->getInvalidatedTags();
+        self::assertContains(static::getFixture('period1')->getId().'^scheduleEntryNumbers', $tags);
+        self::assertContains(static::getFixture('period2')->getId().'^scheduleEntryNumbers', $tags);
+    }
 }

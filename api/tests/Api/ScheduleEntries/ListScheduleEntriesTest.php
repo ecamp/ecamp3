@@ -155,7 +155,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?activity=%2Factivities%2F'.$activity->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 2,
+            'totalItems' => 3,
             '_links' => [
                 'items' => [],
             ],
@@ -166,6 +166,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('scheduleEntry1')],
             ['href' => $this->getIriFor('scheduleEntry2')],
+            ['href' => $this->getIriFor('scheduleEntry3')],
         ], $response->toArray()['_links']['items']);
     }
 

@@ -16,6 +16,7 @@ use App\InputFilter;
 use App\Repository\PeriodRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\State\PeriodPersistProcessor;
+use App\State\PeriodRemoveProcessor;
 use App\Validator\Period\AssertGreaterThanOrEqualToLastScheduleEntryEnd;
 use App\Validator\Period\AssertLessThanOrEqualToEarliestScheduleEntryStart;
 use App\Validator\Period\AssertNotOverlappingWithOtherPeriods;
@@ -46,7 +47,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Delete(
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             validationContext: ['groups' => ['delete', 'Period:delete']],
-            validate: true
+            validate: true,
+            processor: PeriodRemoveProcessor::class
         ),
         new GetCollection(
             security: 'is_authenticated()',
@@ -68,6 +70,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(filterClass: CampCollaboratorFilter::class)]
 #[ORM\Entity(repositoryClass: PeriodRepository::class)]
 class Period extends BaseEntity implements BelongsToCampInterface {
+    /** Custom cache tag on a period for the numbers of all of its schedule entries. */
+    public const string SCHEDULE_ENTRY_NUMBERS_CACHE_TAG = 'scheduleEntryNumbers';
+
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'Period:Camp', 'Period:Days'],
         'swagger_definition_name' => 'read',

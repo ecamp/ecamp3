@@ -1,5 +1,11 @@
 import { test, expect } from '@playwright/test'
-import { bipiUser, bruceWayneUser, grgrPeriodId } from '@/utils/constants'
+import {
+  bipiUser,
+  bruceWayneUser,
+  grgrPeriodId,
+  harryMainPeriodId,
+  harrySecondPeriodId,
+} from '@/utils/constants'
 import {
   expectCacheHit,
   expectCacheMiss,
@@ -12,12 +18,18 @@ import {
 } from '@/utils/helpers'
 import collectionResponse from '@/test-data/httpCache/days_collection.json'
 
+const addDays = (date: string, days: number) => {
+  const result = new Date(date)
+  result.setUTCDate(result.getUTCDate() + days)
+  return result.toISOString().substring(0, 10)
+}
+
 const collectionXKeys =
   /* campCollaboration for bipiUser */
   'b0bdb7202a9d ' +
   /* days + links + dayResponsibles  */
-  /* the first day also includes the period id 76be24bce434 */
-  '4b90ff5b42c0 76be24bce434 cf442e7381e9 4b90ff5b42c0#dayResponsibles ' +
+  /* the first day also includes the period id 76be24bce434 and the camp's day numbers key */
+  '4b90ff5b42c0 76be24bce434 3c79b99ab424^dayNumbers cf442e7381e9 4b90ff5b42c0#dayResponsibles ' +
   'ac92acd57c49 c58a08b98726 ac92acd57c49#dayResponsibles ' +
   '1447f15f1e12 db401ffc07e6 1447f15f1e12#dayResponsibles ' +
   '963c3c0639dd 981300f9ef5c 963c3c0639dd#dayResponsibles ' +
@@ -77,6 +89,29 @@ test.describe('cache test: /periods/{periodId}/days', { tag: '@mature' }, () => 
     // ensure cache was invalidated
     await waitForCacheMiss(bipiApi, uri)
     await expectCacheHit(bipiApi, uri)
+  })
+
+  test('invalidates /periods/{periodId}/days of later periods when changing the dates of an earlier period', async () => {
+    const uri = `/api/periods/${harrySecondPeriodId}/days`
+    const mainPeriodUri = `/api/periods/${harryMainPeriodId}`
+
+    const bipiApi = await getAuthContext(bipiUser)
+    const mainPeriod = await (await apiGet(bipiApi, mainPeriodUri)).json()
+
+    // warm up cache
+    await apiGet(bipiApi, uri)
+    await expectCacheHit(bipiApi, uri)
+
+    // lengthen the earlier period, which shifts the day numbers of the later period
+    await apiPatch(bipiApi, mainPeriodUri, { end: addDays(mainPeriod.end, 1) })
+
+    // ensure cache was invalidated
+    await waitForCacheMiss(bipiApi, uri)
+    await expectCacheHit(bipiApi, uri)
+
+    // restore
+    await apiPatch(bipiApi, mainPeriodUri, { end: mainPeriod.end })
+    await waitForCacheMiss(bipiApi, uri)
   })
 
   test('invalidates /periods/{periodId}/days when adding a day responsible', async () => {

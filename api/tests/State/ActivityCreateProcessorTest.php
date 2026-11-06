@@ -12,6 +12,7 @@ use App\Entity\ContentType;
 use App\State\ActivityCreateProcessor;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use FOS\HttpCacheBundle\CacheManager;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -44,7 +45,7 @@ class ActivityCreateProcessorTest extends TestCase {
         $em->method('getRepository')->willReturn($repository);
         $repository->method('findOneBy')->willReturn($contentType);
 
-        $this->processor = new ActivityCreateProcessor($decoratedProcessor, $em);
+        $this->processor = new ActivityCreateProcessor($decoratedProcessor, $em, $this->createStub(CacheManager::class));
     }
 
     public function testSetsCampFromCategory() {

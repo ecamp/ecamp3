@@ -833,4 +833,29 @@ class CreateActivityTest extends ECampApiTestCase {
             $except
         );
     }
+
+    public function testCreateActivityPurgesAllScheduleEntryNumbersInAffectedPeriods() {
+        $client = static::createClientWithCredentials();
+        $cacheManager = $this->mockCacheManager();
+
+        $client->request('POST', '/activities', ['json' => $this->getExampleWritePayload([
+            'scheduleEntries' => [
+                [
+                    'period' => $this->getIriFor('period1'),
+                    'start' => '2023-05-01T15:00:00+00:00',
+                    'end' => '2023-05-01T16:00:00+00:00',
+                ],
+                [
+                    'period' => $this->getIriFor('period2'),
+                    'start' => '2023-04-15T15:00:00+00:00',
+                    'end' => '2023-04-15T16:00:00+00:00',
+                ],
+            ],
+        ])]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $tags = $cacheManager->getInvalidatedTags();
+        self::assertContains(static::getFixture('period1')->getId().'^scheduleEntryNumbers', $tags);
+        self::assertContains(static::getFixture('period2')->getId().'^scheduleEntryNumbers', $tags);
+    }
 }
