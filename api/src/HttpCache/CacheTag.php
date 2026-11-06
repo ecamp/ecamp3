@@ -12,14 +12,14 @@ use App\Entity\HasId;
  * and with custom tags for values that are derived from several entities.
  */
 final class CacheTag {
-    public const string RELATION_DELIMITER = '#';
-    public const string CUSTOM_DELIMITER = '^';
+    public const string RELATION_TAG_DELIMITER = '#';
+    public const string CUSTOM_TAG_DELIMITER = '^';
 
     public static function forRelation(string $id, string $relation): string {
-        return $id.self::RELATION_DELIMITER.$relation;
+        return $id.self::RELATION_TAG_DELIMITER.$relation;
     }
 
     public static function forCustomTag(HasId $entity, string $tagName): string {
-        return $entity->getId().self::CUSTOM_DELIMITER.$tagName;
+        return $entity->getId().self::CUSTOM_TAG_DELIMITER.$tagName;
     }
 }

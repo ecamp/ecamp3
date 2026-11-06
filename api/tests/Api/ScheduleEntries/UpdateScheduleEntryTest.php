@@ -520,7 +520,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchScheduleEntryPurgesNumberingDependencyOfOldAndNewPeriod() {
+    public function testPatchScheduleEntryPurgesAllScheduleEntryNumbersInOldAndNewPeriod() {
         $client = static::createClientWithCredentials();
         $cacheManager = $this->mockCacheManager();
 

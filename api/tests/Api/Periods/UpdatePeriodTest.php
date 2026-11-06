@@ -614,7 +614,7 @@ class UpdatePeriodTest extends ECampApiTestCase {
         $this->assertEqualsCanonicalizing([], $day2responsibleCampCollaborations);
     }
 
-    public function testPatchPeriodDatesPurgesDayNumbersDependencyOfCamp() {
+    public function testPatchPeriodDatesPurgesAllDayNumbersInTheCamp() {
         $client = static::createClientWithCredentials();
         $cacheManager = $this->mockCacheManager();
 

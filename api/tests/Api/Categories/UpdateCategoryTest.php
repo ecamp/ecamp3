@@ -595,7 +595,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
         ], $cacheManager->getInvalidatedTags());
     }
 
-    public function testPatchCategoryNumberingStylePurgesNumberingDependencyOfAllPeriods() {
+    public function testPatchCategoryNumberingStylePurgesAllScheduleEntryNumbersInTheCamp() {
         $client = static::createClientWithCredentials();
         $cacheManager = $this->mockCacheManager();
 

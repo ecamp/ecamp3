@@ -30,7 +30,7 @@ const collectionXKeys =
   /* embedded progress labels: */
   'af92782262d7 af92782262d7#camp ' +
   /* embedded schedule entries: */
-  /* (the first schedule entry also includes the period id and its dependency keys) */
+  /* (the first schedule entry also includes the period id and related custom cache tags) */
   '29c9e9a07d82 7fa4564a5d5d 7fa4564a5d5d^scheduleEntryNumbers 70ca971c992f^dayNumbers 29c9e9a07d82#period 29c9e9a07d82#activity 29c9e9a07d82#day ' +
   'f08d69cae18a f08d69cae18a#period f08d69cae18a#activity f08d69cae18a#day ' +
   '7e8086d94633 7e8086d94633#period 7e8086d94633#activity 7e8086d94633#day ' +
