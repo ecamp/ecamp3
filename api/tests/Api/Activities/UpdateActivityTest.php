@@ -349,7 +349,7 @@ class UpdateActivityTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchActivityCategoryPurgesAllScheduleEntryNumbersInThePeriod() {
+    public function testPatchActivityCategoryPurgesAllScheduleEntryNumbersOfAffectedPeriods() {
         $client = static::createClientWithCredentials();
         $cacheManager = $this->mockCacheManager();
 
@@ -359,6 +359,8 @@ class UpdateActivityTest extends ECampApiTestCase {
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);
-        self::assertContains(static::getFixture('period1')->getId().'^scheduleEntryNumbers', $cacheManager->getInvalidatedTags());
+        $tags = $cacheManager->getInvalidatedTags();
+        self::assertContains(static::getFixture('period1')->getId().'^scheduleEntryNumbers', $tags);
+        self::assertContains(static::getFixture('period2')->getId().'^scheduleEntryNumbers', $tags);
     }
 }
