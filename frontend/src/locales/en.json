@@ -555,7 +555,8 @@
       },
       "printConfigurator": {
         "add": "Add content",
-        "compact": "Compact layout (less spacing, hide empty fields)",
+        "compact": "Compact layout",
+        "compactDescription": "Less spacing, hide empty fields",
         "config": {
           "Activity": "Single activity",
           "ActivityList": "Activity list (courses)",
@@ -569,10 +570,15 @@
         "configuration": "Print settings",
         "contactLink": "Get in touch with us",
         "fontSize": "Font size",
+        "fontSizeDescriptions": {
+          "A3": "For printing on A4 or A3",
+          "A4": "For printing on A4 or A5",
+          "A5": "For printing on A6"
+        },
         "fontSizes": {
-          "A3": "Smaller (for printing on A4 or A3)",
-          "A4": "Normal (for printing on A4 or A5)",
-          "A5": "Bigger (for printing on A6)"
+          "A3": "Smaller",
+          "A4": "Normal",
+          "A5": "Bigger"
         },
         "layoutInfo": "We've combined the strengths of both print layouts into one new layout. Under «Settings», you can enable the compact layout, which is similar to the previous layout #2. Have we overlooked something, or has something stopped working? {contactLink}.",
         "layoutInfoTitle": "Where is the print layout selection?",

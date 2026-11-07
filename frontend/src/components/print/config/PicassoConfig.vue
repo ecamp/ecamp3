@@ -34,6 +34,7 @@
       v-if="hasYSPhysicalActivityDuration"
       v-model="options.showYSPhysicalActivityDuration"
       path="showYSPhysicalActivityDuration"
+      input-class="ml-n3"
       :label="$t('entity.scheduleEntry.fields.ysPhysicalActivityDuration')"
       @update:model-value="$emit('update:modelValue', modelValue)"
     />

@@ -15,28 +15,6 @@
           v-show="isWide || activeTab === 'config'"
           class="e-print-configurator__config"
         >
-          <div class="e-print-configurator__settings pa-4">
-            <h2 class="text-subtitle-1 mb-2">
-              {{ $t('components.print.printConfigurator.options') }}
-            </h2>
-            <e-checkbox
-              v-model="cnf.options.pageNumbers"
-              :label="$t('components.print.printConfigurator.pageNumbers')"
-              @update:model-value="onChange"
-            />
-            <e-checkbox
-              v-model="cnf.options.compact"
-              :label="$t('components.print.printConfigurator.compact')"
-              @update:model-value="onChange"
-            />
-            <e-select
-              v-model="cnf.options.pageSize"
-              class="mt-4"
-              :items="pageSizes"
-              :label="$t('components.print.printConfigurator.fontSize')"
-              @update:model-value="onChange"
-            />
-          </div>
           <PagesOverview v-model="cnf.contents" @update:model-value="onChange">
             <template #item="{ element: content, index: idx }">
               <PagesConfig
@@ -96,6 +74,59 @@
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
+          <div
+            class="e-print-configurator__settings px-3 py-1"
+            role="group"
+            :aria-label="$t('components.print.printConfigurator.options')"
+          >
+            <div class="e-print-configurator__checkboxes">
+              <e-checkbox
+                v-model="cnf.options.pageNumbers"
+                class="e-print-configurator__page-numbers"
+                :label="$t('components.print.printConfigurator.pageNumbers')"
+                density="comfortable"
+                hide-details
+                @update:model-value="onChange"
+              />
+              <e-checkbox
+                v-model="cnf.options.compact"
+                class="e-print-configurator__compact"
+                :label="$t('components.print.printConfigurator.compact')"
+                density="comfortable"
+                hide-details
+                @update:model-value="onChange"
+              >
+                <template #label>
+                  <div class="e-print-configurator__compact-label">
+                    <div>{{ $t('components.print.printConfigurator.compact') }}</div>
+                    <div
+                      class="e-print-configurator__setting-description"
+                      :title="$t('components.print.printConfigurator.compactDescription')"
+                    >
+                      {{ $t('components.print.printConfigurator.compactDescription') }}
+                    </div>
+                  </div>
+                </template>
+              </e-checkbox>
+            </div>
+            <div class="e-print-configurator__page-size">
+              <e-select
+                v-model="cnf.options.pageSize"
+                :items="pageSizes"
+                :label="$t('components.print.printConfigurator.fontSize')"
+                density="compact"
+                variant="plain"
+                single-line
+                hide-details
+                input-class="py-3 pl-2"
+                @update:model-value="onChange"
+              >
+                <template #item="{ item, props }">
+                  <v-list-item v-bind="props" :subtitle="item.raw.description" />
+                </template>
+              </e-select>
+            </div>
+          </div>
         </div>
         <div
           v-show="isWide || activeTab === 'preview'"
@@ -259,6 +290,9 @@ export default {
       return ['A5', 'A4', 'A3'].map((size) => ({
         value: size,
         text: this.$t(`components.print.printConfigurator.fontSizes.${size}`),
+        description: this.$t(
+          `components.print.printConfigurator.fontSizeDescriptions.${size}`
+        ),
       }))
     },
     isDev() {
@@ -440,6 +474,66 @@ export default {
   display: flex;
   flex: 1 1 0;
   min-height: 0;
+}
+
+.e-print-configurator__settings {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  gap: 0 16px;
+  background: rgb(var(--v-theme-surface));
+  border-top: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+
+.e-print-configurator__checkboxes {
+  display: flex;
+  flex: 1 1 0;
+  flex-wrap: wrap;
+  align-items: center;
+  min-width: 0;
+  gap: 0 12px;
+}
+
+.e-print-configurator__checkboxes > :deep(.e-form-container + .e-form-container) {
+  margin-top: 0;
+}
+
+.e-print-configurator__page-numbers {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.e-print-configurator__compact {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.e-print-configurator__compact-label {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.e-print-configurator__page-size {
+  flex: 0 1 auto;
+  min-width: 0;
+
+  :deep(.v-field) {
+    --v-input-padding-top: 0;
+  }
+}
+
+.e-print-configurator__setting-description {
+  overflow: hidden;
+  font-size: 0.7rem;
+  line-height: 1.2;
+  color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .e-print-configurator__config,
