@@ -25,9 +25,9 @@ spec:
           command: ["migrate-database"]
           resources:
             requests:
-              memory: 256Mi
+              memory: 124Mi
             limits:
-              memory: 1Gi
+              memory: 124Mi
       volumes:
       - name: php-socket
         emptyDir: {}
