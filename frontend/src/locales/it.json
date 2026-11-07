@@ -424,8 +424,8 @@
         "picassoConfig": {
           "orientation": "Layout della pagina",
           "responsibles": "Responsabili",
-          "responsiblesAvatars": "Avatar",
-          "responsiblesNames": "Nomi"
+          "responsiblesAvatars": "Come avatar",
+          "responsiblesNames": "Come nomi"
         },
         "programConfig": {
           "dayOverview": "Panoramica della giornata di stampa"
@@ -466,9 +466,12 @@
           "Story": "Riassunto della storia",
           "Toc": "Indice dei contenuti"
         },
+        "configuration": "Impostazioni di stampa",
         "contactLink": "Contattaci",
         "layoutInfo": "Abbiamo riunito i vantaggi di entrambi i layout di stampa in un nuovo layout. Nelle impostazioni puoi attivare il layout compatto, simile al precedente layout #2. Abbiamo dimenticato qualcosa o qualcosa non funziona più? {contactLink}.",
-        "layoutInfoTitle": "Dov'è la scelta del layout di stampa?"
+        "layoutInfoTitle": "Dov'è la scelta del layout di stampa?",
+        "preview": "Anteprima di stampa",
+        "showPreview": "Attiva anteprima"
       }
     },
     "program": {

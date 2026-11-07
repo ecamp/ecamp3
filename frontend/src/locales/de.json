@@ -512,8 +512,8 @@
           "periods": "Lagerabschnitt(e)",
           "portrait": "Hochformat",
           "responsibles": "Verantwortliche",
-          "responsiblesAvatars": "Avatare",
-          "responsiblesNames": "Namen"
+          "responsiblesAvatars": "Als Avatare",
+          "responsiblesNames": "Als Namen"
         },
         "programConfig": {
           "dayOverview": "Tagesübersicht"
@@ -566,6 +566,7 @@
           "Story": "Geschichte",
           "Toc": "Inhaltsverzeichnis"
         },
+        "configuration": "Druckeinstellungen",
         "contactLink": "Melde dich bei uns",
         "fontSize": "Schriftgrösse",
         "fontSizes": {
@@ -576,7 +577,9 @@
         "layoutInfo": "Wir haben die Vorteile beider Drucklayouts in einem neuen Layout vereint. Unter «Einstellungen» kannst du das kompakte Layout aktivieren, das dem bisherigen Layout #2 ähnelt. Haben wir etwas übersehen oder funktioniert etwas nicht mehr? {contactLink}.",
         "layoutInfoTitle": "Wo ist die Druckauswahl?",
         "options": "Einstellungen",
-        "pageNumbers": "Seitenzahlen"
+        "pageNumbers": "Seitenzahlen",
+        "preview": "Druckvorschau",
+        "showPreview": "Vorschau einschalten"
       }
     },
     "program": {

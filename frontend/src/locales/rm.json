@@ -315,7 +315,10 @@
           "Program": "Program en detagl",
           "Story": "Fil cotschen",
           "Toc": "Tavla da cuntegn"
-        }
+        },
+        "configuration": "Parameters da stampa",
+        "preview": "Prevista da stampa",
+        "showPreview": "Activar la prevista"
       }
     },
     "program": {

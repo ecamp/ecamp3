@@ -18,7 +18,6 @@
         <slot />
       </template>
     </draggable>
-    <slot name="drawer" />
   </div>
 </template>
 

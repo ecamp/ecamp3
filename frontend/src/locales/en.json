@@ -512,8 +512,8 @@
           "periods": "Period(s)",
           "portrait": "Portrait",
           "responsibles": "Responsibles",
-          "responsiblesAvatars": "Avatars",
-          "responsiblesNames": "Names"
+          "responsiblesAvatars": "As avatars",
+          "responsiblesNames": "As names"
         },
         "programConfig": {
           "dayOverview": "print day overview"
@@ -566,6 +566,7 @@
           "Story": "Story",
           "Toc": "Table of contents"
         },
+        "configuration": "Print settings",
         "contactLink": "Get in touch with us",
         "fontSize": "Font size",
         "fontSizes": {
@@ -576,7 +577,9 @@
         "layoutInfo": "We've combined the strengths of both print layouts into one new layout. Under «Settings», you can enable the compact layout, which is similar to the previous layout #2. Have we overlooked something, or has something stopped working? {contactLink}.",
         "layoutInfoTitle": "Where is the print layout selection?",
         "options": "Settings",
-        "pageNumbers": "Page numbers"
+        "pageNumbers": "Page numbers",
+        "preview": "Print preview",
+        "showPreview": "Turn preview on"
       }
     },
     "program": {
