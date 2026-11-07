@@ -29,6 +29,7 @@ import { generatePdf } from './generatePdf.js'
 import { generatePdfMixin } from './generatePdfMixin.js'
 import { componentI18n } from '@/plugins/index.js'
 import { useToast } from '@/components/toast/useToast.js'
+import { markRaw } from 'vue'
 
 const RENDER_IN_WORKER = true
 
@@ -48,17 +49,15 @@ export default {
   data() {
     return {
       url: null,
-      preventingMultiple: false,
+      controller: null,
+      renderTimer: null,
       error: null,
     }
   },
   computed: {
-    language() {
-      return this.$store.state.lang.language
-    },
     urlWithPagemodes() {
       if (!this.url) return null
-      return this.url + '#navpanes=0&pagemode=none&zoom=100'
+      return this.url + '#navpanes=0&pagemode=none&view=fit'
     },
   },
   watch: {
@@ -66,54 +65,55 @@ export default {
       immediate: true,
       deep: true,
       handler() {
-        this.generatePdf()
-      },
-    },
-    language: {
-      immediate: true,
-      handler() {
-        this.generatePdf()
+        this.scheduleRender()
       },
     },
   },
   unmounted() {
+    clearTimeout(this.renderTimer)
+    this.controller?.abort()
     this.revokeOldObjectUrl()
   },
   methods: {
-    async generatePdf() {
-      if (this.loading) {
-        this.preventingMultiple = true
-        return
-      }
-
+    scheduleRender() {
+      clearTimeout(this.renderTimer)
+      this.controller?.abort()
       this.loading = true
       this.error = null
-      this.revokeOldObjectUrl()
+      this.renderTimer = setTimeout(() => this.generatePdf(), 250)
+    },
+    async generatePdf() {
+      const controller = markRaw(new AbortController())
+      this.controller = controller
       this.setProgress(0, 'loadingData')
 
-      const { error, blob } = await generatePdf(
-        {
-          config: { ...this.config, apiGet: this.api.get.bind(this) },
-          storeData: this.$store.state,
-          translationData: componentI18n.messages.value,
-          renderInWorker: RENDER_IN_WORKER,
-        },
-        this.onProgress.bind(this)
-      )
-
-      if (error) {
-        this.error = error
-        console.log(error)
-        this.setProgress(100, 'failed')
-      } else {
+      try {
+        const { error, blob } = await generatePdf(
+          {
+            config: { ...this.config, apiGet: this.api.get.bind(this) },
+            storeData: this.$store.state,
+            translationData: componentI18n.messages.value,
+            renderInWorker: RENDER_IN_WORKER,
+          },
+          (...args) => {
+            if (!controller.signal.aborted) this.onProgress(...args)
+          },
+          controller.signal
+        )
+        if (controller.signal.aborted) return
+        if (error) throw error
+        this.revokeOldObjectUrl()
         this.url = URL.createObjectURL(blob)
         this.setProgress(100, 'done')
-      }
-
-      this.loading = false
-      if (this.preventingMultiple) {
-        this.preventingMultiple = false
-        this.generatePdf()
+      } catch (error) {
+        if (controller.signal.aborted) return
+        this.error = error
+        this.setProgress(100, 'failed')
+      } finally {
+        if (this.controller === controller && !controller.signal.aborted) {
+          this.loading = false
+          this.controller = null
+        }
       }
     },
     revokeOldObjectUrl() {
