@@ -1,13 +1,13 @@
 <template>
   <div class="px-md-4 flex-grow-1 d-flex flex-column justify-content-between">
     <e-select
+      v-if="periods.length !== 1"
       v-model="options.periods"
       :label="$t('print.config.periods')"
       :items="periods"
       path="periods"
       multiple
-      :variant="periods.length === 1 ? 'plain' : 'underlined'"
-      :readonly="periods.length === 1"
+      variant="underlined"
       @update:model-value="$emit('update:modelValue', modelValue)"
     />
     <div class="e-form-container" :class="{ 'e-picasso-config__row': landscape }">
