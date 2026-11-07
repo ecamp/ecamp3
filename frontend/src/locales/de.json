@@ -1,10 +1,5 @@
 {
   "components": {
-    "summary": {
-      "summaryDay": {
-        "noContent": "Die Blöcke an diesem Tag enthalten keine {contentType} Inhalte."
-      }
-    },
     "activity": {
       "content": {
         "checklist": {
@@ -317,14 +312,14 @@
     },
     "collaborator": {
       "collaboratorBulkCreate": {
-        "validationFailed": "Bereits im Team oder ungültige E-Mail-Adresse:",
         "emailsHint": "Eine E-Mail-Adresse pro Zeile oder durch Kommas getrennt eingeben",
         "emailsLabel": "E-Mail-Adressen",
         "failedEmails": "Einladung fehlgeschlagen: {emails}",
         "invite": "Einladungen verschicken",
         "inviteCta": "Mehrere Personen einladen",
         "successCount": "{count} Einladung(en) verschickt",
-        "title": "Mehrere Personen einladen"
+        "title": "Mehrere Personen einladen",
+        "validationFailed": "Bereits im Team oder ungültige E-Mail-Adresse:"
       },
       "collaboratorCreate": {
         "emailLabel": "E-Mail-Adresse",
@@ -384,9 +379,9 @@
       },
       "commentsList": {
         "empty": "Noch keine Kommentare.",
-        "noResolvedComments": "Keine erledigten Kommentare.",
         "noOpenComments": "Keine offenen Kommentare.",
-        "noOpenCommentsWithResolved": "Keine offenen Kommentare. Siehe Erledigt"
+        "noOpenCommentsWithResolved": "Keine offenen Kommentare. Siehe Erledigt",
+        "noResolvedComments": "Keine erledigten Kommentare."
       },
       "commentsPanel": {
         "activityCommentsElsewhere": "Ein weiterer offener Kommentar befindet sich bei einer Aktivität. | {count} weitere offene Kommentare befinden sich bei einzelnen Aktivitäten.",
@@ -512,13 +507,13 @@
           "title": "Aktivitäten filtern"
         },
         "picassoConfig": {
-          "orientation": "Seitenlayout",
           "landscape": "Querformat",
+          "orientation": "Seitenlayout",
           "periods": "Lagerabschnitt(e)",
           "portrait": "Hochformat",
           "responsibles": "Verantwortliche",
-          "responsiblesNames": "Namen",
-          "responsiblesAvatars": "Avatare"
+          "responsiblesAvatars": "Avatare",
+          "responsiblesNames": "Namen"
         },
         "programConfig": {
           "dayOverview": "Tagesübersicht"
@@ -542,15 +537,15 @@
         "generatePdfMixin": {
           "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu.",
           "progress": {
-            "loadingData": "Lade die aktuellsten Daten des Lagers…",
-            "setupTranslationsAndFonts": "Lade Schriftarten und Texte…",
             "assembleContent": "Stelle {type} zusammen ({content} von {totalContents})…",
+            "done": "Fertig",
+            "downloadingPdf": "Lade die PDF-Datei herunter…",
+            "failed": "Abgebrochen",
             "layoutDocument": "Berechne Dokument-Layout…",
             "layoutPage": "Berechne Layout von Seite {page}…",
+            "loadingData": "Lade die aktuellsten Daten des Lagers…",
             "renderingPdfPage": "Rendere PDF-Seite {page} von {totalPages}…",
-            "downloadingPdf": "Lade die PDF-Datei herunter…",
-            "done": "Fertig",
-            "failed": "Abgebrochen"
+            "setupTranslationsAndFonts": "Lade Schriftarten und Texte…"
           }
         },
         "printPreview": {
@@ -560,9 +555,7 @@
       },
       "printConfigurator": {
         "add": "Inhalt hinzufügen",
-        "layoutInfoTitle": "Wo ist die Druckauswahl?",
-        "layoutInfo": "Wir haben die Vorteile beider Drucklayouts in einem neuen Layout vereint. Unter «Einstellungen» kannst du das kompakte Layout aktivieren, das dem bisherigen Layout #2 ähnelt. Haben wir etwas übersehen oder funktioniert etwas nicht mehr? {contactLink}.",
-        "contactLink": "Melde dich bei uns",
+        "compact": "Kompaktes Layout (weniger Abstände, leere Felder ausblenden)",
         "config": {
           "Activity": "Einzelne Aktivität",
           "ActivityList": "Aktivitätenliste (Kurse)",
@@ -573,15 +566,17 @@
           "Story": "Geschichte",
           "Toc": "Inhaltsverzeichnis"
         },
-        "options": "Einstellungen",
-        "pageNumbers": "Seitenzahlen",
-        "compact": "Kompaktes Layout (weniger Abstände, leere Felder ausblenden)",
+        "contactLink": "Melde dich bei uns",
         "fontSize": "Schriftgrösse",
         "fontSizes": {
           "A3": "Kleinere Schrift (optimiert für A4 oder A3)",
           "A4": "Normale Schrift (optimiert für A4 oder A5)",
           "A5": "Grössere Schrift (optimiert für A6)"
-        }
+        },
+        "layoutInfo": "Wir haben die Vorteile beider Drucklayouts in einem neuen Layout vereint. Unter «Einstellungen» kannst du das kompakte Layout aktivieren, das dem bisherigen Layout #2 ähnelt. Haben wir etwas übersehen oder funktioniert etwas nicht mehr? {contactLink}.",
+        "layoutInfoTitle": "Wo ist die Druckauswahl?",
+        "options": "Einstellungen",
+        "pageNumbers": "Seitenzahlen"
       }
     },
     "program": {
@@ -631,11 +626,11 @@
         }
       },
       "scheduleEntryFilters": {
+        "allMyActivities": "Alle meine Aktivitäten",
         "category": "Kategorie",
         "clearFilters": "Filter entfernen",
         "day": "Datum",
         "dayLabel": "Tag {dayNumber} ({date})",
-        "allMyActivities": "Alle meine Aktivitäten",
         "onlyMyActivities": "Nur meine Aktivitäten",
         "period": "Lagerabschnitt",
         "progressLabel": "Status",
@@ -652,6 +647,11 @@
     "story": {
       "storyDay": {
         "noStory": "Die Blöcke an diesem Tag enthalten keinen roten Faden."
+      }
+    },
+    "summary": {
+      "summaryDay": {
+        "noContent": "Die Blöcke an diesem Tag enthalten keine {contentType} Inhalte."
       }
     },
     "toast": {
@@ -675,12 +675,12 @@
         "title": "E-Mail-Adresse wird geändert"
       },
       "dialogChangePassword": {
-        "title": "Passwort ändern",
         "currentPassword": "Aktuelles Passwort",
+        "error": "Es ist ein Fehler aufgetreten.",
         "newPassword": "Neues Passwort",
         "newPasswordConfirmation": "Neues Passwort bestätigen",
         "success": "Dein Passwort wurde erfolgreich geändert.",
-        "error": "Es ist ein Fehler aufgetreten."
+        "title": "Passwort ändern"
       }
     }
   },
@@ -957,26 +957,6 @@
     }
   },
   "global": {
-    "datetime": {
-      "dateLong": "dd L",
-      "dateRangeStart": "dd DD.MM.",
-      "dateRangeEnd": "dd L",
-      "dateShort": "dd D.M.",
-      "dateTimeLong": "dd L LT",
-      "duration": {
-        "daysAndHours": "{days} d {hours} h",
-        "daysAndHoursAndMinutes": "{days} d {hours} h {minutes} min",
-        "daysAndMinutes": "{days} d {minutes} min",
-        "hoursAndMinutes": "{hours} h {minutes} min",
-        "daysOnly": "{days} d",
-        "hoursOnly": "{hours} h",
-        "minutesOnly": "{minutes} min"
-      },
-      "hourLong": "LT",
-      "hourShort": "H:mm",
-      "vuetifyTimePickerFormat": "24hr"
-    },
-    "shortScheduleEntryDescription": "Tag {dayNumber} {startTime}",
     "button": {
       "add": "Hinzufügen",
       "back": "Zurück",
@@ -1020,6 +1000,25 @@
       "manager": "Vollständige Lageradministration, sowie Lese- & Schreibrecht",
       "member": "Lese- & Schreibrecht"
     },
+    "datetime": {
+      "dateLong": "dd L",
+      "dateRangeEnd": "dd L",
+      "dateRangeStart": "dd DD.MM.",
+      "dateShort": "dd D.M.",
+      "dateTimeLong": "dd L LT",
+      "duration": {
+        "daysAndHours": "{days} d {hours} h",
+        "daysAndHoursAndMinutes": "{days} d {hours} h {minutes} min",
+        "daysAndMinutes": "{days} d {minutes} min",
+        "hoursAndMinutes": "{hours} h {minutes} min",
+        "daysOnly": "{days} d",
+        "hoursOnly": "{hours} h",
+        "minutesOnly": "{minutes} min"
+      },
+      "hourLong": "LT",
+      "hourShort": "H:mm",
+      "vuetifyTimePickerFormat": "24hr"
+    },
     "hitobito": {
       "providers": {
         "pbsmidata": "MiData"
@@ -1041,19 +1040,20 @@
       "news": "News"
     },
     "newVersion": {
-      "title": "Eine neue Version ist verfügbar",
       "description": "Diese Funktion ist nicht verfügbar, bis du auf die neueste Version aktualisierst.",
+      "title": "Eine neue Version ist verfügbar",
       "update": "Jetzt aktualisieren",
       "updateLater": "Später aktualisieren"
     },
     "selfXssWarning": {
-      "title": "Stopp!",
-      "message": "Diese Browser-Konsole ist für Entwickler*innen gedacht. Wenn dich jemand auffordert, hier etwas hineinzukopieren, will diese Person dich mit grosser Wahrscheinlichkeit betrügen: Was du hier einfügst, läuft in deinem Namen und kann alle Lager lesen und verändern, auf die du Zugriff hast. Füge hier niemals Code ein, den du nicht selbst vollständig verstehst."
+      "message": "Diese Browser-Konsole ist für Entwickler*innen gedacht. Wenn dich jemand auffordert, hier etwas hineinzukopieren, will diese Person dich mit grosser Wahrscheinlichkeit betrügen: Was du hier einfügst, läuft in deinem Namen und kann alle Lager lesen und verändern, auf die du Zugriff hast. Füge hier niemals Code ein, den du nicht selbst vollständig verstehst.",
+      "title": "Stopp!"
     },
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt.",
       "short": "Serverfehler"
     },
+    "shortScheduleEntryDescription": "Tag {dayNumber} {startTime}",
     "toast": {
       "copied": "{source} kopiert"
     },
@@ -1310,9 +1310,9 @@
         "desktop": {
           "navTopbar": {
             "campIsLoading": "Lager wird geladen",
+            "checklist": "Checklisten",
             "material": "Material",
             "program": "Programm",
-            "checklist": "Checklisten",
             "story": "Geschichte"
           }
         },
@@ -1369,8 +1369,8 @@
       "detail": "Hoppla. Du bist vom Weg abgekommen…{br}Dieser Link funktioniert leider nicht."
     },
     "profile": {
-      "profile": "Profil",
-      "password": "Passwort"
+      "password": "Passwort",
+      "profile": "Profil"
     }
   }
 }

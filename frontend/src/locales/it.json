@@ -1,54 +1,5 @@
 {
   "components": {
-    "summary": {
-      "summaryDay": {
-        "noContent": "Nessun contenuto '{contentType}' trovato in questo giorno..."
-      }
-    },
-    "comments": {
-      "commentCard": {
-        "campComment": "Tutto il campo",
-        "deleteDisabledReplies": "Non è possibile eliminare commenti con risposte di altre persone.",
-        "deleteWarning": "Vuoi davvero eliminare il tuo commento?",
-        "deleteWithRepliesWarning": "Vuoi davvero eliminare il tuo commento insieme alle tue risposte?",
-        "deleted": "(eliminato)",
-        "deletedAuthor": "Persona eliminata"
-      },
-      "commentComposer": {
-        "placeholder": "Scrivi un commento",
-        "replyPlaceholder": "Scrivi una risposta"
-      },
-      "commentThread": {
-        "reopen": "Riapri",
-        "reply": "Rispondi",
-        "resolve": "Segna come risolto",
-        "resolved": "Risolto",
-        "resolvedBy": "Risolto da {user}"
-      },
-      "commentTime": {
-        "today": "Oggi, {time}",
-        "yesterday": "Ieri, {time}"
-      },
-      "commentsList": {
-        "empty": "Ancora nessun commento.",
-        "noResolvedComments": "Nessun commento risolto.",
-        "noOpenComments": "Nessun commento aperto.",
-        "noOpenCommentsWithResolved": "Nessun commento aperto. Vedi Risolti."
-      },
-      "commentsPanel": {
-        "activityCommentsElsewhere": "Un altro commento aperto si trova in un'attività. | Altri {count} commenti aperti si trovano nelle singole attività.",
-        "all": "Tutti",
-        "commentsOnThisActivity": "Commenti su questa attività",
-        "open": "Aperti",
-        "resolved": "Risolti",
-        "resolvedActivityCommentsElsewhere": "Un altro commento risolto si trova in un'attività. | Altri {count} commenti risolti si trovano nelle singole attività.",
-        "title": "Commenti"
-      },
-      "commentsToggleButton": {
-        "hide": "Nascondi i commenti",
-        "show": "Mostra i commenti | Mostra un commento | Mostra {count} commenti"
-      }
-    },
     "activity": {
       "content": {
         "columnLayout": {
@@ -302,14 +253,14 @@
     },
     "collaborator": {
       "collaboratorBulkCreate": {
-        "validationFailed": "Già nel campo o email non valida:",
         "emailsHint": "Inserisci un indirizzo e-mail per riga o separati da virgole",
         "emailsLabel": "Indirizzi e-mail",
         "failedEmails": "Invito fallito: {emails}",
         "invite": "Inviare gli inviti",
         "inviteCta": "Invitare più persone",
         "successCount": "{count} invito/i inviato/i",
-        "title": "Invitare più persone"
+        "title": "Invitare più persone",
+        "validationFailed": "Già nel campo o email non valida:"
       },
       "collaboratorCreate": {
         "invite": "Inviare l'invito",
@@ -335,6 +286,50 @@
       "promptCollaboratorDeactivate": {
         "deactivate": "Disattivare",
         "warningText": "Vuoi disattivare '{name}'?"
+      }
+    },
+    "comments": {
+      "commentCard": {
+        "campComment": "Tutto il campo",
+        "deleteDisabledReplies": "Non è possibile eliminare commenti con risposte di altre persone.",
+        "deleteWarning": "Vuoi davvero eliminare il tuo commento?",
+        "deleteWithRepliesWarning": "Vuoi davvero eliminare il tuo commento insieme alle tue risposte?",
+        "deleted": "(eliminato)",
+        "deletedAuthor": "Persona eliminata"
+      },
+      "commentComposer": {
+        "placeholder": "Scrivi un commento",
+        "replyPlaceholder": "Scrivi una risposta"
+      },
+      "commentThread": {
+        "reopen": "Riapri",
+        "reply": "Rispondi",
+        "resolve": "Segna come risolto",
+        "resolved": "Risolto",
+        "resolvedBy": "Risolto da {user}"
+      },
+      "commentTime": {
+        "today": "Oggi, {time}",
+        "yesterday": "Ieri, {time}"
+      },
+      "commentsList": {
+        "empty": "Ancora nessun commento.",
+        "noOpenComments": "Nessun commento aperto.",
+        "noOpenCommentsWithResolved": "Nessun commento aperto. Vedi Risolti.",
+        "noResolvedComments": "Nessun commento risolto."
+      },
+      "commentsPanel": {
+        "activityCommentsElsewhere": "Un altro commento aperto si trova in un'attività. | Altri {count} commenti aperti si trovano nelle singole attività.",
+        "all": "Tutti",
+        "commentsOnThisActivity": "Commenti su questa attività",
+        "open": "Aperti",
+        "resolved": "Risolti",
+        "resolvedActivityCommentsElsewhere": "Un altro commento risolto si trova in un'attività. | Altri {count} commenti risolti si trovano nelle singole attività.",
+        "title": "Commenti"
+      },
+      "commentsToggleButton": {
+        "hide": "Nascondi i commenti",
+        "show": "Mostra i commenti | Mostra un commento | Mostra {count} commenti"
       }
     },
     "dashboard": {
@@ -429,8 +424,8 @@
         "picassoConfig": {
           "orientation": "Layout della pagina",
           "responsibles": "Responsabili",
-          "responsiblesNames": "Nomi",
-          "responsiblesAvatars": "Avatar"
+          "responsiblesAvatars": "Avatar",
+          "responsiblesNames": "Nomi"
         },
         "programConfig": {
           "dayOverview": "Panoramica della giornata di stampa"
@@ -461,9 +456,6 @@
       },
       "printConfigurator": {
         "add": "Aggiungi contenuti",
-        "layoutInfoTitle": "Dov'è la scelta del layout di stampa?",
-        "layoutInfo": "Abbiamo riunito i vantaggi di entrambi i layout di stampa in un nuovo layout. Nelle impostazioni puoi attivare il layout compatto, simile al precedente layout #2. Abbiamo dimenticato qualcosa o qualcosa non funziona più? {contactLink}.",
-        "contactLink": "Contattaci",
         "compact": "Layout compatto (meno spaziatura, nascondi i campi vuoti)",
         "config": {
           "Activity": "Attività singola",
@@ -473,7 +465,10 @@
           "SafetyConsiderations": "Considerazioni sulla sicurezza",
           "Story": "Riassunto della storia",
           "Toc": "Indice dei contenuti"
-        }
+        },
+        "contactLink": "Contattaci",
+        "layoutInfo": "Abbiamo riunito i vantaggi di entrambi i layout di stampa in un nuovo layout. Nelle impostazioni puoi attivare il layout compatto, simile al precedente layout #2. Abbiamo dimenticato qualcosa o qualcosa non funziona più? {contactLink}.",
+        "layoutInfoTitle": "Dov'è la scelta del layout di stampa?"
       }
     },
     "program": {
@@ -503,9 +498,9 @@
         }
       },
       "scheduleEntryFilters": {
+        "allMyActivities": "Tutte le mie attività",
         "category": "Categoria",
         "clearFilters": "Cancella i filtri",
-        "allMyActivities": "Tutte le mie attività",
         "onlyMyActivities": "Solo le mie attività",
         "period": "Periodo",
         "progressLabel": "Stati",
@@ -522,6 +517,11 @@
     "story": {
       "storyDay": {
         "noStory": "Nessun contenuto di storia trovato in questo giorno..."
+      }
+    },
+    "summary": {
+      "summaryDay": {
+        "noContent": "Nessun contenuto '{contentType}' trovato in questo giorno..."
       }
     },
     "toast": {
@@ -545,12 +545,12 @@
         "title": "Modifica dell'indirizzo e-mail"
       },
       "dialogChangePassword": {
-        "title": "Cambiare password",
         "currentPassword": "Password attuale",
+        "error": "Si è verificato un errore.",
         "newPassword": "Nuova password",
         "newPasswordConfirmation": "Conferma nuova password",
         "success": "La tua password è stata modificata con successo.",
-        "error": "Si è verificato un errore."
+        "title": "Cambiare password"
       }
     }
   },
@@ -792,21 +792,6 @@
     }
   },
   "global": {
-    "datetime": {
-      "dateLong": "dd L",
-      "dateRangeStart": "dd DD.MM.",
-      "dateRangeEnd": "dd L",
-      "dateShort": "dd D.M.",
-      "dateTimeLong": "dd L LT",
-      "duration": {
-        "hoursAndMinutes": "{hours}h {minutes}min",
-        "hoursOnly": "{hours}h",
-        "minutesOnly": "{minutes}min"
-      },
-      "hourLong": "LT",
-      "hourShort": "H:mm",
-      "vuetifyTimePickerFormat": "24hr"
-    },
     "button": {
       "add": "Aggiungere",
       "back": "Indietro",
@@ -848,6 +833,21 @@
       "manager": "Lettura, scrittura e amministrazione del campo",
       "member": "Lettura e scrittura"
     },
+    "datetime": {
+      "dateLong": "dd L",
+      "dateRangeEnd": "dd L",
+      "dateRangeStart": "dd DD.MM.",
+      "dateShort": "dd D.M.",
+      "dateTimeLong": "dd L LT",
+      "duration": {
+        "hoursAndMinutes": "{hours}h {minutes}min",
+        "hoursOnly": "{hours}h",
+        "minutesOnly": "{minutes}min"
+      },
+      "hourLong": "LT",
+      "hourShort": "H:mm",
+      "vuetifyTimePickerFormat": "24hr"
+    },
     "hitobito": {
       "providers": {
         "pbsmidata": "MiData"
@@ -869,14 +869,14 @@
       "news": "Notizie"
     },
     "newVersion": {
-      "title": "È disponibile una nuova versione",
       "description": "Questa funzione non è disponibile finché non si esegue l’aggiornamento all’ultima versione.",
+      "title": "È disponibile una nuova versione",
       "update": "Aggiorna ora",
       "updateLater": "Aggiorna più tardi"
     },
     "selfXssWarning": {
-      "title": "Stop!",
-      "message": "Questa console del browser è pensata per gli sviluppatori. Se qualcuno vi ha chiesto di copiare e incollare qualcosa qui, quasi certamente si tratta di una truffa: ciò che incollate viene eseguito a vostro nome e può leggere e modificare tutti i campi a cui avete accesso. Non incollate mai qui del codice che non comprendete completamente."
+      "message": "Questa console del browser è pensata per gli sviluppatori. Se qualcuno vi ha chiesto di copiare e incollare qualcosa qui, quasi certamente si tratta di una truffa: ciò che incollate viene eseguito a vostro nome e può leggere e modificare tutti i campi a cui avete accesso. Non incollate mai qui del codice che non comprendete completamente.",
+      "title": "Stop!"
     },
     "serverError": {
       "409": "Oooops... Questa azione ha causato un errore sul lato server.",
@@ -1160,8 +1160,8 @@
       "detail": "Ops. Hai perso la strada…{br}Purtroppo questo link non funziona."
     },
     "profile": {
-      "profile": "Profilo",
-      "password": "Password"
+      "password": "Password",
+      "profile": "Profilo"
     }
   }
 }
