@@ -20,7 +20,7 @@ sub vcl_recv {
     unset req.http.X-Cache-Grant;
     unset req.http.X-Cache-Denied;
     unset req.http.X-Cache-Original-Url;
-    unset req.http.X-Cache-Preflight;
+    unset req.http.X-Cache-Access-Check;
   }
 
   # Never taken over from a client, it is derived from the login below
@@ -37,7 +37,7 @@ sub vcl_recv {
   call fos_tags_xkey_recv;
   call purge_all_recv;
 
-  if (req.http.X-Cache-Phase != "preflight") {
+  if (req.http.X-Cache-Phase != "access_check") {
     # exclude API documentation, profiler and graphql endpoint
     if (var.get("originalUrl") ~ "^/api/docs"
       || var.get("originalUrl") ~ "^/api/graphql"
@@ -82,7 +82,7 @@ sub vcl_recv {
 sub vcl_hash {
   # Responses are shared between users, access to them is checked in vcl_hit. Whether access is granted
   # is specific to the user and the security delegate, which is part of the URL of the access check.
-  if (req.http.X-Cache-Phase == "preflight") {
+  if (req.http.X-Cache-Phase == "access_check") {
     hash_data(var.get("JWT"));
   }
 
@@ -93,7 +93,7 @@ sub vcl_hash {
 }
 
 sub vcl_hit {
-  if (req.http.X-Cache-Phase == "preflight") {
+  if (req.http.X-Cache-Phase == "access_check") {
     return(deliver);
   }
 
@@ -112,7 +112,7 @@ sub vcl_hit {
   }
 
   # Ask the API whether the user may read the security delegate, and continue with the original request afterwards
-  set req.http.X-Cache-Phase = "preflight";
+  set req.http.X-Cache-Phase = "access_check";
   set req.http.X-Cache-Check-Iri = obj.http.X-Cache-Security-Delegate;
   set req.http.X-Cache-Original-Url = req.url;
   set req.url = "/authorization/check_access?iri=" + obj.http.X-Cache-Security-Delegate;
@@ -130,7 +130,7 @@ sub vcl_backend_fetch {
   unset bereq.http.X-Cache-Check-Iri;
   unset bereq.http.X-Cache-Grant;
   unset bereq.http.X-Cache-Denied;
-  unset bereq.http.X-Cache-Preflight;
+  unset bereq.http.X-Cache-Access-Check;
   unset bereq.http.X-Cache-Original-Url;
 }
 
@@ -139,7 +139,7 @@ sub vcl_backend_response {
     return (deliver);
   }
 
-  if (bereq.http.X-Cache-Phase == "preflight") {
+  if (bereq.http.X-Cache-Phase == "access_check") {
     # only cache the decision to grant access
     if (beresp.status != 200) {
       set beresp.uncacheable = true;
@@ -170,7 +170,7 @@ sub vcl_backend_response {
   call vcl_beresp_vary;
 
   # a grant must not be served after it expired
-  if (bereq.http.X-Cache-Phase == "preflight") {
+  if (bereq.http.X-Cache-Phase == "access_check") {
     set beresp.grace = 0s;
     set beresp.keep = 0s;
   }
@@ -180,7 +180,7 @@ sub vcl_backend_response {
 
 sub vcl_deliver {
   # Continue the original request with the answer of the API
-  if (req.http.X-Cache-Phase == "preflight") {
+  if (req.http.X-Cache-Phase == "access_check") {
     if (resp.status == 200) {
       set req.http.X-Cache-Grant = req.http.X-Cache-Check-Iri;
     } else {
@@ -188,9 +188,9 @@ sub vcl_deliver {
     }
 
     if (obj.hits > 0) {
-      set req.http.X-Cache-Preflight = "HIT";
+      set req.http.X-Cache-Access-Check = "HIT";
     } else {
-      set req.http.X-Cache-Preflight = "MISS";
+      set req.http.X-Cache-Access-Check = "MISS";
     }
 
     set req.url = req.http.X-Cache-Original-Url;
@@ -203,8 +203,8 @@ sub vcl_deliver {
   call fos_tags_xkey_deliver;
   call fos_debug_deliver;
 
-  if (resp.http.X-Cache-Debug && req.http.X-Cache-Preflight) {
-    set resp.http.X-Cache-Preflight = req.http.X-Cache-Preflight;
+  if (resp.http.X-Cache-Debug && req.http.X-Cache-Access-Check) {
+    set resp.http.X-Cache-Access-Check = req.http.X-Cache-Access-Check;
   }
   unset resp.http.X-Cache-Mode;
   unset resp.http.X-Cache-Security-Delegate;

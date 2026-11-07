@@ -140,8 +140,8 @@ export async function apiCheckAccess(request: APIRequestContext, iri?: string) {
 }
 
 /**
- * Status and cache result of a request through the cache. The preflight is the access check which is
- * made on a cache hit, it is only present if the response is delegating its security to a resource.
+ * Status and cache result of a request through the cache. The access check is made on a cache hit,
+ * it is only present if the response is delegating its security to a resource.
  */
 export async function getCacheInfo(request: APIRequestContext, uri: string) {
   const response = await apiGet(request, uri)
@@ -149,7 +149,7 @@ export async function getCacheInfo(request: APIRequestContext, uri: string) {
   return {
     status: response.status(),
     cache: headers['x-cache'],
-    preflight: headers['x-cache-preflight'],
+    accessCheck: headers['x-cache-access-check'],
   }
 }
 

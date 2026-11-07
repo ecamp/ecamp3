@@ -15,7 +15,7 @@ import {
 /**
  * Cached responses are shared between users. The cache serves a shared response to a user only after
  * the API granted that user access to the resource the response delegates its security to (the camp).
- * The access check (preflight) is only visible on a cache hit, and it is cached per user and camp.
+ * The access check is only visible on a cache hit, and it is cached per user and camp.
  */
 test.describe('cache test: shared responses', { tag: '@mature' }, () => {
   test.describe.configure({ mode: 'serial' })
@@ -32,31 +32,31 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
     expect(await getCacheInfo(bipiApi, uri)).toEqual({
       status: 200,
       cache: 'MISS',
-      preflight: undefined,
+      accessCheck: undefined,
     })
 
     // a hit for another user checks the access of that user once
     expect(await getCacheInfo(castorApi, uri)).toEqual({
       status: 200,
       cache: 'HIT',
-      preflight: 'MISS',
+      accessCheck: 'MISS',
     })
     expect(await getCacheInfo(castorApi, uri)).toEqual({
       status: 200,
       cache: 'HIT',
-      preflight: 'HIT',
+      accessCheck: 'HIT',
     })
 
     // the first user has to be checked too, since the response was not fetched for a cache hit
     expect(await getCacheInfo(bipiApi, uri)).toEqual({
       status: 200,
       cache: 'HIT',
-      preflight: 'MISS',
+      accessCheck: 'MISS',
     })
     expect(await getCacheInfo(bipiApi, uri)).toEqual({
       status: 200,
       cache: 'HIT',
-      preflight: 'HIT',
+      accessCheck: 'HIT',
     })
   })
 
@@ -71,7 +71,7 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
       expect(await getCacheInfo(bruceApi, uri)).toEqual({
         status: 404,
         cache: 'PASS',
-        preflight: 'MISS',
+        accessCheck: 'MISS',
       })
     }
 
@@ -91,7 +91,7 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
       const info = await getCacheInfo(api, commentsUri)
       expect(info.status).toBe(200)
       expect(info.cache).not.toBe('HIT')
-      expect(info.preflight).toBeUndefined()
+      expect(info.accessCheck).toBeUndefined()
     }
   })
 
@@ -104,7 +104,7 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
     expect(await getCacheInfo(bruceApi, publicUri)).toEqual({
       status: 200,
       cache: 'HIT',
-      preflight: undefined,
+      accessCheck: undefined,
     })
   })
 
@@ -167,12 +167,12 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
         expect(await getCacheInfo(bruceApi, activitiesUri)).toEqual({
           status: 200,
           cache: 'HIT',
-          preflight: 'MISS',
+          accessCheck: 'MISS',
         })
         expect(await getCacheInfo(bruceApi, activitiesUri)).toEqual({
           status: 200,
           cache: 'HIT',
-          preflight: 'HIT',
+          accessCheck: 'HIT',
         })
         const granted = await apiCheckAccess(bruceApi, campUri)
         expect(granted.status()).toBe(200)
