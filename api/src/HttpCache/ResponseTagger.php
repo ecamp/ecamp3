@@ -8,13 +8,13 @@ use FOS\HttpCacheBundle\Http\SymfonyResponseTagger;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Wrapper around SymfonyResponseTagger which only adds tags for specific URIs, which match the regex $matchPath.
+ * Wrapper around SymfonyResponseTagger which only adds tags for responses of cached operations.
  *
  * @author Urban Suppiger <urban@suppiger.net>
  */
 class ResponseTagger {
     public function __construct(
-        private readonly string $matchPath,
+        private readonly HttpCacheConfigResolver $configResolver,
         private readonly SymfonyResponseTagger $responseTagger,
         private readonly RequestStack $requestStack
     ) {}
@@ -39,8 +39,6 @@ class ResponseTagger {
             return false;
         }
 
-        $requestUri = $request->getRequestUri();
-
-        return (bool) preg_match('{'.$this->matchPath.'}', $requestUri);
+        return null !== $this->configResolver->getConfig($request);
     }
 }

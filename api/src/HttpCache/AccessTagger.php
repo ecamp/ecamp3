@@ -12,14 +12,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * Tags responses with the access rules (e.g. a camp collaboration) that allowed to read them, such that the cache can
  * purge them when the access is revoked.
  *
- * Responses of operations with a cache security delegate are shared between users, access to them is checked by the cache access
- * endpoint. Therefore only the check access endpoint is tagged for these.
+ * Responses shared between users are tagged on the check access endpoint only, as access to them is checked there.
  */
 class AccessTagger {
     public function __construct(
         private readonly ResponseTagger $responseTagger,
         private readonly SymfonyResponseTagger $symfonyResponseTagger,
-        private readonly CacheSecurityDelegateResolver $cacheSecurityDelegateResolver,
+        private readonly HttpCacheConfigResolver $configResolver,
         private readonly RequestStack $requestStack,
     ) {}
 
@@ -38,7 +37,7 @@ class AccessTagger {
             return;
         }
 
-        if (null === $this->cacheSecurityDelegateResolver->getDeclaredDelegate($request)) {
+        if (CacheMode::Shared !== $this->configResolver->getConfig($request)?->mode) {
             $this->responseTagger->addTags($tags);
         }
     }

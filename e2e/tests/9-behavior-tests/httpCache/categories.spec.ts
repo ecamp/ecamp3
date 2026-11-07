@@ -9,6 +9,7 @@ import {
 import {
   loginAndSetCookie,
   expectCacheHit,
+  expectCacheMiss,
   waitForCacheMiss,
   apiGet,
   apiCheckAccess,
@@ -24,6 +25,8 @@ import collectionResponse from '@/test-data/httpCache/categories_collection.json
 const grgrLACategoryId = '1a869b162875'
 
 const collectionXKeys =
+  /* campCollaboration for bipiUser */
+  'b0bdb7202a9d ' +
   /* Category ES */
   'ebfd46a1c181 ebfd46a1c181#camp ebfd46a1c181#preferredContentTypes ebfd46a1c181#rootContentNode ebfd46a1c181#contentNodes ' +
   /* Category LA */
@@ -41,7 +44,7 @@ test.describe('cache test: /camps/{campId}/categories', () => {
   test.beforeEach(purgeCache)
 
   test(
-    'shares cache for /camps/{campId}/categories between users with camp access',
+    'caches /camps/{campId}/categories separately for each login',
     { tag: '@mature' },
     async () => {
       const uri = `/api/camps/${grgrCampId}/categories`
@@ -58,11 +61,12 @@ test.describe('cache test: /camps/{campId}/categories', () => {
       // second request is a cache hit
       await expectCacheHit(bipiApi, uri)
 
-      // request with another user with access is a cache hit
+      // request with another user with access is a cache miss, as the response is cached per user
       const castorApi = await getAuthContext(castorUser)
+      await expectCacheMiss(castorApi, uri)
       await expectCacheHit(castorApi, uri)
 
-      // a user without access to the camp does not get the shared response
+      // a user without access to the camp does not get a cached response
       const outsiderApi = await getAuthContext(bruceWayneUser)
       expect(await getCacheInfo(outsiderApi, uri)).toMatchObject({
         status: 404,

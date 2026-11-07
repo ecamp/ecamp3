@@ -10,7 +10,9 @@ use ApiPlatform\Test\Client;
 use App\Entity\Activity;
 use App\Entity\Camp;
 use App\Entity\Period;
-use App\HttpCache\CacheSecurityDelegateListener;
+use App\HttpCache\CacheableResponseListener;
+use App\HttpCache\CacheMode;
+use App\HttpCache\HttpCacheConfig;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -104,7 +106,7 @@ class CacheSecurityDelegateOperationsTest extends ECampApiTestCase {
     private function getDelegateOfFirstSuccessfulResponse(array $responses, string $message): string {
         foreach ($responses as $response) {
             if (200 === $response->getStatusCode()) {
-                $delegate = $response->getHeaders()[strtolower(CacheSecurityDelegateListener::HEADER)][0] ?? null;
+                $delegate = $response->getHeaders()[strtolower(CacheableResponseListener::HEADER_SECURITY_DELEGATE)][0] ?? null;
                 $this->assertNotNull($delegate, "{$message} has no delegate");
 
                 return $delegate;
@@ -149,8 +151,7 @@ class CacheSecurityDelegateOperationsTest extends ECampApiTestCase {
         foreach ($names as $resourceClass) {
             foreach ($factory->create($resourceClass) as $resource) {
                 foreach ($resource->getOperations() ?? [] as $operation) {
-                    $delegate = $operation->getExtraProperties()[CacheSecurityDelegateListener::EXTRA_PROPERTY] ?? null;
-                    if (null !== $delegate && CacheSecurityDelegateListener::DELEGATE_PUBLIC !== $delegate) {
+                    if (CacheMode::Shared === HttpCacheConfig::fromOperation($operation)?->mode) {
                         yield $operation;
                     }
                 }

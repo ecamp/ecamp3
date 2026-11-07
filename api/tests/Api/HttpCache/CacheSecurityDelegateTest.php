@@ -10,6 +10,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 class CacheSecurityDelegateTest extends ECampApiTestCase {
     private const HEADER = 'x-cache-security-delegate';
+    private const MODE_HEADER = 'x-cache-mode';
 
     #[DataProvider('delegatingRequests')]
     public function testResponseDelegatesSecurityToCampOfResource(string $urlTemplate, string $fixture, string $campFixture) {
@@ -18,6 +19,7 @@ class CacheSecurityDelegateTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', str_replace('{id}', $id, $urlTemplate));
 
         $this->assertResponseStatusCodeSame(200);
+        $this->assertSame(['shared'], $response->getHeaders()[self::MODE_HEADER]);
         $this->assertSame([$this->getIriFor($campFixture)], $response->getHeaders()[self::HEADER]);
     }
 
@@ -25,7 +27,6 @@ class CacheSecurityDelegateTest extends ECampApiTestCase {
         return [
             'activity' => ['/activities/{id}', 'activity1', 'camp1'],
             'camp activities' => ['/camps/{id}/activities', 'camp1', 'camp1'],
-            'camp categories' => ['/camps/{id}/categories', 'camp1', 'camp1'],
             'camp checklists' => ['/camps/{id}/checklists', 'camp1', 'camp1'],
             'period days' => ['/periods/{id}/days', 'period1', 'camp1'],
             'period schedule entries' => ['/periods/{id}/schedule_entries', 'period1', 'camp1'],
@@ -34,11 +35,52 @@ class CacheSecurityDelegateTest extends ECampApiTestCase {
         ];
     }
 
+    public function testCategoriesAreCachedPerUser() {
+        $id = static::getFixture('camp1')->getId();
+
+        $response = static::createClientWithCredentials()->request('GET', "/camps/{$id}/categories");
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertSame(['user'], $response->getHeaders()[self::MODE_HEADER]);
+        $this->assertArrayNotHasKey(self::HEADER, $response->getHeaders());
+        $this->assertMatchesRegularExpression('/^max-age=0, public, s-maxage=\d+$/', $response->getHeaders()['cache-control'][0]);
+    }
+
+    public function testPerUserResponseDoesNotOutliveTheToken() {
+        $id = static::getFixture('camp1')->getId();
+
+        $response = static::createClientWithCredentials()->request('GET', "/camps/{$id}/categories");
+
+        preg_match('/s-maxage=(\d+)/', $response->getHeaders()['cache-control'][0], $matches);
+        $this->assertGreaterThan(0, (int) $matches[1]);
+        $this->assertLessThanOrEqual(43200, (int) $matches[1]);
+    }
+
+    public function testSharedResponseIsCachedForAllUsers() {
+        $id = static::getFixture('camp1')->getId();
+
+        $response = static::createClientWithCredentials()->request('GET', "/camps/{$id}/activities");
+
+        $this->assertSame('Accept, Content-Type, Authorization, Origin', $response->getHeaders()['vary'][0]);
+        $this->assertSame('max-age=0, public, s-maxage=43200', $response->getHeaders()['cache-control'][0]);
+    }
+
+    public function testResponseWithoutCacheDeclarationIsNotCacheable() {
+        $activity = static::getFixture('activity1');
+
+        $response = static::createClientWithCredentials()->request('GET', "/activities/{$activity->getId()}/comments");
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertStringContainsString('no-cache', $response->getHeaders()['cache-control'][0]);
+        $this->assertStringNotContainsString('public', $response->getHeaders()['cache-control'][0]);
+    }
+
     public function testContentTypesArePublic() {
         $response = static::createClientWithCredentials()->request('GET', '/content_types');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertSame(['public'], $response->getHeaders()[self::HEADER]);
+        $this->assertSame(['public'], $response->getHeaders()[self::MODE_HEADER]);
+        $this->assertArrayNotHasKey(self::HEADER, $response->getHeaders());
     }
 
     public function testContentTypeIsPublic() {
@@ -47,14 +89,16 @@ class CacheSecurityDelegateTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/content_types/'.$contentType->getId());
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertSame(['public'], $response->getHeaders()[self::HEADER]);
+        $this->assertSame(['public'], $response->getHeaders()[self::MODE_HEADER]);
+        $this->assertArrayNotHasKey(self::HEADER, $response->getHeaders());
     }
 
     public function testEntrypointIsPublic() {
         $response = static::createClientWithCredentials()->request('GET', '/');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertSame(['public'], $response->getHeaders()[self::HEADER]);
+        $this->assertSame(['public'], $response->getHeaders()[self::MODE_HEADER]);
+        $this->assertArrayNotHasKey(self::HEADER, $response->getHeaders());
     }
 
     public function testResponseWithoutDeclaredDelegateHasNoDelegate() {
@@ -64,6 +108,7 @@ class CacheSecurityDelegateTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertArrayNotHasKey(self::HEADER, $response->getHeaders());
+        $this->assertArrayNotHasKey(self::MODE_HEADER, $response->getHeaders());
     }
 
     public function testDeniedResponseHasNoDelegate() {
@@ -75,5 +120,6 @@ class CacheSecurityDelegateTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(404);
         $this->assertArrayNotHasKey(self::HEADER, $response->getHeaders(false));
+        $this->assertArrayNotHasKey(self::MODE_HEADER, $response->getHeaders(false));
     }
 }

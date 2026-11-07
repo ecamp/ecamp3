@@ -22,7 +22,7 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
 
   test.beforeEach(purgeCache)
 
-  const uri = `/api/camps/${grgrCampId}/categories`
+  const uri = `/api/camps/${grgrCampId}/activities`
 
   test('shares a response between users with access, checking access once per user', async () => {
     const bipiApi = await getAuthContext(bipiUser)

@@ -76,7 +76,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             normalizationContext: self::COLLECTION_NORMALIZATION_CONTEXT,
             extraProperties: [
                 'filter_by_current_user' => false,
-                'cache_security_delegate' => 'camp',
+                'http_cache' => true,
             ],
         ),
     ],

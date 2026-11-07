@@ -5,7 +5,7 @@ server s1 {
     rxreq
     expect req.url == "/camps/1/activities"
     expect req.http.Cookie ~ "jwt_s=sigA"
-    txresp -hdr "X-Cache-Security-Delegate: /api/camps/1" -hdr "Cache-Control: public, s-maxage=60" -body "activities"
+    txresp -hdr "X-Cache-Mode: shared" -hdr "X-Cache-Security-Delegate: /api/camps/1" -hdr "Cache-Control: public, s-maxage=60" -body "activities"
 
     # user B: preflight, as the response is cached
     rxreq
@@ -24,12 +24,14 @@ client c1 {
     expect resp.status == 200
     expect resp.body == "activities"
     expect resp.http.X-Cache-Security-Delegate == <undef>
+    expect resp.http.X-Cache-Mode == <undef>
 
     txreq -url "/camps/1/activities" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpB; localhost_jwt_s=sigB"
     rxresp
     expect resp.status == 200
     expect resp.body == "activities"
     expect resp.http.X-Cache-Security-Delegate == <undef>
+    expect resp.http.X-Cache-Mode == <undef>
 
     # the grant of user B is cached: no more requests to the backend
     txreq -url "/camps/1/activities" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpB; localhost_jwt_s=sigB"

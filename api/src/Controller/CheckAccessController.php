@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\HttpCache\JwtLifetime;
 use App\Security\ResourceReadAccessChecker;
-use Lexik\Bundle\JWTAuthenticationBundle\Security\Authenticator\Token\JWTPostAuthenticationToken;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,11 +18,10 @@ use Symfony\Component\Routing\Attribute\Route;
  */
 class CheckAccessController {
     public const string ROUTE = 'check_access';
-    public const int MAX_TTL_SECONDS = 43200;
 
     public function __construct(
         private readonly ResourceReadAccessChecker $accessChecker,
-        private readonly Security $security,
+        private readonly JwtLifetime $jwtLifetime,
     ) {}
 
     #[Route('/authorization/check_access', name: self::ROUTE, methods: ['GET'])]
@@ -33,7 +31,7 @@ class CheckAccessController {
             return new JsonResponse(['error' => "Query parameter 'iri' is required"], Response::HTTP_BAD_REQUEST);
         }
 
-        $ttl = $this->isGranted($iri) ? $this->getTokenTtl() : 0;
+        $ttl = $this->isGranted($iri) ? $this->jwtLifetime->getCacheTtl() : 0;
 
         if ($ttl <= 0) {
             $response = new JsonResponse(['granted' => false, 'iri' => $iri], Response::HTTP_FORBIDDEN);
@@ -54,17 +52,5 @@ class CheckAccessController {
         } catch (\InvalidArgumentException) {
             return false;
         }
-    }
-
-    /**
-     * A grant must not outlive the JWT it was given for.
-     */
-    private function getTokenTtl(): int {
-        $token = $this->security->getToken();
-        $jwt = $token instanceof JWTPostAuthenticationToken ? $token->getCredentials() : null;
-        $payload = is_string($jwt) ? explode('.', $jwt)[1] ?? '' : '';
-        $expiresAt = json_decode(base64_decode(strtr($payload, '-_', '+/')), true)['exp'] ?? null;
-
-        return is_int($expiresAt) ? min(self::MAX_TTL_SECONDS, $expiresAt - time()) : 0;
     }
 }

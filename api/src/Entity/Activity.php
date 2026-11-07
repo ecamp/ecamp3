@@ -36,7 +36,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("CAMP_COLLABORATOR", object) or
                        is_granted("CAMP_IS_PUBLIC", object)',
             extraProperties: [
-                'cache_security_delegate' => 'object.getCamp()',
+                'http_cache' => ['mode' => 'shared', 'security_delegate' => 'object.getCamp()'],
             ]
         ),
         new Patch(
@@ -70,7 +70,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_fully_authenticated()',
             extraProperties: [
                 'filter_by_current_user' => false,
-                'cache_security_delegate' => 'camp',
+                'http_cache' => ['mode' => 'shared', 'security_delegate' => 'camp'],
             ]
         ),
         new Post(

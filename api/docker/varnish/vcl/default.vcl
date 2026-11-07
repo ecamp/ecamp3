@@ -4,6 +4,7 @@ import std;
 import xkey;
 import cookie;
 import var;
+import digest;
 
 include "./_config.vcl";
 include "./fos_tags_xkey.vcl";
@@ -21,6 +22,9 @@ sub vcl_recv {
     unset req.http.X-Cache-Original-Url;
     unset req.http.X-Cache-Preflight;
   }
+
+  # Never taken over from a client, it is derived from the login below
+  unset req.http.X-Cache-User;
 
   var.set("originalUrl", req.http.X-Forwarded-Prefix + req.url);
 
@@ -71,6 +75,7 @@ sub vcl_recv {
     }
 
     var.set("JWT", cookie.get_string());
+    set req.http.X-Cache-User = digest.hash_sha256(var.get("JWT"));
   }
 }
 
@@ -88,12 +93,17 @@ sub vcl_hash {
 }
 
 sub vcl_hit {
-  if (req.http.X-Cache-Phase == "preflight" || obj.http.X-Cache-Security-Delegate == "public") {
+  if (req.http.X-Cache-Phase == "preflight") {
+    return(deliver);
+  }
+
+  # A response cached per user is only found by the user it was fetched for
+  if (obj.http.X-Cache-Mode == "public" || obj.http.X-Cache-Mode == "user") {
     return(deliver);
   }
 
   # Never serve a response that doesn't state who may read it
-  if (!obj.http.X-Cache-Security-Delegate) {
+  if (obj.http.X-Cache-Mode != "shared" || !obj.http.X-Cache-Security-Delegate) {
     return(pass);
   }
 
@@ -136,11 +146,18 @@ sub vcl_backend_response {
       set beresp.ttl = 120s;
       return (deliver);
     }
-  } else if (beresp.status != 200 || !beresp.http.X-Cache-Security-Delegate) {
-    # only share successful responses, which state who may read them
+  } else if (beresp.status != 200
+    || !beresp.http.X-Cache-Mode
+    || (beresp.http.X-Cache-Mode == "shared" && !beresp.http.X-Cache-Security-Delegate)
+    || (beresp.http.X-Cache-Mode == "user" && !bereq.http.X-Cache-User)) {
+    # only cache successful responses, which state how they are cached
     set beresp.uncacheable = true;
     set beresp.ttl = 120s;
     return (deliver);
+  }
+
+  if (beresp.http.X-Cache-Mode == "user") {
+    set beresp.http.Vary = beresp.http.Vary + ", X-Cache-User";
   }
 
   call vcl_beresp_stale;
@@ -189,6 +206,7 @@ sub vcl_deliver {
   if (resp.http.X-Cache-Debug && req.http.X-Cache-Preflight) {
     set resp.http.X-Cache-Preflight = req.http.X-Cache-Preflight;
   }
+  unset resp.http.X-Cache-Mode;
   unset resp.http.X-Cache-Security-Delegate;
 
   # reset cache control header to avoid caching by any other upstream proxies

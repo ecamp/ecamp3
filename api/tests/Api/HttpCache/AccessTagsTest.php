@@ -19,11 +19,11 @@ class AccessTagsTest extends ECampApiTestCase {
         $this->assertContains($activity->getId(), $this->getTags($response));
     }
 
-    public function testResponseWithoutCacheSecurityDelegateIsTaggedWithAccessRules() {
+    public function testResponseCachedPerUserIsTaggedWithAccessRules() {
         $collaboration = static::getFixture('campCollaboration1manager');
-        $activity = static::getFixture('activity1');
+        $camp = static::getFixture('camp1');
 
-        $response = static::createClientWithCredentials()->request('GET', '/activities/'.$activity->getId().'/comments');
+        $response = static::createClientWithCredentials()->request('GET', '/camps/'.$camp->getId().'/categories');
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertContains($collaboration->getId(), $this->getTags($response));

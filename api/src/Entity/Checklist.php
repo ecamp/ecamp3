@@ -72,7 +72,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             ],
             extraProperties: [
                 'filter_by_current_user' => false,
-                'cache_security_delegate' => 'camp',
+                'http_cache' => ['mode' => 'shared', 'security_delegate' => 'camp'],
             ]
         ),
     ],

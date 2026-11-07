@@ -2,13 +2,15 @@
 
 namespace App\Tests\HttpCache;
 
+use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\HttpOperation;
 use ApiPlatform\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
 use ApiPlatform\Metadata\Property\Factory\PropertyNameCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\Factory\ResourceNameCollectionFactoryInterface;
-use App\HttpCache\CacheSecurityDelegateListener;
+use App\HttpCache\CacheMode;
 use App\HttpCache\CacheSecurityDelegateResolver;
+use App\HttpCache\HttpCacheConfig;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
@@ -19,6 +21,17 @@ use Symfony\Component\ExpressionLanguage\SyntaxError;
  * @internal
  */
 class CacheSecurityDelegateGuardTest extends KernelTestCase {
+    public function testAllHttpCacheDeclarationsAreValid() {
+        foreach ($this->getAllOperations() as $operation) {
+            try {
+                HttpCacheConfig::fromOperation($operation);
+            } catch (\LogicException $e) {
+                $this->fail($e->getMessage());
+            }
+        }
+        $this->addToAssertionCount(1);
+    }
+
     /**
      * The expressions can only use the resources of the operation, e.g. not the user: The response must be the same for
      * everyone who may read the delegate.
@@ -26,16 +39,11 @@ class CacheSecurityDelegateGuardTest extends KernelTestCase {
     public function testDelegateExpressionsOnlyUseVariablesOfTheOperation() {
         $expressionLanguage = new ExpressionLanguage();
 
-        $delegatingOperations = $this->getOperationsWithDelegate();
-        $this->assertNotEmpty($delegatingOperations);
-        foreach ($delegatingOperations as $operation) {
-            $delegate = $operation->getExtraProperties()[CacheSecurityDelegateListener::EXTRA_PROPERTY];
-            if (CacheSecurityDelegateListener::DELEGATE_PUBLIC === $delegate) {
-                continue;
-            }
-
+        $sharedOperations = $this->getOperationsWithMode(CacheMode::Shared);
+        $this->assertNotEmpty($sharedOperations);
+        foreach ($sharedOperations as $operation) {
             try {
-                $expressionLanguage->parse($delegate, CacheSecurityDelegateResolver::getVariableNames($operation));
+                $expressionLanguage->parse(HttpCacheConfig::fromOperation($operation)->securityDelegate, CacheSecurityDelegateResolver::getVariableNames($operation));
             } catch (SyntaxError $e) {
                 $this->fail("{$operation->getName()}: {$e->getMessage()}");
             }
@@ -59,17 +67,46 @@ class CacheSecurityDelegateGuardTest extends KernelTestCase {
         }
     }
 
-    public function testOperationsWithCacheSecurityDelegateAreReadOperations() {
-        foreach ($this->getOperationsWithDelegate() as $operation) {
+    public function testCachedOperationsAreReadOperations() {
+        foreach ($this->getCachedOperations() as $operation) {
             $this->assertSame('GET', $operation->getMethod(), "{$operation->getName()} must be a GET operation.");
         }
+        $this->addToAssertionCount(1);
     }
 
-    public function testOperationsDelegatingToPublicRequireNoSecurity() {
-        $delegatingOperations = $this->getOperationsWithDelegate(CacheSecurityDelegateListener::DELEGATE_PUBLIC);
+    public function testSharedCollectionsAreNotFilteredByTheCurrentUser() {
+        foreach ($this->getOperationsWithMode(CacheMode::Shared, CacheMode::Public) as $operation) {
+            if ($operation instanceof CollectionOperationInterface) {
+                $this->assertFalse($operation->getExtraProperties()['filter_by_current_user'] ?? true, "{$operation->getName()} is shared between users, but filters by the current user.");
+            }
+        }
+        $this->addToAssertionCount(1);
+    }
 
-        $this->assertNotEmpty($delegatingOperations);
-        foreach ($delegatingOperations as $operation) {
+    public function testCachedOperations() {
+        $cached = [];
+        foreach ($this->getCachedOperations() as $operation) {
+            $cached[$operation->getUriTemplate()] = HttpCacheConfig::fromOperation($operation)->mode->value;
+        }
+        ksort($cached);
+
+        $this->assertSame([
+            '/activities/{id}{._format}' => 'shared',
+            '/camps/{campId}/activities{._format}' => 'shared',
+            '/camps/{campId}/categories{._format}' => 'user',
+            '/camps/{campId}/checklists{._format}' => 'shared',
+            '/content_types/{id}{._format}' => 'public',
+            '/content_types{._format}' => 'public',
+            '/periods/{periodId}/days{._format}' => 'shared',
+            '/periods/{periodId}/schedule_entries{._format}' => 'shared',
+        ], $cached);
+    }
+
+    public function testPublicOperationsRequireNoSecurity() {
+        $publicOperations = $this->getOperationsWithMode(CacheMode::Public);
+
+        $this->assertNotEmpty($publicOperations);
+        foreach ($publicOperations as $operation) {
             $this->assertNull($operation->getSecurity(), "{$operation->getName()} is public, but has security.");
         }
     }
@@ -77,11 +114,18 @@ class CacheSecurityDelegateGuardTest extends KernelTestCase {
     /**
      * @return HttpOperation[]
      */
-    private function getOperationsWithDelegate(?string $delegate = null): array {
+    private function getCachedOperations(): array {
+        return $this->getOperationsWithMode(CacheMode::User, CacheMode::Shared, CacheMode::Public);
+    }
+
+    /**
+     * @return HttpOperation[]
+     */
+    private function getOperationsWithMode(CacheMode ...$modes): array {
         $operations = [];
         foreach ($this->getAllOperations() as $operation) {
-            $operationDelegate = $operation->getExtraProperties()[CacheSecurityDelegateListener::EXTRA_PROPERTY] ?? null;
-            if (null !== $operationDelegate && (null === $delegate || $delegate === $operationDelegate)) {
+            $mode = HttpCacheConfig::fromOperation($operation)?->mode;
+            if (null !== $mode && in_array($mode, $modes, true)) {
                 $operations[] = $operation;
             }
         }
