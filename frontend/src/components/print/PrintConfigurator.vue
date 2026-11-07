@@ -20,16 +20,23 @@
               <PagesConfig
                 :title="$t('components.print.printConfigurator.config.' + content.type)"
                 :landscape="content.options.orientation === 'L'"
+                :can-rotate="contentComponents[content.type].design.orientation"
                 :multiple="
                   contentComponents[content.type].design.multiple ||
                   content.options?.periods?.length > 1
                 "
                 @remove="removeContent(idx)"
+                @rotate="rotateContent(idx)"
               >
                 <component
                   :is="contentComponents[content.type]"
                   :model-value="content.options"
                   :camp="camp"
+                  v-bind="
+                    contentComponents[content.type].design.orientation
+                      ? { hideOrientation: $vuetify.display.mdAndUp }
+                      : {}
+                  "
                   @update:model-value="onChangeContentConfig(idx, $event)"
                 />
               </PagesConfig>
@@ -419,6 +426,11 @@ export default {
     },
     removeContent(idx) {
       this.cnf.contents.splice(idx, 1)
+      this.onChange()
+    },
+    rotateContent(idx) {
+      const options = this.cnf.contents[idx].options
+      options.orientation = options.orientation === 'L' ? 'P' : 'L'
       this.onChange()
     },
     onChange() {

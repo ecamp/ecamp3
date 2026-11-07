@@ -16,6 +16,26 @@
         icon-only
       />
       <div class="e-pages-config__inner" v-bind="$attrs">
+        <v-btn
+          v-if="canRotate && !template"
+          class="e-pages-config__rotate"
+          :icon="
+            landscape
+              ? 'mdi-rotate-left-variant'
+              : 'mdi-rotate-right-variant mdi-rotate-90'
+          "
+          :aria-label="
+            $t(
+              landscape
+                ? 'components.print.config.picassoConfig.portrait'
+                : 'components.print.config.picassoConfig.landscape'
+            )
+          "
+          color="transparent"
+          variant="flat"
+          :class="{ 'rounded-s-0': !landscape, 'rounded-b-0': landscape }"
+          @click="$emit('rotate')"
+        />
         <div class="e-pages-config__scroller">
           <v-icon v-if="template" class="ma-auto" size="x-large">mdi-plus</v-icon>
           <h3
@@ -103,10 +123,11 @@ export default {
   props: {
     multiple: Boolean,
     landscape: Boolean,
+    canRotate: Boolean,
     template: Boolean,
     title: { type: String, required: true },
   },
-  emits: ['remove'],
+  emits: ['remove', 'rotate'],
 }
 </script>
 
@@ -205,6 +226,19 @@ export default {
   display: flex;
 }
 
+.e-pages-config__rotate {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -48px;
+  z-index: 2;
+}
+
+.e-pages-config--landscape .e-pages-config__rotate {
+  top: -48px;
+  right: 0;
+}
+
 .e-pages-config:not(.e-pages-config--template) .e-pages-config__title {
   .v-icon {
     opacity: 0;
@@ -238,7 +272,9 @@ export default {
   visibility: hidden;
 }
 
-.e-pages-config:hover .e-pages-config__delete {
+.e-pages-config:hover .e-pages-config__rotate,
+.e-pages-config:hover .e-pages-config__delete,
+.e-pages-config:focus-within .e-pages-config__delete {
   opacity: 1;
 }
 

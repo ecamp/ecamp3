@@ -12,6 +12,7 @@
     />
     <div class="e-form-container" :class="{ 'e-picasso-config__row': landscape }">
       <e-select
+        v-if="!hideOrientation"
         v-model="options.orientation"
         :label="$t('components.print.config.picassoConfig.orientation')"
         :items="orientations"
@@ -60,6 +61,7 @@ export default {
   props: {
     modelValue: { type: Object, required: true },
     camp: { type: Object, required: true },
+    hideOrientation: Boolean,
   },
   emits: ['update:modelValue'],
   data() {
@@ -143,6 +145,7 @@ export default {
   },
   design: {
     multiple: false,
+    orientation: true,
   },
   repairConfig(config, camp) {
     if (!config.options) config.options = {}
