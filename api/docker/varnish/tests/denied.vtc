@@ -3,7 +3,7 @@ varnishtest "A cached response is not served to a user who is denied access to i
 server s1 {
     rxreq
     expect req.url == "/camps/1/activities"
-    txresp -hdr "X-Cache-Mode: shared" -hdr "X-Cache-Security-Delegate: /api/camps/1" -hdr "Cache-Control: public, s-maxage=60" -body "activities"
+    txresp -hdr "X-Cache-Debug: 1" -hdr "X-Cache-Mode: shared" -hdr "X-Cache-Security-Delegate: /api/camps/1" -hdr "Cache-Control: public, s-maxage=60" -body "activities"
 
     # access check of the stranger is denied
     rxreq
@@ -14,7 +14,7 @@ server s1 {
     rxreq
     expect req.url == "/camps/1/activities"
     expect req.http.Cookie ~ "jwt_s=sigX"
-    txresp -status 404 -body "not found"
+    txresp -status 404 -hdr "X-Cache-Debug: 1" -body "not found"
 
     # a denied access check is not cached, the decision is made again
     rxreq
@@ -23,7 +23,7 @@ server s1 {
 
     rxreq
     expect req.url == "/camps/1/activities"
-    txresp -status 404 -body "not found"
+    txresp -status 404 -hdr "X-Cache-Debug: 1" -body "not found"
 } -start
 
 varnish v1 -vcl+backend {
@@ -39,10 +39,14 @@ client c1 {
     rxresp
     expect resp.status == 404
     expect resp.body == "not found"
+    expect resp.http.X-Cache == "PASS"
+    expect resp.http.X-Cache-Access-Check == "MISS"
 
+    # the denial was not cached: the access check is made again
     txreq -url "/camps/1/activities" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpX; localhost_jwt_s=sigX"
     rxresp
     expect resp.status == 404
+    expect resp.http.X-Cache-Access-Check == "MISS"
 } -run
 
 server s1 -wait
