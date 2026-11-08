@@ -291,7 +291,7 @@ export default {
       return {
         language: this.lang,
         documentName: campShortTitle(this.camp),
-        options: { pageNumbers: false, pageSize: 'A4', compact: false },
+        options: { pageNumbers: true, pageSize: 'A4', compact: false },
         camp: this.camp._meta.self,
         contents: this.defaultContents(),
       }
