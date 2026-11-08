@@ -12,6 +12,62 @@ import {
   purgeCache,
 } from '@/utils/helpers'
 
+async function createCamp(api: APIRequestContext): Promise<string> {
+  const response = await apiPost(api, '/api/camps', {
+    title: 'Cache e2e test camp',
+    motto: '',
+    addressName: '',
+    addressStreet: '',
+    addressZipcode: '',
+    addressCity: '',
+    periods: [{ description: 'Main', start: '2031-01-01', end: '2031-01-03' }],
+  })
+  expect(response.status()).toBe(201)
+  return (await response.json()).id
+}
+
+async function inviteAndAccept(
+  inviterApi: APIRequestContext,
+  inviteeApi: APIRequestContext,
+  inviteeEmail: string,
+  campUri: string
+): Promise<string> {
+  const inviteResponse = await apiPost(inviterApi, '/api/camp_collaborations', {
+    camp: campUri,
+    role: 'member',
+    inviteEmail: inviteeEmail,
+  })
+  expect(inviteResponse.status()).toBe(201)
+  const collaborationId = (await inviteResponse.json()).id
+
+  let inviteKey = ''
+  await expect
+    .poll(
+      async () => {
+        const emails = (await (await inviteeApi.get('/mail/api/email')).json()) as Array<{
+          to: Array<{ address: string }>
+          html: string
+        }>
+        const html =
+          emails
+            .filter((email) => email.to.some((to) => to.address === inviteeEmail))
+            .at(-1)?.html ?? ''
+        inviteKey = html.match(/camps\/invitation\/([0-9a-f]{64})/)?.[1] ?? ''
+        return inviteKey
+      },
+      { timeout: 10000 }
+    )
+    .toBeTruthy()
+
+  const acceptResponse = await inviteeApi.patch(
+    `${API_ROOT_URL_CACHED}/api/invitations/${inviteKey}/accept.jsonhal`,
+    { data: {}, headers: { 'Content-Type': 'application/merge-patch+json' } }
+  )
+  expect(acceptResponse.ok()).toBe(true)
+
+  return collaborationId
+}
+
 /**
  * Cached responses are shared between users. The cache serves a shared response to a user only after
  * the API granted that user access to the resource the response delegates its security to (the camp).
@@ -139,17 +195,7 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
       const bruceApi = await getAuthContext(bruceWayneUser)
 
       // bipi creates a camp of its own, which bruce has no access to
-      const createResponse = await apiPost(bipiApi, '/api/camps', {
-        title: 'Cache e2e test camp',
-        motto: '',
-        addressName: '',
-        addressStreet: '',
-        addressZipcode: '',
-        addressCity: '',
-        periods: [{ description: 'Main', start: '2031-01-01', end: '2031-01-03' }],
-      })
-      expect(createResponse.status()).toBe(201)
-      const campId = (await createResponse.json()).id
+      const campId = await createCamp(bipiApi)
       const campUri = `/api/camps/${campId}`
       const activitiesUri = `${campUri}/activities`
 
@@ -186,6 +232,56 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
         })
         expect((await apiCheckAccess(bruceApi, campUri)).status()).toBe(403)
         // the collaborator is not affected
+        expect(await getCacheInfo(bipiApi, activitiesUri)).toMatchObject({ status: 200 })
+      } finally {
+        await apiDelete(bipiApi, campUri)
+      }
+    })
+
+    test('when a collaborator is deactivated', async () => {
+      const bipiApi = await getAuthContext(bipiUser)
+      const bruceApi = await getAuthContext(bruceWayneUser)
+
+      const campId = await createCamp(bipiApi)
+      const campUri = `/api/camps/${campId}`
+      const activitiesUri = `${campUri}/activities`
+
+      try {
+        const collaborationId = await inviteAndAccept(
+          bipiApi,
+          bruceApi,
+          bruceWayneUser,
+          campUri
+        )
+
+        await getCacheInfo(bipiApi, activitiesUri)
+        expect(await getCacheInfo(bruceApi, activitiesUri)).toEqual({
+          status: 200,
+          cache: 'HIT',
+          accessCheck: 'MISS',
+        })
+        expect(await getCacheInfo(bruceApi, activitiesUri)).toEqual({
+          status: 200,
+          cache: 'HIT',
+          accessCheck: 'HIT',
+        })
+        const granted = await apiCheckAccess(bruceApi, campUri)
+        expect(granted.status()).toBe(200)
+        expect(granted.headers()['xkey']).toContain(collaborationId)
+
+        // deactivating the collaborator revokes access immediately, although the access check was cached
+        const deactivated = await apiPatch(
+          bipiApi,
+          `/api/camp_collaborations/${collaborationId}`,
+          { status: 'inactive' }
+        )
+        expect(deactivated.ok()).toBe(true)
+        expect(await getCacheInfo(bruceApi, activitiesUri)).toMatchObject({
+          status: 404,
+          cache: 'PASS',
+        })
+        expect((await apiCheckAccess(bruceApi, campUri)).status()).toBe(403)
+        // the other collaborator is not affected
         expect(await getCacheInfo(bipiApi, activitiesUri)).toMatchObject({ status: 200 })
       } finally {
         await apiDelete(bipiApi, campUri)
