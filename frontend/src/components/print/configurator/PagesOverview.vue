@@ -5,7 +5,7 @@
       :item-key="() => undefined"
       handle=".handle"
       filter=".e-pages-config--template"
-      class="e-pages-overview__grid pa-0 pa-md-8"
+      class="e-pages-overview__grid"
       v-bind="$attrs"
       @update:model-value="$emit('update:modelValue', $event)"
     >
@@ -45,11 +45,14 @@ export default {
   .e-pages-overview {
     background: #eee;
     position: relative;
+    flex-grow: 1;
   }
   .e-pages-overview__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(316px, 1fr));
-    gap: 4rem 1rem;
+    grid-template-columns: repeat(auto-fill, min(100%, var(--e-page-width)));
+    justify-content: space-evenly;
+    gap: 4rem var(--e-grid-gap);
+    padding: var(--e-grid-padding);
   }
 }
 </style>

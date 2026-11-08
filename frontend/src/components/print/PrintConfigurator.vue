@@ -10,7 +10,10 @@
           $t('components.print.printConfigurator.preview')
         }}</v-tab>
       </v-tabs>
-      <div class="e-print-configurator__columns">
+      <div
+        class="e-print-configurator__columns"
+        :class="{ 'e-print-configurator__columns--wide': isWide }"
+      >
         <div
           v-show="isWide || activeTab === 'config'"
           class="e-print-configurator__config"
@@ -204,7 +207,7 @@ import PagesConfig from './configurator/PagesConfig.vue'
 import DownloadPdfButton from '@/components/print/generator/DownloadPdfButton.vue'
 import { getEnv } from '@/environment.js'
 import { cloneDeep } from 'lodash-es'
-import { componentI18n } from '../../plugins/i18n/index.js'
+import { componentI18n } from '@/plugins/i18n/index.js'
 import repairConfig from './repairPrintConfig.js'
 import StoryConfig from '@/components/print/config/StoryConfig.vue'
 import SafetyConsiderationsConfig from '@/components/print/config/SafetyConsiderationsConfig.vue'
@@ -258,7 +261,7 @@ export default {
   },
   computed: {
     isWide() {
-      return this.containerWidth >= 900
+      return this.containerWidth > 1024
     },
     contactLink() {
       return getEnv().CONTACT_LINK
@@ -471,6 +474,13 @@ export default {
 
 <style scoped lang="scss">
 .e-print-configurator {
+  --e-page-width: 348px;
+  --e-grid-gap: 16px;
+  --e-grid-padding: 32px;
+  --e-scrollbar: 16px;
+  --e-config-min: 25cqw;
+  --e-config-max: 71cqw;
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -548,16 +558,38 @@ export default {
   white-space: nowrap;
 }
 
+.e-print-configurator__config {
+  display: flex;
+  flex-direction: column;
+}
+
 .e-print-configurator__config,
 .e-print-configurator__preview {
-  flex: 1 1 0;
+  flex: 3 1 0;
   min-width: 0;
   min-height: 0;
   overflow: auto;
 }
 
+@supports (width: 1cqw) and (width: round(down, 100px, 10px)) {
+  .e-print-configurator__columns--wide {
+    --e-col-step: calc(var(--e-page-width) + var(--e-grid-gap));
+    --e-inset: calc(var(--e-grid-padding) * 2 - var(--e-grid-gap) + var(--e-scrollbar));
+    --e-cols-fit: round(
+      down,
+      max(var(--e-col-step), var(--e-config-max) - var(--e-inset)),
+      var(--e-col-step)
+    );
+    display: grid;
+    grid-template-columns:
+      clamp(var(--e-config-min), var(--e-cols-fit) + var(--e-inset), var(--e-config-max))
+      minmax(0, 1fr);
+  }
+}
+
 .e-print-configurator__preview {
   display: flex;
+  flex: 2 1 0;
   flex-direction: column;
   border-left: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
   background: #263238;
@@ -590,14 +622,9 @@ export default {
   aspect-ratio: 210 / 297;
   border: 1px solid #e5ddc8;
   border-radius: 12px;
-  background: linear-gradient(145deg, #fffef8, #f4eedc);
+  background: linear-gradient(145deg, #fffef8, #f8f4e8);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   gap: 8px;
-}
-
-.e-print-configurator__preview-activator:hover .e-print-configurator__preview-paper {
-  background: linear-gradient(145deg, #fff, #fbf7e9);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .e-print-configurator__footer {
@@ -630,15 +657,10 @@ export default {
   &:deep(.v-expansion-panel-title) {
     font-family: monospace;
     border-top: 1px solid rgba(0, 0, 0, 0.2);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   }
 
   &:deep(.v-expansion-panel-title--active) {
     border-bottom: none;
-  }
-
-  &:deep(.v-expansion-panel-text) {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   }
 }
 </style>
