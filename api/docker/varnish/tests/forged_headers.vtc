@@ -27,7 +27,7 @@ client c1 {
     expect resp.status == 200
 
     txreq -url "/camps/1/activities" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpX; localhost_jwt_s=sigX" \
-        -hdr "X-Cache-Grant: /api/camps/1" -hdr "X-Cache-Check-Iri: public" -hdr "X-Cache-Phase: access_check"
+        -hdr "X-Cache-Grant: /api/camps/1" -hdr "X-Cache-Check-Delegate: public" -hdr "X-Cache-Phase: access_check"
     rxresp
     expect resp.status == 404
     expect resp.http.X-Cache-Access-Check == "MISS"

@@ -41,7 +41,7 @@ sub cache_reset_internal_headers {
   # SECURITY: headers used between restarts must never be taken over from a client
   if (req.restarts == 0) {
     unset req.http.X-Cache-Phase;
-    unset req.http.X-Cache-Check-Iri;
+    unset req.http.X-Cache-Check-Delegate;
     unset req.http.X-Cache-Grant;
     unset req.http.X-Cache-Denied;
     unset req.http.X-Cache-Original-Url;
@@ -75,16 +75,15 @@ sub cache_exclude_uncacheable_requests {
 }
 
 sub cache_identify_user {
-  # X-Cache-User separates cached grants and per-user responses by login
-  # Failsafe: Pass cache if JWT cookie is not set (also for example, if COOKIE_PREFIX is not properly configured)
   if (req.http.Cookie) {
     cookie.parse(req.http.Cookie);
     cookie.keep(std.getenv("COOKIE_PREFIX") + "jwt_hp," + std.getenv("COOKIE_PREFIX") + "jwt_s");
 
     if(cookie.get_string() == ""){
-      return(pass);
+      return(pass); # Failsafe: Pass cache if JWT cookie is not set (also for example, if COOKIE_PREFIX is not properly configured)
     }
 
+    # X-Cache-User separates cached grants and per-user responses by login
     set req.http.X-Cache-User = digest.hash_sha256(cookie.get_string());
   }
 }
@@ -114,7 +113,7 @@ sub vcl_hit {
 sub access_check_start {
   # Ask the API whether the user may read the security delegate, and continue with the original request afterwards
   set req.http.X-Cache-Phase = "access_check";
-  set req.http.X-Cache-Check-Iri = obj.http.X-Cache-Security-Delegate;
+  set req.http.X-Cache-Check-Delegate = obj.http.X-Cache-Security-Delegate;
   set req.http.X-Cache-Original-Url = req.url;
   set req.url = "/authorization/check_access?iri=" + obj.http.X-Cache-Security-Delegate;
   return(restart);
@@ -122,7 +121,7 @@ sub access_check_start {
 
 sub access_check_finish {
   if (resp.status == 200) {
-    set req.http.X-Cache-Grant = req.http.X-Cache-Check-Iri;
+    set req.http.X-Cache-Grant = req.http.X-Cache-Check-Delegate;
   } else {
     set req.http.X-Cache-Denied = "true";
   }
@@ -135,7 +134,7 @@ sub access_check_finish {
 
   set req.url = req.http.X-Cache-Original-Url;
   unset req.http.X-Cache-Phase;
-  unset req.http.X-Cache-Check-Iri;
+  unset req.http.X-Cache-Check-Delegate;
   unset req.http.X-Cache-Original-Url;
   return (restart);
 }
@@ -147,7 +146,7 @@ sub vcl_req_cookie {
 }
 
 sub vcl_backend_fetch {
-  unset bereq.http.X-Cache-Check-Iri;
+  unset bereq.http.X-Cache-Check-Delegate;
   unset bereq.http.X-Cache-Grant;
   unset bereq.http.X-Cache-Denied;
   unset bereq.http.X-Cache-Access-Check;
