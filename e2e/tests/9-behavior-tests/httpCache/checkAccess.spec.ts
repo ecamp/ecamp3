@@ -65,7 +65,7 @@ test.describe('check access: /api/authorization/check_access', { tag: '@mature' 
 
     const headers = (await apiCheckAccess(bruceApi, campIri(grgrCampId))).headers()
 
-    expect(headers['cache-control']).toContain('no-store')
+    expect(headers['cache-control']).toContain('private')
     expect(headers['cache-control']).not.toContain('public')
     expect(headers['xkey']).toBeUndefined()
   })

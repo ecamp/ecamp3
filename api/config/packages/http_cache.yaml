@@ -12,14 +12,14 @@ fos_http_cache:
         defaults:
             overwrite: true
         rules:
-            # cache headers are set by the controller, as they depend on the access decision and the JWT lifetime
             - match:
                   path: ^/authorization/check_access
               headers:
                   overwrite: false
-                  vary: [Accept]
+                  cache_control: { public: true, max_age: 0, s_maxage: 43200 }
+                  vary: [Accept, Content-Type, Authorization, Origin]
 
-            # match everything else to set defaults
+            # match everything else (defaults to no-cache)
             - match:
                   path: ^/
               headers:

@@ -14,7 +14,7 @@ use ApiPlatform\Metadata\Operation;
  *   resource of an item operation, or the linked resources of a subresource collection operation by the name used in
  *   their link, e.g. "camp".
  * - ['mode' => 'public']: shared with everyone
- * Operations without the property are not cached.
+ * Operations without the property, or with false, are not cached.
  */
 final readonly class HttpCacheConfig {
     public const string EXTRA_PROPERTY = 'http_cache';

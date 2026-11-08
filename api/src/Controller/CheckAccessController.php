@@ -34,14 +34,11 @@ class CheckAccessController {
         $ttl = $this->isGranted($iri) ? $this->jwtLifetime->getCacheTtl() : 0;
 
         if ($ttl <= 0) {
-            $response = new JsonResponse(['granted' => false, 'iri' => $iri], Response::HTTP_FORBIDDEN);
-            $response->setCache(['no_store' => true, 'private' => true]);
-
-            return $response;
+            return new JsonResponse(['granted' => false, 'iri' => $iri], Response::HTTP_FORBIDDEN);
         }
 
         $response = new JsonResponse(['granted' => true, 'iri' => $iri], Response::HTTP_OK);
-        $response->setCache(['public' => true, 'max_age' => 0, 's_maxage' => $ttl]);
+        $response->setCache(['s_maxage' => $ttl]);
 
         return $response;
     }

@@ -21,6 +21,7 @@ class CheckAccessTest extends ECampApiTestCase {
         $this->assertJsonContains(['granted' => true, 'iri' => $this->getIriFor('camp1')]);
         $this->assertStringContainsString('public', $response->getHeaders()['cache-control'][0]);
         $this->assertMatchesRegularExpression('/s-maxage=(\d+)/', $response->getHeaders()['cache-control'][0]);
+        $this->assertSame(['Accept', 'Content-Type', 'Authorization', 'Origin'], $response->getHeaders()['vary']);
     }
 
     public function testGrantDoesNotOutliveTheToken() {
@@ -42,7 +43,7 @@ class CheckAccessTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains(['granted' => false, 'iri' => $this->getIriFor('camp1')]);
-        $this->assertStringContainsString('no-store', $response->getHeaders(false)['cache-control'][0]);
+        $this->assertStringContainsString('private', $response->getHeaders(false)['cache-control'][0]);
         $this->assertStringNotContainsString('public', $response->getHeaders(false)['cache-control'][0]);
     }
 
@@ -65,9 +66,11 @@ class CheckAccessTest extends ECampApiTestCase {
     }
 
     public function testIsBadRequestWithoutIri() {
-        static::createClientWithCredentials()->request('GET', '/authorization/check_access');
+        $response = static::createClientWithCredentials()->request('GET', '/authorization/check_access');
 
         $this->assertResponseStatusCodeSame(400);
+        $this->assertStringContainsString('private', $response->getHeaders(false)['cache-control'][0]);
+        $this->assertStringNotContainsString('public', $response->getHeaders(false)['cache-control'][0]);
         $this->assertJsonContains(['error' => "Query parameter 'iri' is required"]);
     }
 

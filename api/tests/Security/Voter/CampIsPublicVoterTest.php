@@ -9,7 +9,7 @@ use App\Entity\Camp;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\Period;
 use App\Entity\User;
-use App\HttpCache\AccessTagger;
+use App\HttpCache\SecurityVoterTagger;
 use App\Security\Voter\CampIsPublicVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -25,14 +25,14 @@ class CampIsPublicVoterTest extends TestCase {
     private CampIsPublicVoter $voter;
     private MockObject|TokenInterface $token;
     private EntityManagerInterface|MockObject $em;
-    private AccessTagger|MockObject $accessTagger;
+    private MockObject|SecurityVoterTagger $securityVoterTagger;
 
     public function setUp(): void {
         parent::setUp();
         $this->token = $this->createStub(TokenInterface::class);
         $this->em = $this->createStub(EntityManagerInterface::class);
-        $this->accessTagger = $this->createStub(AccessTagger::class);
-        $this->voter = new CampIsPublicVoter($this->em, $this->accessTagger);
+        $this->securityVoterTagger = $this->createStub(SecurityVoterTagger::class);
+        $this->voter = new CampIsPublicVoter($this->em, $this->securityVoterTagger);
     }
 
     public function testDoesntVoteWhenAttributeWrong() {
@@ -105,9 +105,9 @@ class CampIsPublicVoterTest extends TestCase {
         $subject = $this->createStub(Period::class);
         $subject->method('getCamp')->willReturn($camp);
 
-        $this->accessTagger = $this->createMock(AccessTagger::class);
-        $this->accessTagger->expects($this->once())->method('addTags')->with([$camp->getId()]);
-        $this->voter = new CampIsPublicVoter($this->em, $this->accessTagger);
+        $this->securityVoterTagger = $this->createMock(SecurityVoterTagger::class);
+        $this->securityVoterTagger->expects($this->once())->method('addTags')->with([$camp->getId()]);
+        $this->voter = new CampIsPublicVoter($this->em, $this->securityVoterTagger);
 
         // when
         $result = $this->voter->vote($this->token, $subject, ['CAMP_IS_PUBLIC']);

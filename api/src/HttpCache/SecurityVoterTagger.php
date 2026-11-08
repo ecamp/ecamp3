@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *
  * Responses shared between users are tagged on the check access endpoint only, as access to them is checked there.
  */
-class AccessTagger {
+class SecurityVoterTagger {
     public function __construct(
         private readonly ResponseTagger $responseTagger,
         private readonly SymfonyResponseTagger $symfonyResponseTagger,

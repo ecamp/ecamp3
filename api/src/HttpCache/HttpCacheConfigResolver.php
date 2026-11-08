@@ -29,6 +29,10 @@ final class HttpCacheConfigResolver {
         return null === $operation ? null : HttpCacheConfig::fromOperation($operation);
     }
 
+    public function isCached(Request $request): bool {
+        return null !== $this->getConfig($request);
+    }
+
     public function getOperation(Request $request): ?Operation {
         if (!RequestAttributesExtractor::extractAttributes($request)) {
             return null;

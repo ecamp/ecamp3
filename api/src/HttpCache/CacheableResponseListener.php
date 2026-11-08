@@ -16,8 +16,6 @@ final class CacheableResponseListener {
     public const string HEADER_MODE = 'X-Cache-Mode';
     public const string HEADER_SECURITY_DELEGATE = 'X-Cache-Security-Delegate';
 
-    private const array VARY = ['Accept', 'Content-Type', 'Authorization', 'Origin'];
-
     public function __construct(
         private readonly HttpCacheConfigResolver $configResolver,
         private readonly CacheSecurityDelegateResolver $securityDelegateResolver,
@@ -52,6 +50,6 @@ final class CacheableResponseListener {
 
         $response->headers->set(self::HEADER_MODE, $config->mode->value);
         $response->headers->set('Cache-Control', "public, max-age=0, s-maxage={$ttl}");
-        $response->headers->set('Vary', implode(', ', self::VARY));
+        $response->headers->set('Vary', 'Accept, Content-Type, Authorization, Origin');
     }
 }

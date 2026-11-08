@@ -9,8 +9,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
  * @internal
  */
 class CacheSecurityDelegateTest extends ECampApiTestCase {
-    private const HEADER = 'x-cache-security-delegate';
-    private const MODE_HEADER = 'x-cache-mode';
+    private const HEADER_SECURITY_DELEGATE = 'x-cache-security-delegate';
+    private const HEADER_MODE = 'x-cache-mode';
 
     #[DataProvider('delegatingRequests')]
     public function testResponseDelegatesSecurityToCampOfResource(string $urlTemplate, string $fixture, string $campFixture) {
@@ -19,8 +19,8 @@ class CacheSecurityDelegateTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', str_replace('{id}', $id, $urlTemplate));
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertSame(['shared'], $response->getHeaders()[self::MODE_HEADER]);
-        $this->assertSame([$this->getIriFor($campFixture)], $response->getHeaders()[self::HEADER]);
+        $this->assertSame(['shared'], $response->getHeaders()[self::HEADER_MODE]);
+        $this->assertSame([$this->getIriFor($campFixture)], $response->getHeaders()[self::HEADER_SECURITY_DELEGATE]);
     }
 
     public static function delegatingRequests(): array {
@@ -41,8 +41,8 @@ class CacheSecurityDelegateTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', "/camps/{$id}/categories");
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertSame(['user'], $response->getHeaders()[self::MODE_HEADER]);
-        $this->assertArrayNotHasKey(self::HEADER, $response->getHeaders());
+        $this->assertSame(['user'], $response->getHeaders()[self::HEADER_MODE]);
+        $this->assertArrayNotHasKey(self::HEADER_SECURITY_DELEGATE, $response->getHeaders());
         $this->assertMatchesRegularExpression('/^max-age=0, public, s-maxage=\d+$/', $response->getHeaders()['cache-control'][0]);
     }
 
@@ -79,8 +79,8 @@ class CacheSecurityDelegateTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/content_types');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertSame(['public'], $response->getHeaders()[self::MODE_HEADER]);
-        $this->assertArrayNotHasKey(self::HEADER, $response->getHeaders());
+        $this->assertSame(['public'], $response->getHeaders()[self::HEADER_MODE]);
+        $this->assertArrayNotHasKey(self::HEADER_SECURITY_DELEGATE, $response->getHeaders());
     }
 
     public function testContentTypeIsPublic() {
@@ -89,16 +89,16 @@ class CacheSecurityDelegateTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/content_types/'.$contentType->getId());
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertSame(['public'], $response->getHeaders()[self::MODE_HEADER]);
-        $this->assertArrayNotHasKey(self::HEADER, $response->getHeaders());
+        $this->assertSame(['public'], $response->getHeaders()[self::HEADER_MODE]);
+        $this->assertArrayNotHasKey(self::HEADER_SECURITY_DELEGATE, $response->getHeaders());
     }
 
     public function testEntrypointIsPublic() {
         $response = static::createClientWithCredentials()->request('GET', '/');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertSame(['public'], $response->getHeaders()[self::MODE_HEADER]);
-        $this->assertArrayNotHasKey(self::HEADER, $response->getHeaders());
+        $this->assertSame(['public'], $response->getHeaders()[self::HEADER_MODE]);
+        $this->assertArrayNotHasKey(self::HEADER_SECURITY_DELEGATE, $response->getHeaders());
     }
 
     public function testResponseWithoutDeclaredDelegateHasNoDelegate() {
@@ -107,8 +107,8 @@ class CacheSecurityDelegateTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/activities/'.$activity->getId().'/comments');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertArrayNotHasKey(self::HEADER, $response->getHeaders());
-        $this->assertArrayNotHasKey(self::MODE_HEADER, $response->getHeaders());
+        $this->assertArrayNotHasKey(self::HEADER_SECURITY_DELEGATE, $response->getHeaders());
+        $this->assertArrayNotHasKey(self::HEADER_MODE, $response->getHeaders());
     }
 
     public function testDeniedResponseHasNoDelegate() {
@@ -119,7 +119,7 @@ class CacheSecurityDelegateTest extends ECampApiTestCase {
         ;
 
         $this->assertResponseStatusCodeSame(404);
-        $this->assertArrayNotHasKey(self::HEADER, $response->getHeaders(false));
-        $this->assertArrayNotHasKey(self::MODE_HEADER, $response->getHeaders(false));
+        $this->assertArrayNotHasKey(self::HEADER_SECURITY_DELEGATE, $response->getHeaders(false));
+        $this->assertArrayNotHasKey(self::HEADER_MODE, $response->getHeaders(false));
     }
 }

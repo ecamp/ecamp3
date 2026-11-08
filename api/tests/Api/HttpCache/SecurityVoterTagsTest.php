@@ -7,7 +7,7 @@ use App\Tests\Api\ECampApiTestCase;
 /**
  * @internal
  */
-class AccessTagsTest extends ECampApiTestCase {
+class SecurityVoterTagsTest extends ECampApiTestCase {
     public function testResponseWithCacheSecurityDelegateIsNotTaggedWithAccessRules() {
         $collaboration = static::getFixture('campCollaboration1manager');
         $activity = static::getFixture('activity1');

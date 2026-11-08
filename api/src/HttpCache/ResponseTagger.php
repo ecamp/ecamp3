@@ -39,6 +39,6 @@ class ResponseTagger {
             return false;
         }
 
-        return null !== $this->configResolver->getConfig($request);
+        return $this->configResolver->isCached($request);
     }
 }
