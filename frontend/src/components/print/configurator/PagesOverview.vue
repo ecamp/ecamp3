@@ -1,5 +1,5 @@
 <template>
-  <div class="e-pages-overview">
+  <div class="e-pages-overview" :class="{ 'e-pages-overview--list-style': listStyle }">
     <draggable
       :model-value="modelValue"
       :item-key="() => undefined"
@@ -28,6 +28,7 @@ export default {
   name: 'PagesOverview',
   components: { Draggable },
   props: {
+    listStyle: Boolean,
     modelValue: {
       type: Array,
       default: () => [],
@@ -38,9 +39,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use 'vuetify/settings';
-@use 'sass:map';
-
 .e-pages-overview {
   background: #eee;
   flex-grow: 1;
@@ -48,13 +46,12 @@ export default {
 .e-pages-overview__grid {
   display: grid;
   gap: 1rem;
-  padding: 1rem 0;
+  padding: 1rem;
 }
 
-@media #{map.get(settings.$display-breakpoints, 'md-and-up')} {
-  .e-pages-overview {
-    position: relative;
-  }
+.e-pages-overview:not(.e-pages-overview--list-style) {
+  position: relative;
+
   .e-pages-overview__grid {
     grid-template-columns: repeat(auto-fill, min(100%, var(--e-page-width)));
     justify-content: space-evenly;

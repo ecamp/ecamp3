@@ -18,9 +18,14 @@
           v-show="isWide || activeTab === 'config'"
           class="e-print-configurator__config"
         >
-          <PagesOverview v-model="cnf.contents" @update:model-value="onChange">
+          <PagesOverview
+            v-model="cnf.contents"
+            :list-style="listStyle"
+            @update:model-value="onChange"
+          >
             <template #item="{ element: content, index: idx }">
               <PagesConfig
+                :list-style="listStyle"
                 :title="$t('components.print.printConfigurator.config.' + content.type)"
                 :landscape="content.options.orientation === 'L'"
                 :can-rotate="contentComponents[content.type].design.orientation"
@@ -39,7 +44,7 @@
                   :camp="camp"
                   v-bind="
                     contentComponents[content.type].design.orientation
-                      ? { hideOrientation: $vuetify.display.mdAndUp }
+                      ? { hideOrientation: !listStyle }
                       : {}
                   "
                   @update:model-value="onChangeContentConfig(idx, $event)"
@@ -51,6 +56,7 @@
               <template #activator="{ props }">
                 <PagesConfig
                   id="page-config"
+                  :list-style="listStyle"
                   :title="$t('components.print.printConfigurator.add')"
                   multiple
                   button-variant
@@ -262,6 +268,9 @@ export default {
     }
   },
   computed: {
+    listStyle() {
+      return !this.$vuetify.display.mdAndUp
+    },
     isWide() {
       return this.containerWidth > 1024
     },
