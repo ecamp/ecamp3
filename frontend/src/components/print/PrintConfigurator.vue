@@ -53,7 +53,7 @@
                   id="page-config"
                   :title="$t('components.print.printConfigurator.add')"
                   multiple
-                  template
+                  button-variant
                   v-bind="props"
                 />
               </template>

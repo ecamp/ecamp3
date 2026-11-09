@@ -6,11 +6,11 @@
         'e-pages-config--multiple': multiple,
         'e-pages-config--landscape': landscape,
         'e-pages-config--portrait': !landscape,
-        'e-pages-config--template': template,
+        'e-pages-config--button-variant': buttonVariant,
       }"
     >
       <ButtonDelete
-        v-if="!template"
+        v-if="!buttonVariant"
         class="e-pages-config__delete px-2 invisible"
         tabindex="-1"
         icon-only
@@ -37,16 +37,16 @@
           @click="$emit('rotate')"
         />
         <div class="e-pages-config__scroller">
-          <v-icon v-if="template" class="ma-auto" size="x-large">mdi-plus</v-icon>
+          <v-icon v-if="buttonVariant" class="ma-auto" size="x-large">mdi-plus</v-icon>
           <h3
             class="e-pages-config__title text-h6 py-4 bg-white sticky"
-            :class="{ handle: !template }"
+            :class="{ handle: !buttonVariant }"
           >
-            <TextAlignBaseline v-if="!template"
+            <TextAlignBaseline v-if="!buttonVariant"
               ><v-icon>mdi-drag</v-icon></TextAlignBaseline
             >
             <span class="flex-grow-1"> {{ title }} </span>
-            <TextAlignBaseline v-if="!template"
+            <TextAlignBaseline v-if="!buttonVariant"
               ><v-icon>mdi-drag</v-icon></TextAlignBaseline
             >
           </h3>
@@ -54,7 +54,7 @@
         </div>
       </div>
       <ButtonDelete
-        v-if="!template"
+        v-if="!buttonVariant"
         :text="false"
         icon-only
         color="transparent"
@@ -72,26 +72,26 @@
       'e-pages-config--multiple': multiple,
       'e-pages-config--landscape': landscape,
       'e-pages-config--portrait': !landscape,
-      'e-pages-config--template': template,
+      'e-pages-config--button-variant': buttonVariant,
     }"
   >
     <div class="d-grid justify-items-center text-medium-emphasis">
       <v-btn
-        v-if="!template"
+        v-if="!buttonVariant"
         size="x-small"
         icon="mdi-chevron-up"
         variant="text"
         @click="$emit('up')"
       />
       <v-btn
-        :icon="template ? 'mdi-plus' : 'mdi-drag'"
+        :icon="buttonVariant ? 'mdi-plus' : 'mdi-drag'"
         size="small"
         class="handle"
         variant="plain"
-        :aria-label="template ? $t('global.button.add') : $t('global.button.move')"
+        :aria-label="buttonVariant ? $t('global.button.add') : $t('global.button.move')"
       />
       <v-btn
-        v-if="!template"
+        v-if="!buttonVariant"
         size="x-small"
         icon="mdi-chevron-down"
         variant="text"
@@ -102,7 +102,7 @@
       <h3 class="my-4">{{ title }}</h3>
       <slot />
     </div>
-    <v-btn v-if="!template" icon variant="flat" class="mx-1" @click="$emit('remove')"
+    <v-btn v-if="!buttonVariant" icon variant="flat" class="mx-1" @click="$emit('remove')"
       ><v-icon color="red">mdi-delete</v-icon></v-btn
     >
   </v-card>
@@ -119,7 +119,7 @@ export default {
     multiple: Boolean,
     landscape: Boolean,
     canRotate: Boolean,
-    template: Boolean,
+    buttonVariant: { type: Boolean, default: false },
     title: { type: String, required: true },
   },
   emits: ['remove', 'rotate', 'up', 'down'],
@@ -150,7 +150,7 @@ export default {
   align-items: flex-end;
 }
 
-.e-pages-config--template {
+.e-pages-config--button-variant {
   opacity: 0.7;
 
   &:hover {
@@ -238,7 +238,7 @@ export default {
   right: 0;
 }
 
-.e-pages-config:not(.e-pages-config--template) .e-pages-config__title {
+.e-pages-config:not(.e-pages-config--button-variant) .e-pages-config__title {
   .v-icon {
     opacity: 0;
   }
