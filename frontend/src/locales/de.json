@@ -512,8 +512,8 @@
           "periods": "Lagerabschnitt(e)",
           "portrait": "Hochformat",
           "responsibles": "Verantwortliche",
-          "responsiblesAvatars": "Avatare",
-          "responsiblesNames": "Namen"
+          "responsiblesAvatars": "Als Avatare",
+          "responsiblesNames": "Als Namen"
         },
         "programConfig": {
           "dayOverview": "Tagesübersicht"
@@ -555,7 +555,8 @@
       },
       "printConfigurator": {
         "add": "Inhalt hinzufügen",
-        "compact": "Kompaktes Layout (weniger Abstände, leere Felder ausblenden)",
+        "compact": "Kompaktes Layout",
+        "compactDescription": "Weniger Abstände, leere Felder ausblenden",
         "config": {
           "Activity": "Einzelne Aktivität",
           "ActivityList": "Aktivitätenliste (Kurse)",
@@ -566,17 +567,25 @@
           "Story": "Geschichte",
           "Toc": "Inhaltsverzeichnis"
         },
+        "configuration": "Druckeinstellungen",
         "contactLink": "Melde dich bei uns",
         "fontSize": "Schriftgrösse",
+        "fontSizeDescriptions": {
+          "A3": "Optimiert für A4 oder A3",
+          "A4": "Optimiert für A4 oder A5",
+          "A5": "Optimiert für A6"
+        },
         "fontSizes": {
-          "A3": "Kleinere Schrift (optimiert für A4 oder A3)",
-          "A4": "Normale Schrift (optimiert für A4 oder A5)",
-          "A5": "Grössere Schrift (optimiert für A6)"
+          "A3": "Kleinere Schrift",
+          "A4": "Normale Schrift",
+          "A5": "Grössere Schrift"
         },
         "layoutInfo": "Wir haben die Vorteile beider Drucklayouts in einem neuen Layout vereint. Unter «Einstellungen» kannst du das kompakte Layout aktivieren, das dem bisherigen Layout #2 ähnelt. Haben wir etwas übersehen oder funktioniert etwas nicht mehr? {contactLink}.",
         "layoutInfoTitle": "Wo ist die Druckauswahl?",
         "options": "Einstellungen",
-        "pageNumbers": "Seitenzahlen"
+        "pageNumbers": "Seitenzahlen",
+        "preview": "Druckvorschau",
+        "showPreview": "Vorschau einschalten"
       }
     },
     "program": {

@@ -3,7 +3,7 @@ Basic layout for print preview
 -->
 
 <template>
-  <content-card :title="$t('views.camp.admin.print.title')" toolbar>
+  <content-card :title="$t('views.camp.admin.print.title')" class="e-print-card" toolbar>
     <template #title-actions>
       <v-btn variant="text" @click="$refs.printConfigurator?.resetConfig()">
         <v-icon v-if="$vuetify.display.smAndUp" start>mdi-file-restore-outline</v-icon>
@@ -39,6 +39,24 @@ export default {
 </script>
 
 <style scoped>
+.e-print-card {
+  display: flex;
+  flex-direction: column;
+  height: calc(100dvh - var(--v-layout-top) - var(--v-layout-bottom) - 24px);
+}
+
+.e-print-card :deep(.ec-content-card__content) {
+  flex: 1 1 0;
+  min-height: 0;
+  height: auto !important;
+}
+
+@media (max-width: 959px) {
+  .e-print-card {
+    height: calc(100dvh - var(--v-layout-top) - var(--v-layout-bottom));
+  }
+}
+
 :deep(.v-toolbar-title .v-spacer) {
   flex-grow: 0;
 }

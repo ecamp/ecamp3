@@ -502,8 +502,8 @@
           "periods": "Période(s) du camp",
           "portrait": "Portrait",
           "responsibles": "Responsables",
-          "responsiblesAvatars": "Avatars",
-          "responsiblesNames": "Noms"
+          "responsiblesAvatars": "Sous forme d’avatars",
+          "responsiblesNames": "Sous forme de noms"
         },
         "programConfig": {
           "dayOverview": "Aperçu des jours"
@@ -545,7 +545,8 @@
       },
       "printConfigurator": {
         "add": "Ajouter du contenu",
-        "compact": "Mise en page compacte (moins d'espacement, masquer les champs vides)",
+        "compact": "Mise en page compacte",
+        "compactDescription": "Moins d'espacement, masquer les champs vides",
         "config": {
           "Activity": "Activité unique",
           "ActivityList": "Liste des blocs (cours)",
@@ -556,11 +557,25 @@
           "Story": "Histoire",
           "Toc": "Table des matières"
         },
+        "configuration": "Paramètres d'impression",
         "contactLink": "Contacte-nous",
+        "fontSize": "Taille de police",
+        "fontSizeDescriptions": {
+          "A3": "Optimisée pour A4 ou A3",
+          "A4": "Optimisée pour A4 ou A5",
+          "A5": "Optimisée pour A6"
+        },
+        "fontSizes": {
+          "A3": "Plus petite",
+          "A4": "Normale",
+          "A5": "Plus grande"
+        },
         "layoutInfo": "Nous avons réuni les avantages des deux mises en page dans une nouvelle mise en page. Dans les paramètres, tu peux activer la mise en page compacte, qui ressemble à l'ancienne mise en page #2. Avons-nous oublié quelque chose ou quelque chose ne fonctionne-t-il plus ? {contactLink}.",
         "layoutInfoTitle": "Où est le choix de mise en page ?",
         "options": "Paramètres",
-        "pageNumbers": "Numéros de page"
+        "pageNumbers": "Numéros de page",
+        "preview": "Aperçu avant impression",
+        "showPreview": "Activer l'aperçu"
       }
     },
     "program": {

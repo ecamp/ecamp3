@@ -1,17 +1,18 @@
 <template>
-  <div class="px-md-4 flex-grow-1 d-flex flex-column justify-content-between">
+  <div class="px-md-4 flex-grow-1 d-flex flex-column ga-2 justify-content-between">
     <e-select
+      v-if="periods.length !== 1"
       v-model="options.periods"
       :label="$t('print.config.periods')"
       :items="periods"
       path="periods"
       multiple
-      :variant="periods.length === 1 ? 'plain' : 'underlined'"
-      :readonly="periods.length === 1"
+      variant="underlined"
       @update:model-value="$emit('update:modelValue', modelValue)"
     />
-    <div class="e-form-container" :class="{ 'e-picasso-config__row': landscape }">
+    <div class="d-flex gap-x-4 align-baseline flex-wrap">
       <e-select
+        v-if="!hideOrientation"
         v-model="options.orientation"
         :label="$t('components.print.config.picassoConfig.orientation')"
         :items="orientations"
@@ -26,7 +27,7 @@
         :items="responsiblesDisplays"
         path="responsibles"
         variant="underlined"
-        class="flex-grow-1"
+        class="flex-grow-1 mt-0"
         @update:model-value="$emit('update:modelValue', modelValue)"
       />
     </div>
@@ -34,10 +35,11 @@
       v-if="hasYSPhysicalActivityDuration"
       v-model="options.showYSPhysicalActivityDuration"
       path="showYSPhysicalActivityDuration"
+      input-class="ml-n2"
+      density="comfortable"
       :label="$t('entity.scheduleEntry.fields.ysPhysicalActivityDuration')"
       @update:model-value="$emit('update:modelValue', modelValue)"
     />
-    <div class="flex-grow-1"></div>
     <DialogScheduleEntryFilter
       :camp="camp"
       :filter-fn="filterFn()"
@@ -59,6 +61,7 @@ export default {
   props: {
     modelValue: { type: Object, required: true },
     camp: { type: Object, required: true },
+    hideOrientation: Boolean,
   },
   emits: ['update:modelValue'],
   data() {
@@ -142,6 +145,7 @@ export default {
   },
   design: {
     multiple: false,
+    orientation: true,
   },
   repairConfig(config, camp) {
     if (!config.options) config.options = {}
@@ -166,13 +170,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.e-picasso-config__row {
-  display: flex;
-  gap: 8px;
-}
-
-.e-picasso-config__row > :deep(.e-form-container + .e-form-container) {
-  margin-top: 0;
-}
-</style>
+<style scoped></style>
