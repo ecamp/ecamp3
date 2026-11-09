@@ -45,7 +45,7 @@ security:
         - { path: ^/docs, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
         - { path: ^/?$, roles: PUBLIC_ACCESS } # Without /, the frontend does not know how to login
         - { path: ^/authentication_token, roles: PUBLIC_ACCESS } # Endpoint to login
-        - { path: ^/auth, roles: PUBLIC_ACCESS } # OAuth and resend password endpoints
+        - { path: ^/auth/, roles: PUBLIC_ACCESS } # OAuth and resend password endpoints
         - { path: ^/content_types, roles: PUBLIC_ACCESS } # Content types is more or less static and the same for all camps
         - { path: ^/invitations/.*/(find|reject), roles: PUBLIC_ACCESS }
         - { path: ^/token/refresh, roles: PUBLIC_ACCESS }

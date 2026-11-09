@@ -67,6 +67,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_fully_authenticated()',
             extraProperties: [
                 'filter_by_current_user' => false,
+                'http_cache' => ['mode' => 'shared', 'security_delegate' => 'period.getCamp()'],
             ]
         ),
         new Post(

@@ -2,27 +2,26 @@ import { test, expect } from '@playwright/test'
 import {
   bipiUser,
   bruceWayneUser,
-  felicitySmoakUser,
   grgrCampId,
   grgrPeriodId,
   loremIpsumCampId,
   skilagerCampId,
+  castorUser,
 } from '@/utils/constants'
 import collectionResponse from '@/test-data/httpCache/activities_collection.json'
 import {
   getAuthContext,
   expectCacheHit,
-  expectCacheMiss,
   waitForCacheMiss,
   apiGet,
+  purgeCache,
   apiPatch,
   apiPost,
   apiDelete,
+  getCacheInfo,
 } from '@/utils/helpers'
 
 const collectionXKeys =
-  /* campCollaboration for bipiUser */
-  '10d8f02ce5b4 ' +
   /**
    * activitiy "Snowboardfahren"
    */
@@ -58,7 +57,9 @@ const collectionXKeys =
 test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () => {
   test.describe.configure({ mode: 'serial' })
 
-  test('caches /camps/{campId}/activities separately for each login', async () => {
+  test.beforeEach(purgeCache)
+
+  test('shares cache for /camps/{campId}/activities between users with camp access', async () => {
     const uri = `/api/camps/${skilagerCampId}/activities`
 
     const bipiApi = await getAuthContext(bipiUser)
@@ -73,12 +74,19 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
     // second request is a cache hit
     await expectCacheHit(bipiApi, uri)
 
-    // request with a new user is a cache miss
+    // request with another user with access is a cache hit
     const bruceApi = await getAuthContext(bruceWayneUser)
-    await expectCacheMiss(bruceApi, uri)
+    await expectCacheHit(bruceApi, uri)
+
+    // a user without access to the camp does not get the shared response
+    const outsiderApi = await getAuthContext(castorUser)
+    expect(await getCacheInfo(outsiderApi, uri)).toMatchObject({
+      status: 404,
+      cache: 'PASS',
+    })
   })
 
-  test('invalidates /camps/{campId}/activities for all users on activity patch', async () => {
+  test('invalidates /camps/{campId}/activities on activity patch', async () => {
     const uri = `/api/camps/${loremIpsumCampId}/activities`
     const activityId = '3d1e5c91ceb2'
 
@@ -92,10 +100,6 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
     await apiGet(bruceApi, uri)
     await expectCacheHit(bruceApi, uri)
 
-    const felicityApi = await getAuthContext(felicitySmoakUser)
-    await expectCacheMiss(felicityApi, uri)
-    await expectCacheHit(felicityApi, uri)
-
     // touch activity
     await apiPatch(bruceApi, `/api/activities/${activityId}`, {
       title: 'Frühstück',
@@ -104,9 +108,6 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
     // ensure cache was invalidated
     await waitForCacheMiss(bruceApi, uri)
     await expectCacheHit(bruceApi, uri)
-
-    const bruceApi2 = await getAuthContext(bruceWayneUser)
-    await expectCacheMiss(bruceApi2, uri)
   })
 
   test('invalidates /activities/{activityId} when a schedule entry of another activity shifts its numbers', async () => {

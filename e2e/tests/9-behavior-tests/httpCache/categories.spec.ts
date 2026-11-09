@@ -3,7 +3,6 @@ import {
   bipiUser,
   bruceWayneUser,
   castorUser,
-  felicitySmoakUser,
   grgrCampId,
   loremIpsumCampId,
 } from '@/utils/constants'
@@ -13,10 +12,13 @@ import {
   expectCacheMiss,
   waitForCacheMiss,
   apiGet,
+  apiCheckAccess,
+  purgeCache,
   apiPatch,
   apiPost,
   apiDelete,
   getAuthContext,
+  getCacheInfo,
 } from '@/utils/helpers'
 import collectionResponse from '@/test-data/httpCache/categories_collection.json'
 
@@ -39,6 +41,8 @@ const collectionXKeys =
 test.describe('cache test: /camps/{campId}/categories', () => {
   test.describe.configure({ mode: 'serial' })
 
+  test.beforeEach(purgeCache)
+
   test(
     'caches /camps/{campId}/categories separately for each login',
     { tag: '@mature' },
@@ -57,43 +61,44 @@ test.describe('cache test: /camps/{campId}/categories', () => {
       // second request is a cache hit
       await expectCacheHit(bipiApi, uri)
 
-      // request with a new user is a cache miss
+      // request with another user with access is a cache miss, as the response is cached per user
       const castorApi = await getAuthContext(castorUser)
       await expectCacheMiss(castorApi, uri)
+      await expectCacheHit(castorApi, uri)
+
+      // a user without access to the camp does not get a cached response
+      const outsiderApi = await getAuthContext(bruceWayneUser)
+      expect(await getCacheInfo(outsiderApi, uri)).toMatchObject({
+        status: 404,
+        cache: 'PASS',
+      })
     }
   )
 
   test(
-    'invalidates /camps/{campId}/categories for all users on category patch',
+    'invalidates /camps/{campId}/categories on category patch',
     { tag: '@mature' },
     async () => {
       const uri = `/api/camps/${loremIpsumCampId}/categories`
 
       // bring data into defined state
       const bruceApi = await getAuthContext(bruceWayneUser)
-      const felicityApi = await getAuthContext(felicitySmoakUser)
       await apiPatch(bruceApi, '/api/categories/c5e1bc565094', {
         name: 'old_name',
       })
 
-      // warm up cache (bruce)
+      // warm up cache
       await apiGet(bruceApi, uri)
       await expectCacheHit(bruceApi, uri)
 
-      // warm up cache (felicity)
-      await apiGet(felicityApi, uri)
-      await expectCacheHit(felicityApi, uri)
-
-      // touch category (bruce)
+      // touch category
       await apiPatch(bruceApi, '/api/categories/c5e1bc565094', {
         name: 'new_name',
       })
 
       // ensure cache was invalidated
-      await waitForCacheMiss(felicityApi, uri)
-      await expectCacheHit(felicityApi, uri)
-
-      await expectCacheMiss(bruceApi, uri)
+      await waitForCacheMiss(bruceApi, uri)
+      await expectCacheHit(bruceApi, uri)
     }
   )
 
@@ -167,6 +172,9 @@ test.describe('cache test: /camps/{campId}/categories', () => {
     // ensure cache was invalidated
     const notFoundRes = await apiGet(castorApi, uri)
     expect(notFoundRes.status()).toBe(404)
+    expect(notFoundRes.headers()['x-cache']).toBe('PASS')
+    const accessRes = await apiCheckAccess(castorApi, `/api/camps/${grgrCampId}`)
+    expect(accessRes.status()).toBe(403)
 
     // delete old emails
     const deleteMailsRes = await bipiApi.delete('/mail/api/email/all')

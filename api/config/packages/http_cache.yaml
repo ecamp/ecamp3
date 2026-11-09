@@ -1,6 +1,3 @@
-parameters:
-    app.httpCache.matchPath: '^/?($|index.jsonhal$|content_types|camps/[0-9a-f]*/categories|periods/[0-9a-f]*/schedule_entries|camps/[0-9a-f]*/activities|camps/[0-9a-f]*/checklists|activities/[0-9a-f]*|periods/[0-9a-f]*/days)'
-
 fos_http_cache:
     debug:
         enabled: true # this sets the X-Cache-Debug response header; can be removed later-on
@@ -16,13 +13,13 @@ fos_http_cache:
             overwrite: true
         rules:
             - match:
-                  path: '%app.httpCache.matchPath%'
+                  path: ^/authorization/check_access
               headers:
-                  overwrite: true
+                  overwrite: false
                   cache_control: { public: true, max_age: 0, s_maxage: 43200 }
                   vary: [Accept, Content-Type, Authorization, Origin]
 
-            # match everything else to set defaults
+            # match everything else (defaults to no-cache)
             - match:
                   path: ^/
               headers:

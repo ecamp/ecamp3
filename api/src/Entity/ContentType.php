@@ -22,10 +22,16 @@ use Symfony\Component\Serializer\Attribute\Groups;
  */
 #[ApiResource(
     operations: [
-        new Get(),
+        new Get(
+            extraProperties: [
+                'http_cache' => ['mode' => 'public'],
+            ]
+        ),
         new GetCollection(
             extraProperties: [
                 'scoping_filters' => false,
+                'filter_by_current_user' => false,
+                'http_cache' => ['mode' => 'public'],
             ]
         ),
     ],

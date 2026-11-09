@@ -8,6 +8,7 @@ import {
 export const API_ROOT_URL = process.env.API_ROOT_URL || 'http://localhost:3000/api'
 export const API_ROOT_URL_CACHED =
   process.env.API_ROOT_URL_CACHED || 'http://localhost:3004'
+export const CACHE_PURGE_URL = process.env.CACHE_PURGE_URL || 'http://localhost:3005'
 
 export async function login(
   request: APIRequestContext,
@@ -108,6 +109,48 @@ export async function waitForCacheMiss(request: APIRequestContext, uri: string) 
     },
     { box: true }
   )
+}
+
+/**
+ * Removes all responses from the cache. Responses are shared between users and stay cached for a long time,
+ * so a test can only expect a cache miss for a response after purging the cache.
+ */
+export async function purgeCache() {
+  await test.step(
+    'Purge cache',
+    async () => {
+      const purgeContext = await request.newContext()
+      const response = await purgeContext.fetch(CACHE_PURGE_URL, { method: 'PURGEALL' })
+      expect(response.status()).toBe(200)
+      await purgeContext.dispose()
+    },
+    { box: true }
+  )
+}
+
+/**
+ * Asks the API (not the cache) whether the user of the request may read the resource with the given IRI.
+ * The cache uses this to decide whether it may serve a cached response, which delegates its security to the
+ * resource, to the user.
+ */
+export async function apiCheckAccess(request: APIRequestContext, iri?: string) {
+  return await request.get(`${API_ROOT_URL}/authorization/check_access`, {
+    params: iri === undefined ? {} : { iri },
+  })
+}
+
+/**
+ * Status and cache result of a request through the cache. The access check is made on a cache hit,
+ * it is only present if the response is delegating its security to a resource.
+ */
+export async function getCacheInfo(request: APIRequestContext, uri: string) {
+  const response = await apiGet(request, uri)
+  const headers = response.headers()
+  return {
+    status: response.status(),
+    cache: headers['x-cache'],
+    accessCheck: headers['x-cache-access-check'],
+  }
 }
 
 export async function apiGet(request: APIRequestContext, uri: string) {

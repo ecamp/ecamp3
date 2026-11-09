@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import collectionResponse from '@/test-data/httpCache/content_types_collection.json'
 import itemResponse from '@/test-data/httpCache/content_types_entity.json'
 import { bipiUser, castorUser } from '@/utils/constants'
-import { expectCacheHit, expectCacheMiss, apiGet, getAuthContext } from '@/utils/helpers'
+import { expectCacheHit, apiGet, getAuthContext, purgeCache } from '@/utils/helpers'
 
 const collectionXKeys =
   'a4211c11211c f17470519474 1a0f84e322c8 c462edd869f3 5e2028c55ee4 3ef17bd1df72 4f0c657fecef a4211c112939 44dcc7493c65 cfccaecd4bad 318e064ea0c9 c9a61096ef01 e87751a6291b /api/content_types'
@@ -10,7 +10,9 @@ const collectionXKeys =
 test.describe('cache test: /content-types', { tag: '@mature' }, () => {
   test.describe.configure({ mode: 'serial' })
 
-  test('caches collection separately for each login', async () => {
+  test.beforeEach(purgeCache)
+
+  test('caches collection between users with access', async () => {
     const uri = '/api/content_types'
 
     const bipiApi = await getAuthContext(bipiUser)
@@ -25,9 +27,9 @@ test.describe('cache test: /content-types', { tag: '@mature' }, () => {
     // second request is a cache hit
     await expectCacheHit(bipiApi, uri)
 
-    // request with a new user is a cache miss
+    // request with another user with access is a cache hit
     const castorApi = await getAuthContext(castorUser)
-    await expectCacheMiss(castorApi, uri)
+    await expectCacheHit(castorApi, uri)
   })
 
   test('caches item', async () => {

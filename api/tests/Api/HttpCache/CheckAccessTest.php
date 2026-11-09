@@ -1,0 +1,80 @@
+<?php
+
+namespace App\Tests\Api\HttpCache;
+
+use App\Tests\Api\ECampApiTestCase;
+
+/**
+ * @internal
+ */
+class CheckAccessTest extends ECampApiTestCase {
+    public function testRequiresLogin() {
+        static::createBasicClient()->request('GET', '/authorization/check_access', ['query' => ['iri' => $this->getIriFor('camp1')]]);
+
+        $this->assertResponseStatusCodeSame(401);
+    }
+
+    public function testIsGrantedForCollaboratorOfCamp() {
+        $response = $this->checkAccess($this->getIriFor('camp1'));
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains(['granted' => true, 'iri' => $this->getIriFor('camp1')]);
+        $this->assertStringContainsString('public', $response->getHeaders()['cache-control'][0]);
+        $this->assertMatchesRegularExpression('/s-maxage=(\d+)/', $response->getHeaders()['cache-control'][0]);
+        $this->assertSame(['Accept', 'Content-Type', 'Authorization', 'Origin'], $response->getHeaders()['vary']);
+    }
+
+    public function testGrantDoesNotOutliveTheToken() {
+        $response = $this->checkAccess($this->getIriFor('camp1'));
+
+        preg_match('/s-maxage=(\d+)/', $response->getHeaders()['cache-control'][0], $matches);
+        $this->assertLessThanOrEqual(43200, (int) $matches[1]);
+        $this->assertGreaterThan(0, (int) $matches[1]);
+    }
+
+    public function testIsGrantedForPublicCampToUnrelatedUser() {
+        $this->checkAccess($this->getIriFor('campPrototype'), ['email' => static::$fixtures['user4unrelated']->getEmail()]);
+
+        $this->assertResponseStatusCodeSame(200);
+    }
+
+    public function testIsForbiddenForUnrelatedUserAndNotCacheable() {
+        $response = $this->checkAccess($this->getIriFor('camp1'), ['email' => static::$fixtures['user4unrelated']->getEmail()]);
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains(['granted' => false, 'iri' => $this->getIriFor('camp1')]);
+        $this->assertStringContainsString('private', $response->getHeaders(false)['cache-control'][0]);
+        $this->assertStringNotContainsString('public', $response->getHeaders(false)['cache-control'][0]);
+    }
+
+    public function testIsForbiddenForInactiveCollaborator() {
+        $this->checkAccess($this->getIriFor('camp1'), ['email' => static::$fixtures['user5inactive']->getEmail()]);
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testIsForbiddenForIriThatIsNoResource() {
+        $this->checkAccess('public');
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testIsForbiddenForResourceThatDoesNotExist() {
+        $this->checkAccess('/camps/000000000000');
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testIsBadRequestWithoutIri() {
+        $response = static::createClientWithCredentials()->request('GET', '/authorization/check_access');
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertStringContainsString('private', $response->getHeaders(false)['cache-control'][0]);
+        $this->assertStringNotContainsString('public', $response->getHeaders(false)['cache-control'][0]);
+        $this->assertJsonContains(['error' => "Query parameter 'iri' is required"]);
+    }
+
+    private function checkAccess(string $iri, ?array $credentials = null) {
+        return static::createClientWithCredentials($credentials)->request('GET', '/authorization/check_access', ['query' => ['iri' => $iri]]);
+    }
+}
