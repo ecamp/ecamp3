@@ -30,6 +30,8 @@
                 "
                 @remove="removeContent(idx)"
                 @rotate="rotateContent(idx)"
+                @up="moveContent(idx, -1)"
+                @down="moveContent(idx, 1)"
               >
                 <component
                   :is="contentComponents[content.type]"
@@ -85,7 +87,7 @@
             </v-expansion-panel>
           </v-expansion-panels>
           <div
-            class="e-print-configurator__settings px-3 py-1"
+            class="e-print-configurator__settings px-3 py-1 flex-grow-0"
             role="group"
             :aria-label="$t('components.print.printConfigurator.options')"
           >
@@ -428,6 +430,12 @@ export default {
     },
     removeContent(idx) {
       this.cnf.contents.splice(idx, 1)
+      this.onChange()
+    },
+    moveContent(idx, direction) {
+      const [content] = this.cnf.contents.splice(idx, 1)
+      const pos = Math.min(Math.max(0, idx + direction), this.cnf.contents.length)
+      this.cnf.contents.splice(pos, 0, content)
       this.onChange()
     },
     rotateContent(idx) {

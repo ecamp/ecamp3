@@ -15,9 +15,9 @@
         tabindex="-1"
         icon-only
       />
-      <div class="e-pages-config__inner" v-bind="$attrs">
+      <div class="e-pages-config__inner e-pages-config__paper" v-bind="$attrs">
         <v-btn
-          v-if="canRotate && !template"
+          v-if="canRotate"
           class="e-pages-config__rotate"
           :icon="
             landscape
@@ -65,52 +65,47 @@
       />
     </div>
   </div>
-  <v-list-item
-    v-else-if="template"
-    prepend-icon="mdi-plus"
-    class="py-2 px-0"
-    v-bind="$attrs"
+  <v-card
+    v-else
+    class="d-flex align-center elevation-4--light px-0 e-pages-config__paper"
+    :class="{
+      'e-pages-config--multiple': multiple,
+      'e-pages-config--landscape': landscape,
+      'e-pages-config--portrait': !landscape,
+      'e-pages-config--template': template,
+    }"
   >
-    <v-list-item-title
-      ><h3>{{ title }}</h3></v-list-item-title
-    >
-  </v-list-item>
-  <div v-else>
-    <v-list-item class="py-2 px-0">
-      <template #prepend>
-        <v-btn
-          v-if="!template"
-          icon="mdi-drag"
-          size="small"
-          class="handle"
-          variant="flat"
-          density="comfortable"
-          :aria-label="$t('global.button.move')"
-        >
-          <v-icon icon="mdi-drag" size="24" />
-        </v-btn>
-      </template>
-      <v-list-item-title class="mb-2"
-        ><h3>{{ title }}</h3></v-list-item-title
-      >
+    <div class="d-grid justify-items-center text-medium-emphasis">
+      <v-btn
+        v-if="!template"
+        size="x-small"
+        icon="mdi-chevron-up"
+        variant="text"
+        @click="$emit('up')"
+      />
+      <v-btn
+        :icon="template ? 'mdi-plus' : 'mdi-drag'"
+        size="small"
+        class="handle"
+        variant="plain"
+        :aria-label="template ? $t('global.button.add') : $t('global.button.move')"
+      />
+      <v-btn
+        v-if="!template"
+        size="x-small"
+        icon="mdi-chevron-down"
+        variant="text"
+        @click="$emit('down')"
+      />
+    </div>
+    <div class="d-flex flex-column flex-grow-1">
+      <h3 class="my-4">{{ title }}</h3>
       <slot />
-      <template #append>
-        <v-list-item-action v-if="!template" class="my-0">
-          <TextAlignBaseline
-            ><v-btn
-              icon
-              variant="flat"
-              density="compact"
-              class="mr-6"
-              @click="$emit('remove')"
-              ><v-icon color="red">mdi-delete</v-icon></v-btn
-            ></TextAlignBaseline
-          >
-        </v-list-item-action>
-      </template>
-    </v-list-item>
-    <v-divider class="mx-4" />
-  </div>
+    </div>
+    <v-btn v-if="!template" icon variant="flat" class="mx-1" @click="$emit('remove')"
+      ><v-icon color="red">mdi-delete</v-icon></v-btn
+    >
+  </v-card>
 </template>
 
 <script>
@@ -127,7 +122,7 @@ export default {
     template: Boolean,
     title: { type: String, required: true },
   },
-  emits: ['remove', 'rotate'],
+  emits: ['remove', 'rotate', 'up', 'down'],
 }
 </script>
 
@@ -163,7 +158,7 @@ export default {
   }
 }
 
-.e-pages-config--multiple .e-pages-config__inner {
+.e-pages-config--multiple .e-pages-config__paper {
   position: relative;
 
   &:before,
@@ -193,13 +188,17 @@ export default {
   }
 }
 
-.e-pages-config__inner {
-  position: relative;
-  aspect-ratio: var(--aspect);
+.e-pages-config__paper {
   background: white;
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.12),
     0 1px 2px rgba(0, 0, 0, 0.24);
+  border-radius: 1px;
+}
+
+.e-pages-config__inner {
+  position: relative;
+  aspect-ratio: var(--aspect);
 }
 
 .e-pages-config--landscape .e-pages-config__inner {
@@ -285,6 +284,9 @@ export default {
 :deep(.v-list-item__prepend),
 :deep(.v-list-item__append) {
   align-self: baseline;
+}
+:deep(.v-list-item__content) {
+  overflow: visible;
 }
 .handle {
   cursor: grab;

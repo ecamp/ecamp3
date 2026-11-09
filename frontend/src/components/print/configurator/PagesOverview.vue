@@ -41,14 +41,21 @@ export default {
 @use 'vuetify/settings';
 @use 'sass:map';
 
+.e-pages-overview {
+  background: #eee;
+  flex-grow: 1;
+}
+.e-pages-overview__grid {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
 @media #{map.get(settings.$display-breakpoints, 'md-and-up')} {
   .e-pages-overview {
-    background: #eee;
     position: relative;
-    flex-grow: 1;
   }
   .e-pages-overview__grid {
-    display: grid;
     grid-template-columns: repeat(auto-fill, min(100%, var(--e-page-width)));
     justify-content: space-evenly;
     gap: 4rem var(--e-grid-gap);

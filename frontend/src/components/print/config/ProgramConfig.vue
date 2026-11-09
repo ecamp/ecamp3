@@ -13,6 +13,8 @@
     <e-checkbox
       v-model="options.dayOverview"
       path="dayOverview"
+      input-class="ml-n2"
+      density="comfortable"
       :label="$t('components.print.config.programConfig.dayOverview')"
       @update:model-value="$emit('update:modelValue', modelValue)"
     />
