@@ -392,6 +392,10 @@ export default {
           options: {},
         },
         {
+          type: 'Toc',
+          options: {},
+        },
+        {
           type: 'Picasso',
           options: {
             periods: this.camp.periods().items.map((period) => period._meta.self),
@@ -414,11 +418,6 @@ export default {
             periods: [period._meta.self],
           },
         })
-      })
-
-      contents.push({
-        type: 'Toc',
-        options: {},
       })
 
       return contents
