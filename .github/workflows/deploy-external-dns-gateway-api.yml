@@ -1,5 +1,8 @@
 name: Deploy external-dns-gateway-api
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
     inputs:
