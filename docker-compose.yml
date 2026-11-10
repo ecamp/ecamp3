@@ -131,7 +131,6 @@ services:
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@ecamp3.ch
       - PGADMIN_DEFAULT_PASSWORD=admin
-      - PGADMIN_CONFIG_ENABLE_SERVER_PASS_EXEC_CMD=True
     volumes:
       - ./pgadmin-servers.json:/pgadmin4/servers.json
 
