@@ -156,7 +156,7 @@ services:
     restart: on-failure
 
   e2e:
-    image: mcr.microsoft.com/playwright:v1.64.1-noble
+    image: mcr.microsoft.com/playwright:v1.65.1-noble
     profiles: ['e2e']
     container_name: 'ecamp3-e2e'
     user: ${USER_ID:-1000}
