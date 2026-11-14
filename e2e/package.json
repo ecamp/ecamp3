@@ -22,7 +22,7 @@
     "eslint-plugin-playwright": "2.12.2",
     "eslint-plugin-prettier": "5.5.7",
     "globals": "17.14.0",
-    "pdfjs-dist": "6.4.299",
+    "pdfjs-dist": "6.5.438",
     "prettier": "3.9.10",
     "typescript": "6.0.3",
     "typescript-eslint": "8.72.1"
