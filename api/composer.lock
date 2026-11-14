@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a8ce83bf7fe24c6c555556078b3fe15",
+    "content-hash": "f31289d67364c60503262a126545850e",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -11929,16 +11929,16 @@
         },
         {
             "name": "brianium/paratest",
-            "version": "v7.27.4",
+            "version": "v7.27.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paratestphp/paratest.git",
-                "reference": "6d73b615611a2da7af85637d99d1b0efac9fcd00"
+                "reference": "fe4a1fd811fd79ead7476fa109c5f4ed721cc18a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/6d73b615611a2da7af85637d99d1b0efac9fcd00",
-                "reference": "6d73b615611a2da7af85637d99d1b0efac9fcd00",
+                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/fe4a1fd811fd79ead7476fa109c5f4ed721cc18a",
+                "reference": "fe4a1fd811fd79ead7476fa109c5f4ed721cc18a",
                 "shasum": ""
             },
             "require": {
@@ -11962,7 +11962,7 @@
                 "ext-pcntl": "*",
                 "ext-pcov": "*",
                 "ext-posix": "*",
-                "phpstan/phpstan": "^2.3.1",
+                "phpstan/phpstan": "^2.3.2",
                 "phpstan/phpstan-deprecation-rules": "^2.0.5",
                 "phpstan/phpstan-phpunit": "^2.1.1",
                 "phpstan/phpstan-strict-rules": "^2.1.0",
@@ -12006,7 +12006,7 @@
             ],
             "support": {
                 "issues": "https://github.com/paratestphp/paratest/issues",
-                "source": "https://github.com/paratestphp/paratest/tree/v7.27.4"
+                "source": "https://github.com/paratestphp/paratest/tree/v7.27.5"
             },
             "funding": [
                 {
@@ -12018,8 +12018,8 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2026-10-22T06:15:12+00:00",
-            "published-time": "2026-10-22T06:15:40+00:00"
+            "time": "2026-10-29T13:58:46+00:00",
+            "published-time": "2026-10-29T13:59:18+00:00"
         },
         {
             "name": "clue/ndjson-react",
