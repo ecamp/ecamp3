@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e444b2da8d2503f92377ff6a8e15bfa2",
+    "content-hash": "53c7e960906401ed3abc7f9a221ba554",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -410,16 +410,16 @@
         },
         {
             "name": "api-platform/hydra",
-            "version": "v5.0.5",
+            "version": "v5.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/hydra.git",
-                "reference": "4f50681ca0815cf415fb29602244a2fd7a1584f7"
+                "reference": "cdeb6e6078c9fac37fea26f3be784e8c2b2dba64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/hydra/zipball/4f50681ca0815cf415fb29602244a2fd7a1584f7",
-                "reference": "4f50681ca0815cf415fb29602244a2fd7a1584f7",
+                "url": "https://api.github.com/repos/api-platform/hydra/zipball/cdeb6e6078c9fac37fea26f3be784e8c2b2dba64",
+                "reference": "cdeb6e6078c9fac37fea26f3be784e8c2b2dba64",
                 "shasum": ""
             },
             "require": {
@@ -491,9 +491,10 @@
                 "rest"
             ],
             "support": {
-                "source": "https://github.com/api-platform/hydra/tree/v5.0.5"
+                "source": "https://github.com/api-platform/hydra/tree/v5.0.6"
             },
-            "time": "2026-10-22T07:42:56+00:00"
+            "time": "2026-11-06T08:24:20+00:00",
+            "published-time": "2026-11-06T12:30:15+00:00"
         },
         {
             "name": "api-platform/json-api",
@@ -736,7 +737,8 @@
             "support": {
                 "source": "https://github.com/api-platform/jsonld/tree/v5.0.5"
             },
-            "time": "2026-09-30T12:49:41+00:00"
+            "time": "2026-09-30T12:49:41+00:00",
+            "published-time": "2026-10-23T07:53:36+00:00"
         },
         {
             "name": "api-platform/metadata",
@@ -5510,7 +5512,8 @@
             "support": {
                 "source": "https://github.com/php-fig/link/tree/2.0.1"
             },
-            "time": "2021-03-11T23:00:27+00:00"
+            "time": "2021-03-11T23:00:27+00:00",
+            "published-time": "2021-03-11T23:05:05+00:00"
         },
         {
             "name": "psr/log",
@@ -10762,7 +10765,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-28T19:13:15+00:00"
+            "time": "2026-09-28T19:13:15+00:00",
+            "published-time": "2026-09-29T14:09:09+00:00"
         },
         {
             "name": "symfony/uid",
@@ -11192,7 +11196,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-29T05:06:50+00:00"
+            "time": "2026-05-29T05:06:50+00:00",
+            "published-time": "2026-05-29T08:50:55+00:00"
         },
         {
             "name": "symfony/yaml",
