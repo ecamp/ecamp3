@@ -13,7 +13,7 @@
     "api-platform/http-cache": "5.0.5",
     "api-platform/json-api": "5.0.5",
     "api-platform/metadata": "5.0.5",
-    "api-platform/openapi": "5.0.5",
+    "api-platform/openapi": "5.0.6",
     "api-platform/serializer": "5.0.5",
     "api-platform/state": "5.0.5",
     "api-platform/symfony": "5.0.5",
