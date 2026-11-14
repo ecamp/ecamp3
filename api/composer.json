@@ -73,7 +73,7 @@
     "api-platform/json-schema": "5.0.5",
     "api-platform/test": "5.0.5",
     "brianium/paratest": "7.27.4",
-    "friendsofphp/php-cs-fixer": "3.95.27",
+    "friendsofphp/php-cs-fixer": "3.95.29",
     "hautelook/alice-bundle": "2.17.3",
     "justinrainbow/json-schema": "6.14.0",
     "php-coveralls/php-coveralls": "2.9.1",
