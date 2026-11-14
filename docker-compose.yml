@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: node:26.12.1
+    image: node:26.13.0
     container_name: 'ecamp3-frontend'
     ports:
       - '9229:9229' # jest debug
@@ -20,7 +20,7 @@ services:
     stop_signal: SIGKILL
 
   frontend-old:
-    image: node:26.12.1
+    image: node:26.13.0
     container_name: 'ecamp3-frontend-old'
     stdin_open: true
     tty: true
@@ -197,7 +197,7 @@ services:
     stop_signal: SIGKILL
 
   translation:
-    image: node:26.12.1
+    image: node:26.13.0
     profiles: ['translation']
     container_name: 'ecamp3-translation'
     volumes:
@@ -207,7 +207,7 @@ services:
     command: tail -F anything
 
   prettier:
-    image: node:26.12.1
+    image: node:26.13.0
     profiles: ['prettier']
     stdin_open: true
     tty: true
