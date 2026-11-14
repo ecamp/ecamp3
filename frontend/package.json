@@ -140,7 +140,7 @@
   "overrides": {
     "uri-js": "npm:uri-js-replace",
     "js-beautify": {
-      "glob": "13.0.6"
+      "glob": "14.0.2"
     }
   },
   "postcss": {
