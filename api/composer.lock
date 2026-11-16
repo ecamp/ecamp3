@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f4b74b8055679ce56279143bd8c66e9",
+    "content-hash": "e191a2149e1e8f15141250c80564cd5b",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -3326,16 +3326,16 @@
         },
         {
             "name": "gesdinet/jwt-refresh-token-bundle",
-            "version": "v2.2.2",
+            "version": "v2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/markitosgv/JWTRefreshTokenBundle.git",
-                "reference": "63e3a1f2c7f5342fcda6868bb57d74e61c209f0c"
+                "reference": "0adc509286ce7ec22921a4a175a060ab134cf2e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/markitosgv/JWTRefreshTokenBundle/zipball/63e3a1f2c7f5342fcda6868bb57d74e61c209f0c",
-                "reference": "63e3a1f2c7f5342fcda6868bb57d74e61c209f0c",
+                "url": "https://api.github.com/repos/markitosgv/JWTRefreshTokenBundle/zipball/0adc509286ce7ec22921a4a175a060ab134cf2e7",
+                "reference": "0adc509286ce7ec22921a4a175a060ab134cf2e7",
                 "shasum": ""
             },
             "require": {
@@ -3406,9 +3406,10 @@
             ],
             "support": {
                 "issues": "https://github.com/markitosgv/JWTRefreshTokenBundle/issues",
-                "source": "https://github.com/markitosgv/JWTRefreshTokenBundle/tree/v2.2.2"
+                "source": "https://github.com/markitosgv/JWTRefreshTokenBundle/tree/v2.3.0"
             },
-            "time": "2026-08-04T10:50:29+00:00"
+            "time": "2026-11-01T20:41:44+00:00",
+            "published-time": "2026-11-01T20:42:00+00:00"
         },
         {
             "name": "google/recaptcha",
