@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1142f02d235401492983768b040241ba",
+    "content-hash": "af7742dd8f2ccc3bada7f89c7604ba2a",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -742,16 +742,16 @@
         },
         {
             "name": "api-platform/metadata",
-            "version": "v5.0.5",
+            "version": "v5.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/metadata.git",
-                "reference": "170341d957a02fc5302055feb543c92f4df74a89"
+                "reference": "6360ddc4ec4219a1b335a0c3b0eb4a98ed7a47a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/metadata/zipball/170341d957a02fc5302055feb543c92f4df74a89",
-                "reference": "170341d957a02fc5302055feb543c92f4df74a89",
+                "url": "https://api.github.com/repos/api-platform/metadata/zipball/6360ddc4ec4219a1b335a0c3b0eb4a98ed7a47a1",
+                "reference": "6360ddc4ec4219a1b335a0c3b0eb4a98ed7a47a1",
                 "shasum": ""
             },
             "require": {
@@ -834,9 +834,10 @@
                 "swagger"
             ],
             "support": {
-                "source": "https://github.com/api-platform/metadata/tree/v5.0.5"
+                "source": "https://github.com/api-platform/metadata/tree/v5.0.6"
             },
-            "time": "2026-10-16T08:43:59+00:00"
+            "time": "2026-11-06T08:25:24+00:00",
+            "published-time": "2026-11-06T12:30:38+00:00"
         },
         {
             "name": "api-platform/openapi",
@@ -2266,7 +2267,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-10T19:31:58+00:00"
+            "time": "2025-08-10T19:31:58+00:00",
+            "published-time": "2025-08-10T19:33:33+00:00"
         },
         {
             "name": "doctrine/instantiator",
