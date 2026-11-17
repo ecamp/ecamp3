@@ -99,6 +99,7 @@
       },
       "campHitobitoSync": {
         "linked": "Questo campo è collegato a {provider}.",
+        "openInProvider": "Apri in {provider}",
         "sync": "Sincronizzare",
         "title": "Sincronizzare le info del campo"
       },

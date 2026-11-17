@@ -11,6 +11,18 @@
         <v-list-item-title>
           {{ $t('components.campAdmin.campHitobitoSync.linked', { provider }) }}
         </v-list-item-title>
+        <v-list-item-subtitle>
+          <a
+            :href="eventUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-primary"
+            data-testid="hitobito-event-link"
+          >
+            {{ $t('components.campAdmin.campHitobitoSync.openInProvider', { provider }) }}
+            <v-icon icon="mdi-open-in-new" size="x-small" />
+          </a>
+        </v-list-item-subtitle>
         <template #append>
           <ButtonEdit
             icon="mdi-sync"
@@ -29,7 +41,12 @@
 <script>
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 import ContentGroup from '@/components/layout/ContentGroup.vue'
-import { providerIcon, providerIconColor, providerNameKey } from '@/plugins/hitobito.js'
+import {
+  hitobitoEventWebUrl,
+  providerIcon,
+  providerIconColor,
+  providerNameKey,
+} from '@/plugins/hitobito.js'
 import { campRoute } from '@/router.js'
 
 export default {
@@ -47,6 +64,9 @@ export default {
     },
     iconColor() {
       return providerIconColor(this.camp.hitobitoProvider)
+    },
+    eventUrl() {
+      return hitobitoEventWebUrl(this.camp.hitobitoProvider, this.camp.hitobitoEventId)
     },
     syncRoute() {
       return campRoute(this.camp, 'hitobitoSync')
