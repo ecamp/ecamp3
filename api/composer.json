@@ -19,7 +19,7 @@
     "api-platform/symfony": "5.0.5",
     "api-platform/validator": "5.0.5",
     "doctrine/common": "3.5.0",
-    "doctrine/doctrine-bundle": "3.3.3",
+    "doctrine/doctrine-bundle": "3.3.4",
     "doctrine/doctrine-migrations-bundle": "4.0.1",
     "doctrine/orm": "3.7.5",
     "exercise/htmlpurifier-bundle": "5.2",
