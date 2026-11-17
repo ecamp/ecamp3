@@ -13,6 +13,10 @@ const PROVIDER_ICON_COLORS = {
   pbsmidata: '#521d3a',
 }
 
+const PROVIDER_URL_ENV_KEYS = {
+  pbsmidata: 'HITOBITO_PBSMIDATA_BASE_URL',
+}
+
 export function isValidProvider(provider) {
   return HITOBITO_PROVIDERS.includes(provider)
 }
@@ -27,6 +31,10 @@ export function providerIcon(provider) {
 
 export function providerIconColor(provider) {
   return PROVIDER_ICON_COLORS[provider] ?? null
+}
+
+export function hitobitoEventWebUrl(provider, eventId) {
+  return `${getEnv()[PROVIDER_URL_ENV_KEYS[provider]]}/events/${eventId}`
 }
 
 export function hitobitoEventsUri(provider, eventId = null) {

@@ -5,6 +5,7 @@ import {
   hasAttemptedAuthorization,
   hitobitoEventCampUri,
   hitobitoEventParticipantsUri,
+  hitobitoEventWebUrl,
   hitobitoEventsUri,
   isAccessTokenInvalidError,
   isValidProvider,
@@ -68,6 +69,17 @@ describe('hitobitoEventParticipantsUri', () => {
     expect(hitobitoEventParticipantsUri('pbsmidata', '123')).toBe(
       '/hitobito/pbsmidata/events/123/participants'
     )
+  })
+})
+
+describe('hitobitoEventWebUrl', () => {
+  afterEach(() => {
+    delete window.environment
+  })
+
+  it('links to the event page on the configured Hitobito instance', () => {
+    window.environment = { HITOBITO_PBSMIDATA_BASE_URL: 'https://db.scout.ch' }
+    expect(hitobitoEventWebUrl('pbsmidata', '123')).toBe('https://db.scout.ch/events/123')
   })
 })
 
