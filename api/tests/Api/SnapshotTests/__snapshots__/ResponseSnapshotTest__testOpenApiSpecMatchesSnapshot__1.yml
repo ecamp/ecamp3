@@ -1561,6 +1561,7 @@ components:
                 $ref: '#/components/schemas/ScheduleEntry.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Activity.jsonapi-validation.Default_create:
       properties:
         data:
@@ -1589,10 +1590,12 @@ components:
                 $ref: '#/components/schemas/ScheduleEntry.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Activity.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/Activity.jsonapi-validation.Default_create.input.resource'
+      type: object
     Activity.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -1774,10 +1777,12 @@ components:
                 $ref: '#/components/schemas/ScheduleEntry.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Activity.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/Activity.jsonapi-validation.Default_update.input.resource'
+      type: object
     Activity.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -3161,6 +3166,7 @@ components:
                 $ref: '#/components/schemas/Camp.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ActivityProgressLabel.jsonapi-validation.Default_create:
       properties:
         data:
@@ -3175,10 +3181,12 @@ components:
                 $ref: '#/components/schemas/Camp.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ActivityProgressLabel.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/ActivityProgressLabel.jsonapi-validation.Default_create.input.resource'
+      type: object
     ActivityProgressLabel.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -3260,10 +3268,12 @@ components:
                 $ref: '#/components/schemas/Camp.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ActivityProgressLabel.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/ActivityProgressLabel.jsonapi-validation.Default_update.input.resource'
+      type: object
     ActivityProgressLabel.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -3346,6 +3356,7 @@ components:
                 $ref: '#/components/schemas/Camp.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ActivityProgressLabel.jsonapi-validation.delete.resource:
       properties:
         attributes:
@@ -3865,10 +3876,12 @@ components:
                 $ref: '#/components/schemas/CampCollaboration.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ActivityResponsible.jsonapi.input:
       properties:
         data:
           $ref: '#/components/schemas/ActivityResponsible.jsonapi.input.resource'
+      type: object
     ActivityResponsible.jsonapi.input.resource:
       properties:
         attributes:
@@ -8255,6 +8268,7 @@ components:
                 $ref: '#/components/schemas/User.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Camp.jsonapi-validation.Default_create_Camp.create:
       properties:
         data:
@@ -8289,10 +8303,12 @@ components:
                 $ref: '#/components/schemas/User.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Camp.jsonapi-validation.Default_create_Camp.create.input:
       properties:
         data:
           $ref: '#/components/schemas/Camp.jsonapi-validation.Default_create_Camp.create.input.resource'
+      type: object
     Camp.jsonapi-validation.Default_create_Camp.create.input.resource:
       properties:
         attributes:
@@ -8830,6 +8846,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Camp.jsonapi.input.resource'
+      type: object
     Camp.jsonapi.input.resource:
       properties:
         attributes:
@@ -12482,6 +12499,7 @@ components:
                 $ref: '#/components/schemas/User.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     CampCollaboration.jsonapi-validation.Default_resend_invitation:
       properties:
         data:
@@ -12502,10 +12520,12 @@ components:
                 $ref: '#/components/schemas/User.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     CampCollaboration.jsonapi-validation.Default_resend_invitation.input:
       properties:
         data:
           $ref: '#/components/schemas/CampCollaboration.jsonapi-validation.Default_resend_invitation.input.resource'
+      type: object
     CampCollaboration.jsonapi-validation.Default_resend_invitation.input.resource:
       properties:
         attributes:
@@ -12724,10 +12744,12 @@ components:
                 $ref: '#/components/schemas/User.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     CampCollaboration.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/CampCollaboration.jsonapi-validation.Default_update.input.resource'
+      type: object
     CampCollaboration.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -12946,6 +12968,7 @@ components:
                 $ref: '#/components/schemas/User.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     CampCollaboration.jsonapi-validation.delete.resource:
       properties:
         attributes:
@@ -13030,6 +13053,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/CampCollaboration.jsonapi.input.resource'
+      type: object
     CampCollaboration.jsonapi.input.resource:
       properties:
         attributes:
@@ -15137,6 +15161,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Category.jsonapi-validation.delete:
       properties:
         data:
@@ -15159,6 +15184,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Category.jsonapi-validation.delete.resource:
       properties:
         attributes:
@@ -15231,6 +15257,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Category.jsonapi.input.resource'
+      type: object
     Category.jsonapi.input.resource:
       properties:
         attributes:
@@ -16279,6 +16306,7 @@ components:
                 $ref: '#/components/schemas/ChecklistItem.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Checklist.jsonapi-validation.delete:
       properties:
         data:
@@ -16297,6 +16325,7 @@ components:
                 $ref: '#/components/schemas/ChecklistItem.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Checklist.jsonapi-validation.delete.resource:
       properties:
         attributes:
@@ -16351,6 +16380,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Checklist.jsonapi.input.resource'
+      type: object
     Checklist.jsonapi.input.resource:
       properties:
         attributes:
@@ -17137,6 +17167,7 @@ components:
                 $ref: '#/components/schemas/ChecklistNode.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ChecklistItem.jsonapi-validation.delete:
       properties:
         data:
@@ -17155,6 +17186,7 @@ components:
                 $ref: '#/components/schemas/ChecklistNode.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ChecklistItem.jsonapi-validation.delete.resource:
       properties:
         attributes:
@@ -17219,6 +17251,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/ChecklistItem.jsonapi.input.resource'
+      type: object
     ChecklistItem.jsonapi.input.resource:
       properties:
         attributes:
@@ -18695,6 +18728,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ChecklistNode.jsonapi-validation.Default_create:
       properties:
         data:
@@ -18717,10 +18751,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ChecklistNode.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/ChecklistNode.jsonapi-validation.Default_create.input.resource'
+      type: object
     ChecklistNode.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -18946,10 +18982,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ChecklistNode.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/ChecklistNode.jsonapi-validation.Default_update.input.resource'
+      type: object
     ChecklistNode.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -20719,6 +20757,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ColumnLayout.jsonapi-validation.Default_create:
       properties:
         data:
@@ -20739,10 +20778,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ColumnLayout.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/ColumnLayout.jsonapi-validation.Default_create.input.resource'
+      type: object
     ColumnLayout.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -20940,10 +20981,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ColumnLayout.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/ColumnLayout.jsonapi-validation.Default_update.input.resource'
+      type: object
     ColumnLayout.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -22497,6 +22540,7 @@ components:
                 $ref: '#/components/schemas/Comment.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Comment.jsonapi-validation.delete:
       properties:
         data:
@@ -22517,6 +22561,7 @@ components:
                 $ref: '#/components/schemas/Comment.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Comment.jsonapi-validation.delete.resource:
       properties:
         attributes:
@@ -22616,6 +22661,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Comment.jsonapi.input.resource'
+      type: object
     Comment.jsonapi.input.resource:
       properties:
         attributes:
@@ -23980,6 +24026,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ContentNode.jsonapi.resource:
       properties:
         attributes:
@@ -24641,6 +24688,7 @@ components:
                 $ref: '#/components/schemas/Category.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ContentType.jsonapi.resource:
       properties:
         attributes:
@@ -25292,6 +25340,7 @@ components:
                 $ref: '#/components/schemas/ScheduleEntry.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Day.jsonapi.resource:
       properties:
         attributes:
@@ -25716,10 +25765,12 @@ components:
                 $ref: '#/components/schemas/Day.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     DayResponsible.jsonapi.input:
       properties:
         data:
           $ref: '#/components/schemas/DayResponsible.jsonapi.input.resource'
+      type: object
     DayResponsible.jsonapi.input.resource:
       properties:
         attributes:
@@ -25952,7 +26003,7 @@ components:
                 next:
                   properties: { href: { format: iri-reference, type: string } }
                   type: object
-                previous:
+                prev:
                   properties: { href: { format: iri-reference, type: string } }
                   type: object
             itemsPerPage:
@@ -25972,6 +26023,12 @@ components:
               type: object
         _links:
           properties:
+            item:
+              items:
+                properties:
+                  href: { format: iri-reference, type: string }
+                type: object
+              type: array
             self:
               properties:
                 href:
@@ -25983,7 +26040,6 @@ components:
           minimum: 0
           type: integer
       required:
-        - _embedded
         - _links
       type: object
     HitobitoEvent:
@@ -26098,6 +26154,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/HitobitoEvent.jsonapi.resource'
+      type: object
     HitobitoEvent.jsonapi.resource:
       properties:
         attributes:
@@ -26271,6 +26328,7 @@ components:
                 $ref: '#/components/schemas/Camp.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     HitobitoEventCamp.jsonapi.resource:
       properties:
         attributes:
@@ -26878,14 +26936,17 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Invitation.jsonapi.resource'
+      type: object
     Invitation.jsonapi-validation.Default_accept:
       properties:
         data:
           $ref: '#/components/schemas/Invitation.jsonapi-validation.Default_accept.resource'
+      type: object
     Invitation.jsonapi-validation.Default_accept.input:
       properties:
         data:
           $ref: '#/components/schemas/Invitation.jsonapi-validation.Default_accept.input.resource'
+      type: object
     Invitation.jsonapi-validation.Default_accept.input.resource:
       properties:
         attributes:
@@ -26972,6 +27033,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Invitation.jsonapi.input.resource'
+      type: object
     Invitation.jsonapi.input.resource:
       properties:
         attributes:
@@ -27813,6 +27875,7 @@ components:
                 $ref: '#/components/schemas/Period.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MaterialItem.jsonapi-validation.App.Validator.MaterialItemUpdateGroupSequence:
       properties:
         data:
@@ -27833,10 +27896,12 @@ components:
                 $ref: '#/components/schemas/Period.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MaterialItem.jsonapi-validation.App.Validator.MaterialItemUpdateGroupSequence.input:
       properties:
         data:
           $ref: '#/components/schemas/MaterialItem.jsonapi-validation.App.Validator.MaterialItemUpdateGroupSequence.input.resource'
+      type: object
     MaterialItem.jsonapi-validation.App.Validator.MaterialItemUpdateGroupSequence.input.resource:
       properties:
         attributes:
@@ -27971,6 +28036,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/MaterialItem.jsonapi.input.resource'
+      type: object
     MaterialItem.jsonapi.input.resource:
       properties:
         attributes:
@@ -28678,6 +28744,7 @@ components:
                 $ref: '#/components/schemas/MaterialItem.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MaterialList.jsonapi-validation.delete:
       properties:
         data:
@@ -28696,6 +28763,7 @@ components:
                 $ref: '#/components/schemas/MaterialItem.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MaterialList.jsonapi-validation.delete.resource:
       properties:
         attributes:
@@ -28744,6 +28812,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/MaterialList.jsonapi.input.resource'
+      type: object
     MaterialList.jsonapi.input.resource:
       properties:
         attributes:
@@ -30174,6 +30243,7 @@ components:
                 $ref: '#/components/schemas/MaterialItem.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MaterialNode.jsonapi-validation.Default_create:
       properties:
         data:
@@ -30196,10 +30266,12 @@ components:
                 $ref: '#/components/schemas/MaterialItem.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MaterialNode.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/MaterialNode.jsonapi-validation.Default_create.input.resource'
+      type: object
     MaterialNode.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -30401,10 +30473,12 @@ components:
                 $ref: '#/components/schemas/MaterialItem.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MaterialNode.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/MaterialNode.jsonapi-validation.Default_update.input.resource'
+      type: object
     MaterialNode.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -32125,6 +32199,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MultiSelect.jsonapi-validation.Default_create:
       properties:
         data:
@@ -32145,10 +32220,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MultiSelect.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/MultiSelect.jsonapi-validation.Default_create.input.resource'
+      type: object
     MultiSelect.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -32346,10 +32423,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MultiSelect.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/MultiSelect.jsonapi-validation.Default_update.input.resource'
+      type: object
     MultiSelect.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -34026,6 +34105,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     NoData.jsonapi-validation.Default_create:
       properties:
         data:
@@ -34046,10 +34126,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     NoData.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/NoData.jsonapi-validation.Default_create.input.resource'
+      type: object
     NoData.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -34239,10 +34321,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     NoData.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/NoData.jsonapi-validation.Default_update.input.resource'
+      type: object
     NoData.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -36148,6 +36232,7 @@ components:
                 $ref: '#/components/schemas/ScheduleEntry.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Period.jsonapi-validation.delete_Period.delete:
       properties:
         data:
@@ -36172,6 +36257,7 @@ components:
                 $ref: '#/components/schemas/ScheduleEntry.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Period.jsonapi-validation.delete_Period.delete.resource:
       properties:
         attributes:
@@ -36290,6 +36376,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Period.jsonapi.input.resource'
+      type: object
     Period.jsonapi.input.resource:
       properties:
         attributes:
@@ -37148,14 +37235,17 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/PersonalInvitation.jsonapi.resource'
+      type: object
     PersonalInvitation.jsonapi-validation.Default_accept:
       properties:
         data:
           $ref: '#/components/schemas/PersonalInvitation.jsonapi-validation.Default_accept.resource'
+      type: object
     PersonalInvitation.jsonapi-validation.Default_accept.input:
       properties:
         data:
           $ref: '#/components/schemas/PersonalInvitation.jsonapi-validation.Default_accept.input.resource'
+      type: object
     PersonalInvitation.jsonapi-validation.Default_accept.input.resource:
       properties:
         attributes:
@@ -37216,6 +37306,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/PersonalInvitation.jsonapi.input.resource'
+      type: object
     PersonalInvitation.jsonapi.input.resource:
       properties:
         attributes:
@@ -38225,10 +38316,12 @@ components:
                 $ref: '#/components/schemas/User.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Profile.jsonapi.input:
       properties:
         data:
           $ref: '#/components/schemas/Profile.jsonapi.input.resource'
+      type: object
     Profile.jsonapi.input.resource:
       properties:
         attributes:
@@ -38813,10 +38906,12 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/ResetPassword.jsonapi.resource'
+      type: object
     ResetPassword.jsonapi.input:
       properties:
         data:
           $ref: '#/components/schemas/ResetPassword.jsonapi.input.resource'
+      type: object
     ResetPassword.jsonapi.input.resource:
       properties:
         attributes:
@@ -40094,6 +40189,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ResponsiveLayout.jsonapi-validation.Default_create:
       properties:
         data:
@@ -40114,10 +40210,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ResponsiveLayout.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/ResponsiveLayout.jsonapi-validation.Default_create.input.resource'
+      type: object
     ResponsiveLayout.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -40319,10 +40417,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ResponsiveLayout.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/ResponsiveLayout.jsonapi-validation.Default_update.input.resource'
+      type: object
     ResponsiveLayout.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -42988,6 +43088,7 @@ components:
                 $ref: '#/components/schemas/Period.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ScheduleEntry.jsonapi-validation.App.Validator.ScheduleEntryPostGroupSequence:
       properties:
         data:
@@ -43006,10 +43107,12 @@ components:
                 $ref: '#/components/schemas/Period.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ScheduleEntry.jsonapi-validation.App.Validator.ScheduleEntryPostGroupSequence.input:
       properties:
         data:
           $ref: '#/components/schemas/ScheduleEntry.jsonapi-validation.App.Validator.ScheduleEntryPostGroupSequence.input.resource'
+      type: object
     ScheduleEntry.jsonapi-validation.App.Validator.ScheduleEntryPostGroupSequence.input.resource:
       properties:
         attributes:
@@ -43273,6 +43376,7 @@ components:
                 $ref: '#/components/schemas/Period.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ScheduleEntry.jsonapi-validation.delete_ScheduleEntry.delete.resource:
       properties:
         attributes:
@@ -43400,6 +43504,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/ScheduleEntry.jsonapi.input.resource'
+      type: object
     ScheduleEntry.jsonapi.input.resource:
       properties:
         attributes:
@@ -45476,6 +45581,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     SingleText.jsonapi-validation.Default_create:
       properties:
         data:
@@ -45496,10 +45602,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     SingleText.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/SingleText.jsonapi-validation.Default_create.input.resource'
+      type: object
     SingleText.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -45695,10 +45803,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     SingleText.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/SingleText.jsonapi-validation.Default_update.input.resource'
+      type: object
     SingleText.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -47422,6 +47532,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Storyboard.jsonapi-validation.Default_create:
       properties:
         data:
@@ -47442,10 +47553,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Storyboard.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/Storyboard.jsonapi-validation.Default_create.input.resource'
+      type: object
     Storyboard.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -47641,10 +47754,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Storyboard.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/Storyboard.jsonapi-validation.Default_update.input.resource'
+      type: object
     Storyboard.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -49135,6 +49250,7 @@ components:
                 $ref: '#/components/schemas/Profile.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     User.jsonapi-validation.Default_create:
       properties:
         data:
@@ -49149,10 +49265,12 @@ components:
                 $ref: '#/components/schemas/Profile.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     User.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/User.jsonapi-validation.Default_create.input.resource'
+      type: object
     User.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -49358,6 +49476,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/User.jsonapi.input.resource'
+      type: object
     User.jsonapi.input.resource:
       properties:
         attributes:
@@ -49886,6 +50005,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/UserActivation.jsonapi.input.resource'
+      type: object
     UserActivation.jsonapi.input.resource:
       properties:
         attributes:
