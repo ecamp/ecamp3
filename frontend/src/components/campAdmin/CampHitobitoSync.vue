@@ -11,7 +11,7 @@
         <v-list-item-title>
           {{ $t('components.campAdmin.campHitobitoSync.linked', { provider }) }}
         </v-list-item-title>
-        <v-list-item-subtitle>
+        <v-list-item-subtitle class="opacity-100">
           <a
             :href="eventUrl"
             target="_blank"
