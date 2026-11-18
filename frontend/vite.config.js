@@ -132,26 +132,26 @@ export default defineConfig(({ mode }) => ({
       // webpack alias @ (import in Vue files)
       {
         find: '~@',
-        replacement: path.resolve(__dirname, 'src'),
+        replacement: path.resolve(import.meta.dirname, 'src'),
       },
       {
         find: '@',
-        replacement: path.resolve(__dirname, 'src'),
+        replacement: path.resolve(import.meta.dirname, 'src'),
       },
 
       // individual webpack aliases for ~ (node modules)
       {
         find: '~@mdi',
-        replacement: path.resolve(__dirname, 'node_modules', '@mdi'),
+        replacement: path.resolve(import.meta.dirname, 'node_modules', '@mdi'),
       },
       {
         find: '~inter-ui',
-        replacement: path.resolve(__dirname, 'node_modules', 'inter-ui'),
+        replacement: path.resolve(import.meta.dirname, 'node_modules', 'inter-ui'),
       },
       {
         find: /^vue$/,
         replacement: path.resolve(
-          __dirname,
+          import.meta.dirname,
           'node_modules/vue/dist/vue.runtime.esm-bundler.js'
         ),
       },
@@ -159,7 +159,7 @@ export default defineConfig(({ mode }) => ({
       // find dayjs from commons
       {
         find: 'dayjs',
-        replacement: path.resolve(__dirname, 'node_modules', 'dayjs'),
+        replacement: path.resolve(import.meta.dirname, 'node_modules', 'dayjs'),
       },
     ],
     preserveSymlinks: true,

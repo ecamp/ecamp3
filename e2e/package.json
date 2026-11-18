@@ -16,16 +16,16 @@
     "@eslint/compat": "2.1.1",
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.64.0",
-    "@types/node": "26.6.5",
-    "eslint": "10.13.0",
+    "@types/node": "26.6.6",
+    "eslint": "10.14.0",
     "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-playwright": "2.12.1",
+    "eslint-plugin-playwright": "2.12.2",
     "eslint-plugin-prettier": "5.5.7",
-    "globals": "17.13.0",
-    "pdfjs-dist": "6.4.299",
-    "prettier": "3.9.10",
+    "globals": "17.14.0",
+    "pdfjs-dist": "6.5.438",
+    "prettier": "3.10.0",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.72.1"
+    "typescript-eslint": "8.72.2"
   },
   "overrides": {
     "uri-js": "npm:uri-js-replace"

@@ -1,54 +1,5 @@
 {
   "components": {
-    "summary": {
-      "summaryDay": {
-        "noContent": "Les activités de cette journée ne contiennent aucun contenu {contentType}."
-      }
-    },
-    "comments": {
-      "commentCard": {
-        "campComment": "Tout le camp",
-        "deleteDisabledReplies": "Les commentaires avec des réponses d'autres personnes ne peuvent pas être supprimés.",
-        "deleteWarning": "Veux-tu vraiment supprimer ton commentaire ?",
-        "deleteWithRepliesWarning": "Veux-tu vraiment supprimer ton commentaire et ses réponses ?",
-        "deleted": "(supprimé)",
-        "deletedAuthor": "Personne supprimée"
-      },
-      "commentComposer": {
-        "placeholder": "Écrire un commentaire",
-        "replyPlaceholder": "Écrire une réponse"
-      },
-      "commentThread": {
-        "reopen": "Rouvrir",
-        "reply": "Répondre",
-        "resolve": "Résoudre",
-        "resolved": "Résolu",
-        "resolvedBy": "Résolu par {user}"
-      },
-      "commentTime": {
-        "today": "Aujourd’hui, {time}",
-        "yesterday": "Hier, {time}"
-      },
-      "commentsList": {
-        "empty": "Aucun commentaire pour le moment.",
-        "noResolvedComments": "Aucun commentaire résolu.",
-        "noOpenComments": "Aucun commentaire ouvert.",
-        "noOpenCommentsWithResolved": "Aucun commentaire ouvert. Voir Résolus."
-      },
-      "commentsPanel": {
-        "activityCommentsElsewhere": "Un autre commentaire ouvert concerne une activité. | {count} autres commentaires ouverts concernent des activités.",
-        "all": "Tous",
-        "commentsOnThisActivity": "Commentaires sur cette activité",
-        "open": "Ouverts",
-        "resolved": "Résolus",
-        "resolvedActivityCommentsElsewhere": "Un autre commentaire résolu concerne une activité. | {count} autres commentaires résolus concernent des activités.",
-        "title": "Commentaires"
-      },
-      "commentsToggleButton": {
-        "hide": "Masquer les commentaires",
-        "show": "Afficher les commentaires | Afficher un commentaire | Afficher {count} commentaires"
-      }
-    },
     "activity": {
       "content": {
         "checklist": {
@@ -361,14 +312,14 @@
     },
     "collaborator": {
       "collaboratorBulkCreate": {
-        "validationFailed": "Déjà dans le camp ou e-mail invalide:",
         "emailsHint": "Entrer une adresse e-mail par ligne ou séparées par des virgules",
         "emailsLabel": "Adresses e-mail",
         "failedEmails": "Échec de l'invitation: {emails}",
         "invite": "Envoyer les invitations",
         "inviteCta": "Inviter plusieurs personnes",
         "successCount": "{count} invitation(s) envoyée(s)",
-        "title": "Inviter plusieurs personnes"
+        "title": "Inviter plusieurs personnes",
+        "validationFailed": "Déjà dans le camp ou e-mail invalide:"
       },
       "collaboratorCreate": {
         "invite": "Envoyer l'invitation",
@@ -397,6 +348,50 @@
         "leaveCamp": "Quitter le camp",
         "warningText": "Veux-tu désactiver '{name}' ?",
         "warningTextLeaveCamp": "Voulez-vous sortir du camp \"{camp}\" ?"
+      }
+    },
+    "comments": {
+      "commentCard": {
+        "campComment": "Tout le camp",
+        "deleteDisabledReplies": "Les commentaires avec des réponses d'autres personnes ne peuvent pas être supprimés.",
+        "deleteWarning": "Veux-tu vraiment supprimer ton commentaire ?",
+        "deleteWithRepliesWarning": "Veux-tu vraiment supprimer ton commentaire et ses réponses ?",
+        "deleted": "(supprimé)",
+        "deletedAuthor": "Personne supprimée"
+      },
+      "commentComposer": {
+        "placeholder": "Écrire un commentaire",
+        "replyPlaceholder": "Écrire une réponse"
+      },
+      "commentThread": {
+        "reopen": "Rouvrir",
+        "reply": "Répondre",
+        "resolve": "Résoudre",
+        "resolved": "Résolu",
+        "resolvedBy": "Résolu par {user}"
+      },
+      "commentTime": {
+        "today": "Aujourd’hui, {time}",
+        "yesterday": "Hier, {time}"
+      },
+      "commentsList": {
+        "empty": "Aucun commentaire pour le moment.",
+        "noOpenComments": "Aucun commentaire ouvert.",
+        "noOpenCommentsWithResolved": "Aucun commentaire ouvert. Voir Résolus.",
+        "noResolvedComments": "Aucun commentaire résolu."
+      },
+      "commentsPanel": {
+        "activityCommentsElsewhere": "Un autre commentaire ouvert concerne une activité. | {count} autres commentaires ouverts concernent des activités.",
+        "all": "Tous",
+        "commentsOnThisActivity": "Commentaires sur cette activité",
+        "open": "Ouverts",
+        "resolved": "Résolus",
+        "resolvedActivityCommentsElsewhere": "Un autre commentaire résolu concerne une activité. | {count} autres commentaires résolus concernent des activités.",
+        "title": "Commentaires"
+      },
+      "commentsToggleButton": {
+        "hide": "Masquer les commentaires",
+        "show": "Afficher les commentaires | Afficher un commentaire | Afficher {count} commentaires"
       }
     },
     "dashboard": {
@@ -502,13 +497,13 @@
           "title": "Filtrer les activités"
         },
         "picassoConfig": {
-          "orientation": "Mise en page",
           "landscape": "Paysage",
+          "orientation": "Mise en page",
           "periods": "Période(s) du camp",
           "portrait": "Portrait",
           "responsibles": "Responsables",
-          "responsiblesNames": "Noms",
-          "responsiblesAvatars": "Avatars"
+          "responsiblesAvatars": "Avatars",
+          "responsiblesNames": "Noms"
         },
         "programConfig": {
           "dayOverview": "Aperçu des jours"
@@ -532,15 +527,15 @@
         "generatePdfMixin": {
           "error": "Une erreur est survenue. Essaie à nouveau, ou recharge la page.",
           "progress": {
-            "loadingData": "Chargement des dernières données du camp…",
-            "setupTranslationsAndFonts": "Chargement des polices et des textes statiques…",
             "assembleContent": "Assemblage {type} ({content} sur {totalContents})…",
+            "done": "Terminé",
+            "downloadingPdf": "Téléchargement du pdf en cours…",
+            "failed": "Echec",
             "layoutDocument": "Calcul de la mise en page du document…",
             "layoutPage": "Calcul de la mise en page de la page {page}…",
+            "loadingData": "Chargement des dernières données du camp…",
             "renderingPdfPage": "Rendu du pdf, page {page} sur {totalPages}…",
-            "downloadingPdf": "Téléchargement du pdf en cours…",
-            "done": "Terminé",
-            "failed": "Echec"
+            "setupTranslationsAndFonts": "Chargement des polices et des textes statiques…"
           }
         },
         "printPreview": {
@@ -550,9 +545,7 @@
       },
       "printConfigurator": {
         "add": "Ajouter du contenu",
-        "layoutInfoTitle": "Où est le choix de mise en page ?",
-        "layoutInfo": "Nous avons réuni les avantages des deux mises en page dans une nouvelle mise en page. Dans les paramètres, tu peux activer la mise en page compacte, qui ressemble à l'ancienne mise en page #2. Avons-nous oublié quelque chose ou quelque chose ne fonctionne-t-il plus ? {contactLink}.",
-        "contactLink": "Contacte-nous",
+        "compact": "Mise en page compacte (moins d'espacement, masquer les champs vides)",
         "config": {
           "Activity": "Activité unique",
           "ActivityList": "Liste des blocs (cours)",
@@ -563,9 +556,11 @@
           "Story": "Histoire",
           "Toc": "Table des matières"
         },
+        "contactLink": "Contacte-nous",
+        "layoutInfo": "Nous avons réuni les avantages des deux mises en page dans une nouvelle mise en page. Dans les paramètres, tu peux activer la mise en page compacte, qui ressemble à l'ancienne mise en page #2. Avons-nous oublié quelque chose ou quelque chose ne fonctionne-t-il plus ? {contactLink}.",
+        "layoutInfoTitle": "Où est le choix de mise en page ?",
         "options": "Paramètres",
-        "pageNumbers": "Numéros de page",
-        "compact": "Mise en page compacte (moins d'espacement, masquer les champs vides)"
+        "pageNumbers": "Numéros de page"
       }
     },
     "program": {
@@ -615,11 +610,11 @@
         }
       },
       "scheduleEntryFilters": {
+        "allMyActivities": "Toutes mes activités",
         "category": "Catégorie",
         "clearFilters": "Effacer les filtres",
         "day": "Date",
         "dayLabel": "Jour {dayNumber} ({date})",
-        "allMyActivities": "Toutes mes activités",
         "onlyMyActivities": "Seulement mes activités",
         "period": "Période",
         "progressLabel": "Statut",
@@ -636,6 +631,11 @@
     "story": {
       "storyDay": {
         "noStory": "Aucun file rouge trouvé ce jour-là..."
+      }
+    },
+    "summary": {
+      "summaryDay": {
+        "noContent": "Les activités de cette journée ne contiennent aucun contenu {contentType}."
       }
     },
     "toast": {
@@ -659,12 +659,12 @@
         "title": "Changement d'adresse e-mail"
       },
       "dialogChangePassword": {
-        "title": "Changer le mot de passe",
         "currentPassword": "Mot de passe actuel",
+        "error": "Une erreur est survenue.",
         "newPassword": "Nouveau mot de passe",
         "newPasswordConfirmation": "Confirmer le nouveau mot de passe",
         "success": "Votre mot de passe a été modifié avec succès.",
-        "error": "Une erreur est survenue."
+        "title": "Changer le mot de passe"
       }
     }
   },
@@ -941,26 +941,6 @@
     }
   },
   "global": {
-    "datetime": {
-      "dateLong": "dd L",
-      "dateRangeStart": "dd DD.MM.",
-      "dateRangeEnd": "dd L",
-      "dateShort": "dd D.M.",
-      "dateTimeLong": "dd L LT",
-      "duration": {
-        "daysAndHours": "{days} d {hours} h",
-        "daysAndHoursAndMinutes": "{days} d {hours} h {minutes} min",
-        "daysAndMinutes": "{days} d {minutes} min",
-        "hoursAndMinutes": "{hours} h {minutes} min",
-        "daysOnly": "{days} d",
-        "hoursOnly": "{hours} h",
-        "minutesOnly": "{minutes} min"
-      },
-      "hourLong": "LT",
-      "hourShort": "H:mm",
-      "vuetifyTimePickerFormat": "24hr"
-    },
-    "shortScheduleEntryDescription": "jour{dayNumber} {startTime}",
     "button": {
       "add": "Ajouter",
       "back": "Retour",
@@ -1003,6 +983,25 @@
       "manager": "Lecture, écriture & administration du camp",
       "member": "Lecture & écriture"
     },
+    "datetime": {
+      "dateLong": "dd L",
+      "dateRangeEnd": "dd L",
+      "dateRangeStart": "dd DD.MM.",
+      "dateShort": "dd D.M.",
+      "dateTimeLong": "dd L LT",
+      "duration": {
+        "daysAndHours": "{days} d {hours} h",
+        "daysAndHoursAndMinutes": "{days} d {hours} h {minutes} min",
+        "daysAndMinutes": "{days} d {minutes} min",
+        "hoursAndMinutes": "{hours} h {minutes} min",
+        "daysOnly": "{days} d",
+        "hoursOnly": "{hours} h",
+        "minutesOnly": "{minutes} min"
+      },
+      "hourLong": "LT",
+      "hourShort": "H:mm",
+      "vuetifyTimePickerFormat": "24hr"
+    },
     "hitobito": {
       "providers": {
         "pbsmidata": "MiData"
@@ -1024,19 +1023,20 @@
       "news": "Actualités"
     },
     "newVersion": {
-      "title": "Une nouvelle version est disponible",
       "description": "Cette fonctionnalité n’est pas disponible tant que vous n’avez pas installé la dernière version.",
+      "title": "Une nouvelle version est disponible",
       "update": "Mettre à jour maintenant",
       "updateLater": "Mettre à jour plus tard"
     },
     "selfXssWarning": {
-      "title": "Stop !",
-      "message": "Cette console du navigateur est destinée aux développeuses et développeurs. Si quelqu'un te demande d'y copier-coller quelque chose, il s'agit presque certainement d'une arnaque : ce que tu colles ici s'exécute en ton nom et peut lire et modifier tous les camps auxquels tu as accès. Ne colle jamais ici du code que tu ne comprends pas entièrement toi-même."
+      "message": "Cette console du navigateur est destinée aux développeuses et développeurs. Si quelqu'un te demande d'y copier-coller quelque chose, il s'agit presque certainement d'une arnaque : ce que tu colles ici s'exécute en ton nom et peut lire et modifier tous les camps auxquels tu as accès. Ne colle jamais ici du code que tu ne comprends pas entièrement toi-même.",
+      "title": "Stop !"
     },
     "serverError": {
       "409": "Oooops... Cette action a provoqué une erreur côté serveur.",
       "short": "erreur de serveur"
     },
+    "shortScheduleEntryDescription": "jour{dayNumber} {startTime}",
     "toast": {
       "copied": "{source} copié"
     },
@@ -1293,10 +1293,10 @@
         "desktop": {
           "navTopbar": {
             "campIsLoading": "Le camp est en cours de chargement",
+            "checklist": "Check-list",
             "material": "Matériel",
             "program": "Programme",
-            "story": "Histoire",
-            "checklist": "Check-list"
+            "story": "Histoire"
           }
         },
         "mobile": {
@@ -1352,8 +1352,8 @@
       "detail": "Hop là ! Tu t'es égaré...{br}Ce lien ne fonctionne malheureusement pas."
     },
     "profile": {
-      "profile": "Profil",
-      "password": "Mot de passe"
+      "password": "Mot de passe",
+      "profile": "Profil"
     }
   }
 }
