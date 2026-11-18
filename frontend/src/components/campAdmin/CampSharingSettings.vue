@@ -36,8 +36,7 @@
               <p class="prose">
                 <strong>{{
                   $t(`components.campAdmin.campSharingSettings.${sharingStatus}.title`)
-                }}</strong
-                >{{
+                }}</strong>{{
                   $t(
                     `components.campAdmin.campSharingSettings.${sharingStatus}.description`
                   )
