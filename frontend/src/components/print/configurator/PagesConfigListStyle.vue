@@ -15,6 +15,7 @@
         size="x-small"
         icon="mdi-chevron-up"
         variant="text"
+        :aria-label="$t('components.print.printConfigurator.moveUp')"
         @click="$emit('up')"
       />
       <v-btn
@@ -29,16 +30,23 @@
         size="x-small"
         icon="mdi-chevron-down"
         variant="text"
+        :aria-label="$t('components.print.printConfigurator.moveDown')"
         @click="$emit('down')"
       />
     </div>
-    <div class="d-flex flex-column flex-grow-1">
+    <div class="d-flex flex-column flex-grow-1 w-0">
       <h3 class="my-4">{{ title }}</h3>
       <slot />
     </div>
-    <v-btn v-if="!buttonVariant" icon variant="flat" class="mx-1" @click="$emit('remove')"
-      ><v-icon color="red">mdi-delete</v-icon></v-btn
-    >
+    <v-btn
+      v-if="!buttonVariant"
+      icon="mdi-delete"
+      color="red"
+      variant="text"
+      class="mx-1"
+      :aria-label="$t('global.button.remove')"
+      @click="$emit('remove')"
+    />
   </v-card>
 </template>
 

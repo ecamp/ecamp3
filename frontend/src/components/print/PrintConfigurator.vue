@@ -1,23 +1,12 @@
 <template>
-  <div v-resizeobserver:0.immediate="onResize" class="e-print-configurator">
+  <div class="e-print-configurator">
     <v-skeleton-loader v-if="loading" type="article" class="pa-4" />
     <template v-else>
-      <v-tabs v-if="!isWide" v-model="activeTab" class="e-print-configurator__tabs">
-        <v-tab value="config">{{
-          $t('components.print.printConfigurator.configuration')
-        }}</v-tab>
-        <v-tab value="preview">{{
-          $t('components.print.printConfigurator.preview')
-        }}</v-tab>
-      </v-tabs>
       <div
         class="e-print-configurator__columns"
-        :class="{ 'e-print-configurator__columns--wide': isWide }"
+        :class="{ 'e-print-configurator__columns--wide': isWide && previewVisible }"
       >
-        <div
-          v-show="isWide || activeTab === 'config'"
-          class="e-print-configurator__config"
-        >
+        <div v-show="isWide || !previewVisible" class="e-print-configurator__config">
           <PagesOverview
             v-model="cnf.contents"
             :list-style="listStyle"
@@ -145,9 +134,18 @@
               </e-select>
             </div>
           </div>
+          <v-btn
+            variant="tonal"
+            prepend-icon="mdi-file-restore-outline"
+            class="mt-1 mr-auto mb-3 ml-3"
+            @click="resetConfig"
+          >
+            {{ $t('global.button.reset') }}
+          </v-btn>
         </div>
         <div
-          v-show="isWide || activeTab === 'preview'"
+          v-show="previewVisible"
+          id="print-preview"
           class="e-print-configurator__preview"
         >
           <button
@@ -164,38 +162,60 @@
           <print-preview v-else :config="cnf" />
         </div>
       </div>
-      <div class="e-print-configurator__footer pa-4">
-        <v-card-text class="e-print-configurator__notice pa-0">
-          <v-alert
-            variant="tonal"
-            border="start"
-            size="small"
-            color="info"
-            density="compact"
-          >
-            <details class="text-blue-darken-3">
-              <summary class="font-weight-bold">
-                <v-icon icon="mdi-information-outline" size="small" class="float-end" />
+      <div
+        class="d-flex flex-0-0 align-center justify-space-between ga-4 pa-4 border-t bg-surface"
+      >
+        <PopoverPrompt
+          ref="layoutInfoPrompt"
+          :model-value="false"
+          type="info"
+          position="top"
+          align="left"
+          location="top start"
+          max-width="400"
+        >
+          <template #activator="{ props }">
+            <v-btn
+              v-bind="props"
+              size="small"
+              icon="mdi-information-outline"
+              color="primary"
+              variant="tonal"
+              :aria-label="$t('components.print.printConfigurator.layoutInfoTitle')"
+            />
+          </template>
+          <div class="text-blue-darken-3">
+            <div class="d-flex align-start justify-space-between ga-2">
+              <h2 class="text-subtitle-2 font-weight-bold align-self-center">
                 {{ $t('components.print.printConfigurator.layoutInfoTitle') }}
-              </summary>
-              <i18n-t
-                keypath="components.print.printConfigurator.layoutInfo"
-                scope="global"
-              >
-                <template #contactLink>
-                  <a
-                    :href="contactLink"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-inherit"
-                    >{{ $t('components.print.printConfigurator.contactLink') }}</a
-                  >
-                </template>
-              </i18n-t>
-            </details>
-          </v-alert>
-        </v-card-text>
-        <DownloadPdfButton :config="cnf" class="e-print-configurator__download" />
+              </h2>
+              <v-btn
+                icon="mdi-close"
+                size="x-small"
+                variant="text"
+                :aria-label="$t('global.button.close')"
+                @click="$refs.layoutInfoPrompt.setOpen(false)"
+                @keydown.enter.stop
+              />
+            </div>
+            <i18n-t
+              keypath="components.print.printConfigurator.layoutInfo"
+              scope="global"
+            >
+              <template #contactLink>
+                <a
+                  :href="contactLink"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-inherit"
+                  @keydown.enter.stop
+                  >{{ $t('components.print.printConfigurator.contactLink') }}</a
+                >
+              </template>
+            </i18n-t>
+          </div>
+        </PopoverPrompt>
+        <DownloadPdfButton :config="cnf" class="justify-end" />
       </div>
     </template>
   </div>
@@ -213,6 +233,7 @@ import TocConfig from './config/TocConfig.vue'
 import PagesOverview from './configurator/PagesOverview.vue'
 import PagesConfig from './configurator/PagesConfig.vue'
 import DownloadPdfButton from '@/components/print/generator/DownloadPdfButton.vue'
+import PopoverPrompt from '@/components/prompt/PopoverPrompt.vue'
 import { getEnv } from '@/environment.js'
 import { cloneDeep } from 'lodash-es'
 import { componentI18n } from '@/plugins/i18n/index.js'
@@ -228,6 +249,7 @@ export default {
     DownloadPdfButton,
     PagesConfig,
     PagesOverview,
+    PopoverPrompt,
     PrintPreview,
     CoverConfig,
     PicassoConfig,
@@ -247,6 +269,8 @@ export default {
       type: Object,
       required: true,
     },
+    viewMode: { type: String, default: 'config' },
+    isWide: Boolean,
   },
   data() {
     return {
@@ -262,8 +286,6 @@ export default {
         scheduleEntries: true,
       },
       prettyConfig: '',
-      containerWidth: 0,
-      activeTab: 'config',
       previewEnabled: false,
     }
   },
@@ -271,8 +293,8 @@ export default {
     listStyle() {
       return !this.$vuetify.display.mdAndUp
     },
-    isWide() {
-      return this.containerWidth > 1024
+    previewVisible() {
+      return this.viewMode !== 'config'
     },
     contactLink() {
       return getEnv().CONTACT_LINK
@@ -321,10 +343,7 @@ export default {
     },
   },
   watch: {
-    isWide() {
-      this.activeTab = 'config'
-    },
-    activeTab(value) {
+    viewMode(value) {
       if (value === 'preview') this.previewEnabled = true
     },
     lang: {
@@ -343,9 +362,6 @@ export default {
     await this.loadRemainingPrintData()
   },
   methods: {
-    onResize({ width }) {
-      this.containerWidth = width
-    },
     async loadRemainingPrintData() {
       const periods = this.camp.periods().items
       await Promise.all([
@@ -495,17 +511,12 @@ export default {
   --e-grid-padding: 32px;
   --e-scrollbar: 16px;
   --e-config-min: 25cqw;
-  --e-config-max: 71cqw;
+  --e-config-max: 73cqw;
   container-type: inline-size;
   display: flex;
   flex-direction: column;
   height: 100%;
   min-height: 0;
-}
-
-.e-print-configurator__tabs,
-.e-print-configurator__footer {
-  flex: none;
 }
 
 .e-print-configurator__columns {
@@ -515,9 +526,6 @@ export default {
 }
 
 .e-print-configurator__settings {
-  position: sticky;
-  bottom: 0;
-  z-index: 3;
   display: flex;
   flex-wrap: wrap;
   align-items: start;
@@ -641,32 +649,6 @@ export default {
   background: linear-gradient(145deg, #fffef8, #f8f4e8);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   gap: 8px;
-}
-
-.e-print-configurator__footer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  border-top: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  background: rgb(var(--v-theme-surface));
-}
-
-.e-print-configurator__notice {
-  flex: 1 1 300px;
-  min-width: 0;
-  max-width: 700px;
-  max-height: 30vh;
-  overflow: auto;
-}
-
-.e-print-configurator__notice summary {
-  cursor: pointer;
-}
-
-.e-print-configurator__download {
-  margin-left: auto;
 }
 
 .e-print-configurator__cnf {

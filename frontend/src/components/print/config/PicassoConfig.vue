@@ -10,7 +10,7 @@
       variant="underlined"
       @update:model-value="$emit('update:modelValue', modelValue)"
     />
-    <div class="d-flex gap-x-4 align-baseline flex-wrap">
+    <div class="d-flex gap-x-4 flex-column flex-md-row align-md-baseline flex-wrap">
       <e-select
         v-if="!hideOrientation"
         v-model="options.orientation"

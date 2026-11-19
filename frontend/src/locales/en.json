@@ -555,6 +555,7 @@
       },
       "printConfigurator": {
         "add": "Add content",
+        "collapsePreview": "Collapse preview",
         "compact": "Compact layout",
         "compactDescription": "Less spacing, hide empty fields",
         "config": {
@@ -582,9 +583,11 @@
         },
         "layoutInfo": "We've combined the strengths of both print layouts into one new layout. Under «Settings», you can enable the compact layout, which is similar to the previous layout #2. Have we overlooked something, or has something stopped working? {contactLink}.",
         "layoutInfoTitle": "Where is the print layout selection?",
+        "moveDown": "Move down",
+        "moveUp": "Move up",
         "options": "Settings",
         "pageNumbers": "Page numbers",
-        "preview": "Print preview",
+        "preview": "Preview",
         "showPreview": "Turn preview on"
       }
     },

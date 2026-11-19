@@ -3,14 +3,24 @@ Basic layout for print preview
 -->
 
 <template>
-  <content-card :title="$t('views.camp.admin.print.title')" class="e-print-card" toolbar>
+  <content-card
+    v-resizeobserver:0.immediate="onResize"
+    :title="$t('views.camp.admin.print.title')"
+    class="e-print-card"
+    toolbar
+  >
     <template #title-actions>
-      <v-btn variant="text" @click="$refs.printConfigurator?.resetConfig()">
-        <v-icon v-if="$vuetify.display.smAndUp" start>mdi-file-restore-outline</v-icon>
-        {{ $t('global.button.reset') }}
+      <v-btn
+        variant="text"
+        class="me-2"
+        :aria-expanded="viewMode !== 'config'"
+        aria-controls="print-preview"
+        @click="togglePreview"
+      >
+        {{ previewButtonLabel }}
       </v-btn>
     </template>
-    <print-configurator ref="printConfigurator" :camp="camp" />
+    <print-configurator :view-mode="viewMode" :is-wide="isWide" :camp="camp" />
   </content-card>
 </template>
 
@@ -28,12 +38,38 @@ export default {
     camp: { type: Object, required: true },
   },
   data() {
-    return {}
+    return { viewMode: 'config', containerWidth: 0 }
   },
   head() {
     return {
       title: this.$t('views.camp.admin.print.title'),
     }
+  },
+  computed: {
+    isWide() {
+      return this.containerWidth > 1024
+    },
+    previewButtonLabel() {
+      if (this.viewMode === 'config') {
+        return this.$t('components.print.printConfigurator.preview')
+      }
+      return this.isWide
+        ? this.$t('components.print.printConfigurator.collapsePreview')
+        : this.$t('global.button.back')
+    },
+  },
+  watch: {
+    isWide(isWide) {
+      this.viewMode = isWide ? 'split' : 'config'
+    },
+  },
+  methods: {
+    onResize({ width }) {
+      this.containerWidth = width
+    },
+    togglePreview() {
+      this.viewMode = this.viewMode === 'config' ? 'preview' : 'config'
+    },
   },
 }
 </script>
