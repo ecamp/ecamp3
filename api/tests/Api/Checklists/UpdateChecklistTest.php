@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api\Checklists;
 
+use App\Entity\Checklist;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -127,6 +128,32 @@ class UpdateChecklistTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'name' => 'ChecklistName',
+        ]);
+    }
+
+    public function testPatchPrototypeChecklistAttachedToCampIsAllowedForMember() {
+        $checklist = $this->markAsPrototype(static::getFixture('checklist1'));
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
+            ->request('PATCH', '/checklists/'.$checklist->getId(), ['json' => [
+                'name' => 'ChecklistName',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'name' => 'ChecklistName',
+            'isPrototype' => true,
+        ]);
+    }
+
+    public function testPatchPrototypeChecklistAttachedToCampIsAllowedForManager() {
+        $checklist = $this->markAsPrototype(static::getFixture('checklist1'));
+        static::createClientWithCredentials()->request('PATCH', '/checklists/'.$checklist->getId(), ['json' => [
+            'name' => 'ChecklistName',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'name' => 'ChecklistName',
+            'isPrototype' => true,
         ]);
     }
 
@@ -296,5 +323,13 @@ class UpdateChecklistTest extends ECampApiTestCase {
                 'name' => '<b>Checklist</b>Name<a>',
             ]
         );
+    }
+
+    private function markAsPrototype(Checklist $checklist): Checklist {
+        $checklist = $this->getEntityManager()->getRepository(Checklist::class)->find($checklist->getId());
+        $checklist->isPrototype = true;
+        $this->getEntityManager()->flush();
+
+        return $checklist;
     }
 }
