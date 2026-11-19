@@ -85,6 +85,10 @@ describe('hitobitoEventWebUrl', () => {
     window.environment = { HITOBITO_PBSMIDATA_BASE_URL: 'https://db.scout.ch' }
     expect(hitobitoEventWebUrl('pbsmidata', '123')).toBe('https://db.scout.ch/events/123')
   })
+
+  it('returns null for a provider without a configured Hitobito instance', () => {
+    expect(hitobitoEventWebUrl('unknownprovider', '123')).toBeNull()
+  })
 })
 
 describe('isAccessTokenInvalidError', () => {

@@ -34,7 +34,8 @@ export function providerIconColor(provider) {
 }
 
 export function hitobitoEventWebUrl(provider, eventId) {
-  return `${getEnv()[PROVIDER_URL_ENV_KEYS[provider]]}/events/${eventId}`
+  const baseUrl = getEnv()[PROVIDER_URL_ENV_KEYS[provider]]
+  return baseUrl ? `${baseUrl}/events/${eventId}` : null
 }
 
 export function hitobitoEventsUri(provider, eventId = null) {
