@@ -3,10 +3,11 @@
     <Text
       class="picasso-day-header-text"
       :class="{ 'picasso-day-header-text-compact': compact }"
-      >{{ date }}</Text
-    ><Text v-if="showDayResponsibles" class="picasso-day-header-responsibles">{{
-      dayResponsibles
-    }}</Text>
+      >{{ date }}</Text><Text
+      v-if="showDayResponsibles"
+      class="picasso-day-header-responsibles"
+      >{{ dayResponsibles }}</Text
+    >
   </View>
 </template>
 <script>
