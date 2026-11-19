@@ -6,6 +6,7 @@ components:
   responses: []
   schemas:
     Activity:
+      description: 'A piece of programme that will be carried out once or multiple times in a camp.'
       properties:
         activityResponsibles:
           items:
@@ -555,6 +556,7 @@ components:
         - title
       type: object
     Activity-read_ScheduleEntry.Activity:
+      description: 'A piece of programme that will be carried out once or multiple times in a camp.'
       properties:
         activityResponsibles:
           description: 'The list of people that are responsible for planning or carrying out this activity.'
@@ -1444,6 +1446,7 @@ components:
         - title
       type: object
     Activity.html-read_ScheduleEntry.Activity:
+      description: 'A piece of programme that will be carried out once or multiple times in a camp.'
       properties:
         activityResponsibles:
           description: 'The list of people that are responsible for planning or carrying out this activity.'
@@ -2625,7 +2628,11 @@ components:
             - scheduleEntries
             - title
           type: object
+      description: 'A piece of programme that will be carried out once or multiple times in a camp.'
     ActivityProgressLabel:
+      description: |-
+        Progress labels in a camp.
+        To each activity one label can be assigned.
       properties:
         camp:
           description: 'The camp to which this label belongs.'
@@ -2699,6 +2706,9 @@ components:
         - title
       type: object
     ActivityProgressLabel-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
+      description: |-
+        Progress labels in a camp.
+        To each activity one label can be assigned.
       properties:
         camp:
           description: 'The camp to which this label belongs.'
@@ -2725,6 +2735,9 @@ components:
         - title
       type: object
     ActivityProgressLabel-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: |-
+        Progress labels in a camp.
+        To each activity one label can be assigned.
       properties:
         camp:
           description: 'The camp to which this label belongs.'
@@ -3020,6 +3033,9 @@ components:
         - title
       type: object
     ActivityProgressLabel.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
+      description: |-
+        Progress labels in a camp.
+        To each activity one label can be assigned.
       properties:
         camp:
           description: 'The camp to which this label belongs.'
@@ -3046,6 +3062,9 @@ components:
         - title
       type: object
     ActivityProgressLabel.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: |-
+        Progress labels in a camp.
+        To each activity one label can be assigned.
       properties:
         camp:
           description: 'The camp to which this label belongs.'
@@ -3566,6 +3585,9 @@ components:
             - position
             - title
           type: object
+      description: |-
+        Progress labels in a camp.
+        To each activity one label can be assigned.
     ActivityProgressLabel.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       allOf:
         -
@@ -3596,6 +3618,9 @@ components:
             - position
             - title
           type: object
+      description: |-
+        Progress labels in a camp.
+        To each activity one label can be assigned.
     ActivityProgressLabel.jsonld-read_validation.Default_create:
       allOf:
         -
@@ -3690,6 +3715,7 @@ components:
         Progress labels in a camp.
         To each activity one label can be assigned.
     ActivityResponsible:
+      description: 'A person that is responsible for planning or carrying out an activity.'
       properties:
         activity:
           description: 'The activity that the person is responsible for.'
@@ -3735,6 +3761,7 @@ components:
         - campCollaboration
       type: object
     ActivityResponsible-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
+      description: 'A person that is responsible for planning or carrying out an activity.'
       properties:
         activity:
           description: 'The activity that the person is responsible for.'
@@ -3757,6 +3784,7 @@ components:
         - campCollaboration
       type: object
     ActivityResponsible-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: 'A person that is responsible for planning or carrying out an activity.'
       properties:
         activity:
           description: 'The activity that the person is responsible for.'
@@ -3817,6 +3845,7 @@ components:
         - campCollaboration
       type: object
     ActivityResponsible.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
+      description: 'A person that is responsible for planning or carrying out an activity.'
       properties:
         activity:
           description: 'The activity that the person is responsible for.'
@@ -3839,6 +3868,7 @@ components:
         - campCollaboration
       type: object
     ActivityResponsible.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: 'A person that is responsible for planning or carrying out an activity.'
       properties:
         activity:
           description: 'The activity that the person is responsible for.'
@@ -4022,6 +4052,7 @@ components:
             - activity
             - campCollaboration
           type: object
+      description: 'A person that is responsible for planning or carrying out an activity.'
     ActivityResponsible.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       allOf:
         -
@@ -4048,6 +4079,7 @@ components:
             - activity
             - campCollaboration
           type: object
+      description: 'A person that is responsible for planning or carrying out an activity.'
     Camp:
       description: |-
         The main entity that eCamp is designed to manage. Contains programme which may be
@@ -5313,6 +5345,9 @@ components:
         - title
       type: object
     Camp-read_CampCollaboration.Camp_CampCollaboration.User:
+      description: |-
+        The main entity that eCamp is designed to manage. Contains programme which may be
+        distributed across multiple time periods.
       properties:
         activities:
           description: |-
@@ -5576,6 +5611,9 @@ components:
         - title
       type: object
     Camp-read_Period.Camp_Period.Days:
+      description: |-
+        The main entity that eCamp is designed to manage. Contains programme which may be
+        distributed across multiple time periods.
       properties:
         activities:
           description: |-
@@ -7421,6 +7459,9 @@ components:
         - title
       type: object
     Camp.html-read_CampCollaboration.Camp_CampCollaboration.User:
+      description: |-
+        The main entity that eCamp is designed to manage. Contains programme which may be
+        distributed across multiple time periods.
       properties:
         activities:
           description: |-
@@ -7684,6 +7725,9 @@ components:
         - title
       type: object
     Camp.html-read_Period.Camp_Period.Days:
+      description: |-
+        The main entity that eCamp is designed to manage. Contains programme which may be
+        distributed across multiple time periods.
       properties:
         activities:
           description: |-
@@ -10504,6 +10548,9 @@ components:
             - progressLabels
             - title
           type: object
+      description: |-
+        The main entity that eCamp is designed to manage. Contains programme which may be
+        distributed across multiple time periods.
     Camp.jsonld-read_Period.Camp_Period.Days:
       allOf:
         -
@@ -10771,7 +10818,11 @@ components:
             - progressLabels
             - title
           type: object
+      description: |-
+        The main entity that eCamp is designed to manage. Contains programme which may be
+        distributed across multiple time periods.
     CampCollaboration:
+      description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
         abbreviation:
           description: 'The abbreviation in the avatar.'
@@ -10936,6 +10987,7 @@ components:
           example: /users/1a2b3c4d
       type: object
     CampCollaboration-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
+      description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
         abbreviation:
           description: 'The abbreviation in the avatar.'
@@ -12022,6 +12074,7 @@ components:
           type: string
       type: object
     CampCollaboration.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
+      description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
         abbreviation:
           description: 'The abbreviation in the avatar.'
@@ -13417,6 +13470,7 @@ components:
             - role
             - status
           type: object
+      description: 'A user participating in some way in the planning or realization of a camp.'
     CampCollaboration.jsonld-read_CampCollaboration.Camp_CampCollaboration.User:
       allOf:
         -
@@ -13833,6 +13887,11 @@ components:
         - rootContentNode
       type: object
     Category:
+      description: |-
+        A type of programme, such as sports activities or meal times, is called a category. A category
+        determines color and numbering scheme of the associated activities, and is used for marking
+        "similar" activities. A category may contain some skeleton programme which is used as a blueprint
+        when creating a new activity in the category.
       properties:
         camp:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
@@ -14068,6 +14127,11 @@ components:
         - short
       type: object
     Category-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: |-
+        A type of programme, such as sports activities or meal times, is called a category. A category
+        determines color and numbering scheme of the associated activities, and is used for marking
+        "similar" activities. A category may contain some skeleton programme which is used as a blueprint
+        when creating a new activity in the category.
       properties:
         camp:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
@@ -14755,6 +14819,11 @@ components:
         - short
       type: object
     Category.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: |-
+        A type of programme, such as sports activities or meal times, is called a category. A category
+        determines color and numbering scheme of the associated activities, and is used for marking
+        "similar" activities. A category may contain some skeleton programme which is used as a blueprint
+        when creating a new activity in the category.
       properties:
         camp:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
@@ -15679,6 +15748,11 @@ components:
             - preferredContentTypes
             - short
           type: object
+      description: |-
+        A type of programme, such as sports activities or meal times, is called a category. A category
+        determines color and numbering scheme of the associated activities, and is used for marking
+        "similar" activities. A category may contain some skeleton programme which is used as a blueprint
+        when creating a new activity in the category.
     Category.jsonld-read_Category.PreferredContentTypes:
       allOf:
         -
@@ -23220,6 +23294,12 @@ components:
           type: object
       description: 'Unprocessable entity'
     ContentNode:
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
       properties:
         camp:
           example: 'https://example.com/'
@@ -23411,6 +23491,12 @@ components:
         - root
       type: object
     ContentNode-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
       properties:
         children:
           description: 'All content nodes that are direct children of this content node.'
@@ -23498,6 +23584,12 @@ components:
         - root
       type: object
     ContentNode-read_Category.PreferredContentTypes_Category.ContentNodes:
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
       properties:
         children:
           description: 'All content nodes that are direct children of this content node.'
@@ -23585,6 +23677,12 @@ components:
         - root
       type: object
     ContentNode-write:
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
       properties:
         data:
           description: 'Holds the actual data of the content node.'
@@ -23634,6 +23732,12 @@ components:
         - position
       type: object
     ContentNode-write_create:
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
       properties:
         contentType:
           $ref: '#/components/schemas/ContentType-write_create'
@@ -23691,6 +23795,12 @@ components:
         - position
       type: object
     ContentNode-write_update:
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
       properties:
         data:
           description: 'Holds the actual data of the content node.'
@@ -23833,6 +23943,12 @@ components:
         - root
       type: object
     ContentNode.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
       properties:
         children:
           description: 'All content nodes that are direct children of this content node.'
@@ -23920,6 +24036,12 @@ components:
         - root
       type: object
     ContentNode.html-read_Category.PreferredContentTypes_Category.ContentNodes:
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
       properties:
         children:
           description: 'All content nodes that are direct children of this content node.'
@@ -24319,6 +24441,12 @@ components:
             - position
             - root
           type: object
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
     ContentNode.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes:
       allOf:
         -
@@ -24410,7 +24538,17 @@ components:
             - position
             - root
           type: object
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
     ContentType:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       properties:
         active:
           default: true
@@ -24467,6 +24605,10 @@ components:
         - name
       type: object
     ContentType-create_write:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       type: object
     ContentType-read:
       description: |-
@@ -24505,6 +24647,10 @@ components:
         - name
       type: object
     ContentType-read_Category.PreferredContentTypes:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       properties:
         active:
           default: true
@@ -24537,6 +24683,10 @@ components:
         - name
       type: object
     ContentType-read_Category.PreferredContentTypes_Category.ContentNodes:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       properties:
         active:
           default: true
@@ -24569,10 +24719,22 @@ components:
         - name
       type: object
     ContentType-write:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       type: object
     ContentType-write_create:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       type: object
     ContentType-write_update:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       type: object
     ContentType.html-read:
       description: |-
@@ -24611,6 +24773,10 @@ components:
         - name
       type: object
     ContentType.html-read_Category.PreferredContentTypes:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       properties:
         active:
           default: true
@@ -24643,6 +24809,10 @@ components:
         - name
       type: object
     ContentType.html-read_Category.PreferredContentTypes_Category.ContentNodes:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       properties:
         active:
           default: true
@@ -24844,6 +25014,10 @@ components:
             - active
             - name
           type: object
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
     ContentType.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes:
       allOf:
         -
@@ -24880,6 +25054,10 @@ components:
             - active
             - name
           type: object
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
     Credentials:
       properties:
         identifier:
@@ -24890,6 +25068,11 @@ components:
           type: string
       type: object
     Day:
+      description: |-
+        A day in a time period of a camp. This is represented as a reference to the time period
+        along with a number of days offset from the period's starting date. This is to make it
+        easier to move the whole periods to different dates. Days are created automatically when
+        creating or updating periods, and are not writable through the API directly.
       properties:
         cacheTags:
           items: []
@@ -24953,6 +25136,11 @@ components:
         - period
       type: object
     Day-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
+      description: |-
+        A day in a time period of a camp. This is represented as a reference to the time period
+        along with a number of days offset from the period's starting date. This is to make it
+        easier to move the whole periods to different dates. Days are created automatically when
+        creating or updating periods, and are not writable through the API directly.
       properties:
         dayOffset:
           default: 0
@@ -25077,6 +25265,11 @@ components:
         - period
       type: object
     Day-read_Period.Camp_Period.Days:
+      description: |-
+        A day in a time period of a camp. This is represented as a reference to the time period
+        along with a number of days offset from the period's starting date. This is to make it
+        easier to move the whole periods to different dates. Days are created automatically when
+        creating or updating periods, and are not writable through the API directly.
       properties:
         dayOffset:
           default: 0
@@ -25137,8 +25330,18 @@ components:
         - period
       type: object
     Day-write:
+      description: |-
+        A day in a time period of a camp. This is represented as a reference to the time period
+        along with a number of days offset from the period's starting date. This is to make it
+        easier to move the whole periods to different dates. Days are created automatically when
+        creating or updating periods, and are not writable through the API directly.
       type: object
     Day.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
+      description: |-
+        A day in a time period of a camp. This is represented as a reference to the time period
+        along with a number of days offset from the period's starting date. This is to make it
+        easier to move the whole periods to different dates. Days are created automatically when
+        creating or updating periods, and are not writable through the API directly.
       properties:
         dayOffset:
           default: 0
@@ -25263,6 +25466,11 @@ components:
         - period
       type: object
     Day.html-read_Period.Camp_Period.Days:
+      description: |-
+        A day in a time period of a camp. This is represented as a reference to the time period
+        along with a number of days offset from the period's starting date. This is to make it
+        easier to move the whole periods to different dates. Days are created automatically when
+        creating or updating periods, and are not writable through the API directly.
       properties:
         dayOffset:
           default: 0
@@ -25490,6 +25698,11 @@ components:
             - dayResponsibles
             - period
           type: object
+      description: |-
+        A day in a time period of a camp. This is represented as a reference to the time period
+        along with a number of days offset from the period's starting date. This is to make it
+        easier to move the whole periods to different dates. Days are created automatically when
+        creating or updating periods, and are not writable through the API directly.
     Day.jsonld-read_Day.DayResponsibles:
       allOf:
         -
@@ -25622,7 +25835,13 @@ components:
             - dayResponsibles
             - period
           type: object
+      description: |-
+        A day in a time period of a camp. This is represented as a reference to the time period
+        along with a number of days offset from the period's starting date. This is to make it
+        easier to move the whole periods to different dates. Days are created automatically when
+        creating or updating periods, and are not writable through the API directly.
     DayResponsible:
+      description: 'A person that has some whole-day responsibility on a day in the camp.'
       properties:
         campCollaboration:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
@@ -25668,6 +25887,7 @@ components:
         - day
       type: object
     DayResponsible-read_Day.DayResponsibles:
+      description: 'A person that has some whole-day responsibility on a day in the camp.'
       properties:
         campCollaboration:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
@@ -25728,6 +25948,7 @@ components:
         - day
       type: object
     DayResponsible.html-read_Day.DayResponsibles:
+      description: 'A person that has some whole-day responsibility on a day in the camp.'
       properties:
         campCollaboration:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
@@ -25911,6 +26132,7 @@ components:
             - campCollaboration
             - day
           type: object
+      description: 'A person that has some whole-day responsibility on a day in the camp.'
     Error:
       description: 'A representation of common errors.'
       properties:
@@ -27360,6 +27582,7 @@ components:
         - periodMaterialItems
       type: object
     MaterialItem-read:
+      description: 'A physical item that is needed for carrying out a programme or camp.'
       properties:
         article:
           description: 'The name of the item that is required.'
@@ -27730,6 +27953,7 @@ components:
             - string
       type: object
     MaterialItem.html-read:
+      description: 'A physical item that is needed for carrying out a programme or camp.'
       properties:
         article:
           description: 'The name of the item that is required.'
@@ -28189,6 +28413,7 @@ components:
                   type: object
               type: object
           type: object
+      description: 'A physical item that is needed for carrying out a programme or camp.'
     MaterialItem.jsonhal-read_validation.App.Validator.MaterialItemUpdateGroupSequence:
       allOf:
         -
@@ -28288,6 +28513,7 @@ components:
             - done
             - materialList
           type: object
+      description: 'A physical item that is needed for carrying out a programme or camp.'
     MaterialItem.jsonld-read_validation.App.Validator.MaterialItemUpdateGroupSequence:
       allOf:
         -
@@ -34930,6 +35156,9 @@ components:
         A content node which does not store any data itself. Useful for content types which only
         display or edit data that is stored elsewhere, e.g. on the schedule entries of the activity.
     Period:
+      description: |-
+        A time period in which the programme of a camp will take place. There may be multiple
+        periods in a camp, but they may not overlap. A period is made up of one or more full days.
       properties:
         camp:
           anyOf:
@@ -35203,6 +35432,9 @@ components:
         - start
       type: object
     Period-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
+      description: |-
+        A time period in which the programme of a camp will take place. There may be multiple
+        periods in a camp, but they may not overlap. A period is made up of one or more full days.
       properties:
         camp:
           description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
@@ -35819,6 +36051,9 @@ components:
         - start
       type: object
     Period.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
+      description: |-
+        A time period in which the programme of a camp will take place. There may be multiple
+        periods in a camp, but they may not overlap. A period is made up of one or more full days.
       properties:
         camp:
           description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
@@ -36867,6 +37102,9 @@ components:
             - scheduleEntries
             - start
           type: object
+      description: |-
+        A time period in which the programme of a camp will take place. There may be multiple
+        periods in a camp, but they may not overlap. A period is made up of one or more full days.
     Period.jsonld-read_Period.Camp_Period.Days:
       allOf:
         -
@@ -37438,6 +37676,10 @@ components:
           type: object
       description: 'An invitation for a person who already has an account to collaborate in a camp.'
     Profile:
+      description: |-
+        The profile of a person using eCamp.
+        The properties available to related eCamp users are here.
+        Related means that they were or are collaborators in the same camp.
       properties:
         abbreviation:
           description: 'The default abbreviation in the avatar.'
@@ -37740,6 +37982,10 @@ components:
         - email
       type: object
     Profile-read_User.create:
+      description: |-
+        The profile of a person using eCamp.
+        The properties available to related eCamp users are here.
+        Related means that they were or are collaborators in the same camp.
       properties:
         abbreviation:
           description: 'The default abbreviation in the avatar.'
@@ -38084,6 +38330,10 @@ components:
         - email
       type: object
     Profile.html-read_User.create:
+      description: |-
+        The profile of a person using eCamp.
+        The properties available to related eCamp users are here.
+        Related means that they were or are collaborators in the same camp.
       properties:
         abbreviation:
           description: 'The default abbreviation in the avatar.'
@@ -38776,6 +39026,10 @@ components:
           required:
             - email
           type: object
+      description: |-
+        The profile of a person using eCamp.
+        The properties available to related eCamp users are here.
+        Related means that they were or are collaborators in the same camp.
       properties:
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -41356,6 +41610,9 @@ components:
         - start
       type: object
     ScheduleEntry-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
+      description: |-
+        A calendar event in a period of the camp, at which some activity will take place. The start time
+        is specified as an offset in minutes from the period's start time.
       properties:
         activity:
           description: |-
@@ -41462,6 +41719,9 @@ components:
         - start
       type: object
     ScheduleEntry-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: |-
+        A calendar event in a period of the camp, at which some activity will take place. The start time
+        is specified as an offset in minutes from the period's start time.
       properties:
         activity:
           description: |-
@@ -42422,6 +42682,9 @@ components:
         - start
       type: object
     ScheduleEntry.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
+      description: |-
+        A calendar event in a period of the camp, at which some activity will take place. The start time
+        is specified as an offset in minutes from the period's start time.
       properties:
         activity:
           description: |-
@@ -42528,6 +42791,9 @@ components:
         - start
       type: object
     ScheduleEntry.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: |-
+        A calendar event in a period of the camp, at which some activity will take place. The start time
+        is specified as an offset in minutes from the period's start time.
       properties:
         activity:
           description: |-
@@ -44072,6 +44338,9 @@ components:
             - end
             - start
           type: object
+      description: |-
+        A calendar event in a period of the camp, at which some activity will take place. The start time
+        is specified as an offset in minutes from the period's start time.
     ScheduleEntry.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       allOf:
         -
@@ -44182,6 +44451,9 @@ components:
             - end
             - start
           type: object
+      description: |-
+        A calendar event in a period of the camp, at which some activity will take place. The start time
+        is specified as an offset in minutes from the period's start time.
     ScheduleEntry.jsonld-read_ScheduleEntry.Activity:
       allOf:
         -
@@ -48361,6 +48633,9 @@ components:
             - root
           type: object
     User:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48499,6 +48774,9 @@ components:
           writeOnly: true
       type: object
     User-read:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48538,6 +48816,9 @@ components:
           type: string
       type: object
     User-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48577,6 +48858,9 @@ components:
           type: string
       type: object
     User-read_CampCollaboration.Camp_CampCollaboration.User:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48616,6 +48900,9 @@ components:
           type: string
       type: object
     User-read_CampCollaboration.User:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48655,6 +48942,9 @@ components:
           type: string
       type: object
     User-read_User.create:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48920,6 +49210,9 @@ components:
         - profile
       type: object
     User.html-read:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48959,6 +49252,9 @@ components:
           type: string
       type: object
     User.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48998,6 +49294,9 @@ components:
           type: string
       type: object
     User.html-read_CampCollaboration.Camp_CampCollaboration.User:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -49037,6 +49336,9 @@ components:
           type: string
       type: object
     User.html-read_CampCollaboration.User:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -49076,6 +49378,9 @@ components:
           type: string
       type: object
     User.html-read_User.create:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -49692,6 +49997,9 @@ components:
                   type: object
               type: object
           type: object
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
     User.jsonhal-read_User.create_validation.Default_create:
       allOf:
         -
@@ -49767,6 +50075,9 @@ components:
               format: iri-reference
               type: string
           type: object
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
     User.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       allOf:
         -
@@ -49810,6 +50121,9 @@ components:
               format: iri-reference
               type: string
           type: object
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
     User.jsonld-read_CampCollaboration.Camp_CampCollaboration.User:
       allOf:
         -
@@ -49853,6 +50167,9 @@ components:
               format: iri-reference
               type: string
           type: object
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
     User.jsonld-read_CampCollaboration.User:
       allOf:
         -
@@ -49896,6 +50213,9 @@ components:
               format: iri-reference
               type: string
           type: object
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
     User.jsonld-read_User.create:
       allOf:
         -
@@ -49933,6 +50253,9 @@ components:
               $ref: '#/components/schemas/Profile.jsonld-read_User.create'
               readOnly: true
           type: object
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
     User.jsonld-read_User.create_validation.Default_create:
       allOf:
         -
