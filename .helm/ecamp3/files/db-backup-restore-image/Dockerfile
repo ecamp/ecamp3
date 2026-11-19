@@ -13,3 +13,5 @@ RUN apt-get update && \
             awscli=2.23.6-1 \
             gpg \
             postgresql-client-18
+
+USER 30685

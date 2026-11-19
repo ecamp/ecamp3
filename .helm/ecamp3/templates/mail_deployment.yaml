@@ -28,6 +28,7 @@ spec:
       containers:
         - name: {{ .Chart.Name }}-mail
           securityContext:
+            runAsUser: 29478
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.mail.image.repository }}:{{ .Values.mail.image.tag | default .Values.imageTag }}"
           imagePullPolicy: {{ .Values.mail.image.pullPolicy }}

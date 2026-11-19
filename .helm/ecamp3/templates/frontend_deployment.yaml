@@ -26,6 +26,28 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       enableServiceLinks: false
+      initContainers:
+        - name: {{ .Chart.Name }}-template-index-html
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag | default .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+          command:
+            - sh
+            - -ec
+            - |
+              DIGEST=$(sha256sum /app/environment.js | cut -d ' ' -f 1)
+              sed "s|<script src=\"/environment.js\"|<script src=\"/environment.js?version=$DIGEST\"|" /app/index.html > /app-target/index.html
+              chmod -w /app-target/index.html
+
+          resources:
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /app-target
+              name: app
+            - mountPath: /app/environment.js
+              name: environment-js
+              subPath: environment.js
       containers:
         - name: {{ .Chart.Name }}-frontend
           securityContext:
@@ -49,6 +71,9 @@ spec:
           resources:
             {{- toYaml .Values.frontend.resources | nindent 12 }}
           volumeMounts:
+            - mountPath: /app/index.html
+              name: app
+              subPath: index.html
             - mountPath: /app/environment.js
               name: environment-js
               subPath: environment.js
@@ -56,3 +81,5 @@ spec:
         - name: environment-js
           configMap:
             name: {{ include "frontend.name" . }}-configmap
+        - name: app
+          emptyDir: {}

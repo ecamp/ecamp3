@@ -182,13 +182,13 @@ serviceAccount:
 podSecurityContext: {}
 # fsGroup: 2000
 
-securityContext: {}
-        # capabilities:
-        #   drop:
-        #   - ALL
-        # readOnlyRootFilesystem: true
-        # runAsNonRoot: true
-# runAsUser: 1000
+securityContext:
+  allowPrivilegeEscalation: false
+  runAsNonRoot: true
+  runAsGroup: 0
+  capabilities:
+    drop:
+      - ALL
 
 gateway:
   enabled: {{ .Environment.Values | get "GATEWAY_ENABLED" true }}

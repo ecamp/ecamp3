@@ -23,10 +23,15 @@ ENV SENTRY_RELEASE_NAME=$SENTRY_RELEASE_NAME
 RUN npm run build
 
 # production stage
-FROM nginx:stable-alpine AS production-stage
+FROM ghcr.io/nginx/nginx-unprivileged:1.31.9-alpine3.24 AS production-stage
+USER root
 RUN mkdir /app
 WORKDIR /app
 COPY --from=frontend-build-stage /app/dist /app
 COPY .docker-hub/frontend/nginx.conf /etc/nginx/nginx.conf
-COPY .docker-hub/frontend/docker-entrypoint.d/* /docker-entrypoint.d/
-RUN chmod -R +x /docker-entrypoint.d/
+RUN chgrp -R 0 /var/log/nginx/ && \
+    chmod -R -w /app && \
+    chmod -R g+w /var/log/nginx/ /app/index.html
+
+# From https://github.com/nginx/docker-nginx-unprivileged/blob/872c2c0617f10eecc31b7826168a759f24dc02d7/Dockerfile-alpine.template#L7
+USER 101
