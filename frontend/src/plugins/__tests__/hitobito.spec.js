@@ -14,6 +14,8 @@ import {
   providerIconColor,
   redirectToHitobitoAuthorization,
 } from '../hitobito.js'
+import { cloneDeep } from 'lodash-es'
+import { getEnv } from '@/environment.js'
 
 describe('isValidProvider', () => {
   it.each(HITOBITO_PROVIDERS)('accepts the supported provider %s', (provider) => {
@@ -73,8 +75,10 @@ describe('hitobitoEventParticipantsUri', () => {
 })
 
 describe('hitobitoEventWebUrl', () => {
+  const envBackup = cloneDeep(getEnv())
+
   afterEach(() => {
-    delete window.environment
+    window.environment = cloneDeep(envBackup)
   })
 
   it('links to the event page on the configured Hitobito instance', () => {
