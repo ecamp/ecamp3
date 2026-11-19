@@ -50204,6 +50204,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -50668,6 +50681,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -51045,6 +51071,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -51745,6 +51784,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -52581,6 +52633,19 @@ paths:
                   $ref: '#/components/schemas/Category.html-read_Category.PreferredContentTypes'
                 type: array
           description: 'Category collection'
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
       summary: 'Retrieves the collection of Category resources.'
       tags:
         - Category
@@ -52666,6 +52731,19 @@ paths:
                   $ref: '#/components/schemas/Checklist.html-read'
                 type: array
           description: 'Checklist collection'
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
       summary: 'Retrieves the collection of Checklist resources.'
       tags:
         - Checklist
@@ -53008,6 +53086,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -53387,6 +53478,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -53755,6 +53859,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -53863,6 +53980,19 @@ paths:
                   $ref: '#/components/schemas/ChecklistItem.html-read'
                 type: array
           description: 'ChecklistItem collection'
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
       summary: 'Retrieves the collection of ChecklistItem resources.'
       tags:
         - ChecklistItem
@@ -54227,6 +54357,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -54636,6 +54779,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -54744,6 +54900,19 @@ paths:
                   $ref: '#/components/schemas/ChecklistItem.html-read'
                 type: array
           description: 'ChecklistItem collection'
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
       summary: 'Retrieves the collection of ChecklistItem resources.'
       tags:
         - ChecklistItem
@@ -55138,6 +55307,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -55547,6 +55729,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -55954,6 +56149,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -56363,6 +56571,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -56770,6 +56991,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -57179,6 +57413,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -57586,6 +57833,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -58228,6 +58488,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -58543,6 +58816,19 @@ paths:
                   $ref: '#/components/schemas/DayResponsible.html-read'
                 type: array
           description: 'DayResponsible collection'
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
       summary: 'Retrieves the collection of DayResponsible resources.'
       tags:
         - DayResponsible
@@ -59316,6 +59602,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -59671,6 +59970,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -60037,6 +60349,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -61352,6 +61677,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
