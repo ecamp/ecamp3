@@ -217,6 +217,18 @@ class UpdateChecklistTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchChecklistDisallowsChangingIsPrototype() {
+        $checklist = static::getFixture('checklist1');
+        static::createClientWithCredentials()->request('PATCH', '/checklists/'.$checklist->getId(), ['json' => [
+            'isPrototype' => true,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Extra attributes are not allowed ("isPrototype" is unknown).',
+        ]);
+    }
+
     public function testPatchChecklistValidatesNullName() {
         $checklist = static::getFixture('checklist1');
         static::createClientWithCredentials()->request(
