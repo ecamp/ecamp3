@@ -38,6 +38,7 @@ jobs:
     permissions:
       contents: write
       actions: read
+      deployments: write
       pull-requests: write
     environment:
       name: ${{ inputs.env }}
@@ -60,7 +61,7 @@ jobs:
         id: deployment
         with:
           step: start
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          token: ${{ inputs.env == 'feature-branch' && github.token || secrets.REPO_ACCESS_TOKEN }}
           env: ${{ inputs.env == 'feature-branch' && env.NAME || inputs.env }}
           ref: ${{ inputs.env == 'feature-branch' && inputs.sha || github.ref }}
           logs: ${{ steps.job-url.outputs.html_url }}
@@ -83,14 +84,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ inputs.sha }}
+          persist-credentials: ${{ inputs.env != 'feature-branch' }}
           allow-unsafe-pr-checkout: true
 
       - name: Dump secrets to /tmp/secrets.json
+        env:
+          DEPLOYMENT_SECRETS: ${{ toJSON(secrets) }}
         run: |
-          cat << 'EOF' | tee /tmp/secrets.json
-          ${{ toJSON(secrets) }}
-          EOF
-          jq '.' /tmp/secrets.json
+          jq 'del(.REPO_ACCESS_TOKEN, .GITHUB_TOKEN, .github_token)' <<< "$DEPLOYMENT_SECRETS" > /tmp/secrets.json
 
       - name: Dump variables to /tmp/vars.json
         run: |
@@ -177,7 +178,7 @@ jobs:
         if: always()
         with:
           step: finish
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          token: ${{ inputs.env == 'feature-branch' && github.token || secrets.REPO_ACCESS_TOKEN }}
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ format('https://{0}.{1}', env.NAME, vars.DOMAIN) }}
