@@ -75,3 +75,28 @@ App\Entity\ContentType:
     name: 'YSPhysicalActivityDuration'
     active: true
     entityClass: 'App\Entity\ContentNode\NoData'
+  contentTypePBSRelations:
+    name: 'PBSRelations'
+    active: true
+    entityClass: 'App\Entity\ContentNode\MultiSelect'
+    jsonConfig:
+      items:
+        - 'personality'
+        - 'body'
+        - 'otherPeople'
+        - 'spirituality'
+        - 'environment'
+  contentTypePBSMethods:
+    name: 'PBSMethods'
+    active: true
+    entityClass: 'App\Entity\ContentNode\MultiSelect'
+    jsonConfig:
+      items:
+        - 'personalDevelopment'
+        - 'lawAndPromise'
+        - 'lifeInTheLittleGroup'
+        - 'ritualsAndSymbolism'
+        - 'learningByDoing'
+        - 'outdoorLife'
+        - 'gamesAndMovement'
+        - 'serviceToTheCommunity'

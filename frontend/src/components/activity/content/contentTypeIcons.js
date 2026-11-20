@@ -10,6 +10,8 @@ const contentTypeIcons = {
   learningTopics: 'mdi-school',
   material: 'mdi-package-variant',
   notes: 'mdi-pen',
+  pbsMethods: 'mdi-puzzle-outline',
+  pbsRelations: 'mdi-account-multiple',
   responsiveLayout: 'mdi-view-compact',
   safetyConsiderations: 'mdi-security',
   storyboard: 'mdi-script-text-outline',

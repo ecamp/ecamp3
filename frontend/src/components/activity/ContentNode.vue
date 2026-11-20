@@ -17,7 +17,7 @@ import ColumnLayout from './content/ColumnLayout.vue'
 import ResponsiveLayout from './content/ResponsiveLayout.vue'
 import Notes from './content/Notes.vue'
 import Material from './content/Material.vue'
-import LAThematicArea from './content/LAThematicArea.vue'
+import LocalizedMultiSelect from './content/LocalizedMultiSelect.vue'
 import YSActivityCharacteristics from './content/YSActivityCharacteristics.vue'
 import LearningObjectives from './content/LearningObjectives.vue'
 import LearningTopics from './content/LearningTopics.vue'
@@ -32,7 +32,9 @@ const contentNodeComponents = {
   ResponsiveLayout,
   Notes,
   Material,
-  LAThematicArea,
+  LAThematicArea: LocalizedMultiSelect,
+  PBSMethods: LocalizedMultiSelect,
+  PBSRelations: LocalizedMultiSelect,
   YSActivityCharacteristics,
   LearningObjectives,
   LearningTopics,

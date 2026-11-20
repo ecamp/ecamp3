@@ -30941,7 +30941,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "la-thematic-area-entry-text",
+                                        "class": "multi-select-entry-text",
                                       },
                                       "style": {
                                         "flexBasis": "0",
@@ -30952,7 +30952,7 @@
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "class": "la-thematic-area-entry",
+                                    "class": "multi-select-entry",
                                     "key": 0,
                                   },
                                   "style": {
@@ -41232,7 +41232,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "la-thematic-area-entry-text",
+                                        "class": "multi-select-entry-text",
                                       },
                                       "style": {
                                         "flexBasis": "0",
@@ -41243,7 +41243,7 @@
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "class": "la-thematic-area-entry",
+                                    "class": "multi-select-entry",
                                     "key": 0,
                                   },
                                   "style": {
@@ -41314,7 +41314,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "la-thematic-area-entry-text",
+                                        "class": "multi-select-entry-text",
                                       },
                                       "style": {
                                         "flexBasis": "0",
@@ -41325,7 +41325,7 @@
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "class": "la-thematic-area-entry",
+                                    "class": "multi-select-entry",
                                     "key": 0,
                                   },
                                   "style": {
@@ -41396,7 +41396,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "la-thematic-area-entry-text",
+                                        "class": "multi-select-entry-text",
                                       },
                                       "style": {
                                         "flexBasis": "0",
@@ -41407,7 +41407,7 @@
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "class": "la-thematic-area-entry",
+                                    "class": "multi-select-entry",
                                     "key": 0,
                                   },
                                   "style": {
