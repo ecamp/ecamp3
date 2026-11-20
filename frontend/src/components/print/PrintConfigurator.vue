@@ -159,7 +159,7 @@
               <span>{{ $t('components.print.printConfigurator.showPreview') }}</span>
             </span>
           </button>
-          <print-preview v-else :config="cnf" />
+          <print-preview v-else-if="previewVisible" :config="cnf" />
         </div>
       </div>
       <div
