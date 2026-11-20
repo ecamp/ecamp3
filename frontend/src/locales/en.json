@@ -507,6 +507,15 @@
           "resultCount": "Result: {filtered} of {total} activities",
           "title": "Filter activities"
         },
+        "insertPdfConfig": {
+          "file": "PDF file",
+          "fileError": "This file cannot be read as a PDF.",
+          "fitToPageSize": "Scale to document page size",
+          "pageCount": "{count} page | {count} pages",
+          "pageRange": "Pages",
+          "pageRangeHint": "For example 1-3, 5. Empty for all pages.",
+          "tocTitle": "Title in the table of contents"
+        },
         "picassoConfig": {
           "landscape": "Landscape",
           "orientation": "Page layout",
@@ -563,6 +572,7 @@
           "Activity": "Single activity",
           "ActivityList": "Activity list (courses)",
           "Cover": "Cover page",
+          "InsertPdf": "Insert PDF",
           "Picasso": "Picasso",
           "Program": "Program",
           "SafetyConsiderations": "Safety considerations",
@@ -1071,6 +1081,9 @@
     },
     "cover": {
       "title": "Cover page"
+    },
+    "insertPdf": {
+      "title": "Inserted PDF"
     },
     "picasso": {
       "picassoFooter": {

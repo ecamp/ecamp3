@@ -16,6 +16,7 @@ export function renderVueToPdfStructure(root, props = {}, onProgress = async () 
         app.config.globalProperties.$tc = options.$tc
         app.config.globalProperties.$date = dayjs
         app.config.globalProperties.$toc = {}
+        app.config.globalProperties.$insertedPages = options.insertedPages ?? {}
         app.config.globalProperties.$onProgress = onProgress
       },
     },
