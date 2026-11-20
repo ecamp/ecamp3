@@ -111,6 +111,7 @@
       },
       "campHitobitoSync": {
         "linked": "Dieses Lager ist mit {provider} verknüpft.",
+        "openInProvider": "In {provider} öffnen",
         "sync": "Synchronisieren",
         "title": "Lagerinfos synchronisieren"
       },

@@ -111,6 +111,7 @@
       },
       "campHitobitoSync": {
         "linked": "This camp is linked with {provider}.",
+        "openInProvider": "Open in {provider}",
         "sync": "Synchronize",
         "title": "Synchronize camp info"
       },
