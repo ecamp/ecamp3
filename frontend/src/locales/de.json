@@ -11,8 +11,14 @@
             "removeColumn": "Leere Spalte entfernen"
           }
         },
-        "lAThematicArea": {
+        "laThematicArea": {
           "placeholder": "Themenbereich auswählen"
+        },
+        "pbsMethods": {
+          "placeholder": "Methoden auswählen"
+        },
+        "pbsRelations": {
+          "placeholder": "Beziehungen auswählen"
         },
         "storyboard": {
           "controls": "Aktionen",
@@ -744,6 +750,74 @@
     "notes": {
       "info": "Hier kannst du beliebige Notizen erfassen.{br}z.B. Ideen, Todo's, offene Fragen, Kontakte, ÖV-Verbindungen, usw.",
       "name": "Notizen"
+    },
+    "pbsMethods": {
+      "entity": {
+        "option": {
+          "gamesAndMovement": {
+            "description": "Freude am Spielen erleben und mit regelmässiger Bewegung die Gesundheit fördern.",
+            "name": "Spiel und Bewegung"
+          },
+          "lawAndPromise": {
+            "description": "Sich mit den Werten der Pfadi auseinandersetzen und sie auch im Alltag leben.",
+            "name": "Gesetz und Versprechen"
+          },
+          "learningByDoing": {
+            "description": "Neues ausprobieren und aus Erfolgen und Fehlern lernen.",
+            "name": "Lernen durch Handeln"
+          },
+          "lifeInTheLittleGroup": {
+            "description": "In einer kleinen Gruppe zusammenleben, sich einbringen und Verantwortung übernehmen.",
+            "name": "Leben in der kleinen Gruppe"
+          },
+          "outdoorLife": {
+            "description": "Die Natur kennenlernen, in ihr mit einfachen Mitteln leben und sie schützen.",
+            "name": "Leben im Freien"
+          },
+          "personalDevelopment": {
+            "description": "Eigene Fähigkeiten weiterentwickeln und sich dabei von erfahrenen Personen begleiten lassen.",
+            "name": "Persönlicher Fortschritt"
+          },
+          "ritualsAndSymbolism": {
+            "description": "Pfadigrundlagen durch Symbole erleben und den Pfadialltag mit Ritualen und Bräuchen gestalten.",
+            "name": "Symbolik und Rituale"
+          },
+          "serviceToTheCommunity": {
+            "description": "Sich mit gemeinnützigen Aktionen für andere und für die Gemeinschaft einsetzen.",
+            "name": "Engagement für die Gemeinschaft"
+          }
+        }
+      },
+      "info": "Wähle die Pfadimethoden aus, die in diesem Block eingesetzt werden.",
+      "name": "Pfadimethoden"
+    },
+    "pbsRelations": {
+      "entity": {
+        "option": {
+          "body": {
+            "description": "Den eigenen Körper annehmen, Bedürfnisse und Grenzen erkennen und sich ausdrücken.",
+            "name": "Körper"
+          },
+          "environment": {
+            "description": "Die Umwelt entdecken, sie kreativ gestalten und sorgsam mit natürlichen Ressourcen umgehen.",
+            "name": "Umwelt"
+          },
+          "otherPeople": {
+            "description": "Anderen offen und respektvoll begegnen und gemeinsam Verantwortung übernehmen.",
+            "name": "Mitmenschen"
+          },
+          "personality": {
+            "description": "Die eigenen Stärken entdecken, selbstbewusst entscheiden und das eigene Handeln hinterfragen.",
+            "name": "Persönlichkeit"
+          },
+          "spirituality": {
+            "description": "Über die eigenen Werte und Überzeugungen nachdenken und anderen Glaubensformen offen begegnen.",
+            "name": "Spirituelles"
+          }
+        }
+      },
+      "info": "Wähle die Pfadibeziehungen aus, die in diesem Block gefördert werden.",
+      "name": "Pfadibeziehungen"
     },
     "responsiveLayout": {
       "mainContent": "Hauptinhalt",

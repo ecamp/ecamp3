@@ -8,8 +8,14 @@
             "removeColumn": "Rimuovi la colonna vuota"
           }
         },
-        "lAThematicArea": {
+        "laThematicArea": {
           "placeholder": "Selezionare l'area tematica"
+        },
+        "pbsMethods": {
+          "placeholder": "Seleziona i metodi"
+        },
+        "pbsRelations": {
+          "placeholder": "Seleziona le relazioni"
         },
         "storyboard": {
           "controls": "Azioni",
@@ -602,6 +608,74 @@
     "notes": {
       "info": "Qui puoi inserire qualsiasi nota, ad esempio idee, impegni, domande aperte, contatti, collegamenti con i mezzi pubblici, ecc.",
       "name": "Noti"
+    },
+    "pbsMethods": {
+      "entity": {
+        "option": {
+          "gamesAndMovement": {
+            "description": "Divertirsi giocando e prendersi cura della propria salute muovendosi regolarmente.",
+            "name": "Gioco e movimento"
+          },
+          "lawAndPromise": {
+            "description": "Riflettere sui valori scout e metterli in pratica nella vita quotidiana.",
+            "name": "Legge e promessa"
+          },
+          "learningByDoing": {
+            "description": "Sperimentare in prima persona e imparare dai successi e dagli errori.",
+            "name": "Imparare facendo"
+          },
+          "lifeInTheLittleGroup": {
+            "description": "Vivere in piccoli gruppi, contribuire attivamente e assumersi responsabilità.",
+            "name": "Vita in piccoli gruppi"
+          },
+          "outdoorLife": {
+            "description": "Imparare a conoscere e proteggere la natura e a viverci con mezzi semplici.",
+            "name": "Vita all’aria aperta"
+          },
+          "personalDevelopment": {
+            "description": "Sviluppare le proprie capacità al proprio ritmo con il sostegno di persone esperte.",
+            "name": "Progressione personale"
+          },
+          "ritualsAndSymbolism": {
+            "description": "Scoprire i principi scout attraverso i simboli e scandire la vita scout con riti e tradizioni.",
+            "name": "Riti e simbologia"
+          },
+          "serviceToTheCommunity": {
+            "description": "Partecipare ad azioni a favore degli altri e della collettività.",
+            "name": "Impegno per la collettività"
+          }
+        }
+      },
+      "info": "Seleziona i metodi scout applicati in questa attività.",
+      "name": "Metodi scout"
+    },
+    "pbsRelations": {
+      "entity": {
+        "option": {
+          "body": {
+            "description": "Accettare il proprio corpo, riconoscere i propri bisogni e limiti ed esprimersi.",
+            "name": "Corpo"
+          },
+          "environment": {
+            "description": "Scoprire e plasmare il proprio ambiente con creatività, rispettando le risorse naturali.",
+            "name": "Ambiente"
+          },
+          "otherPeople": {
+            "description": "Incontrare gli altri con apertura e rispetto e condividere le responsabilità.",
+            "name": "Altri"
+          },
+          "personality": {
+            "description": "Scoprire i propri punti di forza, decidere con fiducia e riflettere sulle proprie azioni.",
+            "name": "Personalità"
+          },
+          "spirituality": {
+            "description": "Riflettere sui propri valori e sulle proprie convinzioni e aprirsi a diverse forme di spiritualità.",
+            "name": "Spiritualità"
+          }
+        }
+      },
+      "info": "Seleziona le relazioni scout sviluppate in questa attività.",
+      "name": "Relazioni scout"
     },
     "responsiveLayout": {
       "mainContent": "Contenuto principale",
