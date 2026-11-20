@@ -1,11 +1,11 @@
 <template>
-  <div class="e-pages-overview">
+  <div class="e-pages-overview" :class="{ 'e-pages-overview--list-style': listStyle }">
     <draggable
       :model-value="modelValue"
       :item-key="() => undefined"
       handle=".handle"
       filter=".e-pages-config--template"
-      class="e-pages-overview__grid pa-0 pa-md-8"
+      class="e-pages-overview__grid"
       v-bind="$attrs"
       @update:model-value="$emit('update:modelValue', $event)"
     >
@@ -18,7 +18,6 @@
         <slot />
       </template>
     </draggable>
-    <slot name="drawer" />
   </div>
 </template>
 
@@ -29,6 +28,7 @@ export default {
   name: 'PagesOverview',
   components: { Draggable },
   props: {
+    listStyle: Boolean,
     modelValue: {
       type: Array,
       default: () => [],
@@ -39,18 +39,24 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use 'vuetify/settings';
-@use 'sass:map';
+.e-pages-overview {
+  background: #eee;
+  flex-grow: 1;
+}
+.e-pages-overview__grid {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
 
-@media #{map.get(settings.$display-breakpoints, 'md-and-up')} {
-  .e-pages-overview {
-    background: #eee;
-    position: relative;
-  }
+.e-pages-overview:not(.e-pages-overview--list-style) {
+  position: relative;
+
   .e-pages-overview__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(316px, 1fr));
-    gap: 4rem 1rem;
+    grid-template-columns: repeat(auto-fill, min(100%, var(--e-page-width)));
+    justify-content: space-evenly;
+    gap: 4rem var(--e-grid-gap);
+    padding: var(--e-grid-padding);
   }
 }
 </style>

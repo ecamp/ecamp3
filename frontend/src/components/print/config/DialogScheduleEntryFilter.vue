@@ -14,7 +14,7 @@
         variant="outlined"
         :color="anyFilter ? 'primary' : 'secondary'"
         border="sm"
-        class="align-self-stretch mt-4 mb-4"
+        class="align-self-stretch mb-4"
         :class="anyFilter && 'border-current'"
         v-bind="props"
       >

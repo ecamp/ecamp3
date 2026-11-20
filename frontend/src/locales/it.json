@@ -425,8 +425,8 @@
         "picassoConfig": {
           "orientation": "Layout della pagina",
           "responsibles": "Responsabili",
-          "responsiblesAvatars": "Avatar",
-          "responsiblesNames": "Nomi"
+          "responsiblesAvatars": "Come avatar",
+          "responsiblesNames": "Come nomi"
         },
         "programConfig": {
           "dayOverview": "Panoramica della giornata di stampa"
@@ -457,7 +457,9 @@
       },
       "printConfigurator": {
         "add": "Aggiungi contenuti",
-        "compact": "Layout compatto (meno spaziatura, nascondi i campi vuoti)",
+        "collapsePreview": "Riduci anteprima",
+        "compact": "Layout compatto",
+        "compactDescription": "Meno spaziatura, nascondi i campi vuoti",
         "config": {
           "Activity": "Attività singola",
           "Cover": "Pagina di copertina",
@@ -467,9 +469,25 @@
           "Story": "Riassunto della storia",
           "Toc": "Indice dei contenuti"
         },
+        "configuration": "Impostazioni di stampa",
         "contactLink": "Contattaci",
+        "fontSize": "Dimensione del carattere",
+        "fontSizeDescriptions": {
+          "A3": "Ottimizzato per A4 o A3",
+          "A4": "Ottimizzato per A4 o A5",
+          "A5": "Ottimizzato per A6"
+        },
+        "fontSizes": {
+          "A3": "Più piccolo",
+          "A4": "Normale",
+          "A5": "Più grande"
+        },
         "layoutInfo": "Abbiamo riunito i vantaggi di entrambi i layout di stampa in un nuovo layout. Nelle impostazioni puoi attivare il layout compatto, simile al precedente layout #2. Abbiamo dimenticato qualcosa o qualcosa non funziona più? {contactLink}.",
-        "layoutInfoTitle": "Dov'è la scelta del layout di stampa?"
+        "layoutInfoTitle": "Dov'è la scelta del layout di stampa?",
+        "moveDown": "Spostare in basso",
+        "moveUp": "Spostare in alto",
+        "preview": "Anteprima",
+        "showPreview": "Attiva anteprima"
       }
     },
     "program": {
