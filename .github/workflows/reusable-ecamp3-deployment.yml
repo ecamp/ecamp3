@@ -41,6 +41,7 @@ jobs:
       pull-requests: write
     environment:
       name: ${{ inputs.env }}
+      deployment: ${{ inputs.env != 'feature-branch' }}
     env:
       NAME: ${{ vars.NAME || inputs.name }}
       IMAGE_TAG: ${{ inputs.sha }}
@@ -60,7 +61,9 @@ jobs:
         with:
           step: start
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          env: ${{ inputs.env }}
+          env: ${{ inputs.env == 'feature-branch' && env.NAME || inputs.env }}
+          ref: ${{ inputs.env == 'feature-branch' && inputs.sha || github.ref }}
+          logs: ${{ steps.job-url.outputs.html_url }}
 
       - name: Comment progress on PR
         uses: thollander/actions-comment-pull-request@v3
@@ -179,6 +182,7 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ format('https://{0}.{1}', env.NAME, vars.DOMAIN) }}
           env: ${{ steps.deployment.outputs.env }}
+          logs: ${{ steps.job-url.outputs.html_url }}
 
       - name: Get current time
         uses: josStorer/get-current-time@v2
