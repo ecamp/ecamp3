@@ -226,7 +226,7 @@ sub vcl_deliver {
   unset resp.http.X-Cache-Security-Delegate;
 
   # reset cache control header to avoid caching by any other upstream proxies
-  if (resp.http.Content-Type ~ "application/hal\+json"){
+  if (resp.http.Content-Type ~ "json"){
     set resp.http.Cache-Control = "no-cache, private";
   }
 }
