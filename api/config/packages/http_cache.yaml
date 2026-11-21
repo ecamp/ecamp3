@@ -17,7 +17,7 @@ fos_http_cache:
               headers:
                   overwrite: false
                   cache_control: { public: true, max_age: 0, s_maxage: 43200 }
-                  vary: [Accept, Content-Type, Authorization, Origin]
+                  vary: [Authorization, Origin]
 
             # match everything else (defaults to no-cache)
             - match:

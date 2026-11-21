@@ -21,7 +21,7 @@ class CheckAccessTest extends ECampApiTestCase {
         $this->assertJsonContains(['granted' => true, 'iri' => $this->getIriFor('camp1')]);
         $this->assertStringContainsString('public', $response->getHeaders()['cache-control'][0]);
         $this->assertMatchesRegularExpression('/s-maxage=(\d+)/', $response->getHeaders()['cache-control'][0]);
-        $this->assertSame(['Accept', 'Content-Type', 'Authorization', 'Origin'], $response->getHeaders()['vary']);
+        $this->assertSame(['Authorization', 'Origin'], $response->getHeaders()['vary']);
     }
 
     public function testGrantDoesNotOutliveTheToken() {
