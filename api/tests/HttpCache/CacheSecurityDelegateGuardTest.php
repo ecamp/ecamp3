@@ -108,6 +108,9 @@ class CacheSecurityDelegateGuardTest extends KernelTestCase {
         $this->assertNotEmpty($publicOperations);
         foreach ($publicOperations as $operation) {
             $this->assertNull($operation->getSecurity(), "{$operation->getName()} is public, but has security.");
+            foreach ($operation->getUriVariables() ?? [] as $name => $link) {
+                $this->assertNull($link->getSecurity(), "{$operation->getName()} is public, but the link '{$name}' has security.");
+            }
         }
     }
 
