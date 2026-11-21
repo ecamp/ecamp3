@@ -59,6 +59,7 @@ class CacheSecurityDelegateOperationsTest extends ECampApiTestCase {
             $asUnrelated = static::createClientWithCredentials($unrelated)->request('GET', $url);
 
             $this->assertSame($asManager->getContent(), $asUnrelated->getContent(), "{$url} differs between users");
+            $this->assertSame($asManager->getContent(), static::createBasicClient()->request('GET', $url)->getContent(), "{$url} differs for anonymous users");
         }
     }
 
