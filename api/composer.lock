@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "672b454303b5880fb758da64c51c6008",
+  "content-hash": "85f8fa9ec58905de61ac4fccafdfb393",
   "packages": [
     {
       "name": "api-platform/doctrine-common",
@@ -3866,7 +3866,8 @@
         "issues": "https://github.com/Jean85/pretty-package-versions/issues",
         "source": "https://github.com/Jean85/pretty-package-versions/tree/2.1.1"
       },
-      "time": "2025-03-19T14:43:43+00:00"
+      "time": "2025-03-19T14:43:43+00:00",
+      "published-time": "2025-03-19T14:50:06+00:00"
     },
     {
       "name": "knpuniversity/oauth2-client-bundle",
@@ -11931,16 +11932,16 @@
     },
     {
       "name": "brianium/paratest",
-      "version": "v7.27.5",
+      "version": "v7.28.0",
       "source": {
         "type": "git",
         "url": "https://github.com/paratestphp/paratest.git",
-        "reference": "fe4a1fd811fd79ead7476fa109c5f4ed721cc18a"
+        "reference": "cac9f8cd1a5904c7584f82804b2a2d7f0c25d9b8"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/paratestphp/paratest/zipball/fe4a1fd811fd79ead7476fa109c5f4ed721cc18a",
-        "reference": "fe4a1fd811fd79ead7476fa109c5f4ed721cc18a",
+        "url": "https://api.github.com/repos/paratestphp/paratest/zipball/cac9f8cd1a5904c7584f82804b2a2d7f0c25d9b8",
+        "reference": "cac9f8cd1a5904c7584f82804b2a2d7f0c25d9b8",
         "shasum": ""
       },
       "require": {
@@ -11951,10 +11952,10 @@
         "fidry/cpu-core-counter": "^1.4.1",
         "jean85/pretty-package-versions": "^2.1.1",
         "php": "~8.4.0 || ~8.5.0 || ~8.6.0",
-        "phpunit/php-code-coverage": "^14.4.1",
+        "phpunit/php-code-coverage": "^14.5.0",
         "phpunit/php-file-iterator": "^7.0.2",
         "phpunit/php-timer": "^9",
-        "phpunit/phpunit": "^13.4.3",
+        "phpunit/phpunit": "^13.4.5",
         "sebastian/environment": "^9.3.3",
         "symfony/console": "^7.4.20 || ^8.1.8",
         "symfony/process": "^7.4.19 || ^8.1.7"
@@ -11964,7 +11965,7 @@
         "ext-pcntl": "*",
         "ext-pcov": "*",
         "ext-posix": "*",
-        "phpstan/phpstan": "^2.3.2",
+        "phpstan/phpstan": "^2.3.4",
         "phpstan/phpstan-deprecation-rules": "^2.0.5",
         "phpstan/phpstan-phpunit": "^2.1.1",
         "phpstan/phpstan-strict-rules": "^2.1.0",
@@ -12008,7 +12009,7 @@
       ],
       "support": {
         "issues": "https://github.com/paratestphp/paratest/issues",
-        "source": "https://github.com/paratestphp/paratest/tree/v7.27.5"
+        "source": "https://github.com/paratestphp/paratest/tree/v7.28.0"
       },
       "funding": [
         {
@@ -12020,7 +12021,8 @@
           "type": "paypal"
         }
       ],
-      "time": "2026-10-29T13:58:46+00:00"
+      "time": "2026-11-12T20:28:34+00:00",
+      "published-time": "2026-11-12T20:31:18+00:00"
     },
     {
       "name": "clue/ndjson-react",
@@ -12489,7 +12491,8 @@
           "type": "github"
         }
       ],
-      "time": "2026-09-29T22:11:39+00:00"
+      "time": "2026-09-29T22:11:39+00:00",
+      "published-time": "2026-09-29T22:12:43+00:00"
     },
     {
       "name": "friendsofphp/php-cs-fixer",
@@ -16023,7 +16026,8 @@
           "type": "tidelift"
         }
       ],
-      "time": "2026-10-25T14:40:25+00:00"
+      "time": "2026-10-25T14:40:25+00:00",
+      "published-time": "2026-10-28T18:25:20+00:00"
     },
     {
       "name": "symfony/web-profiler-bundle",
