@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "672b454303b5880fb758da64c51c6008",
+  "content-hash": "ef3bd1f65796427d75d8ea18acb9d42d",
   "packages": [
     {
       "name": "api-platform/doctrine-common",
@@ -3334,63 +3334,67 @@
     },
     {
       "name": "gesdinet/jwt-refresh-token-bundle",
-      "version": "v2.3.0",
+      "version": "v3.1.0",
       "source": {
         "type": "git",
         "url": "https://github.com/markitosgv/JWTRefreshTokenBundle.git",
-        "reference": "0adc509286ce7ec22921a4a175a060ab134cf2e7"
+        "reference": "8b08cf8e03f04b5aac8c398ad49df842864ae957"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/markitosgv/JWTRefreshTokenBundle/zipball/0adc509286ce7ec22921a4a175a060ab134cf2e7",
-        "reference": "0adc509286ce7ec22921a4a175a060ab134cf2e7",
+        "url": "https://api.github.com/repos/markitosgv/JWTRefreshTokenBundle/zipball/8b08cf8e03f04b5aac8c398ad49df842864ae957",
+        "reference": "8b08cf8e03f04b5aac8c398ad49df842864ae957",
         "shasum": ""
       },
       "require": {
         "doctrine/persistence": "^3.1 || ^4.0",
-        "lexik/jwt-authentication-bundle": "^2.15 || ^3.0",
-        "php": "^8.2",
-        "symfony/config": "^6.4 || ^7.0 || ^7.2 || ^8.0",
-        "symfony/console": "^6.4 || ^7.0 || ^7.2 || ^8.0",
-        "symfony/dependency-injection": "^6.4 || ^7.0 || ^7.2 || ^8.0",
+        "lexik/jwt-authentication-bundle": "^3.0",
+        "php": "^8.4",
+        "symfony/config": "^8.1",
+        "symfony/console": "^8.1",
+        "symfony/dependency-injection": "^8.1",
         "symfony/deprecation-contracts": "^2.1 || ^3.0 || ^4.0",
-        "symfony/event-dispatcher": "^6.4 || ^7.0 || ^7.2 || ^8.0",
-        "symfony/http-foundation": "^6.4 || ^7.0 || ^7.2 || ^8.0",
-        "symfony/http-kernel": "^6.4 || ^7.0 || ^7.2 || ^8.0",
-        "symfony/property-access": "^6.4 || ^7.0 || ^7.2 || ^8.0",
-        "symfony/security-bundle": "^6.4 || ^7.0 || ^7.2 || ^8.0",
-        "symfony/security-core": "^6.4 || ^7.0 || ^7.2 || ^8.0",
-        "symfony/security-http": "^6.4 || ^7.0 || ^7.2 || ^8.0"
+        "symfony/event-dispatcher": "^8.1",
+        "symfony/http-foundation": "^8.1.7",
+        "symfony/http-kernel": "^8.1",
+        "symfony/property-access": "^8.1",
+        "symfony/security-bundle": "^8.1",
+        "symfony/security-core": "^8.1",
+        "symfony/security-http": "^8.1"
       },
       "conflict": {
         "doctrine/mongodb-odm": "<2.7",
         "doctrine/orm": "<2.20"
       },
       "require-dev": {
-        "api-platform/openapi": "^4.0",
-        "doctrine/dbal": "^3.7 || ^4.0",
+        "api-platform/openapi": "^4.0 || ^5.0",
+        "doctrine/dbal": "^4.0",
         "doctrine/mongodb-odm": "^2.7",
         "doctrine/orm": "^2.20 || ^3.0",
         "ergebnis/composer-normalize": "*",
+        "friendsofphp/php-cs-fixer": "^3.95",
         "matthiasnoback/symfony-config-test": "^5.1 || ^6.0",
         "matthiasnoback/symfony-dependency-injection-test": "^5.1 || ^6.0",
-        "mongodb/mongodb": "^2.1",
+        "mongodb/mongodb": "^2.4.2",
         "phpstan/phpstan": "^2.2",
         "phpstan/phpstan-doctrine": "^2.0",
-        "phpunit/phpunit": "^10.5 || ^12.2 || ^13.0",
+        "phpunit/phpunit": "^10.5.62 || ^12.5.8 || ^13.0",
         "rector/jack": "^1.0.0",
         "rector/rector": "^2.2",
-        "symfony/cache": "^6.4 || ^7.0 || ^7.2 || ^8.0",
+        "symfony/cache": "^8.1",
+        "symfony/rate-limiter": "^8.1",
+        "symfony/yaml": "^8.1.6",
         "vimeo/psalm": "^7.0@beta"
       },
       "suggest": {
         "api-platform/core": "To document the refresh token in the OpenAPI specification when using API Platform",
-        "doctrine/dbal": "To store the refresh tokens through a plain connection, without the ORM or the ODM"
+        "doctrine/dbal": "To store the refresh tokens through a plain connection, without the ORM or the ODM",
+        "symfony/rate-limiter": "To bound how often the refresh endpoint will answer"
       },
       "type": "symfony-bundle",
       "extra": {
         "branch-alias": {
-          "dev-master": "2.x-dev"
+          "dev-master": "3.x-dev"
         }
       },
       "autoload": {
@@ -3414,9 +3418,10 @@
       ],
       "support": {
         "issues": "https://github.com/markitosgv/JWTRefreshTokenBundle/issues",
-        "source": "https://github.com/markitosgv/JWTRefreshTokenBundle/tree/v2.3.0"
+        "source": "https://github.com/markitosgv/JWTRefreshTokenBundle/tree/v3.1.0"
       },
-      "time": "2026-11-01T20:41:44+00:00"
+      "time": "2026-11-01T20:40:32+00:00",
+      "published-time": "2026-11-01T20:40:50+00:00"
     },
     {
       "name": "google/recaptcha",
@@ -6609,7 +6614,8 @@
           "type": "tidelift"
         }
       ],
-      "time": "2026-11-04T08:39:20+00:00"
+      "time": "2026-11-04T08:39:20+00:00",
+      "published-time": "2026-11-04T11:31:48+00:00"
     },
     {
       "name": "symfony/console",
@@ -6859,7 +6865,8 @@
           "type": "tidelift"
         }
       ],
-      "time": "2026-10-13T12:55:44+00:00"
+      "time": "2026-10-13T12:55:44+00:00",
+      "published-time": "2026-10-14T06:48:43+00:00"
     },
     {
       "name": "symfony/deprecation-contracts",
@@ -7498,7 +7505,8 @@
           "type": "tidelift"
         }
       ],
-      "time": "2026-11-04T08:39:20+00:00"
+      "time": "2026-11-04T08:39:20+00:00",
+      "published-time": "2026-11-04T11:32:01+00:00"
     },
     {
       "name": "symfony/finder",
@@ -8798,7 +8806,8 @@
           "type": "tidelift"
         }
       ],
-      "time": "2026-10-14T07:17:09+00:00"
+      "time": "2026-10-14T07:17:09+00:00",
+      "published-time": "2026-10-14T09:42:25+00:00"
     },
     {
       "name": "symfony/polyfill-intl-idn",
@@ -9975,7 +9984,8 @@
           "type": "tidelift"
         }
       ],
-      "time": "2026-11-04T08:39:20+00:00"
+      "time": "2026-11-04T08:39:20+00:00",
+      "published-time": "2026-11-04T11:31:07+00:00"
     },
     {
       "name": "symfony/serializer",
@@ -10161,7 +10171,8 @@
           "type": "tidelift"
         }
       ],
-      "time": "2026-07-27T15:39:01+00:00"
+      "time": "2026-07-27T15:39:01+00:00",
+      "published-time": "2026-08-30T19:56:37+00:00"
     },
     {
       "name": "symfony/stopwatch",
@@ -11112,7 +11123,8 @@
           "type": "tidelift"
         }
       ],
-      "time": "2026-10-07T07:28:40+00:00"
+      "time": "2026-10-07T07:28:40+00:00",
+      "published-time": "2026-10-14T06:49:32+00:00"
     },
     {
       "name": "symfony/web-link",
@@ -16023,7 +16035,8 @@
           "type": "tidelift"
         }
       ],
-      "time": "2026-10-25T14:40:25+00:00"
+      "time": "2026-10-25T14:40:25+00:00",
+      "published-time": "2026-10-28T18:25:20+00:00"
     },
     {
       "name": "symfony/web-profiler-bundle",
