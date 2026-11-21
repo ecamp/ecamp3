@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "672b454303b5880fb758da64c51c6008",
+  "content-hash": "aa62088b88bbe0f43af50a2b588deca3",
   "packages": [
     {
       "name": "api-platform/doctrine-common",
@@ -749,7 +749,7 @@
     },
     {
       "name": "api-platform/metadata",
-      "version": "v5.0.6",
+      "version": "v5.0.7",
       "source": {
         "type": "git",
         "url": "https://github.com/api-platform/metadata.git",
@@ -841,9 +841,10 @@
         "swagger"
       ],
       "support": {
-        "source": "https://github.com/api-platform/metadata/tree/v5.0.6"
+        "source": "https://github.com/api-platform/metadata/tree/v5.0.7"
       },
-      "time": "2026-11-06T08:25:24+00:00"
+      "time": "2026-11-06T08:25:24+00:00",
+      "published-time": "2026-11-13T14:12:07+00:00"
     },
     {
       "name": "api-platform/openapi",
@@ -2275,7 +2276,8 @@
           "type": "tidelift"
         }
       ],
-      "time": "2025-08-10T19:31:58+00:00"
+      "time": "2025-08-10T19:31:58+00:00",
+      "published-time": "2025-08-10T19:33:33+00:00"
     },
     {
       "name": "doctrine/instantiator",
@@ -10317,7 +10319,8 @@
           "type": "tidelift"
         }
       ],
-      "time": "2026-10-03T15:16:03+00:00"
+      "time": "2026-10-03T15:16:03+00:00",
+      "published-time": "2026-10-14T06:48:42+00:00"
     },
     {
       "name": "symfony/translation",
