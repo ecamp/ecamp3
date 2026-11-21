@@ -262,6 +262,88 @@ describe.each(['A3', 'A4', 'A5'])('in %p format', (pageSize) => {
       )
     })
 
+    it.each([
+      [
+        false,
+        [
+          [300, 400],
+          [500, 600],
+        ],
+      ],
+      [true, [pageSize, pageSize]],
+    ])(
+      'inserts the selected PDF pages with fitToPageSize %s',
+      async (fitToPageSize, expectedSizes) => {
+        const store = wrap(fullCampStoreContent)
+
+        const result = renderVueToPdfStructure(CampPrint, {
+          store,
+          $tc: tcMock,
+          locale: 'de',
+          config: {
+            language: 'de',
+            documentName: 'Pfila 2023.pdf',
+            options: { pageNumbers: false, pageSize },
+            camp: store.get('/camps/c4cca3a51342'),
+            contents: [
+              {
+                type: 'InsertPdf',
+                options: {
+                  file: {
+                    assetId: 'asset-1',
+                    name: 'packing-list.pdf',
+                    pages: [
+                      { width: 100, height: 200 },
+                      { width: 300, height: 400 },
+                      { width: 500, height: 600 },
+                    ],
+                  },
+                  tocTitle: '',
+                  pageRange: '2-3',
+                  fitToPageSize,
+                },
+              },
+            ],
+          },
+        })
+
+        expect(result.children.map((page) => page.props.size)).toEqual(expectedSizes)
+        expect(result.children.map((page) => page.props.id)).toEqual([
+          'entry-0',
+          undefined,
+        ])
+      }
+    )
+
+    it('labels an inserted PDF in the table of contents', async () => {
+      const store = wrap(fullCampStoreContent)
+      const insertPdf = (tocTitle) => ({
+        type: 'InsertPdf',
+        options: { file: null, tocTitle, pageRange: '', fitToPageSize: true },
+      })
+
+      const result = renderVueToPdfStructure(CampPrint, {
+        store,
+        $tc: tcMock,
+        locale: 'de',
+        config: {
+          language: 'de',
+          documentName: 'Pfila 2023.pdf',
+          options: { pageNumbers: false, pageSize },
+          camp: store.get('/camps/c4cca3a51342'),
+          contents: [
+            { type: 'Toc', options: {} },
+            insertPdf(' Packing list '),
+            insertPdf(''),
+          ],
+        },
+      })
+
+      const rendered = JSON.stringify(result, createCircularReplacer())
+      expect(rendered).toContain('"Packing list"')
+      expect(rendered).toContain('"Inserted PDF"')
+    })
+
     it('renders the table of contents', async () => {
       // given
       const store = wrap(fullCampStoreContent)

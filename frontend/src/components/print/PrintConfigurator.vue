@@ -230,6 +230,7 @@ import ProgramConfig from './config/ProgramConfig.vue'
 import ActivityConfig from './config/ActivityConfig.vue'
 import ActivityListConfig from './config/ActivityListConfig.vue'
 import TocConfig from './config/TocConfig.vue'
+import InsertPdfConfig from './config/InsertPdfConfig.vue'
 import PagesOverview from './configurator/PagesOverview.vue'
 import PagesConfig from './configurator/PagesConfig.vue'
 import DownloadPdfButton from '@/components/print/generator/DownloadPdfButton.vue'
@@ -258,6 +259,7 @@ export default {
     ActivityConfig,
     TocConfig,
     ActivityListConfig,
+    InsertPdfConfig,
   },
   provide() {
     return {
@@ -309,6 +311,7 @@ export default {
         Activity: ActivityConfig,
         Toc: TocConfig,
         ActivityList: ActivityListConfig,
+        InsertPdf: InsertPdfConfig,
       }
     },
     lang() {

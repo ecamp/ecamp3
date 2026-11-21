@@ -33,6 +33,7 @@ import Activity from './entry/Activity.vue'
 import SafetyConsiderations from './entry/SafetyConsiderations.vue'
 import Story from './entry/Story.vue'
 import ActivityList from './entry/ActivityList.vue'
+import InsertPdf from './entry/InsertPdf.vue'
 import TocSectionStartMarker from '../TocSectionStartMarker.vue'
 
 export default {
@@ -54,6 +55,7 @@ export default {
         SafetyConsiderations,
         Story,
         ActivityList,
+        InsertPdf,
       }
     },
   },

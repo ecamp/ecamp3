@@ -1,6 +1,7 @@
 import wrap from './minimalHalJsonVuex.js'
 import createI18n from './i18n.js'
 import { render, prepare } from '@/pdf/index.js'
+import { insertPdfPages } from './insertPdfPages.js'
 
 export const renderPdf = async ({ config, storeData, translationData }, onProgress) => {
   const result = {
@@ -20,10 +21,21 @@ export const renderPdf = async ({ config, storeData, translationData }, onProgre
     }
 
     config.camp = store.get(config.camp)
-    const props = { config, store, $tc: translate, locale: storeData.lang.language }
+    const insertedPages = {}
+    const props = {
+      config,
+      store,
+      $tc: translate,
+      locale: storeData.lang.language,
+      insertedPages,
+    }
 
     result.filename = config.documentName
-    result.blob = await render(props, onProgress).toBlob()
+    const blob = await render(props, onProgress).toBlob()
+    result.blob =
+      Object.keys(insertedPages).length > 0
+        ? await insertPdfPages(blob, insertedPages)
+        : blob
   } catch (error) {
     result.error = error
   }
