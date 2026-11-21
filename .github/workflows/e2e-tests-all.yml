@@ -1,5 +1,8 @@
 name: 'Tests: All End-to-End (including non-mature)'
 
+permissions:
+  contents: read
+
 on:
   workflow_call:
     inputs:
@@ -24,6 +27,7 @@ concurrency:
 jobs:
   check-trigger:
     name: 'Check if workflow should run'
+    permissions: {}
     runs-on: ubuntu-latest
     outputs:
       should_run: ${{ steps.check.outputs.should_run }}
@@ -52,12 +56,17 @@ jobs:
 
   e2e-tests-build:
     name: 'Tests: All e2e build'
+    permissions:
+      contents: read
     needs: check-trigger
     if: needs.check-trigger.outputs.should_run == 'true'
     uses: ./.github/workflows/reusable-e2e-tests-build.yml
 
   e2e-tests-run:
     name: 'Tests: All e2e run'
+    permissions:
+      contents: read
+      actions: write
     needs:
       - check-trigger
       - e2e-tests-build

@@ -1,5 +1,8 @@
 name: '[reusable only] ecamp3 deployment'
 
+permissions:
+  contents: read
+
 on:
   workflow_call:
     inputs:
@@ -36,7 +39,7 @@ jobs:
     name: Deploy to Kubernetes
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
       actions: read
       pull-requests: write
     environment:

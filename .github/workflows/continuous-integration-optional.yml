@@ -1,5 +1,8 @@
 name: CI (optional checks)
 
+permissions:
+  contents: read
+
 on:
   push:
     branches-ignore:
@@ -89,6 +92,9 @@ jobs:
         working-directory: api
 
   playwright-cli-check-needed:
+    permissions:
+      actions: read
+      contents: read
     runs-on: ubuntu-latest
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
