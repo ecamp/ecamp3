@@ -5,6 +5,7 @@ import {
   hasAttemptedAuthorization,
   hitobitoEventCampUri,
   hitobitoEventParticipantsUri,
+  hitobitoEventWebUrl,
   hitobitoEventsUri,
   isAccessTokenInvalidError,
   isValidProvider,
@@ -13,6 +14,8 @@ import {
   providerIconColor,
   redirectToHitobitoAuthorization,
 } from '../hitobito.js'
+import { cloneDeep } from 'lodash-es'
+import { getEnv } from '@/environment.js'
 
 describe('isValidProvider', () => {
   it.each(HITOBITO_PROVIDERS)('accepts the supported provider %s', (provider) => {
@@ -68,6 +71,23 @@ describe('hitobitoEventParticipantsUri', () => {
     expect(hitobitoEventParticipantsUri('pbsmidata', '123')).toBe(
       '/hitobito/pbsmidata/events/123/participants'
     )
+  })
+})
+
+describe('hitobitoEventWebUrl', () => {
+  const envBackup = cloneDeep(getEnv())
+
+  afterEach(() => {
+    window.environment = cloneDeep(envBackup)
+  })
+
+  it('links to the event page on the configured Hitobito instance', () => {
+    window.environment = { HITOBITO_PBSMIDATA_BASE_URL: 'https://db.scout.ch' }
+    expect(hitobitoEventWebUrl('pbsmidata', '123')).toBe('https://db.scout.ch/events/123')
+  })
+
+  it('returns null for a provider without a configured Hitobito instance', () => {
+    expect(hitobitoEventWebUrl('unknownprovider', '123')).toBeNull()
   })
 })
 

@@ -23,6 +23,8 @@ export function getEnv() {
     FEATURE_DEVELOPER: (env.VITE_FEATURE_DEVELOPER ?? 'true') === 'true',
     FEATURE_COMMENTS: (env.VITE_FEATURE_COMMENTS ?? 'true') === 'true',
     FEATURE_HITOBITO: (env.VITE_FEATURE_HITOBITO ?? 'true') === 'true',
+    HITOBITO_PBSMIDATA_BASE_URL:
+      env.VITE_HITOBITO_PBSMIDATA_BASE_URL ?? 'https://pbs.puzzle.ch',
     LOGIN_INFO_TEXT_KEY: env.VITE_LOGIN_INFO_TEXT_KEY ?? 'dev',
   }
 }

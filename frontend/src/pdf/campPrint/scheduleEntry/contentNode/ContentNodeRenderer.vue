@@ -12,7 +12,7 @@
 import PdfComponent from '@/pdf/PdfComponent.js'
 import ColumnLayout from './ColumnLayout.vue'
 import ResponsiveLayout from './ResponsiveLayout.vue'
-import LAThematicArea from './LAThematicArea.vue'
+import MultiSelect from './MultiSelect.vue'
 import YSActivityCharacteristics from './YSActivityCharacteristics.vue'
 import LearningObjectives from './LearningObjectives.vue'
 import LearningTopics from './LearningTopics.vue'
@@ -41,7 +41,9 @@ export default {
       return {
         ColumnLayout,
         ResponsiveLayout,
-        LAThematicArea,
+        LAThematicArea: MultiSelect,
+        PBSMethods: MultiSelect,
+        PBSRelations: MultiSelect,
         YSActivityCharacteristics,
         LearningObjectives,
         LearningTopics,

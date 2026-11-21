@@ -32,5 +32,6 @@ data:
       FEATURE_DEVELOPER: {{ .Values.featureToggle.developer | default false }},
       FEATURE_COMMENTS: {{ .Values.featureToggle.comments | default false }},
       FEATURE_HITOBITO: {{ .Values.featureToggle.hitobito | default false }},
+      HITOBITO_PBSMIDATA_BASE_URL: '{{ .Values.api.oauth.pbsmidata.baseUrl }}',
       LOGIN_INFO_TEXT_KEY: '{{ .Values.frontend.loginInfoTextKey }}',
     }

@@ -11,8 +11,14 @@
             "removeColumn": "Remove empty column"
           }
         },
-        "lAThematicArea": {
+        "laThematicArea": {
           "placeholder": "Choose thematic area"
+        },
+        "pbsMethods": {
+          "placeholder": "Select methods"
+        },
+        "pbsRelations": {
+          "placeholder": "Select relationships"
         },
         "storyboard": {
           "controls": "Controls",
@@ -111,6 +117,7 @@
       },
       "campHitobitoSync": {
         "linked": "This camp is linked with {provider}.",
+        "openInProvider": "Open in {provider}",
         "sync": "Synchronize",
         "title": "Synchronize camp info"
       },
@@ -512,8 +519,8 @@
           "periods": "Period(s)",
           "portrait": "Portrait",
           "responsibles": "Responsibles",
-          "responsiblesAvatars": "Avatars",
-          "responsiblesNames": "Names"
+          "responsiblesAvatars": "As avatars",
+          "responsiblesNames": "As names"
         },
         "programConfig": {
           "dayOverview": "print day overview"
@@ -555,7 +562,9 @@
       },
       "printConfigurator": {
         "add": "Add content",
-        "compact": "Compact layout (less spacing, hide empty fields)",
+        "collapsePreview": "Collapse preview",
+        "compact": "Compact layout",
+        "compactDescription": "Less spacing, hide empty fields",
         "config": {
           "Activity": "Single activity",
           "ActivityList": "Activity list (courses)",
@@ -566,17 +575,27 @@
           "Story": "Story",
           "Toc": "Table of contents"
         },
+        "configuration": "Print settings",
         "contactLink": "Get in touch with us",
         "fontSize": "Font size",
+        "fontSizeDescriptions": {
+          "A3": "For printing on A4 or A3",
+          "A4": "For printing on A4 or A5",
+          "A5": "For printing on A6"
+        },
         "fontSizes": {
-          "A3": "Smaller (for printing on A4 or A3)",
-          "A4": "Normal (for printing on A4 or A5)",
-          "A5": "Bigger (for printing on A6)"
+          "A3": "Smaller",
+          "A4": "Normal",
+          "A5": "Bigger"
         },
         "layoutInfo": "We've combined the strengths of both print layouts into one new layout. Under «Settings», you can enable the compact layout, which is similar to the previous layout #2. Have we overlooked something, or has something stopped working? {contactLink}.",
         "layoutInfoTitle": "Where is the print layout selection?",
+        "moveDown": "Move down",
+        "moveUp": "Move up",
         "options": "Settings",
-        "pageNumbers": "Page numbers"
+        "pageNumbers": "Page numbers",
+        "preview": "Preview",
+        "showPreview": "Turn preview on"
       }
     },
     "program": {
@@ -744,6 +763,74 @@
     "notes": {
       "info": "Here you can enter any notes.{br}e.g. ideas, todo's, open questions, contacts, public transport connections, etc.",
       "name": "Notes"
+    },
+    "pbsMethods": {
+      "entity": {
+        "option": {
+          "gamesAndMovement": {
+            "description": "Enjoy games and support your health through regular physical activity.",
+            "name": "Games and movement"
+          },
+          "lawAndPromise": {
+            "description": "Reflect on Scout values and put them into practice in everyday life.",
+            "name": "Law and Promise"
+          },
+          "learningByDoing": {
+            "description": "Try things for yourself and learn from your successes and mistakes.",
+            "name": "Learning by doing"
+          },
+          "lifeInTheLittleGroup": {
+            "description": "Live and work in small groups, play an active part and take responsibility.",
+            "name": "Life in the little group"
+          },
+          "outdoorLife": {
+            "description": "Get to know and protect nature and learn to live outdoors with simple resources.",
+            "name": "Outdoor life"
+          },
+          "personalDevelopment": {
+            "description": "Develop your abilities at your own pace with guidance from experienced people.",
+            "name": "Personal development"
+          },
+          "ritualsAndSymbolism": {
+            "description": "Explore Scout principles through symbols and give Scout life structure through rituals and traditions.",
+            "name": "Rituals and symbolism"
+          },
+          "serviceToTheCommunity": {
+            "description": "Take part in projects that help others and benefit the community.",
+            "name": "Service to the community"
+          }
+        }
+      },
+      "info": "Select the Scout methods used in this activity.",
+      "name": "Scout methods"
+    },
+    "pbsRelations": {
+      "entity": {
+        "option": {
+          "body": {
+            "description": "Accept your body, recognise your needs and limits, and express yourself.",
+            "name": "Body"
+          },
+          "environment": {
+            "description": "Explore and shape your environment creatively while using natural resources responsibly.",
+            "name": "Environment"
+          },
+          "otherPeople": {
+            "description": "Meet others with openness and respect and share responsibility.",
+            "name": "Other people"
+          },
+          "personality": {
+            "description": "Discover your strengths, make decisions with confidence and reflect on your actions.",
+            "name": "Personality"
+          },
+          "spirituality": {
+            "description": "Reflect on your values and beliefs and be open to different forms of spirituality.",
+            "name": "Spirituality"
+          }
+        }
+      },
+      "info": "Select the Scout relationships developed in this activity.",
+      "name": "Scout relationships"
     },
     "responsiveLayout": {
       "mainContent": "Main content",

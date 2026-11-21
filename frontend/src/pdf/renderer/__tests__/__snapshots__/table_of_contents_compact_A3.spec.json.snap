@@ -33148,7 +33148,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "la-thematic-area-entry-text",
+                                        "class": "multi-select-entry-text",
                                       },
                                       "style": {
                                         "flexBasis": "0",
@@ -33159,7 +33159,7 @@
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "class": "la-thematic-area-entry la-thematic-area-entry-compact",
+                                    "class": "multi-select-entry multi-select-entry-compact",
                                     "key": 0,
                                   },
                                   "style": {
@@ -41518,7 +41518,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "la-thematic-area-entry-text",
+                                        "class": "multi-select-entry-text",
                                       },
                                       "style": {
                                         "flexBasis": "0",
@@ -41529,7 +41529,7 @@
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "class": "la-thematic-area-entry la-thematic-area-entry-compact",
+                                    "class": "multi-select-entry multi-select-entry-compact",
                                     "key": 0,
                                   },
                                   "style": {
@@ -41600,7 +41600,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "la-thematic-area-entry-text",
+                                        "class": "multi-select-entry-text",
                                       },
                                       "style": {
                                         "flexBasis": "0",
@@ -41611,7 +41611,7 @@
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "class": "la-thematic-area-entry la-thematic-area-entry-compact",
+                                    "class": "multi-select-entry multi-select-entry-compact",
                                     "key": 0,
                                   },
                                   "style": {
@@ -41682,7 +41682,7 @@
                                       ],
                                       "parent": [Circular],
                                       "props": {
-                                        "class": "la-thematic-area-entry-text",
+                                        "class": "multi-select-entry-text",
                                       },
                                       "style": {
                                         "flexBasis": "0",
@@ -41693,7 +41693,7 @@
                                   ],
                                   "parent": [Circular],
                                   "props": {
-                                    "class": "la-thematic-area-entry la-thematic-area-entry-compact",
+                                    "class": "multi-select-entry multi-select-entry-compact",
                                     "key": 0,
                                   },
                                   "style": {
