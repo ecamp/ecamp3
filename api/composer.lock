@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "672b454303b5880fb758da64c51c6008",
+  "content-hash": "7a7a52ca5f5ec4635403bcc4af259c17",
   "packages": [
     {
       "name": "api-platform/doctrine-common",
@@ -587,16 +587,16 @@
     },
     {
       "name": "api-platform/json-schema",
-      "version": "v5.0.6",
+      "version": "v5.0.7",
       "source": {
         "type": "git",
         "url": "https://github.com/api-platform/json-schema.git",
-        "reference": "35587c12ed24c78ba78b8408996006d1f8397dda"
+        "reference": "9df1b967d003e1d880bf571e37a3f779b2560914"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/api-platform/json-schema/zipball/35587c12ed24c78ba78b8408996006d1f8397dda",
-        "reference": "35587c12ed24c78ba78b8408996006d1f8397dda",
+        "url": "https://api.github.com/repos/api-platform/json-schema/zipball/9df1b967d003e1d880bf571e37a3f779b2560914",
+        "reference": "9df1b967d003e1d880bf571e37a3f779b2560914",
         "shasum": ""
       },
       "require": {
@@ -662,9 +662,10 @@
         "swagger"
       ],
       "support": {
-        "source": "https://github.com/api-platform/json-schema/tree/v5.0.6"
+        "source": "https://github.com/api-platform/json-schema/tree/v5.0.7"
       },
-      "time": "2026-11-03T15:33:35+00:00"
+      "time": "2026-11-13T13:22:54+00:00",
+      "published-time": "2026-11-13T14:11:40+00:00"
     },
     {
       "name": "api-platform/jsonld",
@@ -9211,7 +9212,8 @@
           "type": "tidelift"
         }
       ],
-      "time": "2026-09-24T05:20:52+00:00"
+      "time": "2026-09-24T05:20:52+00:00",
+      "published-time": "2026-09-30T10:23:49+00:00"
     },
     {
       "name": "symfony/property-access",
@@ -10845,7 +10847,8 @@
           "type": "tidelift"
         }
       ],
-      "time": "2026-10-12T14:32:04+00:00"
+      "time": "2026-10-12T14:32:04+00:00",
+      "published-time": "2026-10-14T06:48:53+00:00"
     },
     {
       "name": "symfony/validator",
