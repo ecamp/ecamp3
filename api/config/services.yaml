@@ -222,6 +222,15 @@ services:
                   priority: 12,
               }
 
+    App\HttpCache\CacheableResponseListener:
+        tags:
+            - {
+                  name: kernel.event_listener,
+                  event: kernel.response,
+                  method: onKernelResponse,
+                  priority: 5,
+              } # priority 5, executed after FOSHttpCacheBundle Listeners, which set the defaults
+
     App\HttpCache\CacheControlListener:
         arguments:
             $apiCacheEnabled: '%env(API_CACHE_ENABLED)%'
@@ -239,10 +248,6 @@ services:
         arguments:
             $apiCacheEnabled: '%env(API_CACHE_ENABLED)%'
             $varnishApiUrl: '%env(VARNISH_API_URL)%'
-
-    App\HttpCache\ResponseTagger:
-        arguments:
-            $matchPath: '%app.httpCache.matchPath%'
 
     # Entity Filter
     App\Doctrine\FilterByCurrentUserExtension:

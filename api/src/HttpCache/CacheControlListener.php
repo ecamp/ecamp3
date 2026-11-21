@@ -7,7 +7,7 @@ namespace App\HttpCache;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 /**
- * Disables cache and removed cache tags, if
+ * Disables cache and removes cache tags and cache headers, if
  * - caching is disabled (configurable via environment variable API_CACHE_ENABLED)
  * - total header size is too large to be handled by Varnish (configurable via parameter app.httpCache.maxHeaderSize).
  */
@@ -30,6 +30,8 @@ final readonly class CacheControlListener {
             $response->setCache(['no_cache' => true, 'private' => true]);
 
             $response->headers->remove($this->headerKey);
+            $response->headers->remove(CacheableResponseListener::HEADER_MODE);
+            $response->headers->remove(CacheableResponseListener::HEADER_SECURITY_DELEGATE);
 
             return;
         }

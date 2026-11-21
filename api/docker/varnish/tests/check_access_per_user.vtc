@@ -1,0 +1,58 @@
+varnishtest "The access check of the API is cached per login, but never shared between users"
+
+server s1 {
+    # user A: cache miss, authorized by the API itself
+    rxreq
+    expect req.url == "/camps/1/activities"
+    txresp -hdr "X-Cache-Debug: 1" -hdr "X-Cache-Mode: shared" -hdr "X-Cache-Security-Delegate: /api/camps/1" -hdr "Cache-Control: public, s-maxage=60" -body "activities"
+
+    # every other user needs an access check of their own
+    rxreq
+    expect req.url == "/authorization/check_access?iri=/api/camps/1"
+    expect req.http.Cookie ~ "jwt_s=sigB"
+    txresp -status 200 -hdr "Cache-Control: public, s-maxage=60"
+
+    rxreq
+    expect req.url == "/authorization/check_access?iri=/api/camps/1"
+    expect req.http.Cookie ~ "jwt_s=sigC"
+    txresp -status 200 -hdr "Cache-Control: public, s-maxage=60"
+} -start
+
+varnish v1 -vcl+backend {
+    include "${vcldir}/default.vcl";
+} -start
+
+client c1 {
+    txreq -url "/camps/1/activities" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpA; localhost_jwt_s=sigA"
+    rxresp
+    expect resp.http.X-Cache == "MISS"
+    expect resp.http.X-Cache-Access-Check == <undef>
+
+    # user B: the access check goes to the API, the answer is cached
+    txreq -url "/camps/1/activities" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpB; localhost_jwt_s=sigB"
+    rxresp
+    expect resp.http.X-Cache == "HIT"
+    expect resp.http.X-Cache-Access-Check == "MISS"
+
+    txreq -url "/camps/1/activities" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpB; localhost_jwt_s=sigB"
+    rxresp
+    expect resp.http.X-Cache == "HIT"
+    expect resp.http.X-Cache-Access-Check == "HIT"
+
+    # user C does not get the answer cached for user B
+    txreq -url "/camps/1/activities" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpC; localhost_jwt_s=sigC"
+    rxresp
+    expect resp.http.X-Cache == "HIT"
+    expect resp.http.X-Cache-Access-Check == "MISS"
+
+    # both answers are kept side by side
+    txreq -url "/camps/1/activities" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpB; localhost_jwt_s=sigB"
+    rxresp
+    expect resp.http.X-Cache-Access-Check == "HIT"
+
+    txreq -url "/camps/1/activities" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpC; localhost_jwt_s=sigC"
+    rxresp
+    expect resp.http.X-Cache-Access-Check == "HIT"
+} -run
+
+server s1 -wait

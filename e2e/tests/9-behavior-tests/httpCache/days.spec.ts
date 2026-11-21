@@ -1,20 +1,22 @@
 import { test, expect } from '@playwright/test'
 import {
   bipiUser,
-  bruceWayneUser,
+  castorUser,
   grgrPeriodId,
   harryMainPeriodId,
   harrySecondPeriodId,
+  bruceWayneUser,
 } from '@/utils/constants'
 import {
   expectCacheHit,
-  expectCacheMiss,
   waitForCacheMiss,
   apiGet,
+  purgeCache,
   apiPatch,
   apiPost,
   apiDelete,
   getAuthContext,
+  getCacheInfo,
 } from '@/utils/helpers'
 import collectionResponse from '@/test-data/httpCache/days_collection.json'
 
@@ -25,8 +27,6 @@ const addDays = (date: string, days: number) => {
 }
 
 const collectionXKeys =
-  /* campCollaboration for bipiUser */
-  'b0bdb7202a9d ' +
   /* days + links + dayResponsibles  */
   /* the first day also includes the period id 76be24bce434 and the camp's day numbers key */
   '4b90ff5b42c0 76be24bce434 3c79b99ab424^dayNumbers 4b90ff5b42c0#period 4b90ff5b42c0#scheduleEntries cf442e7381e9 cf442e7381e9#day cf442e7381e9#campCollaboration 4b90ff5b42c0#dayResponsibles ' +
@@ -39,7 +39,9 @@ const collectionXKeys =
 test.describe('cache test: /periods/{periodId}/days', { tag: '@mature' }, () => {
   test.describe.configure({ mode: 'serial' })
 
-  test('caches /periods/{periodId}/days separately for each login', async () => {
+  test.beforeEach(purgeCache)
+
+  test('shares cache for /periods/{periodId}/days between users with camp access', async () => {
     const uri = `/api/periods/${grgrPeriodId}/days`
 
     const bipiApi = await getAuthContext(bipiUser)
@@ -54,9 +56,16 @@ test.describe('cache test: /periods/{periodId}/days', { tag: '@mature' }, () => 
     // second request is a cache hit
     await expectCacheHit(bipiApi, uri)
 
-    // request with a new user is a cache miss
-    const bruceApi = await getAuthContext(bruceWayneUser)
-    await expectCacheMiss(bruceApi, uri)
+    // request with another user with access is a cache hit
+    const castorApi = await getAuthContext(castorUser)
+    await expectCacheHit(castorApi, uri)
+
+    // a user without access to the camp does not get the shared response
+    const outsiderApi = await getAuthContext(bruceWayneUser)
+    expect(await getCacheInfo(outsiderApi, uri)).toMatchObject({
+      status: 404,
+      cache: 'PASS',
+    })
   })
 
   test('invalidates /periods/{periodId}/days when changing the period dates', async () => {

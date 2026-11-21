@@ -1,0 +1,58 @@
+varnishtest "A response which varies by the user is cached separately for every login"
+
+server s1 {
+    # user A: cache miss, the backend gets the key of the login instead of a client supplied one
+    rxreq
+    expect req.url == "/camps/1/categories"
+    expect req.http.X-Cache-User ~ "^[0-9a-f]{64}$"
+    expect req.http.X-Cache-User !~ "sigA"
+    txresp -hdr "X-Cache-Debug: 1" -hdr "X-Cache-Mode: user" -hdr "Cache-Control: public, s-maxage=60" -body "A"
+
+    # user B does not get the response of user A
+    rxreq
+    expect req.url == "/camps/1/categories"
+    expect req.http.X-Cache-User ~ "^[0-9a-f]{64}$"
+    txresp -hdr "X-Cache-Debug: 1" -hdr "X-Cache-Mode: user" -hdr "Cache-Control: public, s-maxage=60" -body "B"
+
+    # without login, nothing of the others is served, whatever the client sends
+    rxreq
+    expect req.url == "/camps/1/categories"
+    expect req.http.X-Cache-User == <undef>
+    txresp -status 401 -hdr "X-Cache-Debug: 1"
+} -start
+
+varnish v1 -vcl+backend {
+    include "${vcldir}/default.vcl";
+} -start
+
+client c1 {
+    txreq -url "/camps/1/categories" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpA; localhost_jwt_s=sigA" -hdr "X-Cache-User: forged"
+    rxresp
+    expect resp.status == 200
+    expect resp.body == "A"
+    expect resp.http.X-Cache == "MISS"
+    expect resp.http.Vary ~ "X-Cache-User"
+
+    txreq -url "/camps/1/categories" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpA; localhost_jwt_s=sigA"
+    rxresp
+    expect resp.body == "A"
+    expect resp.http.X-Cache == "HIT"
+
+    txreq -url "/camps/1/categories" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpB; localhost_jwt_s=sigB"
+    rxresp
+    expect resp.status == 200
+    expect resp.body == "B"
+    expect resp.http.X-Cache == "MISS"
+
+    txreq -url "/camps/1/categories" -hdr "Accept: application/hal+json" -hdr "Cookie: localhost_jwt_hp=hpA; localhost_jwt_s=sigA"
+    rxresp
+    expect resp.body == "A"
+    expect resp.http.X-Cache == "HIT"
+
+    txreq -url "/camps/1/categories" -hdr "Accept: application/hal+json" -hdr "X-Cache-User: forged"
+    rxresp
+    expect resp.status == 401
+    expect resp.http.X-Cache == "PASS"
+} -run
+
+server s1 -wait
