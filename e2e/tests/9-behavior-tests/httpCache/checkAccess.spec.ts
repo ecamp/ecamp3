@@ -56,7 +56,7 @@ test.describe('check access: /api/authorization/check_access', { tag: '@mature' 
 
     const response = await apiCheckAccess(bruceApi, campIri(grgrCampId))
 
-    expect(response.status()).toBe(403)
+    expect(response.status()).toBe(404)
     expect(await response.json()).toEqual({ granted: false, iri: campIri(grgrCampId) })
   })
 
@@ -77,7 +77,7 @@ test.describe('check access: /api/authorization/check_access', { tag: '@mature' 
     const unknownResource = await apiCheckAccess(bipiApi, campIri('000000000000'))
 
     for (const response of [noResource, unknownResource]) {
-      expect(response.status()).toBe(403)
+      expect(response.status()).toBe(404)
     }
   })
 

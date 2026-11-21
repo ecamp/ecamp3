@@ -174,7 +174,7 @@ test.describe('cache test: /camps/{campId}/categories', () => {
     expect(notFoundRes.status()).toBe(404)
     expect(notFoundRes.headers()['x-cache']).toBe('PASS')
     const accessRes = await apiCheckAccess(castorApi, `/api/camps/${grgrCampId}`)
-    expect(accessRes.status()).toBe(403)
+    expect(accessRes.status()).toBe(404)
 
     // delete old emails
     const deleteMailsRes = await bipiApi.delete('/mail/api/email/all')

@@ -38,31 +38,31 @@ class CheckAccessTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
     }
 
-    public function testIsForbiddenForUnrelatedUserAndNotCacheable() {
+    public function testIsNotFoundForUnrelatedUserAndNotCacheable() {
         $response = $this->checkAccess($this->getIriFor('camp1'), ['email' => static::$fixtures['user4unrelated']->getEmail()]);
 
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(404);
         $this->assertJsonContains(['granted' => false, 'iri' => $this->getIriFor('camp1')]);
         $this->assertStringContainsString('private', $response->getHeaders(false)['cache-control'][0]);
         $this->assertStringNotContainsString('public', $response->getHeaders(false)['cache-control'][0]);
     }
 
-    public function testIsForbiddenForInactiveCollaborator() {
+    public function testIsNotFoundForInactiveCollaborator() {
         $this->checkAccess($this->getIriFor('camp1'), ['email' => static::$fixtures['user5inactive']->getEmail()]);
 
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testIsForbiddenForIriThatIsNoResource() {
+    public function testIsNotFoundForIriThatIsNoResource() {
         $this->checkAccess('public');
 
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testIsForbiddenForResourceThatDoesNotExist() {
+    public function testIsNotFoundForResourceThatDoesNotExist() {
         $this->checkAccess('/camps/000000000000');
 
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(404);
     }
 
     public function testIsBadRequestWithoutIri() {

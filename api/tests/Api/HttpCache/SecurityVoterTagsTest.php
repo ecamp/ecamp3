@@ -49,7 +49,7 @@ class SecurityVoterTagsTest extends ECampApiTestCase {
     public function testForbiddenCheckAccessIsNotTagged() {
         $response = $this->checkAccess('camp1', ['email' => static::$fixtures['user4unrelated']->getEmail()]);
 
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(404);
         $this->assertSame([], $this->getTags($response));
     }
 

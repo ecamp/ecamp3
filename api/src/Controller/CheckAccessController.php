@@ -31,14 +31,16 @@ class CheckAccessController {
             return new JsonResponse(['error' => "Query parameter 'iri' is required"], Response::HTTP_BAD_REQUEST);
         }
 
-        $ttl = $this->isGranted($iri) ? $this->jwtLifetime->getCacheTtl() : 0;
+        if (!$this->isGranted($iri)) {
+            // Not found, like the resource itself: users must not tell missing from forbidden resources
+            $response = new JsonResponse(['granted' => false, 'iri' => $iri], Response::HTTP_NOT_FOUND);
+            $response->setPrivate();
 
-        if ($ttl <= 0) {
-            return new JsonResponse(['granted' => false, 'iri' => $iri], Response::HTTP_FORBIDDEN);
+            return $response;
         }
 
         $response = new JsonResponse(['granted' => true, 'iri' => $iri], Response::HTTP_OK);
-        $response->setCache(['s_maxage' => $ttl]);
+        $response->setCache(['s_maxage' => $this->jwtLifetime->getCacheTtl()]);
 
         return $response;
     }

@@ -176,7 +176,7 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
     // everybody gets the answer of the API for their own login, nothing is taken from the cache
     for (const [api, status] of [
       [bipiApi, 200],
-      [bruceApi, 403],
+      [bruceApi, 404],
       [bipiApi, 200],
     ] as const) {
       const response = await checkAccess(api)
@@ -205,7 +205,7 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
           cache: 'MISS',
         })
         expect(await getCacheInfo(bruceApi, activitiesUri)).toMatchObject({ status: 404 })
-        expect((await apiCheckAccess(bruceApi, campUri)).status()).toBe(403)
+        expect((await apiCheckAccess(bruceApi, campUri)).status()).toBe(404)
 
         // making the camp public gives bruce access
         expect((await apiPatch(bipiApi, campUri, { isShared: true })).ok()).toBe(true)
@@ -230,7 +230,7 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
           status: 404,
           cache: 'PASS',
         })
-        expect((await apiCheckAccess(bruceApi, campUri)).status()).toBe(403)
+        expect((await apiCheckAccess(bruceApi, campUri)).status()).toBe(404)
         // the collaborator is not affected
         expect(await getCacheInfo(bipiApi, activitiesUri)).toMatchObject({ status: 200 })
       } finally {
@@ -280,7 +280,7 @@ test.describe('cache test: shared responses', { tag: '@mature' }, () => {
           status: 404,
           cache: 'PASS',
         })
-        expect((await apiCheckAccess(bruceApi, campUri)).status()).toBe(403)
+        expect((await apiCheckAccess(bruceApi, campUri)).status()).toBe(404)
         // the other collaborator is not affected
         expect(await getCacheInfo(bipiApi, activitiesUri)).toMatchObject({ status: 200 })
       } finally {
