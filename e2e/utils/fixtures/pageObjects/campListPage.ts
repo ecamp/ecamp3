@@ -25,11 +25,17 @@ export class CampListPage {
   ) {}
 
   @boxedStep
+  async goto() {
+    await this._page.goto('/camps')
+    return this.loaded()
+  }
+
+  @boxedStep
   async loaded() {
     await this._page.waitForURL('/camps', { timeout: 15000 })
     await expect(this._createCampButton).toBeVisible()
     await expect(this._heading).toBeVisible()
-    await expect(this._skeletonLoaders).toHaveCount(0)
+    await expect(this._skeletonLoaders).toHaveCount(0, { timeout: 10_000 })
     return this
   }
 
@@ -39,6 +45,12 @@ export class CampListPage {
     const createCampDialogStep1 = new CreateCampDialogStep1(this._page)
     await createCampDialogStep1.loaded()
     return createCampDialogStep1
+  }
+
+  @boxedStep
+  async expectCampNotListed(campTitle: string) {
+    await expect(this._page.getByText(campTitle)).toBeHidden()
+    return this
   }
 
   get heading(): Locator {

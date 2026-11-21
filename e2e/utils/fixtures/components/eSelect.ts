@@ -4,6 +4,10 @@ import { boxedStep } from '@/utils/decorators/boxedStep'
 export class ESelect {
   constructor(
     private readonly _locator: Locator,
+    private readonly _selectOpenLocator = _locator.page().locator('.v-overlay--active'),
+    private readonly _selectClosedLocator = _locator
+      .page()
+      .locator('.v-overlay--active:not(.v-dialog)'),
     private readonly _activator = _locator.locator('input[aria-expanded]'),
     private readonly _page = _locator.page()
   ) {}
@@ -17,7 +21,9 @@ export class ESelect {
 
   @boxedStep
   async select(value: string) {
-    await this._page.getByRole('option', { name: value, exact: true }).click()
+    const option = this._page.getByRole('option', { name: value, exact: true })
+    await expect(option).toBeVisible()
+    await option.click()
     await expect(this._activator).toHaveAttribute('aria-expanded', 'false')
     return this
   }
