@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "672b454303b5880fb758da64c51c6008",
+  "content-hash": "bb46ff8b4e85a8c9da5404e503b2e6cb",
   "packages": [
     {
       "name": "api-platform/doctrine-common",
@@ -847,7 +847,7 @@
     },
     {
       "name": "api-platform/openapi",
-      "version": "v5.0.6",
+      "version": "v5.0.7",
       "source": {
         "type": "git",
         "url": "https://github.com/api-platform/openapi.git",
@@ -932,9 +932,10 @@
         "swagger"
       ],
       "support": {
-        "source": "https://github.com/api-platform/openapi/tree/v5.0.6"
+        "source": "https://github.com/api-platform/openapi/tree/v5.0.7"
       },
-      "time": "2026-11-06T08:24:38+00:00"
+      "time": "2026-11-06T08:24:38+00:00",
+      "published-time": "2026-11-13T14:11:04+00:00"
     },
     {
       "name": "api-platform/serializer",
@@ -7498,7 +7499,8 @@
           "type": "tidelift"
         }
       ],
-      "time": "2026-11-04T08:39:20+00:00"
+      "time": "2026-11-04T08:39:20+00:00",
+      "published-time": "2026-11-04T11:32:01+00:00"
     },
     {
       "name": "symfony/finder",
