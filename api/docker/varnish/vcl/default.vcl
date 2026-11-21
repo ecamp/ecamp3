@@ -168,12 +168,6 @@ sub vcl_backend_response {
   call vcl_beresp_control;
   call vcl_beresp_vary;
 
-  # a grant must not be served after it expired
-  if (bereq.http.X-Cache-Phase == "access_check") {
-    set beresp.grace = 0s;
-    set beresp.keep = 0s;
-  }
-
   return (deliver);
 }
 
