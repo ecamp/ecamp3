@@ -34,7 +34,6 @@ use Doctrine\ORM\PersistentCollection;
 use FOS\HttpCacheBundle\CacheManager;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 /**
  * Purges responses containing modified entities from the proxy cache.
@@ -49,7 +48,7 @@ final readonly class PurgeHttpCacheListener {
         private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
         private CacheManager $cacheManager,
         private EntityManagerInterface $em,
-        private NameConverterInterface $nameConverter,
+        private RelationTagResolver $relationTagResolver,
     ) {}
 
     /**
@@ -245,6 +244,10 @@ final readonly class PurgeHttpCacheListener {
                 continue;
             }
 
+            if (!$this->relationTagResolver->shouldTagProperty($associationMapping['targetEntity'], $relatedProperty)) {
+                continue;
+            }
+
             if (!$this->propertyAccessor->isReadable($entity, $property)) {
                 continue;
             }
@@ -292,7 +295,7 @@ final readonly class PurgeHttpCacheListener {
                 $iri = $this->iriConverter->getIriFromResource($value);
             }
             if ($iri && $property) {
-                $iri = CacheTag::forRelation($iri, $this->nameConverter->normalize($property, $this->getObjectClass($value)));
+                $iri = $this->relationTagResolver->createRelationTag($iri, $this->getObjectClass($value), $property);
             }
             if ($iri) {
                 $this->cacheManager->invalidateTags([$iri]);

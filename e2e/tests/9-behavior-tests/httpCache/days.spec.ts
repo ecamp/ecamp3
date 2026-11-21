@@ -29,10 +29,10 @@ const collectionXKeys =
   'b0bdb7202a9d ' +
   /* days + links + dayResponsibles  */
   /* the first day also includes the period id 76be24bce434 and the camp's day numbers key */
-  '4b90ff5b42c0 76be24bce434 3c79b99ab424^dayNumbers 4b90ff5b42c0#period 4b90ff5b42c0#scheduleEntries cf442e7381e9 cf442e7381e9#day cf442e7381e9#campCollaboration 4b90ff5b42c0#dayResponsibles ' +
-  'ac92acd57c49 ac92acd57c49#period ac92acd57c49#scheduleEntries c58a08b98726 c58a08b98726#day c58a08b98726#campCollaboration ac92acd57c49#dayResponsibles ' +
-  '1447f15f1e12 1447f15f1e12#period 1447f15f1e12#scheduleEntries db401ffc07e6 db401ffc07e6#day db401ffc07e6#campCollaboration 1447f15f1e12#dayResponsibles ' +
-  '963c3c0639dd 963c3c0639dd#period 963c3c0639dd#scheduleEntries 981300f9ef5c 981300f9ef5c#day 981300f9ef5c#campCollaboration 963c3c0639dd#dayResponsibles ' +
+  '4b90ff5b42c0 76be24bce434 3c79b99ab424^dayNumbers cf442e7381e9 4b90ff5b42c0#dayResponsibles ' +
+  'ac92acd57c49 c58a08b98726 ac92acd57c49#dayResponsibles ' +
+  '1447f15f1e12 db401ffc07e6 1447f15f1e12#dayResponsibles ' +
+  '963c3c0639dd 981300f9ef5c 963c3c0639dd#dayResponsibles ' +
   /* collection URI (for detecting addition of new days) */
   '/api/periods/76be24bce434/days'
 
