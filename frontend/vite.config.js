@@ -41,7 +41,7 @@ const plugins = [
     autoImport: {
       labs: true,
     },
-    styles: { configFile: 'src/scss/settings.scss' },
+    styles: process.env.VITEST ? 'none' : { configFile: 'src/scss/settings.scss' },
   }),
 ]
 const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN
