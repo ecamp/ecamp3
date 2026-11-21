@@ -74,7 +74,7 @@
     "js-cookie": "3.0.8",
     "linkify-it": "6.1.0",
     "lodash-es": "4.18.1",
-    "pdfkit": "0.20.1",
+    "pdfkit": "0.20.2",
     "runes": "0.4.3",
     "slugify": "1.6.9",
     "url-template": "3.1.1",
