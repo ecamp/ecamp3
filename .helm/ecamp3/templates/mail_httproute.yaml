@@ -18,14 +18,14 @@ spec:
         - path:
             type: PathPrefix
             value: {{ .Values.mail.subpath }}
+      {{- if and .Values.gateway.basicAuth.enabled (.Values.gateway.className | contains "traefik") }}
       filters:
-        {{- if and .Values.gateway.basicAuth.enabled (.Values.gateway.className | contains "traefik") }}
         - type: ExtensionRef
           extensionRef:
             group: traefik.io
             kind: Middleware
             name: {{ printf "%s-basic-auth" (include "app.name" .) | quote }}
-        {{- end }}
+      {{- end }}
       backendRefs:
         - name: {{ include "mail.name" . }}
           port: {{ .Values.mail.service.port }}
