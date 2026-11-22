@@ -33,6 +33,24 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    App\Service\Image\ImageProcessor:
+        arguments:
+            $maxBytes: '%env(int:IMAGE_MAX_BYTES)%'
+            $maxPixels: '%env(int:IMAGE_MAX_PIXELS)%'
+            $maxDimension: '%env(int:IMAGE_MAX_DIMENSION)%'
+            $quality: '%env(int:IMAGE_AVIF_QUALITY)%'
+
+    Aws\S3\S3ClientInterface:
+        factory: ['@App\Service\Image\S3ClientFactory', 'create']
+        arguments:
+            $options:
+                version: '2006-03-01'
+                region: '%env(IMAGE_STORAGE_REGION)%'
+                endpoint: '%env(IMAGE_STORAGE_ENDPOINT)%'
+                use_path_style_endpoint: '%env(bool:IMAGE_STORAGE_PATH_STYLE)%'
+
+    League\Flysystem\FilesystemOperator: '@image.storage'
+
     App\Validator\MaterialItemUpdateGroupSequence:
         public: true
 

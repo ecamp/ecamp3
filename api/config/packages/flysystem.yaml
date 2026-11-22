@@ -1,0 +1,14 @@
+flysystem:
+    storages:
+        image.storage.local:
+            local:
+                directory: '%env(resolve:IMAGE_STORAGE_PATH)%/%env(IMAGE_STORAGE_PREFIX)%'
+                lazy_root_creation: true
+        image.storage.s3:
+            aws:
+                client: Aws\S3\S3ClientInterface
+                bucket: '%env(IMAGE_STORAGE_BUCKET)%'
+                prefix: '%env(IMAGE_STORAGE_PREFIX)%'
+        image.storage:
+            lazy:
+                source: 'image.storage.%env(IMAGE_STORAGE)%'

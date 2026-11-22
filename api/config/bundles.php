@@ -11,6 +11,7 @@ use FOS\HttpCacheBundle\FOSHttpCacheBundle;
 use Gesdinet\JWTRefreshTokenBundle\GesdinetJWTRefreshTokenBundle;
 use Hautelook\AliceBundle\HautelookAliceBundle;
 use KnpU\OAuth2ClientBundle\KnpUOAuth2ClientBundle;
+use League\FlysystemBundle\FlysystemBundle;
 use Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle;
 use Nelmio\Alice\Bridge\Symfony\NelmioAliceBundle;
 use Nelmio\CorsBundle\NelmioCorsBundle;
@@ -27,6 +28,7 @@ use Twig\Extra\TwigExtraBundle\TwigExtraBundle;
 
 return [
     FrameworkBundle::class => ['all' => true],
+    FlysystemBundle::class => ['all' => true],
     SecurityBundle::class => ['all' => true],
     TwigBundle::class => ['all' => true],
     DoctrineBundle::class => ['all' => true],

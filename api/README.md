@@ -4,6 +4,35 @@ After starting the project using `docker compose up -d`, you can visit the API d
 
 To use the API, you will need to log in. You can use the "Login" endpoint offered in the Swagger UI for this. The example credentials should work fine in development.
 
+### Image uploads
+
+JPEG, PNG, WebP, AVIF, GIF, BMP and SVG inputs are converted to AVIF with JPEG EXIF
+orientation applied and metadata removed. GIFs use the first frame. SVGs are
+rasterized with librsvg from standard input without access to external files.
+SVG rendering is limited to 10 seconds and 512 MiB of address space. Raster images
+are never upscaled. Limits are configured through
+`IMAGE_MAX_BYTES`, `IMAGE_MAX_PIXELS`, `IMAGE_MAX_DIMENSION` and `IMAGE_AVIF_QUALITY`.
+PHP's `upload_max_filesize`, `post_max_size` and upstream request limits must also
+permit the configured upload size. Available PHP memory can impose a lower limit.
+
+`IMAGE_STORAGE=local` stores files in `IMAGE_STORAGE_PATH`, outside the public
+directory. Deployments need persistent storage accessible to their API replicas.
+For S3-compatible storage, set `IMAGE_STORAGE=s3`, `IMAGE_STORAGE_BUCKET`,
+`IMAGE_STORAGE_REGION` and optionally `IMAGE_STORAGE_ENDPOINT` and
+`IMAGE_STORAGE_PATH_STYLE`. Credentials use the AWS SDK credential chain, including
+`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and optionally `AWS_SESSION_TOKEN`.
+The bucket must remain private.
+
+`IMAGE_STORAGE_PREFIX` isolates deployments within a bucket or local directory.
+File operations use Flysystem with local and AWS S3 adapters. The backend is
+selected with `IMAGE_STORAGE`.
+Files use `images/{sha256}` below this prefix. The hash is calculated from the
+converted bytes. Repeated uploads reuse the camp image. Images in different camps
+can share a stored file.
+Changing storage configuration does not migrate existing files. Storage writes
+cannot be rolled back with database transactions; failed transactions can leave
+unreferenced files without a database record; these are not covered by cleanup.
+
 ### Manually using the API without a browser
 
 If you ever need to get an API token for manual use, you can use the following command:

@@ -254,6 +254,8 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
+      - run: sudo apt-get update && sudo apt-get install --no-install-recommends -y librsvg2-bin fonts-dejavu-core util-linux
+
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5.12'

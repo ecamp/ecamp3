@@ -21,9 +21,12 @@ WORKDIR /app
 RUN apt-get update && apt-get install --no-install-recommends -y \
 	acl \
 	file \
+	fonts-dejavu-core \
 	gettext \
 	git \
+	librsvg2-bin \
 	patch \
+	util-linux \
 	&& rm -rf /var/lib/apt/lists/*
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
@@ -39,6 +42,8 @@ RUN set -eux; \
 	install-php-extensions \
 	@composer \
 	intl \
+	gd \
+	exif \
 	zip \
 	apcu \
 	opcache \
