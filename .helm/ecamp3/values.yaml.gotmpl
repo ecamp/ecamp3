@@ -26,6 +26,10 @@ featureToggle:
   hitobito: {{ .Environment.Values | getOrNil "FEATURE_HITOBITO" | default false }}
 
 api:
+  imageCleanup:
+    enabled: {{ .Environment.Values | getOrNil "IMAGE_CLEANUP_ENABLED" | default false }}
+    schedule: {{ .Environment.Values | getOrNil "IMAGE_CLEANUP_SCHEDULE" | default "0 3 * * *" | quote }}
+    timeZone: {{ .Environment.Values | getOrNil "IMAGE_CLEANUP_TIME_ZONE" | default "Europe/Zurich" | quote }}
   imageStorage:
     driver: {{ .Environment.Values | getOrNil "IMAGE_STORAGE" | default "local" | quote }}
     existingClaim: {{ .Environment.Values | getOrNil "IMAGE_STORAGE_EXISTING_CLAIM" | default "" | quote }}

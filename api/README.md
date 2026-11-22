@@ -47,6 +47,24 @@ Changing storage configuration does not migrate existing files. Storage writes
 cannot be rolled back with database transactions; failed transactions can leave
 unreferenced files without a database record; these are not covered by cleanup.
 
+### Image cleanup
+
+Run `app:cleanup-camp-images` followed by `app:cleanup-image-files` using `php bin/console`.
+The first command records when an image is found unused and clears that
+timestamp when the image is referenced again. The second command deletes each
+camp image that has been marked unused for more than one week. The stored file
+is deleted when its last camp image is removed. Storage failures retain the last
+camp image for a subsequent attempt. Deleting the last camp that
+owns a file removes its final database reference, so this cleanup cannot find
+the remaining file.
+
+The Helm CronJob is enabled with `IMAGE_CLEANUP_ENABLED=true`. Its defaults are
+`IMAGE_CLEANUP_SCHEDULE="0 3 * * *"` and `IMAGE_CLEANUP_TIME_ZONE="Europe/Zurich"`.
+It runs both commands sequentially. For local storage, `IMAGE_STORAGE_EXISTING_CLAIM`
+must name a persistent volume claim accessible to the API and cleanup pods.
+For S3, `IMAGE_STORAGE_CREDENTIALS_SECRET` can name a Secret containing AWS credential
+environment variables; workload credentials from the AWS SDK chain also work.
+
 ### Manually using the API without a browser
 
 If you ever need to get an API token for manual use, you can use the following command:
