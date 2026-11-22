@@ -32,4 +32,9 @@ class EntityMap {
     public function getTargetCamp(): Camp {
         return $this->targetCamp;
     }
+
+    /** @return BaseEntity[] */
+    public function getEntities(): array {
+        return array_values($this->map);
+    }
 }

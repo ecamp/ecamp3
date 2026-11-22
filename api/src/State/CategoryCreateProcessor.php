@@ -8,6 +8,7 @@ use App\Entity\Activity;
 use App\Entity\Category;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentType;
+use App\Service\Image\CampImageCopyService;
 use App\State\Util\AbstractPersistProcessor;
 use App\Util\EntityMap;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,6 +20,7 @@ class CategoryCreateProcessor extends AbstractPersistProcessor {
     public function __construct(
         ProcessorInterface $decorated,
         private readonly EntityManagerInterface $em,
+        private readonly CampImageCopyService $campImageCopyService,
     ) {
         parent::__construct($decorated);
     }
@@ -42,6 +44,7 @@ class CategoryCreateProcessor extends AbstractPersistProcessor {
             // A source to copy is set -> copy it's content (rootContentNode)
             $entityMap = new EntityMap($data->camp);
             $rootContentNode->copyFromPrototype($data->copyCategorySource->getRootContentNode(), $entityMap);
+            $this->campImageCopyService->copy($entityMap);
 
             $sourceCategory = $data->copyCategorySource;
             if ($sourceCategory instanceof Activity) {

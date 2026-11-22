@@ -6,11 +6,14 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Category;
 use App\Entity\ContentType;
+use App\Service\Image\CampImageCopyService;
+use App\Service\Image\CampImageReadAccess;
 use App\State\CategoryCreateProcessor;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @internal
@@ -27,7 +30,8 @@ class CategoryCreateProcessorTest extends TestCase {
         $decoratedProcessor = $this->createStub(ProcessorInterface::class);
         $this->processor = new CategoryCreateProcessor(
             $decoratedProcessor,
-            $this->entityManagerStub
+            $this->entityManagerStub,
+            new CampImageCopyService($this->entityManagerStub, new CampImageReadAccess($this->entityManagerStub, $this->createStub(Security::class))),
         );
     }
 

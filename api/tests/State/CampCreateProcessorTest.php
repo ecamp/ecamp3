@@ -12,6 +12,8 @@ use App\Entity\User;
 use App\Repository\CampRepository;
 use App\Service\Hitobito\ClientProvider;
 use App\Service\Hitobito\EventAccessChecker;
+use App\Service\Image\CampImageCopyService;
+use App\Service\Image\CampImageReadAccess;
 use App\State\CampCreateProcessor;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
@@ -42,6 +44,7 @@ class CampCreateProcessorTest extends TestCase {
             $this->createStub(ClientProvider::class),
             $this->createStub(EventAccessChecker::class),
             $this->createStub(CampRepository::class),
+            new CampImageCopyService($this->em, new CampImageReadAccess($this->em, $this->security)),
         );
     }
 

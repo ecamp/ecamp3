@@ -9,10 +9,13 @@ use App\Entity\Camp;
 use App\Entity\Category;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentType;
+use App\Service\Image\CampImageCopyService;
+use App\Service\Image\CampImageReadAccess;
 use App\State\ActivityCreateProcessor;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @internal
@@ -44,7 +47,7 @@ class ActivityCreateProcessorTest extends TestCase {
         $em->method('getRepository')->willReturn($repository);
         $repository->method('findOneBy')->willReturn($contentType);
 
-        $this->processor = new ActivityCreateProcessor($decoratedProcessor, $em);
+        $this->processor = new ActivityCreateProcessor($decoratedProcessor, $em, new CampImageCopyService($em, new CampImageReadAccess($em, $this->createStub(Security::class))));
     }
 
     public function testSetsCampFromCategory() {
