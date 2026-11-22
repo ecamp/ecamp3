@@ -5,6 +5,7 @@ import jsonStringifyReactiveValue from '@/components/print/jsonStringifyReactive
 import axios from 'axios'
 import { getEnv } from '@/environment.js'
 import * as Sentry from '@sentry/browser'
+import { prepareImages } from '@/pdf/prepareImages.js'
 
 const PRINT_URL = getEnv().PRINT_URL
 
@@ -12,6 +13,11 @@ export const generatePdf = async (data, onProgress) => {
   await prepareInMainThread(data.config)
 
   const serializableData = prepareDataForSerialization(data)
+  serializableData.images = await prepareImages(
+    serializableData.storeData.api,
+    undefined,
+    serializableData.config.camp
+  )
   const start = new Date()
   let status = 500
   try {
