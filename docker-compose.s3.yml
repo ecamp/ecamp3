@@ -1,0 +1,34 @@
+services:
+  api:
+    environment:
+      IMAGE_STORAGE: s3
+      IMAGE_STORAGE_BUCKET: ecamp3-images
+      IMAGE_STORAGE_ENDPOINT: http://s3:8333
+      IMAGE_STORAGE_REGION: eu-central-1
+      IMAGE_STORAGE_PATH_STYLE: 'true'
+      AWS_ACCESS_KEY_ID: ecamp3
+      AWS_SECRET_ACCESS_KEY: ecamp3-local-development
+    depends_on:
+      s3:
+        condition: service_healthy
+
+  s3:
+    image: chrislusf/seaweedfs:4.54
+    command: ['mini', '-dir=/data', '-ip=s3']
+    environment:
+      AWS_ACCESS_KEY_ID: ecamp3
+      AWS_SECRET_ACCESS_KEY: ecamp3-local-development
+      S3_BUCKET: ecamp3-images
+    volumes:
+      - s3-data:/data
+    ports:
+      - '127.0.0.1:8333:8333'
+    healthcheck:
+      test: ['CMD', 'curl', '-fsS', 'http://localhost:8333/healthz']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+
+volumes:
+  s3-data:

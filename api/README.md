@@ -47,6 +47,29 @@ Changing storage configuration does not migrate existing files. Storage writes
 cannot be rolled back with database transactions; failed transactions can leave
 unreferenced files without a database record; these are not covered by cleanup.
 
+### Local S3 development
+
+The optional SeaweedFS container provides an S3-compatible endpoint with persistent
+storage. To enable it, add this to the repository root `.env`:
+
+```dotenv
+COMPOSE_FILE=docker-compose.yml:docker-compose.override.yml:docker-compose.s3.yml
+```
+
+Then run `docker compose up -d`. The API uses S3, and the `ecamp3-images` bucket is
+created automatically. The endpoint is `http://s3:8333` inside Docker and
+`http://localhost:8333` on the host. The local access key is `ecamp3`, the secret key
+is `ecamp3-local-development`, and the region is `eu-central-1`. Data is stored in
+the `s3-data` Docker volume. Requests from eCamp continue to use the regular API
+image URLs and access checks.
+
+Remove `COMPOSE_FILE` and run `docker compose up -d api` to use local files again.
+Files are not migrated between backends. Stop the optional container with
+`docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.s3.yml stop s3`.
+
+API tests use local files. When the S3 variant is running, use
+`docker compose exec -e IMAGE_STORAGE=local api composer test <test-path>`.
+
 ### Image cleanup
 
 Run `app:cleanup-camp-images` followed by `app:cleanup-image-files` using `php bin/console`.
