@@ -2,7 +2,10 @@
 
 namespace App\Tests\Api\ContentNodes\SingleText;
 
+use App\Entity\Camp;
+use App\Entity\CampImage;
 use App\Tests\Api\ContentNodes\UpdateContentNodeTestCase;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @internal
@@ -16,6 +19,62 @@ class UpdateSingleTextTest extends UpdateContentNodeTestCase {
         $this->defaultEntity = static::getFixture('singleText1');
         $this->campPrototypeEntity = static::getFixture('singleTextCampPrototype');
         $this->sharedCampEntity = static::getFixture('singleTextCampShared');
+    }
+
+    public function testPatchPreservesCampImageDescriptionAndWidth(): void {
+        $client = static::createClientWithCredentials();
+        $em = static::getContainer()->get(EntityManagerInterface::class);
+        $image = new CampImage();
+        $image->camp = $em->find(Camp::class, static::$fixtures['camp1']->getId());
+        $image->sha256 = hash('sha256', 'single-text-image');
+        $image->mediaType = 'image/avif';
+        $em->persist($image);
+        $em->flush();
+        $src = '/api/images/'.$image->sha256.'/content';
+        $response = $client->request('PATCH', $this->endpoint.'/'.$this->defaultEntity->getId(), [
+            'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            'json' => ['data' => ['html' => '<p><img src="'.$src.'" alt="Tent" width="320"></p>']],
+        ]);
+        self::assertResponseStatusCodeSame(200);
+        $html = $response->toArray()['data']['html'];
+        self::assertStringContainsString('src="'.$src.'"', $html);
+        self::assertStringContainsString('alt="Tent"', $html);
+        self::assertStringContainsString('width="320"', $html);
+    }
+
+    public function testPatchRejectsAnUnknownCampImage(): void {
+        $client = static::createClientWithCredentials();
+        $src = '/api/images/'.str_repeat('0', 64).'/content';
+        $client->request('PATCH', $this->endpoint.'/'.$this->defaultEntity->getId(), [
+            'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            'json' => ['data' => ['html' => '<img src="'.$src.'" alt="">']],
+        ]);
+        self::assertResponseStatusCodeSame(422);
+    }
+
+    public function testPatchRejectsAnImageAssignedOnlyToAnotherCamp(): void {
+        $client = static::createClientWithCredentials();
+        $em = static::getContainer()->get(EntityManagerInterface::class);
+        $image = new CampImage();
+        $image->camp = $em->find(Camp::class, static::$fixtures['camp2']->getId());
+        $image->sha256 = hash('sha256', 'other camp image');
+        $image->mediaType = 'image/avif';
+        $em->persist($image);
+        $em->flush();
+
+        $client->request('PATCH', $this->endpoint.'/'.$this->defaultEntity->getId(), [
+            'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            'json' => ['data' => ['html' => '<img src="/api/images/'.$image->sha256.'/content">']],
+        ]);
+        self::assertResponseStatusCodeSame(422);
+    }
+
+    public function testPatchRejectsAnExternalImage(): void {
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$this->defaultEntity->getId(), [
+            'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            'json' => ['data' => ['html' => '<img src="https://example.org/image.png" alt="">']],
+        ]);
+        self::assertResponseStatusCodeSame(422);
     }
 
     public function testPatchText() {
