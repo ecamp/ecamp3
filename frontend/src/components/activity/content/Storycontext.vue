@@ -3,6 +3,7 @@
     <api-richtext
       :uri="contentNode._meta.self"
       path="data.html"
+      :image-camp-id="camp.id"
       :placeholder="$t('contentNode.storycontext.name')"
       rows="2"
       auto-grow
