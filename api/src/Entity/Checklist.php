@@ -58,6 +58,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             securityPostDenormalize: '(is_granted("CHECKLIST_IS_PROTOTYPE", object) and is_granted("ROLE_ADMIN")) or
                                       (!is_granted("CHECKLIST_IS_PROTOTYPE", object) and (is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.camp === null))
                                      ',
+            validationContext: ['groups' => ['Default', 'create']],
             processor: ChecklistCreateProcessor::class
         ),
         new GetCollection(
@@ -90,8 +91,8 @@ class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPr
      */
     #[ApiProperty(example: '/camps/1a2b3c4d')]
     #[Groups(['read', 'create'])]
-    #[Assert\Expression('!(this.isPrototype == true and this.camp != null)', 'This value should be null.')]
-    #[Assert\Expression('!(this.isPrototype == false and this.camp == null)', 'This value should not be null.')]
+    #[Assert\Expression('!(this.isPrototype == true and this.camp != null)', 'This value should be null.', groups: ['create'])]
+    #[Assert\Expression('!(this.isPrototype == false and this.camp == null)', 'This value should not be null.', groups: ['create'])]
     #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'checklists')]
     #[ORM\JoinColumn(onDelete: 'cascade')]
     public ?Camp $camp = null;

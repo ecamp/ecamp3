@@ -57,7 +57,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Post(
             denormalizationContext: ['groups' => ['write', 'create']],
             securityPostDenormalize: '(is_granted("CHECKLIST_IS_PROTOTYPE", object) and is_granted("ROLE_ADMIN")) or
-                                      (!is_granted("CHECKLIST_IS_PROTOTYPE", object) and (is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.checklist === null))
+                                      is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object) or object.checklist === null
                                      '
         ),
         new GetCollection(

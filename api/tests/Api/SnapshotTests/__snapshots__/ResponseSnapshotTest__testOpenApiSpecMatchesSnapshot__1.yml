@@ -16082,6 +16082,44 @@ components:
         - checklistItems
         - name
       type: object
+    Checklist-read_validation.Default_create:
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
+      properties:
+        camp:
+          description: 'The camp this checklist belongs to.'
+          example: /camps/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        checklistItems:
+          description: 'All ChecklistItems that belong to this Checklist.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        isPrototype:
+          default: false
+          description: 'Whether this checklist is a template.'
+          example: true
+          type: boolean
+        name:
+          description: 'The human readable name of the checklist.'
+          example: 'PBS Ausbildungsziele'
+          maxLength: 32
+          type: string
+      required:
+        - checklistItems
+        - name
+      type: object
     Checklist-read_validation.delete:
       description: |-
         A Checklist
@@ -16114,6 +16152,59 @@ components:
           description: 'The human readable name of the checklist.'
           example: 'PBS Ausbildungsziele'
           type: string
+      type: object
+    Checklist-validation.Default_create:
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
+      properties:
+        camp:
+          description: 'The camp this checklist belongs to.'
+          example: /camps/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        checklistItems:
+          description: 'All ChecklistItems that belong to this Checklist.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
+        checklistPrototypeId:
+          description: |-
+            The id of the checklist that was used as a template for creating this checklist. Internal for now, is
+            not published through the API.
+          maxLength: 16
+          type:
+            - 'null'
+            - string
+        copyChecklistSource:
+          description: 'Copy contents from this source checklist.'
+          example: /checklists/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        isPrototype:
+          default: false
+          description: 'Whether this checklist is a template.'
+          example: true
+          type: boolean
+        name:
+          description: 'The human readable name of the checklist.'
+          example: 'PBS Ausbildungsziele'
+          maxLength: 32
+          type: string
+      required:
+        - checklistItems
+        - name
       type: object
     Checklist-validation.delete:
       description: |-
@@ -16173,7 +16264,39 @@ components:
           maxLength: 32
           type: string
       type: object
-    Checklist-write_create:
+    Checklist-write_create.jsonMergePatch:
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
+      properties:
+        camp:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Camp-write_create.jsonMergePatch'
+            -
+              type: 'null'
+          description: 'The camp this checklist belongs to.'
+          example: /camps/1a2b3c4d
+        copyChecklistSource:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Checklist-write_create.jsonMergePatch'
+            -
+              type: 'null'
+          description: 'Copy contents from this source checklist.'
+          example: /checklists/1a2b3c4d
+        isPrototype:
+          default: false
+          description: 'Whether this checklist is a template.'
+          example: true
+          type: boolean
+        name:
+          description: 'The human readable name of the checklist.'
+          example: 'PBS Ausbildungsziele'
+          maxLength: 32
+          type: string
+      type: object
+    Checklist-write_create_validation.Default_create:
       description: |-
         A Checklist
         Tree-Structure with ChecklistItems.
@@ -16207,27 +16330,30 @@ components:
       required:
         - name
       type: object
-    Checklist-write_create.jsonMergePatch:
+    Checklist.html-read:
       description: |-
         A Checklist
         Tree-Structure with ChecklistItems.
       properties:
         camp:
-          anyOf:
-            -
-              $ref: '#/components/schemas/Camp-write_create.jsonMergePatch'
-            -
-              type: 'null'
           description: 'The camp this checklist belongs to.'
           example: /camps/1a2b3c4d
-        copyChecklistSource:
-          anyOf:
-            -
-              $ref: '#/components/schemas/Checklist-write_create.jsonMergePatch'
-            -
-              type: 'null'
-          description: 'Copy contents from this source checklist.'
-          example: /checklists/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        checklistItems:
+          description: 'All ChecklistItems that belong to this Checklist.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
         isPrototype:
           default: false
           description: 'Whether this checklist is a template.'
@@ -16238,8 +16364,11 @@ components:
           example: 'PBS Ausbildungsziele'
           maxLength: 32
           type: string
+      required:
+        - checklistItems
+        - name
       type: object
-    Checklist.html-read:
+    Checklist.html-read_validation.Default_create:
       description: |-
         A Checklist
         Tree-Structure with ChecklistItems.
@@ -16380,6 +16509,135 @@ components:
                 $ref: '#/components/schemas/ChecklistItem.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
+    Checklist.jsonapi-validation.Default_create:
+      properties:
+        data:
+          $ref: '#/components/schemas/Checklist.jsonapi-validation.Default_create.resource'
+        included:
+          description: 'Related resources requested via the "include" query parameter.'
+          externalDocs:
+            url: 'https://jsonapi.org/format/#fetching-includes'
+          items:
+            anyOf:
+              -
+                $ref: '#/components/schemas/Camp.jsonapi.resource'
+              -
+                $ref: '#/components/schemas/Checklist.jsonapi.resource'
+              -
+                $ref: '#/components/schemas/ChecklistItem.jsonapi.resource'
+          readOnly: true
+          type: array
+      type: object
+    Checklist.jsonapi-validation.Default_create.input:
+      properties:
+        data:
+          $ref: '#/components/schemas/Checklist.jsonapi-validation.Default_create.input.resource'
+      type: object
+    Checklist.jsonapi-validation.Default_create.input.resource:
+      properties:
+        attributes:
+          properties:
+            _id:
+              description: 'An internal, unique, randomly generated identifier of this entity.'
+              example: 1a2b3c4d
+              maxLength: 16
+              readOnly: true
+              type: string
+            checklistPrototypeId:
+              description: |-
+                The id of the checklist that was used as a template for creating this checklist. Internal for now, is
+                not published through the API.
+              maxLength: 16
+              type:
+                - 'null'
+                - string
+            isPrototype:
+              default: false
+              description: 'Whether this checklist is a template.'
+              example: true
+              type: boolean
+            name:
+              description: 'The human readable name of the checklist.'
+              example: 'PBS Ausbildungsziele'
+              maxLength: 32
+              type: string
+          type: object
+        id:
+          type: string
+        relationships:
+          properties:
+            camp:
+              properties:
+                data:
+                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
+            checklistItems:
+              properties:
+                data:
+                  items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }
+                  type: array
+            copyChecklistSource:
+              properties:
+                data:
+                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
+          type: object
+        type:
+          type: string
+      required:
+        - type
+      type: object
+    Checklist.jsonapi-validation.Default_create.resource:
+      properties:
+        attributes:
+          properties:
+            _id:
+              description: 'An internal, unique, randomly generated identifier of this entity.'
+              example: 1a2b3c4d
+              maxLength: 16
+              readOnly: true
+              type: string
+            checklistPrototypeId:
+              description: |-
+                The id of the checklist that was used as a template for creating this checklist. Internal for now, is
+                not published through the API.
+              maxLength: 16
+              type:
+                - 'null'
+                - string
+            isPrototype:
+              default: false
+              description: 'Whether this checklist is a template.'
+              example: true
+              type: boolean
+            name:
+              description: 'The human readable name of the checklist.'
+              example: 'PBS Ausbildungsziele'
+              maxLength: 32
+              type: string
+          type: object
+        id:
+          type: string
+        relationships:
+          properties:
+            camp:
+              properties:
+                data:
+                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
+            checklistItems:
+              properties:
+                data:
+                  items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }
+                  type: array
+            copyChecklistSource:
+              properties:
+                data:
+                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
+          type: object
+        type:
+          type: string
+      required:
+        - id
+        - type
       type: object
     Checklist.jsonapi-validation.delete:
       properties:
@@ -16577,6 +16835,22 @@ components:
       description: |-
         A Checklist
         Tree-Structure with ChecklistItems.
+    Checklist.jsonhal-read_validation.Default_create:
+      allOf:
+        -
+          $ref: '#/components/schemas/Checklist-read_validation.Default_create'
+        -
+          properties:
+            _links:
+              properties:
+                self:
+                  properties: { href: { format: iri-reference, type: string } }
+                  type: object
+              type: object
+          type: object
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
     Checklist.jsonhal-read_validation.delete:
       allOf:
         -
@@ -16593,10 +16867,10 @@ components:
       description: |-
         A Checklist
         Tree-Structure with ChecklistItems.
-    Checklist.jsonhal-write_create:
+    Checklist.jsonhal-write_create_validation.Default_create:
       allOf:
         -
-          $ref: '#/components/schemas/Checklist-write_create'
+          $ref: '#/components/schemas/Checklist-write_create_validation.Default_create'
         -
           properties:
             _links:
@@ -16610,6 +16884,48 @@ components:
         A Checklist
         Tree-Structure with ChecklistItems.
     Checklist.jsonld-read:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          properties:
+            camp:
+              description: 'The camp this checklist belongs to.'
+              example: /camps/1a2b3c4d
+              format: iri-reference
+              type:
+                - 'null'
+                - string
+            checklistItems:
+              description: 'All ChecklistItems that belong to this Checklist.'
+              example: 'https://example.com/'
+              format: iri-reference
+              readOnly: true
+              type: string
+            id:
+              description: 'An internal, unique, randomly generated identifier of this entity.'
+              example: 1a2b3c4d
+              maxLength: 16
+              readOnly: true
+              type: string
+            isPrototype:
+              default: false
+              description: 'Whether this checklist is a template.'
+              example: true
+              type: boolean
+            name:
+              description: 'The human readable name of the checklist.'
+              example: 'PBS Ausbildungsziele'
+              maxLength: 32
+              type: string
+          required:
+            - checklistItems
+            - name
+          type: object
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
+    Checklist.jsonld-read_validation.Default_create:
       allOf:
         -
           $ref: '#/components/schemas/HydraItemBaseSchema'
@@ -54134,19 +54450,19 @@ paths:
         content:
           application/hal+json:
             schema:
-              $ref: '#/components/schemas/Checklist.jsonhal-write_create'
+              $ref: '#/components/schemas/Checklist.jsonhal-write_create_validation.Default_create'
           application/json:
             schema:
-              $ref: '#/components/schemas/Checklist-write_create'
+              $ref: '#/components/schemas/Checklist-write_create_validation.Default_create'
           application/ld+json:
             schema:
-              $ref: '#/components/schemas/Checklist-write_create'
+              $ref: '#/components/schemas/Checklist-write_create_validation.Default_create'
           application/vnd.api+json:
             schema:
-              $ref: '#/components/schemas/Checklist.jsonapi.input'
+              $ref: '#/components/schemas/Checklist.jsonapi-validation.Default_create.input'
           text/html:
             schema:
-              $ref: '#/components/schemas/Checklist-write_create'
+              $ref: '#/components/schemas/Checklist-write_create_validation.Default_create'
         description: 'The new Checklist resource'
         required: true
       responses:
@@ -54154,19 +54470,19 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/Checklist.jsonhal-read'
+                $ref: '#/components/schemas/Checklist.jsonhal-read_validation.Default_create'
             application/json:
               schema:
-                $ref: '#/components/schemas/Checklist-read'
+                $ref: '#/components/schemas/Checklist-read_validation.Default_create'
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/Checklist.jsonld-read'
+                $ref: '#/components/schemas/Checklist.jsonld-read_validation.Default_create'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/Checklist.jsonapi'
+                $ref: '#/components/schemas/Checklist.jsonapi-validation.Default_create'
             text/html:
               schema:
-                $ref: '#/components/schemas/Checklist.html-read'
+                $ref: '#/components/schemas/Checklist.html-read_validation.Default_create'
           description: 'Checklist resource created'
           links: []
         400:

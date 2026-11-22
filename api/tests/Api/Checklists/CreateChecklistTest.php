@@ -68,6 +68,30 @@ class CreateChecklistTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreatePrototypeChecklistInOwnCampIsDeniedForMember() {
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
+            ->request('POST', '/checklists', ['json' => $this->getExampleWritePayload(['isPrototype' => true])])
+        ;
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
+    public function testCreatePrototypeChecklistInOwnCampIsDeniedForManager() {
+        static::createClientWithCredentials()
+            ->request('POST', '/checklists', ['json' => $this->getExampleWritePayload(['isPrototype' => true])])
+        ;
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
     // Camp-Checklist
 
     public function testCreateChecklistIsDeniedForAnonymousUser() {
