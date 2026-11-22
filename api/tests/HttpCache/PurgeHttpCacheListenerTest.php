@@ -623,6 +623,7 @@ class PurgeHttpCacheListenerTest extends TestCase {
         $emProphecy->method('getClassMetadata')->willReturn($classMetadata);
 
         $propertyAccessorProphecy = $this->createMock(PropertyAccessorInterface::class);
+        $propertyAccessorProphecy->expects($this->never())->method('isReadable');
         $propertyAccessorProphecy->expects($this->never())->method('getValue');
 
         $listener = new PurgeHttpCacheListener(
