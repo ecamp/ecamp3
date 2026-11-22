@@ -39,6 +39,7 @@
                 density="compact"
                 :readonly="!editMode"
                 path="data.html"
+                :image-camp-id="day.period().camp().id"
                 label=""
               />
             </api-form>
