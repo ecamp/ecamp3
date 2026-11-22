@@ -9,7 +9,9 @@ use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentNode\Storyboard;
 use App\InputFilter\CleanHTMLFilter;
 use App\InputFilter\CleanTextFilter;
+use App\Service\Image\ImageReferenceValidator;
 use App\State\ContentNode\StoryboardPersistProcessor;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -61,7 +63,7 @@ class StoryboardPersistProcessorTest extends TestCase {
         $this->contentNode->parent = new ColumnLayout();
         $this->contentNode->parent->root = $this->root;
 
-        $this->processor = new StoryboardPersistProcessor($decoratedProcessor, $cleanHTMLFilter, $cleanTextFilter);
+        $this->processor = new StoryboardPersistProcessor($decoratedProcessor, $cleanHTMLFilter, $cleanTextFilter, new ImageReferenceValidator($this->createStub(EntityManagerInterface::class)));
     }
 
     public function testSetsRootFromParentOnCreate() {

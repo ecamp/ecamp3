@@ -6,6 +6,15 @@ use Dom\HTMLDocument;
 
 final class HtmlImageReferences {
     /** @return list<string> */
+    public static function htmlFromData(array $data): array {
+        if (isset($data['html'])) {
+            return [$data['html']];
+        }
+
+        return array_column($data['sections'] ?? [], 'column2Html');
+    }
+
+    /** @return list<string> */
     public function extract(string $html): array {
         $references = [];
         if ('' === $html) {

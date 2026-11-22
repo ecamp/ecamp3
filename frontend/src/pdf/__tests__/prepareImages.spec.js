@@ -91,3 +91,27 @@ it('downloads images from the configured API root', async () => {
     `https://api.example.org/custom/images/${'abcdef0123456789'.repeat(4)}/content`
   )
 })
+
+it('prepares images in all storyboard sections together with notes', async () => {
+  const otherSrc = `/api/images/${'b'.repeat(64)}/content`
+  const data = storeWithHtml(`<p><img src="${imageSrc}"></p>`)
+  data['/content_node/storyboards/1'] = {
+    root: { href: '/content_nodes/1' },
+    data: {
+      sections: {
+        first: { column2Html: '<p>Start</p>' },
+        second: { column2Html: `<p><img src="${imageSrc}"></p>` },
+        third: { column2Html: `<p><img src="${otherSrc}"></p>` },
+      },
+    },
+  }
+  const convert = vi.fn(async () => 'data:image/png;base64,png')
+
+  expect(await prepareImages(data, convert, camp)).toEqual({
+    [imageSrc]: 'data:image/png;base64,png',
+    [otherSrc]: 'data:image/png;base64,png',
+  })
+  expect(convert).toHaveBeenCalledTimes(2)
+  expect(convert).toHaveBeenCalledWith(imageSrc)
+  expect(convert).toHaveBeenCalledWith(otherSrc)
+})

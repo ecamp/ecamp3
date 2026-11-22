@@ -4,6 +4,7 @@ namespace App\Service\Image;
 
 use App\Entity\CampImage;
 use App\Entity\ContentNode\SingleText;
+use App\Entity\ContentNode\Storyboard;
 use App\Util\EntityMap;
 use Doctrine\ORM\EntityManagerInterface;
 use Dom\HTMLDocument;
@@ -19,14 +20,15 @@ final readonly class CampImageCopyService {
         $targetCamp = $entityMap->getTargetCamp();
         $copied = [];
         foreach ($entityMap->getEntities() as $entity) {
-            if (!$entity instanceof SingleText) {
+            if (!$entity instanceof SingleText && !$entity instanceof Storyboard) {
                 continue;
             }
-            if (!str_contains($entity->data['html'], '<img')) {
+            $html = implode("\n", HtmlImageReferences::htmlFromData($entity->data ?? []));
+            if (!str_contains($html, '<img')) {
                 continue;
             }
 
-            $document = HTMLDocument::createFromString($entity->data['html'], LIBXML_NOERROR, 'UTF-8');
+            $document = HTMLDocument::createFromString($html, LIBXML_NOERROR, 'UTF-8');
             foreach ($document->getElementsByTagName('img') as $image) {
                 $hash = HtmlImageReferences::hashFromPath($image->getAttribute('src'));
                 if (null === $hash) {

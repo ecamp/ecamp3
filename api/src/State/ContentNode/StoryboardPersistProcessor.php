@@ -8,6 +8,7 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Entity\ContentNode\Storyboard;
 use App\InputFilter\CleanHTMLFilter;
 use App\InputFilter\CleanTextFilter;
+use App\Service\Image\ImageReferenceValidator;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -17,7 +18,8 @@ class StoryboardPersistProcessor extends ContentNodePersistProcessor {
     public function __construct(
         ProcessorInterface $decorated,
         private readonly CleanHTMLFilter $cleanHTMLFilter,
-        private readonly CleanTextFilter $cleanTextFilter
+        private readonly CleanTextFilter $cleanTextFilter,
+        private readonly ImageReferenceValidator $imageReferenceValidator,
     ) {
         parent::__construct($decorated);
     }
@@ -47,6 +49,7 @@ class StoryboardPersistProcessor extends ContentNodePersistProcessor {
         foreach ($data->data['sections'] as &$section) {
             $section = $this->cleanTextFilter->applyTo($section, 'column1');
             $section = $this->cleanHTMLFilter->applyTo($section, 'column2Html');
+            $this->imageReferenceValidator->validate($section['column2Html'], $data->getCamp());
             $section = $this->cleanTextFilter->applyTo($section, 'column3');
         }
 

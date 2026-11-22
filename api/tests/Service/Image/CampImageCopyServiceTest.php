@@ -5,6 +5,7 @@ namespace App\Tests\Service\Image;
 use App\Entity\Camp;
 use App\Entity\CampImage;
 use App\Entity\ContentNode\SingleText;
+use App\Entity\ContentNode\Storyboard;
 use App\Service\Image\CampImageCopyService;
 use App\Service\Image\CampImageReadAccess;
 use App\Util\EntityMap;
@@ -83,6 +84,27 @@ class CampImageCopyServiceTest extends TestCase {
         self::assertStringContainsString($this->sourceUrl(), $node->data['html']);
         self::assertNull($this->existing->unreferencedSince);
         self::assertSame($this->source->sha256, $this->existing->sha256);
+    }
+
+    public function testCopiesImageOnceAcrossNotesAndStoryboardSections(): void {
+        $map = new EntityMap(new Camp());
+        $html = '<p><img src="'.$this->sourceUrl().'" alt="Map" width="320"></p>';
+        $source = new Storyboard();
+        $source->data = ['sections' => [
+            'first' => ['column2Html' => '<p>Start</p>'],
+            'second' => ['column2Html' => $html],
+            'third' => ['column2Html' => $html],
+        ]];
+        $target = new Storyboard();
+        $target->copyFromPrototype($source, $map);
+        $this->addNote($map, $html);
+        $this->em->expects(self::once())->method('persist')->with(self::callback(
+            fn (CampImage $image) => $image->camp === $map->getTargetCamp() && $image->sha256 === $this->source->sha256
+        ));
+
+        $this->service->copy($map);
+
+        self::assertSame($source->data, $target->data);
     }
 
     public function testKeepsReferencesWithinTheSameCampUnchanged(): void {

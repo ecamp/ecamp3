@@ -1,6 +1,7 @@
 import { expect, it } from 'vitest'
 import { h } from 'vue'
 import RichText from '../campPrint/RichText.vue'
+import Storyboard from '../campPrint/scheduleEntry/contentNode/Storyboard.vue'
 import { renderVueToPdfStructure } from '../renderer/vueRenderer.js'
 
 it('renders formatted inline images outside PDF text nodes', () => {
@@ -33,4 +34,36 @@ it('renders formatted inline images outside PDF text nodes', () => {
   )
   expect(serialized).toContain('Before')
   expect(serialized).toContain('After')
+})
+
+it('renders an image-only storyboard section in the program column', () => {
+  const src = `/api/images/${'a'.repeat(64)}/content`
+  const contentNode = {
+    contentTypeName: 'Storyboard',
+    data: {
+      sections: {
+        first: {
+          column1: '',
+          column2Html: `<p><img src="${src}" alt="Map" width="320"></p>`,
+          column3: '',
+          position: 0,
+        },
+      },
+    },
+  }
+  const result = renderVueToPdfStructure(
+    {
+      render: () => h('Document', {}, [h('Page', {}, [h(Storyboard, { contentNode })])]),
+    },
+    { images: { [src]: 'data:image/png;base64,png' }, $tc: (key) => key }
+  )
+  const programImages = []
+  function visit(node, inProgram = false) {
+    inProgram ||= node.props?.class?.includes('storyboard-column-2') ?? false
+    if (inProgram && node.type === 'IMAGE') programImages.push(node)
+    node.children?.forEach((child) => visit(child, inProgram))
+  }
+  visit(result)
+  expect(programImages).toHaveLength(1)
+  expect(programImages[0].props.src).toBe('data:image/png;base64,png')
 })

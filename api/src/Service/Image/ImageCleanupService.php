@@ -30,11 +30,13 @@ final readonly class ImageCleanupService {
                     }
                     $referenced = [];
                     foreach ($this->connection->iterateColumn(
-                        "SELECT n.data->>'html' FROM content_node n JOIN view_camp_root_content_nodes owner ON owner.rootcontentnodeid = n.rootid WHERE owner.campid = :camp AND n.strategy = 'singletext'",
+                        "SELECT n.data FROM content_node n JOIN view_camp_root_content_nodes owner ON owner.rootcontentnodeid = n.rootid WHERE owner.campid = :camp AND n.strategy IN ('singletext', 'storyboard') AND n.data IS NOT NULL",
                         ['camp' => $campId],
-                    ) as $html) {
-                        foreach ($this->references->extract($html ?? '') as $hash) {
-                            $referenced[$hash] = true;
+                    ) as $data) {
+                        foreach (HtmlImageReferences::htmlFromData(json_decode($data, true, flags: JSON_THROW_ON_ERROR)) as $html) {
+                            foreach ($this->references->extract($html) as $hash) {
+                                $referenced[$hash] = true;
+                            }
                         }
                     }
                     $now = $this->clock->now()->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d H:i:s');

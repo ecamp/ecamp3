@@ -8,7 +8,9 @@ use App\Entity\Camp;
 use App\Entity\CampImage;
 use App\Entity\Category;
 use App\Entity\ContentNode\SingleText;
+use App\Entity\ContentNode\Storyboard;
 use App\Entity\ContentType;
+use App\Service\Image\HtmlImageReferences;
 use App\Tests\Api\ECampApiTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -17,7 +19,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 class CopyCampImageTest extends ECampApiTestCase {
     #[DataProvider('copyOperations')]
-    public function testCopiesImageReferencesIntoTheTargetCamp(string $entityClass, string $endpoint, string $sourceFixture): void {
+    public function testCopiesImageReferencesIntoTheTargetCamp(string $entityClass, string $endpoint, string $sourceFixture, string $nodeClass = SingleText::class): void {
         $client = static::createClientWithCredentials();
         $client->disableReboot();
         $em = $this->getEntityManager();
@@ -30,12 +32,16 @@ class CopyCampImageTest extends ECampApiTestCase {
 
         $sourceClass = 'activity1' === $sourceFixture ? Activity::class : Category::class;
         $root = $em->find($sourceClass, static::getFixture($sourceFixture)->getId())->getRootContentNode();
-        $note = new SingleText();
-        $note->contentType = $em->find(ContentType::class, static::getFixture('contentTypeNotes')->getId());
+        $note = new $nodeClass();
+        $note->contentType = $em->find(ContentType::class, static::getFixture(Storyboard::class === $nodeClass ? 'contentTypeStoryboard' : 'contentTypeNotes')->getId());
         $note->instanceName = 'copied image note';
         $note->slot = '1';
         $note->root = $root;
-        $note->data = ['html' => '<p>Text<img src="/api/images/'.$image->sha256.'/content" alt="Zelt" width="320"></p>'];
+        $html = '<p>Text<img src="/api/images/'.$image->sha256.'/content" alt="Zelt" width="320"></p>';
+        $sectionKey = 'cb26d76a-9e3b-43f0-a7c4-0f2ad0ea8029';
+        $note->data = Storyboard::class === $nodeClass
+            ? ['sections' => [$sectionKey => ['column1' => '', 'column2Html' => $html, 'column3' => '', 'position' => 0]]]
+            : ['html' => $html];
         $root->addChild($note);
         $root->addRootDescendant($note);
         $em->persist($note);
@@ -48,7 +54,7 @@ class CopyCampImageTest extends ECampApiTestCase {
         $targetRoot = $created instanceof Camp
             ? $this->getEntityManager()->getRepository(Category::class)->findOneBy(['camp' => $created, 'categoryPrototypeId' => static::getFixture($sourceFixture)->getId()])->getRootContentNode()
             : $created->getRootContentNode();
-        $copiedNote = $this->getEntityManager()->getRepository(SingleText::class)->findOneBy(['root' => $targetRoot, 'instanceName' => $note->instanceName]);
+        $copiedNote = $this->getEntityManager()->getRepository($nodeClass)->findOneBy(['root' => $targetRoot, 'instanceName' => $note->instanceName]);
         $targetImages = $this->getEntityManager()->getRepository(CampImage::class)->findBy(['camp' => $targetCamp]);
 
         self::assertCount(1, $targetImages);
@@ -56,14 +62,18 @@ class CopyCampImageTest extends ECampApiTestCase {
         self::assertNotSame($image->getId(), $targetImage->getId());
         self::assertSame($image->sha256, $targetImage->sha256);
         self::assertNotNull($copiedNote);
-        self::assertStringContainsString('/api/images/'.$targetImage->sha256.'/content', $copiedNote->data['html']);
-        self::assertStringContainsString('alt="Zelt"', $copiedNote->data['html']);
-        self::assertStringContainsString('width="320"', $copiedNote->data['html']);
-        self::assertStringContainsString('/api/images/'.$image->sha256.'/content', $note->data['html']);
+        $copiedHtml = implode("\n", HtmlImageReferences::htmlFromData($copiedNote->data));
+        self::assertStringContainsString('/api/images/'.$targetImage->sha256.'/content', $copiedHtml);
+        self::assertStringContainsString('alt="Zelt"', $copiedHtml);
+        self::assertStringContainsString('width="320"', $copiedHtml);
+        self::assertStringContainsString('/api/images/'.$image->sha256.'/content', implode("\n", HtmlImageReferences::htmlFromData($note->data)));
 
-        $client->request('PATCH', '/content_node/single_texts/'.$copiedNote->getId(), [
+        $editedData = Storyboard::class === $nodeClass
+            ? ['sections' => [$sectionKey => ['column2Html' => $copiedHtml.'<p>Edited</p>']]]
+            : ['html' => $copiedHtml.'<p>Edited</p>'];
+        $client->request('PATCH', '/content_node/'.(Storyboard::class === $nodeClass ? 'storyboards' : 'single_texts').'/'.$copiedNote->getId(), [
             'headers' => ['Content-Type' => 'application/merge-patch+json'],
-            'json' => ['data' => ['html' => $copiedNote->data['html'].'<p>Edited</p>']],
+            'json' => ['data' => $editedData],
         ]);
         self::assertResponseStatusCodeSame(200);
     }
@@ -74,6 +84,12 @@ class CopyCampImageTest extends ECampApiTestCase {
         yield 'category' => [Category::class, '/categories', 'activity1'];
 
         yield 'camp' => [Camp::class, '/camps', 'category1'];
+
+        yield 'activity storyboard' => [Activity::class, '/activities', 'activity1', Storyboard::class];
+
+        yield 'category storyboard' => [Category::class, '/categories', 'activity1', Storyboard::class];
+
+        yield 'camp storyboard' => [Camp::class, '/camps', 'category1', Storyboard::class];
     }
 
     private function copyPayload(string $entityClass): array {

@@ -27,6 +27,7 @@
       <api-richtext
         :label="$t('contentNode.storyboard.entity.section.fields.column2Html')"
         :path="`data.sections[${itemKey}].column2Html`"
+        :image-camp-id="camp.id"
         rows="4"
         :disabled="layoutMode || disabled"
       />
@@ -65,6 +66,7 @@ import DialogRemoveSection from './StoryboardDialogRemoveSection.vue'
 export default {
   name: 'StoryboardRowDefault',
   components: { DialogRemoveSection },
+  inject: ['camp'],
   props: {
     isLastSection: { type: Boolean, required: true },
     itemKey: { type: String, required: true },

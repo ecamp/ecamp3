@@ -5,11 +5,13 @@ namespace App\Tests\Api\CampImages;
 use App\Entity\Camp;
 use App\Entity\CampImage;
 use App\Entity\ContentNode\SingleText;
+use App\Entity\ContentNode\Storyboard;
 use App\Service\Image\HtmlImageReferences;
 use App\Service\Image\ImageCleanupService;
 use App\Tests\Api\ECampApiTestCase;
 use Doctrine\DBAL\Connection;
 use League\Flysystem\FilesystemOperator;
+use PHPUnit\Framework\Attributes\TestWith;
 use Symfony\Component\Clock\MockClock;
 
 /** @internal */
@@ -44,17 +46,29 @@ class CleanupImagesTest extends ECampApiTestCase {
         self::assertSame('2026-11-01 12:00:00', $this->imageTimestamp());
     }
 
-    public function testReactivatesAnImageReferencedByHtml(): void {
+    #[TestWith([false])]
+    #[TestWith([true])]
+    public function testReactivatesAnImageReferencedByHtml(bool $storyboard): void {
         $this->cleanup->cleanupCampImages();
         $this->clock->modify('+4 days');
-        $this->referenceImage();
+        $this->referenceImage(storyboard: $storyboard);
 
         $this->cleanup->cleanupCampImages();
 
         self::assertNull($this->imageTimestamp());
-        $this->referenceImage('');
+        $this->referenceImage('', $storyboard);
         $this->cleanup->cleanupCampImages();
         self::assertSame('2026-11-05 12:00:00', $this->imageTimestamp());
+    }
+
+    public function testKeepsAFileReferencedOnlyByAStoryboard(): void {
+        $this->referenceImage(storyboard: true);
+
+        self::assertSame(['marked' => 0, 'reactivated' => 0], $this->cleanup->cleanupCampImages());
+        $this->clock->modify('+8 days');
+        $this->cleanup->cleanupCampImages();
+        self::assertSame(['images' => 0, 'files' => 0], $this->cleanup->cleanupImageFiles());
+        self::assertNull($this->imageTimestamp());
     }
 
     public function testDeletesEachCampImageAfterItsOwnGracePeriod(): void {
@@ -183,9 +197,14 @@ class CleanupImagesTest extends ECampApiTestCase {
         return new ImageCleanupService($this->db, new HtmlImageReferences(), $storage, $this->clock);
     }
 
-    private function referenceImage(?string $html = null): void {
-        $note = $this->getEntityManager()->find(SingleText::class, static::getFixture('singleText1')->getId());
-        $note->data = ['html' => $html ?? '<p><IMG SRC="/images/'.$this->image->sha256.'/content" alt="Tent"></p>'];
+    private function referenceImage(?string $html = null, bool $storyboard = false): void {
+        $note = $this->getEntityManager()->find($storyboard ? Storyboard::class : SingleText::class, static::getFixture($storyboard ? 'storyboard1' : 'singleText1')->getId());
+        $html ??= '<p><IMG SRC="/images/'.$this->image->sha256.'/content" alt="Tent"></p>';
+        if ($storyboard) {
+            $note->data['sections']['cb26d76a-9e3b-43f0-a7c4-0f2ad0ea8029']['column2Html'] = $html;
+        } else {
+            $note->data = ['html' => $html];
+        }
         $this->getEntityManager()->flush();
     }
 
