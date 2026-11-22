@@ -40,6 +40,13 @@ services:
             $maxDimension: '%env(int:IMAGE_MAX_DIMENSION)%'
             $quality: '%env(int:IMAGE_AVIF_QUALITY)%'
 
+    App\Service\Image\ImageDelivery:
+        arguments:
+            $driver: '%env(IMAGE_STORAGE)%'
+            $directory: '%env(resolve:IMAGE_STORAGE_PATH)%'
+            $prefix: '%env(IMAGE_STORAGE_PREFIX)%'
+            $bucket: '%env(IMAGE_STORAGE_BUCKET)%'
+
     Aws\S3\S3ClientInterface:
         factory: ['@App\Service\Image\S3ClientFactory', 'create']
         arguments:

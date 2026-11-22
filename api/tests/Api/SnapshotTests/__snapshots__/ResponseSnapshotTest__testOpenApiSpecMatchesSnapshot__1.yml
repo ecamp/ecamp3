@@ -13793,6 +13793,62 @@ components:
                 - string
           type: object
       description: 'A user participating in some way in the planning or realization of a camp.'
+    CampImage.avif:
+      properties:
+        camp:
+          example: 'https://example.com/'
+          format: iri-reference
+          type: string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        mediaType:
+          description: 'Media type of the stored image.'
+          maxLength: 255
+          pattern: '^(.*\Aimage/[a-zA-Z0-9.+-]+\z.*)$'
+          type: string
+        sha256:
+          description: 'SHA-256 hash of the processed image bytes.'
+          maxLength: 64
+          pattern: '^(.*\A[0-9a-f]{64}\z.*)$'
+          type: string
+        unreferencedSince:
+          format: date-time
+          type:
+            - 'null'
+            - string
+      required:
+        - camp
+        - mediaType
+        - sha256
+      type: object
+    CampImageUpload-read:
+      properties:
+        byteSize:
+          description: 'The processed file size in bytes.'
+          type: integer
+        height:
+          description: 'The processed image height in pixels.'
+          type: integer
+        id:
+          description: 'The identifier of the image within the camp.'
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        mediaType:
+          description: 'The media type of the processed image.'
+          type: string
+        src:
+          description: 'The camp image URL.'
+          type: string
+        width:
+          description: 'The processed image width in pixels.'
+          type: integer
+      type: object
     CampRootContentNode:
       properties:
         camp:
@@ -58773,6 +58829,112 @@ paths:
       summary: 'Retrieves the collection of HitobitoEventParticipant resources.'
       tags:
         - HitobitoEventParticipant
+  /images:
+    post:
+      description: 'Upload an image to a camp'
+      operationId: camp_image_upload
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                campId:
+                  pattern: '^[0-9a-f]{12,16}$'
+                  type: string
+                file:
+                  format: binary
+                  type: string
+              required:
+                - campId
+                - file
+              type: object
+        description: 'The new CampImageUpload resource'
+        required: true
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampImageUpload-read'
+          description: 'CampImageUpload resource created'
+          links: []
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+          description: 'An error occurred'
+          links: []
+      summary: 'Upload an image to a camp'
+      tags:
+        - CampImageUpload
+  '/images/{sha256}/content':
+    get:
+      description: 'Read a camp image'
+      operationId: camp_image_download
+      parameters:
+        -
+          deprecated: false
+          description: 'CampImage identifier'
+          explode: false
+          in: path
+          name: sha256
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        200:
+          content:
+            image/avif:
+              schema:
+                format: binary
+                type: string
+          description: 'The processed image'
+        304:
+          description: 'The image has not changed'
+        401:
+          description: 'Authentication required'
+        403:
+          description: 'Access denied'
+        404:
+          description: 'Image not found'
+      summary: 'Read a camp image'
+      tags:
+        - CampImage
   '/invitations/{inviteKey}/accept':
     patch:
       description: 'Use myInviteKey2 to accept an invitation in dev environment.'
@@ -62003,6 +62165,12 @@ tags:
       Progress labels in a camp.
       To each activity one label can be assigned.
     name: ActivityProgressLabel
+  -
+    description: "Resource 'CampImage' operations."
+    name: CampImage
+  -
+    description: "Resource 'CampImageUpload' operations."
+    name: CampImageUpload
   -
     description: "Resource 'ChecklistNode' operations."
     name: ChecklistNode

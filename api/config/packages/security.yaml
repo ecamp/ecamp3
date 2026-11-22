@@ -18,7 +18,7 @@ security:
                 class: App\Entity\User
     firewalls:
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            pattern: '^/(?:(?:_(?:profiler|wdt)|css|js)/|images/(?![0-9a-f]{64}/content$))'
             security: false
         main:
             stateless: true
@@ -42,6 +42,11 @@ security:
                 - App\Security\OAuth\HitobitoAuthenticator
 
     access_control:
+        - {
+              path: '^/images/[0-9a-f]{64}/content$',
+              methods: [GET, HEAD],
+              roles: PUBLIC_ACCESS,
+          }
         - { path: ^/docs, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
         - { path: ^/?$, roles: PUBLIC_ACCESS } # Without /, the frontend does not know how to login
         - { path: ^/authentication_token, roles: PUBLIC_ACCESS } # Endpoint to login

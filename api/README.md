@@ -6,6 +6,20 @@ To use the API, you will need to log in. You can use the "Login" endpoint offere
 
 ### Image uploads
 
+Camp members and managers can upload an image using `POST /images` (externally
+`/api/images`) with multipart form fields named `campId` and `file`.
+The JSON response contains `id`, `src`, `mediaType`, `byteSize`, `width`
+and `height`. The `src` identifies the camp image.
+
+`GET /images/{sha256}/content` (externally `/api/images/{sha256}/content`) checks
+read access to at least one camp that owns the image before validating the
+SHA-256 ETag. Images in public camps can be read anonymously. Responses use
+`Cache-Control: private, no-cache`; matching conditional requests return 304.
+Caddy serves the local file or proxies a short-lived signed S3 request. PHP does
+not read the image bytes. The internal delivery headers are removed by Caddy,
+and image requests bypass Varnish. The API must run behind the supplied Caddy
+configuration; direct PHP responses contain internal storage information.
+
 JPEG, PNG, WebP, AVIF, GIF, BMP and SVG inputs are converted to AVIF with JPEG EXIF
 orientation applied and metadata removed. GIFs use the first frame. SVGs are
 rasterized with librsvg from standard input without access to external files.
@@ -25,7 +39,7 @@ The bucket must remain private.
 
 `IMAGE_STORAGE_PREFIX` isolates deployments within a bucket or local directory.
 File operations use Flysystem with local and AWS S3 adapters. The backend is
-selected with `IMAGE_STORAGE`.
+selected with `IMAGE_STORAGE`; Caddy delivers the files after the API checks access.
 Files use `images/{sha256}` below this prefix. The hash is calculated from the
 converted bytes. Repeated uploads reuse the camp image. Images in different camps
 can share a stored file.

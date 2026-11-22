@@ -29,6 +29,11 @@ spec:
             limits:
               memory: 1Gi
       volumes:
+      {{- if .Values.api.imageStorage.existingClaim }}
+      - name: image-data
+        persistentVolumeClaim:
+          claimName: {{ .Values.api.imageStorage.existingClaim | quote }}
+      {{- end }}
       - name: php-socket
         emptyDir: {}
       - name: jwt-keypair
