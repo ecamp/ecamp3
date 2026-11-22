@@ -20,11 +20,18 @@ client c1 {
     expect resp.status == 200
     expect resp.body == "content types"
 
-    # also before login
+    # wihtout login (same cache served)
     txreq -url "/content_types" -hdr "Accept: application/hal+json"
     rxresp
     expect resp.status == 200
     expect resp.body == "content types"
+
+    # same with cookies which are no login
+    txreq -url "/content_types" -hdr "Accept: application/hal+json" -hdr "Cookie: another_cookie=value"
+    rxresp
+    expect resp.status == 200
+    expect resp.body == "content types"
+
 } -run
 
 server s1 -wait

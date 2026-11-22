@@ -12,6 +12,14 @@ server s1 {
     expect req.url == "/authorization/check_access?iri=/api/camps/1"
     expect req.http.Cookie ~ "jwt_s=sigB"
     txresp -status 200 -hdr "Cache-Control: public, s-maxage=60"
+
+    # without login, and with cookies which are no login: the request goes straight to the API
+    rxreq
+    expect req.url == "/camps/1/activities"
+    txresp -status 401 -body "unauthorized"
+    rxreq
+    expect req.url == "/camps/1/activities"
+    txresp -status 401 -body "unauthorized"
 } -start
 
 varnish v1 -vcl+backend {
@@ -38,6 +46,18 @@ client c1 {
     rxresp
     expect resp.status == 200
     expect resp.body == "activities"
+
+    # without login, access is denied
+    txreq -url "/camps/1/activities" -hdr "Accept: application/hal+json"
+    rxresp
+    expect resp.status == 401
+    expect resp.body == "unauthorized"
+
+    # same with cookies which are no login
+    txreq -url "/camps/1/activities" -hdr "Accept: application/hal+json" -hdr "Cookie: another_cookie=value"
+    rxresp
+    expect resp.status == 401
+    expect resp.body == "unauthorized"
 } -run
 
 server s1 -wait

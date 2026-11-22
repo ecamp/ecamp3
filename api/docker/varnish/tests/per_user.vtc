@@ -19,6 +19,12 @@ server s1 {
     expect req.url == "/camps/1/categories"
     expect req.http.X-Cache-User == <undef>
     txresp -status 401 -hdr "X-Cache-Debug: 1"
+
+    # same with cookies which are no login
+    rxreq
+    expect req.url == "/camps/1/categories"
+    expect req.http.X-Cache-User == <undef>
+    txresp -status 401 -hdr "X-Cache-Debug: 1"
 } -start
 
 varnish v1 -vcl+backend {
@@ -50,6 +56,11 @@ client c1 {
     expect resp.http.X-Cache == "HIT"
 
     txreq -url "/camps/1/categories" -hdr "Accept: application/hal+json" -hdr "X-Cache-User: forged"
+    rxresp
+    expect resp.status == 401
+    expect resp.http.X-Cache == "PASS"
+
+    txreq -url "/camps/1/categories" -hdr "Accept: application/hal+json" -hdr "Cookie: another_cookie=value"
     rxresp
     expect resp.status == 401
     expect resp.http.X-Cache == "PASS"

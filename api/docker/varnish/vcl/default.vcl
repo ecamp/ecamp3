@@ -79,12 +79,10 @@ sub cache_identify_user {
     cookie.parse(req.http.Cookie);
     cookie.keep(std.getenv("COOKIE_PREFIX") + "jwt_hp," + std.getenv("COOKIE_PREFIX") + "jwt_s");
 
-    if(cookie.get_string() == ""){
-      return(pass); # Failsafe: Pass cache if JWT cookie is not set (also for example, if COOKIE_PREFIX is not properly configured)
-    }
-
     # X-Cache-User separates cached grants and per-user responses by login
-    set req.http.X-Cache-User = digest.hash_sha256(cookie.get_string());
+    if (cookie.get_string() != "") {
+      set req.http.X-Cache-User = digest.hash_sha256(cookie.get_string());
+    }
   }
 }
 
@@ -93,16 +91,27 @@ sub vcl_hit {
     return(deliver);
   }
 
-  # A response cached per user is only found by the user it was fetched for
+  # A response cached per user is only found by the user it was fetched for (safe to deliver)
   if (obj.http.X-Cache-Mode == "public" || obj.http.X-Cache-Mode == "user") {
     return(deliver);
   }
 
-  # SECURITY: never serve a response that doesn't state who may read it
-  if (obj.http.X-Cache-Mode != "shared" || !obj.http.X-Cache-Security-Delegate) {
+  # never serve a response with an unknown cache mode
+  if (obj.http.X-Cache-Mode != "shared") {
     return(pass);
   }
 
+  # never serve a shared response that doesn't state who may read it
+  if (!obj.http.X-Cache-Security-Delegate) {
+    return(pass);
+  }
+
+  # never serve a shared response without an identified user
+  if (!req.http.X-Cache-User) {
+    return(pass);
+  }
+
+  # after access_check: deliver shared response if access is granted
   if (req.http.X-Cache-Grant && req.http.X-Cache-Grant == obj.http.X-Cache-Security-Delegate) {
     return(deliver);
   }
