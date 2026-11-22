@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\HttpCache;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 /**
@@ -60,7 +59,7 @@ class RelationTagResolver {
         if (!$this->em->getMetadataFactory()->isTransient($class)) {
             foreach ($this->em->getClassMetadata($class)->getAssociationMappings() as $property => $associationMapping) {
                 $serializedName = $this->nameConverter->normalize($property, $class);
-                $taggedRelations[$serializedName] = !$associationMapping['isOwningSide'] || ClassMetadata::MANY_TO_MANY === $associationMapping['type'];
+                $taggedRelations[$serializedName] = !$associationMapping->isOwningSide() || $associationMapping->isManyToMany();
             }
         }
 
