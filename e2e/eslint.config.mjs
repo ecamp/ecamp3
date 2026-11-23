@@ -44,6 +44,8 @@ export default tseslint.config(
             'waitForCacheMiss',
             'expectCategoryVisible',
             'expectPrototypeOptionCount',
+            'expectManualPrototypeUrl',
+            'expectCreateCampBlocked',
           ],
         },
       ],

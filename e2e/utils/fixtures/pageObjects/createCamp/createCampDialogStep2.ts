@@ -96,6 +96,35 @@ export class CreateCampDialogStep2 {
   }
 
   @boxedStep
+  async typeManualPrototypeUrl(url: string) {
+    await this._manualPrototypeUrlField.pressSequentially(url)
+    return this
+  }
+
+  @boxedStep
+  async expectManualPrototypeUrl(url: string) {
+    await expect(this._manualPrototypeUrlField).toHaveValue(url)
+    return this
+  }
+
+  @boxedStep
+  async fillUnknownManualPrototypeUrl(campId: string) {
+    const waitForFailedCampResponse = this._page.waitForResponse(
+      (response) =>
+        new URL(response.url()).pathname === `/api/camps/${campId}` && !response.ok()
+    )
+    await this.fillManualPrototypeUrl(`http://localhost:3000/camps/${campId}`)
+    await waitForFailedCampResponse
+    return this
+  }
+
+  @boxedStep
+  async expectCreateCampBlocked() {
+    await expect(this._createCampButton).toBeHidden()
+    return this
+  }
+
+  @boxedStep
   async expectSelectedPrototype(value: string) {
     await expect(this._prototypeSelect.locator).toContainText(value, { timeout: 30_000 })
     return this

@@ -1,5 +1,9 @@
 <template>
-  <Form ref="form" v-slot="{ meta, validate }" @submit="() => $emit('createCamp')">
+  <Form
+    ref="form"
+    v-slot="{ meta, validate }"
+    @submit="() => prototypeChosen && $emit('createCamp')"
+  >
     <v-card-text>
       <server-error :server-error="serverError" class="mb-4" />
 
@@ -22,19 +26,19 @@
       >
         <e-text-field
           ref="copyCampUrlInput"
-          v-model="copyCampUrl"
+          v-model="manualPrototypeUrl"
           :label="$t('components.campCreate.campCreateStep2.prototypeCampUrl')"
           :vee-rules="{ required: true }"
           class="flex-grow-1"
           path="campPrototypeUrl"
-          @update:model-value="setClipboardEntityUrl"
+          @update:model-value="loadManualPrototypeUrl"
         />
         <ClipboardInfoDialog
           v-if="showClipboardPrompt"
           ref="clipboardInfoDialog"
           translation-context-i18n-key="components.campCreate.campCreateStep2.clipboardInfoDialog"
-          @clipboard-text="setClipboardEntityUrl"
-          @closed="attemptLoadingEntityFromClipboard"
+          @clipboard-text="loadPastedPrototypeUrl"
+          @closed="pasteFromClipboard"
         >
           <template #activator="{ props }">
             <v-btn
@@ -56,7 +60,7 @@
           class="v-btn--has-bg"
           height="56"
           variant="text"
-          @click="attemptLoadingEntityFromClipboard"
+          @click="pasteFromClipboard"
         >
           <v-progress-circular v-if="clipboardEntityLoading" indeterminate />
           <v-icon v-else>mdi-content-paste</v-icon>
@@ -174,7 +178,7 @@
       </v-btn>
       <ButtonCancel class="ml-auto" :disabled="isSaving" @click="$router.go(-1)" />
       <ButtonAdd
-        v-if="meta.dirty && meta.valid"
+        v-if="meta.dirty && meta.valid && prototypeChosen"
         :loading="isSaving"
         data-testid="create-camp-button"
         type="submit"
@@ -193,7 +197,7 @@
   </Form>
 </template>
 <script>
-import { camelCase } from 'lodash-es'
+import { camelCase, debounce } from 'lodash-es'
 import { Form } from 'vee-validate'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import ButtonCancel from '@/components/buttons/ButtonCancel.vue'
@@ -204,7 +208,7 @@ import ClipboardInfoDialog from '@/components/generic/ClipboardInfoDialog.vue'
 import { useClipboardEntity } from '@/components/generic/useClipboardEntity.js'
 import router from '@/router.js'
 import { apiStore as api } from '@/plugins/store/index.js'
-import { onMounted, reactive, ref, watchEffect } from 'vue'
+import { onBeforeUnmount, onMounted, reactive, ref, watchEffect } from 'vue'
 
 export default {
   name: 'CampCreateStep2',
@@ -228,11 +232,11 @@ export default {
   emits: ['createCamp', 'previousStep'],
   setup({ camp }) {
     const localCamp = reactive(camp)
-    const copyCampUrl = ref('')
+    const manualPrototypeUrl = ref('')
     const selectedPrototypeValue = ref(null)
     let prototypePicked = false
-    let loadingClipboardOnMount = false
-    const keepPickedPrototype = () => loadingClipboardOnMount && prototypePicked
+    let autoLoadPending = false
+    const keepPickedPrototype = () => autoLoadPending && prototypePicked
     watchEffect(() => {
       if (['other', 'none', '', null].includes(selectedPrototypeValue.value)) {
         localCamp.campPrototype = null
@@ -261,30 +265,45 @@ export default {
       },
     })
 
-    const setClipboardEntityUrl = (url) => {
-      clipboard.setClipboardEntityUrl(url)
-      copyCampUrl.value = ''
-    }
-
     onMounted(() => {
-      loadingClipboardOnMount = true
+      autoLoadPending = true
       clipboard.attemptLoadingEntityFromClipboard().finally(() => {
-        loadingClipboardOnMount = false
+        autoLoadPending = false
       })
     })
 
+    const loadManualPrototypeUrl = debounce((url) => {
+      autoLoadPending = false
+      clipboard.setClipboardEntityUrl(url)
+    }, 300)
+    onBeforeUnmount(() => loadManualPrototypeUrl.cancel())
+
     return {
       ...clipboard,
-      setClipboardEntityUrl,
+      loadManualPrototypeUrl,
+      loadPastedPrototypeUrl: (url) => {
+        autoLoadPending = false
+        loadManualPrototypeUrl.cancel()
+        manualPrototypeUrl.value = ''
+        clipboard.setClipboardEntityUrl(url)
+      },
+      pasteFromClipboard: () => {
+        autoLoadPending = false
+        loadManualPrototypeUrl.cancel()
+        clipboard.attemptLoadingEntityFromClipboard()
+      },
       markPrototypePicked: () => {
         prototypePicked = true
       },
       localCamp,
-      copyCampUrl,
+      manualPrototypeUrl,
       selectedPrototypeValue,
     }
   },
   computed: {
+    prototypeChosen() {
+      return this.selectedPrototypeValue !== 'other'
+    },
     campTemplates() {
       const showClipboardEntity =
         this.hasClipboardEntity &&
