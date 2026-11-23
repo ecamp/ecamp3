@@ -18,6 +18,7 @@ doctrine:
         identity_generation_preferences:
             Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
         auto_mapping: true
+        use_schema_editor_api: true
         validate_xml_mapping: false
         mappings:
             App:
