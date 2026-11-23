@@ -14,6 +14,7 @@
         data-testid="prototype-select"
         path="prototype"
         persistent-hint
+        @update:model-value="markPrototypePicked"
       />
       <div
         v-if="selectedPrototypeValue === 'other'"
@@ -203,7 +204,7 @@ import ClipboardInfoDialog from '@/components/generic/ClipboardInfoDialog.vue'
 import { useClipboardEntity } from '@/components/generic/useClipboardEntity.js'
 import router from '@/router.js'
 import { apiStore as api } from '@/plugins/store/index.js'
-import { reactive, ref, watchEffect } from 'vue'
+import { onMounted, reactive, ref, watchEffect } from 'vue'
 
 export default {
   name: 'CampCreateStep2',
@@ -229,8 +230,11 @@ export default {
     const localCamp = reactive(camp)
     const copyCampUrl = ref('')
     const selectedPrototypeValue = ref(null)
+    let prototypePicked = false
+    let loadingClipboardOnMount = false
+    const keepPickedPrototype = () => loadingClipboardOnMount && prototypePicked
     watchEffect(() => {
-      if (['other', 'none', null].includes(selectedPrototypeValue.value)) {
+      if (['other', 'none', '', null].includes(selectedPrototypeValue.value)) {
         localCamp.campPrototype = null
       } else {
         localCamp.campPrototype = selectedPrototypeValue.value
@@ -247,9 +251,11 @@ export default {
         return await api.get().camps({ id: match.params.campId })
       },
       onEntityLoaded(entity) {
+        if (keepPickedPrototype()) return
         selectedPrototypeValue.value = entity._meta.self
       },
       onEntityLoadFailed() {
+        if (keepPickedPrototype()) return
         // If "other" is selected, leave the selection as it is, so the user can try again
         if (selectedPrototypeValue.value !== 'other') selectedPrototypeValue.value = ''
       },
@@ -260,9 +266,19 @@ export default {
       copyCampUrl.value = ''
     }
 
+    onMounted(() => {
+      loadingClipboardOnMount = true
+      clipboard.attemptLoadingEntityFromClipboard().finally(() => {
+        loadingClipboardOnMount = false
+      })
+    })
+
     return {
       ...clipboard,
       setClipboardEntityUrl,
+      markPrototypePicked: () => {
+        prototypePicked = true
+      },
       localCamp,
       copyCampUrl,
       selectedPrototypeValue,
@@ -346,11 +362,6 @@ export default {
         })
       }
     },
-  },
-  mounted() {
-    this.attemptLoadingEntityFromClipboard().then(() => {
-      this.localCamp.campPrototype = null
-    })
   },
   methods: { camelCase },
 }

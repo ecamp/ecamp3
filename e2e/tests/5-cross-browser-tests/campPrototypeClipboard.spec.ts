@@ -52,7 +52,7 @@ test.describe('camp prototype clipboard', { tag: '@mature' }, () => {
     expect(campPrototype).toBe(copiedCampUri)
   })
 
-  test('does not submit a pre-granted auto-loaded clipboard prototype', async ({
+  test('submits a camp pasted with a pre-granted clipboard', async ({
     page,
     browserName,
     clipboardStub,
@@ -73,6 +73,27 @@ test.describe('camp prototype clipboard', { tag: '@mature' }, () => {
     await createCampDialogStep2.expectCopiedPrototype()
 
     await expect(page).toHaveURL(/\/camps\/create$/)
+
+    const { campPrototype } = await createCampDialogStep2.submit()
+    expect(campPrototype).toBe(copiedCampUri)
+  })
+
+  test('submits a camp URL auto-loaded from a pre-granted clipboard', async ({
+    browserName,
+    clipboardStub,
+    openCreateCampStep2,
+  }) => {
+    //eslint-disable-next-line playwright/no-conditional-in-test
+    if (browserName !== 'chromium') {
+      // Only chromium supports clipboard read.
+      //eslint-disable-next-line
+      test.skip()
+    }
+
+    await clipboardStub.readText(copiedCampUrl, 'granted')
+    const createCampDialogStep2 = await openCreateCampStep2()
+    await clipboardStub.expectReadSettled('resolved')
+    await createCampDialogStep2.expectCopiedPrototype()
 
     const { campPrototype } = await createCampDialogStep2.submit()
     expect(campPrototype).toBe(copiedCampUri)
