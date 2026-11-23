@@ -279,12 +279,12 @@ class DataGeneratorService {
 
         // Random start date within next 2 years
         $startDate = $this->faker->dateTimeBetween('+1 month', '+2 years');
-        $period->start = \DateTime::createFromInterface($startDate);
+        $period->start = \DateTimeImmutable::createFromInterface($startDate);
 
         // Period length between 5 and 10 days
         $duration = $this->faker->numberBetween(5, 10);
         $endDate = (clone $startDate)->modify("+{$duration} days");
-        $period->end = \DateTime::createFromInterface($endDate);
+        $period->end = \DateTimeImmutable::createFromInterface($endDate);
 
         $this->entityManager->persist($period);
 

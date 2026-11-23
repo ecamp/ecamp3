@@ -211,10 +211,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface, CanGen
             return $this->_start;
         }
 
-        $start = \DateTime::createFromInterface($this->period->start);
-        $start->modify("{$this->startOffset} minutes");
-
-        return $start;
+        return $this->period->start->modify("{$this->startOffset} minutes");
     }
 
     #[Groups(['write'])]
@@ -238,10 +235,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface, CanGen
             return $this->_end;
         }
 
-        $end = \DateTime::createFromInterface($this->period->start);
-        $end->modify("{$this->endOffset} minutes");
-
-        return $end;
+        return $this->period->start->modify("{$this->endOffset} minutes");
     }
 
     #[Groups(['write'])]

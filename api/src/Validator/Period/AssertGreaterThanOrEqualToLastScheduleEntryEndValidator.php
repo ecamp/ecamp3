@@ -21,10 +21,8 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidator extends Constraint
             return;
         }
 
-        /** @var \DateTime $periodEnd */
-        $periodEnd = clone $value;
         // Period ends at the end of the day (+1day)
-        $periodEnd->add(new \DateInterval('P1D'));
+        $periodEnd = $value->add(new \DateInterval('P1D'));
 
         $period = $this->context->getObject();
         if (!$period instanceof Period) {
@@ -32,7 +30,7 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidator extends Constraint
         }
 
         if ($period->scheduleEntries->count() > 0) {
-            /** @var \DateTime $periodStart */
+            /** @var \DateTimeImmutable $periodStart */
             $periodStart = $period->start;
 
             if (!$period->moveScheduleEntries) {
@@ -42,7 +40,6 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidator extends Constraint
                 }
             }
 
-            $periodStart = clone $periodStart;
             $lastScheduleEntryPeriodEndOffset = max($period->scheduleEntries->map(fn ($se) => $se->endOffset)->toArray());
             $lastScheduleEntryEnd = $periodStart->add(new \DateInterval('PT'.$lastScheduleEntryPeriodEndOffset.'M'));
 

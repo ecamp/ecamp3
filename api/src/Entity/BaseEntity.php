@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use App\Util\IdGenerator;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -23,13 +24,13 @@ abstract class BaseEntity implements HasId {
 
     #[ApiProperty(writable: false)]
     #[Gedmo\Timestampable(on: 'create')]
-    #[ORM\Column(type: 'datetime')]
-    protected \DateTime $createTime;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    protected \DateTimeImmutable $createTime;
 
     #[ApiProperty(writable: false)]
     #[Gedmo\Timestampable(on: 'update')]
-    #[ORM\Column(type: 'datetime')]
-    protected \DateTime $updateTime;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    protected \DateTimeImmutable $updateTime;
 
     public function __construct() {
         $this->id = IdGenerator::generateRandomHexString(12);

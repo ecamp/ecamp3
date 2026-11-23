@@ -6,8 +6,8 @@ doctrine:
         # either here or in the DATABASE_URL env var (see .env file)
         server_version: '15.0'
         types:
-            datetime: App\Types\Doctrine\UTCDateTimeType
-            date: App\Types\Doctrine\UTCDateType
+            datetime_immutable: Doctrine\DBAL\Types\DateTimeUtcImmutableType
+            date_immutable: App\Types\Doctrine\UTCDateImmutableType
 
         schema_filter: ~^(?!view_)~
 

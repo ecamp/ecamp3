@@ -88,11 +88,11 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
             throw new \LogicException('Could not create a JWT token for storing the state parameter securely');
         }
 
-        $this->stateRepository->deleteAllExpiredBefore(new \DateTime('@'.time()));
+        $this->stateRepository->deleteAllExpiredBefore(new \DateTimeImmutable('@'.time()));
 
         $oAuthState = new OAuthState();
         $oAuthState->state = $state;
-        $oAuthState->expireTime = new \DateTime("@{$expires}");
+        $oAuthState->expireTime = new \DateTimeImmutable("@{$expires}");
         $this->entityManager->persist($oAuthState);
         $this->entityManager->flush();
 
@@ -123,7 +123,7 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
                 throw new InvalidStateException('Invalid state');
             }
 
-            $now = new \DateTime('@'.time());
+            $now = new \DateTimeImmutable('@'.time());
             $persistedState = $this->stateRepository->findOneUnexpiredBy($actualState, $now);
         } catch (JWTDecodeFailureException|NonUniqueResultException|NoResultException) {
             throw new InvalidStateException('Invalid state');

@@ -16,30 +16,30 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
  */
 class AssertNotOverlappingWithOtherPeriodsValidatorTest extends ConstraintValidatorTestCase {
     private Period $period1;
-    private \DateTime $period1Start;
+    private \DateTimeImmutable $period1Start;
 
     private Period $period2;
-    private \DateTime $period2Start;
+    private \DateTimeImmutable $period2Start;
 
-    private \DateTime $period3End;
+    private \DateTimeImmutable $period3End;
 
     #[\Override]
     protected function setUp(): void {
         parent::setUp();
-        $this->period1Start = new \DateTime('2022-01-01');
-        $period1End = new \DateTime('2022-01-05');
+        $this->period1Start = new \DateTimeImmutable('2022-01-01');
+        $period1End = new \DateTimeImmutable('2022-01-05');
         $this->period1 = new Period();
         $this->period1->start = $this->period1Start;
         $this->period1->end = $period1End;
 
-        $this->period2Start = new \DateTime('2022-01-07');
-        $period2End = new \DateTime('2022-01-12');
+        $this->period2Start = new \DateTimeImmutable('2022-01-07');
+        $period2End = new \DateTimeImmutable('2022-01-12');
         $this->period2 = new Period();
         $this->period2->start = $this->period2Start;
         $this->period2->end = $period2End;
 
-        $period3Start = new \DateTime('2022-01-15');
-        $this->period3End = new \DateTime('2022-01-20');
+        $period3Start = new \DateTimeImmutable('2022-01-15');
+        $this->period3End = new \DateTimeImmutable('2022-01-20');
         $period3 = new Period();
         $period3->start = $period3Start;
         $period3->end = $this->period3End;
@@ -74,7 +74,7 @@ class AssertNotOverlappingWithOtherPeriodsValidatorTest extends ConstraintValida
         $this->setObject(new \stdClass());
         $this->expectException(UnexpectedTypeException::class);
 
-        $this->validator->validate(new \DateTime(), new AssertNotOverlappingWithOtherPeriods());
+        $this->validator->validate(new \DateTimeImmutable(), new AssertNotOverlappingWithOtherPeriods());
     }
 
     public function testAllowsNullCamp() {

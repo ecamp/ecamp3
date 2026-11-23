@@ -31,7 +31,7 @@ class CommentUpdateProcessor extends AbstractPersistProcessor {
             /** @var User $user */
             $user = $this->security->getUser();
 
-            $data->resolvedAt = new \DateTime();
+            $data->resolvedAt = new \DateTimeImmutable();
             $data->resolvedBy = $this->campCollaborationRepository->findByUserAndCamp($user, $data->getCamp());
         }
 

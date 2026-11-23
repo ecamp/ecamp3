@@ -35,11 +35,11 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidatorTest extends Constr
 
     public function testPeriodWithoutScheduleEntriesIsValid() {
         $period = new Period();
-        $period->start = new \DateTime();
+        $period->start = new \DateTimeImmutable();
 
         $this->setObject($period);
 
-        $this->validator->validate(new \DateTime(), new AssertGreaterThanOrEqualToLastScheduleEntryEnd());
+        $this->validator->validate(new \DateTimeImmutable(), new AssertGreaterThanOrEqualToLastScheduleEntryEnd());
         $this->assertNoViolation();
     }
 
@@ -47,7 +47,7 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidatorTest extends Constr
         // given
         $period = new Period();
         $period->moveScheduleEntries = true;
-        $period->start = new \DateTime('2023-08-01');
+        $period->start = new \DateTimeImmutable('2023-08-01');
 
         $scheduleEntry = new ScheduleEntry();
         $scheduleEntry->startOffset = 3600; // 2023-08-03 12:00
@@ -57,12 +57,12 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidatorTest extends Constr
         $this->setObject($period);
 
         // when
-        $this->validator->validate(new \DateTime('2023-08-03'), new AssertGreaterThanOrEqualToLastScheduleEntryEnd());
+        $this->validator->validate(new \DateTimeImmutable('2023-08-03'), new AssertGreaterThanOrEqualToLastScheduleEntryEnd());
         // then
         $this->assertNoViolation();
 
         // when
-        $this->validator->validate(new \DateTime('2023-08-02'), new AssertGreaterThanOrEqualToLastScheduleEntryEnd());
+        $this->validator->validate(new \DateTimeImmutable('2023-08-02'), new AssertGreaterThanOrEqualToLastScheduleEntryEnd());
         // then
         $this->expectNoValidate();
     }
@@ -73,7 +73,7 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidatorTest extends Constr
         // New-Start  = 2023-07-31
         $period = new Period();
         $period->moveScheduleEntries = true;
-        $period->start = new \DateTime('2023-07-31');
+        $period->start = new \DateTimeImmutable('2023-07-31');
 
         $scheduleEntry = new ScheduleEntry();
         $scheduleEntry->startOffset = 3600; // New: 2023-08-02 12:00
@@ -83,12 +83,12 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidatorTest extends Constr
         $this->setObject($period);
 
         // when
-        $this->validator->validate(new \DateTime('2023-08-02'), new AssertGreaterThanOrEqualToLastScheduleEntryEnd());
+        $this->validator->validate(new \DateTimeImmutable('2023-08-02'), new AssertGreaterThanOrEqualToLastScheduleEntryEnd());
         // then
         $this->assertNoViolation();
 
         // when
-        $this->validator->validate(new \DateTime('2023-08-01'), new AssertGreaterThanOrEqualToLastScheduleEntryEnd());
+        $this->validator->validate(new \DateTimeImmutable('2023-08-01'), new AssertGreaterThanOrEqualToLastScheduleEntryEnd());
         // then
         $this->expectNoValidate();
     }
@@ -99,7 +99,7 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidatorTest extends Constr
         // New-Start  = 2023-07-31
         $period = new Period();
         $period->moveScheduleEntries = false;
-        $period->start = new \DateTime('2023-07-31');
+        $period->start = new \DateTimeImmutable('2023-07-31');
 
         $scheduleEntry = new ScheduleEntry();
         $scheduleEntry->startOffset = 3600; // 2023-08-03 12:00
@@ -109,12 +109,12 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidatorTest extends Constr
         $this->setObject($period);
 
         // when
-        $this->validator->validate(new \DateTime('2023-08-03'), new AssertGreaterThanOrEqualToLastScheduleEntryEnd());
+        $this->validator->validate(new \DateTimeImmutable('2023-08-03'), new AssertGreaterThanOrEqualToLastScheduleEntryEnd());
         // then
         $this->assertNoViolation();
 
         // when
-        $this->validator->validate(new \DateTime('2023-08-02'), new AssertGreaterThanOrEqualToLastScheduleEntryEnd());
+        $this->validator->validate(new \DateTimeImmutable('2023-08-02'), new AssertGreaterThanOrEqualToLastScheduleEntryEnd());
         // then
         $this->expectNoValidate();
     }
@@ -123,7 +123,7 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidatorTest extends Constr
         /** @var MockObject|UnitOfWork $uow */
         $uow = $this->createStub(UnitOfWork::class);
         $uow->method('getOriginalEntityData')->willReturn([
-            'start' => new \DateTime('2023-08-01'),
+            'start' => new \DateTimeImmutable('2023-08-01'),
         ]);
 
         /** @var EntityManagerInterface|MockObject $em */

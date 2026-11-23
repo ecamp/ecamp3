@@ -6,16 +6,16 @@
 
 namespace App\Tests\Types\Doctrine;
 
-use App\Types\Doctrine\UTCDateType;
+use App\Types\Doctrine\UTCDateImmutableType;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
  * @internal
  */
-class UTCDateTypeTest extends BaseDateTypeTestCase {
+class UTCDateImmutableTypeTest extends BaseDateTypeTestCase {
     #[\Override]
     protected function setUp(): void {
-        $this->type = new UTCDateType();
+        $this->type = new UTCDateImmutableType();
 
         parent::setUp();
     }
@@ -23,7 +23,7 @@ class UTCDateTypeTest extends BaseDateTypeTestCase {
     public function testDateConvertsToPHPValue(): void {
         // Birthday of jwage and also birthday of Doctrine. Send him a present ;)
         self::assertInstanceOf(
-            \DateTime::class,
+            \DateTimeImmutable::class,
             $this->type->convertToPHPValue('1985-09-01', $this->platform)
         );
     }
@@ -58,7 +58,7 @@ class UTCDateTypeTest extends BaseDateTypeTestCase {
         // set timezone to anything else than UTC
         \date_default_timezone_set('America/New_York');
 
-        $date = new \DateTime('1985-09-02 00:00:00 +02:00'); // is still 1985-09-01 22:00 in UTC time
+        $date = new \DateTimeImmutable('1985-09-02 00:00:00 +02:00'); // is still 1985-09-01 22:00 in UTC time
 
         $actual = $this->type->convertToDatabaseValue($date, $this->platform);
 
