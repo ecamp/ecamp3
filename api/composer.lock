@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f8c1aefcaa0403a10287244ed5cba633",
+    "content-hash": "ec70a8d3cb9f297dc7704a779095c5cf",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -580,16 +580,16 @@
         },
         {
             "name": "api-platform/json-schema",
-            "version": "v5.0.6",
+            "version": "v5.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/json-schema.git",
-                "reference": "35587c12ed24c78ba78b8408996006d1f8397dda"
+                "reference": "9df1b967d003e1d880bf571e37a3f779b2560914"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/json-schema/zipball/35587c12ed24c78ba78b8408996006d1f8397dda",
-                "reference": "35587c12ed24c78ba78b8408996006d1f8397dda",
+                "url": "https://api.github.com/repos/api-platform/json-schema/zipball/9df1b967d003e1d880bf571e37a3f779b2560914",
+                "reference": "9df1b967d003e1d880bf571e37a3f779b2560914",
                 "shasum": ""
             },
             "require": {
@@ -655,9 +655,9 @@
                 "swagger"
             ],
             "support": {
-                "source": "https://github.com/api-platform/json-schema/tree/v5.0.6"
+                "source": "https://github.com/api-platform/json-schema/tree/v5.0.8"
             },
-            "time": "2026-11-03T15:33:35+00:00"
+            "time": "2026-11-13T13:22:54+00:00"
         },
         {
             "name": "api-platform/jsonld",
@@ -741,16 +741,16 @@
         },
         {
             "name": "api-platform/metadata",
-            "version": "v5.0.7",
+            "version": "v5.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/metadata.git",
-                "reference": "6360ddc4ec4219a1b335a0c3b0eb4a98ed7a47a1"
+                "reference": "8f019426a57392eb413c563af4eca614b68edeb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/metadata/zipball/6360ddc4ec4219a1b335a0c3b0eb4a98ed7a47a1",
-                "reference": "6360ddc4ec4219a1b335a0c3b0eb4a98ed7a47a1",
+                "url": "https://api.github.com/repos/api-platform/metadata/zipball/8f019426a57392eb413c563af4eca614b68edeb7",
+                "reference": "8f019426a57392eb413c563af4eca614b68edeb7",
                 "shasum": ""
             },
             "require": {
@@ -833,9 +833,9 @@
                 "swagger"
             ],
             "support": {
-                "source": "https://github.com/api-platform/metadata/tree/v5.0.7"
+                "source": "https://github.com/api-platform/metadata/tree/v5.0.8"
             },
-            "time": "2026-11-06T08:25:24+00:00"
+            "time": "2026-11-16T09:48:48+00:00"
         },
         {
             "name": "api-platform/openapi",
