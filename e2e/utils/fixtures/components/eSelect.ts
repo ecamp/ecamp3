@@ -21,11 +21,15 @@ export class ESelect {
 
   @boxedStep
   async select(value: string) {
-    const option = this._page.getByRole('option', { name: value, exact: true })
+    const option = this.option(value)
     await expect(option).toBeVisible()
     await option.click()
     await expect(this._activator).toHaveAttribute('aria-expanded', 'false')
     return this
+  }
+
+  option(value: string): Locator {
+    return this._page.getByRole('option', { name: value, exact: true })
   }
 
   get locator(): Locator {

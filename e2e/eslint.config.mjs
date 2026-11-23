@@ -43,6 +43,7 @@ export default tseslint.config(
             'expectCachePass',
             'waitForCacheMiss',
             'expectCategoryVisible',
+            'expectPrototypeOptionCount',
           ],
         },
       ],

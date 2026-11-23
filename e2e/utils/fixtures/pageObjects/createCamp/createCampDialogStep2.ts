@@ -57,6 +57,13 @@ export class CreateCampDialogStep2 {
   }
 
   @boxedStep
+  async expectPrototypeOptionCount(prototype: string, count: number) {
+    await this._prototypeSelect.open()
+    await expect(this._prototypeSelect.option(prototype)).toHaveCount(count)
+    return this
+  }
+
+  @boxedStep
   async selectOtherCampPrototype() {
     return this.selectPrototype(OTHER_PROTOTYPE_OPTION)
   }

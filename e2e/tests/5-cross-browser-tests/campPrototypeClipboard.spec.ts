@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test'
-import { grgrCampId } from '@/utils/constants'
+import { grgrCampId, jsKursPrototypeCampId } from '@/utils/constants'
 import { test } from '@/utils/etest'
 
 const copiedCampUrl = `http://localhost:3000/camps/${grgrCampId}/GRGR/dashboard`
@@ -97,5 +97,27 @@ test.describe('camp prototype clipboard', { tag: '@mature' }, () => {
 
     const { campPrototype } = await createCampDialogStep2.submit()
     expect(campPrototype).toBe(copiedCampUri)
+  })
+
+  test('lists a copied official camp template only once', async ({
+    browserName,
+    clipboardStub,
+    openCreateCampStep2,
+  }) => {
+    //eslint-disable-next-line playwright/no-conditional-in-test
+    if (browserName !== 'chromium') {
+      // Only chromium supports clipboard read.
+      //eslint-disable-next-line
+      test.skip()
+    }
+
+    await clipboardStub.readText(
+      `http://localhost:3000/camps/${jsKursPrototypeCampId}`,
+      'granted'
+    )
+    const createCampDialogStep2 = await openCreateCampStep2()
+    await clipboardStub.expectReadSettled('resolved')
+    await createCampDialogStep2.expectSelectedPrototype('J+S Kurs')
+    await createCampDialogStep2.expectPrototypeOptionCount('J+S Kurs', 1)
   })
 })

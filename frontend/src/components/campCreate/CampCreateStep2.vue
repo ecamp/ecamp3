@@ -286,8 +286,13 @@ export default {
   },
   computed: {
     campTemplates() {
+      const showClipboardEntity =
+        this.hasClipboardEntity &&
+        !this.campPrototypes.some(
+          (prototype) => prototype.value === this.clipboardEntity._meta.self
+        )
       return this.campPrototypes.concat([
-        ...(this.hasClipboardEntity
+        ...(showClipboardEntity
           ? [
               {
                 value: this.clipboardEntity._meta.self,
