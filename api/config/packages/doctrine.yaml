@@ -8,6 +8,8 @@ doctrine:
         types:
             datetime: App\Types\Doctrine\UTCDateTimeType
             date: App\Types\Doctrine\UTCDateType
+        mapping_types:
+            jsonb: jsonb
 
         schema_filter: ~^(?!view_)~
 
