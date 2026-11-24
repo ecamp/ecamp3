@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\ExactFilter;
+use ApiPlatform\Doctrine\Orm\Filter\IriFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\QueryParameter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,6 +25,10 @@ use Symfony\Component\Serializer\Attribute\Groups;
     operations: [
         new Get(),
         new GetCollection(
+            parameters: [
+                'name' => new QueryParameter(filter: new ExactFilter()),
+                'categories' => new QueryParameter(filter: new IriFilter()),
+            ],
             extraProperties: [
                 'scoping_filters' => false,
             ]
@@ -32,7 +37,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
     normalizationContext: ['groups' => ['read']],
     order: ['name' => \SortDirection::Ascending]
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['name', 'categories'])]
 #[ORM\Entity]
 class ContentType extends BaseEntity {
     /**

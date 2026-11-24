@@ -7,10 +7,13 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\HttpOperation;
 use ApiPlatform\Metadata\IriConverterInterface;
+use ApiPlatform\Metadata\OpenApiParameterFilterInterface;
+use ApiPlatform\Metadata\QueryParameter;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\Factory\ResourceNameCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 use ApiPlatform\Metadata\UrlGeneratorInterface;
+use ApiPlatform\OpenApi\Model\Parameter as OpenApiParameter;
 use ApiPlatform\State\Pagination\PaginationOptions;
 use App\Metadata\Resource\OperationHelper;
 use Psr\Container\ContainerInterface;
@@ -107,12 +110,15 @@ class UriTemplateFactory {
      */
     protected function getFilterParameters(string $resourceClass, ResourceMetadataCollection $resourceMetadataCollection) {
         $parameters = [];
-        $resourceFilters = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class)?->getFilters();
-        if (null === $resourceFilters) {
-            return $parameters;
+        $operation = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class);
+
+        foreach ($operation?->getParameters() ?? [] as $key => $parameter) {
+            if ($parameter instanceof QueryParameter) {
+                array_push($parameters, ...$this->getParameterNames($key, $parameter));
+            }
         }
 
-        foreach ($resourceFilters as $filterId) {
+        foreach ($operation?->getFilters() ?? [] as $filterId) {
             if (!$filter = $this->filterLocator->get($filterId)) {
                 continue;
             }
@@ -171,5 +177,30 @@ class UriTemplateFactory {
         }
 
         return false;
+    }
+
+    /**
+     * Filters which document several query parameters (e.g. the before/after variants of date filters)
+     * contribute all of them, all other filters contribute the parameter key.
+     *
+     * @return string[]
+     */
+    private function getParameterNames(string $key, QueryParameter $parameter): array {
+        $filter = $parameter->getFilter();
+        if (\is_string($filter) && $this->filterLocator->has($filter)) {
+            $filter = $this->filterLocator->get($filter);
+        }
+
+        if (!$filter instanceof OpenApiParameterFilterInterface) {
+            return [$key];
+        }
+
+        $openApiParameters = $filter->getOpenApiParameters($parameter->withKey($key));
+        $names = array_map(
+            fn (OpenApiParameter $openApiParameter) => $openApiParameter->getName(),
+            \is_array($openApiParameters) ? $openApiParameters : array_filter([$openApiParameters])
+        );
+
+        return [] === $names ? [$key] : $names;
     }
 }

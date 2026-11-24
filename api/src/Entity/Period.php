@@ -2,8 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\IriFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
@@ -11,6 +10,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Doctrine\Filter\CampCollaboratorFilter;
 use App\InputFilter;
 use App\Repository\PeriodRepository;
@@ -52,6 +52,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new GetCollection(
             security: 'is_authenticated()',
+            parameters: [
+                'camp' => new QueryParameter(filter: new IriFilter()),
+                'campCollaborator' => new QueryParameter(filter: CampCollaboratorFilter::class),
+            ],
             extraProperties: [
                 'scoping_filters' => ['camp', 'campCollaborator'],
             ]
@@ -66,8 +70,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     order: ['start']
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
-#[ApiFilter(filterClass: CampCollaboratorFilter::class)]
 #[ORM\Entity(repositoryClass: PeriodRepository::class)]
 class Period extends BaseEntity implements BelongsToCampInterface {
     /** Custom cache tag on a period for the numbers of all of its schedule entries. */

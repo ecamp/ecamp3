@@ -2,9 +2,9 @@
 
 namespace App\Serializer\Normalizer;
 
-use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
 use ApiPlatform\Doctrine\Common\PropertyHelperTrait;
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\ExactFilter;
+use ApiPlatform\Doctrine\Orm\Filter\IriFilter;
 use ApiPlatform\Metadata\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\IriConverterInterface;
@@ -22,7 +22,6 @@ use Doctrine\ORM\Mapping\InverseSideMapping;
 use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\ORM\Mapping\OwningSideMapping;
 use Rize\UriTemplate;
-use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
@@ -56,10 +55,12 @@ use Symfony\Component\Serializer\SerializerInterface;
  * }
  *
  * For this to work, the parent needs to define targetEntity and mappedBy on the relation,
- * and the child needs to define a SearchFilter on the reverse of the relation:
+ * and the child needs to declare an IriFilter or ExactFilter query parameter on the reverse of the relation
+ * in its main GetCollection operation:
  *
- * #[ApiResource]
- * #[ApiFilter(SearchFilter::class, properties: ['parent'])]
+ * #[ApiResource(operations: [
+ *   new GetCollection(parameters: ['parent' => new QueryParameter(filter: new IriFilter())]),
+ * ])]
  * class Child {
  *   ...
  * }
@@ -91,7 +92,6 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
 
     public function __construct(
         private NormalizerInterface $decorated,
-        private ServiceLocator $filterLocator,
         private NameConverterInterface $nameConverter,
         private UriTemplate $uriTemplate,
         private UriTemplateFactory $uriTemplateFactory,
@@ -264,20 +264,17 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
      */
     private function exactSearchFilterExists(string $resourceClass, mixed $propertyName): bool {
         $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
-        $filterIds = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class)?->getFilters() ?? [];
+        $operation = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class);
 
-        return 0 < count(array_filter($filterIds, function ($filterId) use ($resourceClass, $propertyName) {
-            /** @var SearchFilterInterface $filter */
-            $filter = $this->filterLocator->get($filterId);
-            if (!$filter instanceof SearchFilter) {
-                return false;
+        foreach ($operation?->getParameters() ?? [] as $key => $parameter) {
+            $filter = $parameter->getFilter();
+            if ($key === $propertyName && ($parameter->getProperty() ?? $key) === $propertyName
+                && ($filter instanceof IriFilter || $filter instanceof ExactFilter)) {
+                return true;
             }
-            $filterDescription = $filter->getDescription($resourceClass);
+        }
 
-            return array_key_exists($propertyName, $filterDescription)
-                && isset($filterDescription[$propertyName]['strategy'])
-                && 'exact' === $filterDescription[$propertyName]['strategy'];
-        }));
+        return false;
     }
 
     private function getRelatedProperty(AssociationMapping $mapping): ?string {

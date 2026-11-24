@@ -2,8 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\IriFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
@@ -12,6 +11,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Entity\ContentNode\ChecklistNode;
 use App\InputFilter;
 use App\Repository\ChecklistItemRepository;
@@ -50,6 +50,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new GetCollection(
             security: 'is_authenticated()',
+            parameters: [
+                'checklist' => new QueryParameter(filter: new IriFilter()),
+                'checklist.camp' => new QueryParameter(filter: new IriFilter(), property: 'checklist.camp'),
+            ],
             extraProperties: [
                 'scoping_filters' => ['checklist', 'checklist.camp'],
             ]
@@ -95,7 +99,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     order: ['checklist.id', 'position', 'id'],
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['checklist', 'checklist.camp'])]
 #[ORM\Entity(repositoryClass: ChecklistItemRepository::class)]
 #[ORM\UniqueConstraint(name: 'checklistitem_checklistid_parentid_position_unique', columns: ['checklistid', 'parentid', 'position'])]
 class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface, HasParentInterface {

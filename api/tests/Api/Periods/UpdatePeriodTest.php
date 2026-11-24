@@ -600,7 +600,7 @@ class UpdatePeriodTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(404);
 
         // verify dayResponsibles of old day3 (2023-04-17) were moved to new day1 (2023-03-27)
-        $response = $client->request('GET', '/days?period='.$period->getId())->toArray();
+        $response = $client->request('GET', '/days?period='.urlencode($this->getIriFor($period)))->toArray();
         $days = $response['_embedded']['items'];
         usort($days, fn ($a, $b) => $a['dayOffset'] <=> $b['dayOffset']);
 

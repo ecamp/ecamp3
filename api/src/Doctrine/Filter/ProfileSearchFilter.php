@@ -2,43 +2,44 @@
 
 namespace App\Doctrine\Filter;
 
-use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
+use ApiPlatform\Doctrine\Orm\Filter\FilterInterface;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\BackwardCompatibleFilterDescriptionTrait;
+use ApiPlatform\Metadata\OpenApiParameterFilterInterface;
 use ApiPlatform\Metadata\Operation;
+use ApiPlatform\Metadata\Parameter;
+use ApiPlatform\OpenApi\Model\Parameter as OpenApiParameter;
 use App\Entity\Profile;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\TypeInfo\Type;
 
-final class ProfileSearchFilter extends AbstractFilter {
+final class ProfileSearchFilter implements FilterInterface, OpenApiParameterFilterInterface {
+    use BackwardCompatibleFilterDescriptionTrait;
+
     public const string QUERY_PARAM_NAME = 'search';
 
     private const array SEARCHED_PROPERTIES = ['firstname', 'surname', 'nickname', 'email'];
 
-    public function getDescription(string $resourceClass): array {
-        return [self::QUERY_PARAM_NAME => [
-            'property' => self::QUERY_PARAM_NAME,
-            'type' => Type::string()->__toString(),
-            'required' => false,
-            'description' => 'Search profiles by a part of their firstname, surname, nickname or email.',
-        ]];
+    public function getOpenApiParameters(Parameter $parameter): OpenApiParameter {
+        return new OpenApiParameter(
+            name: $parameter->getKey(),
+            in: 'query',
+            description: 'Search profiles by a part of their firstname, surname, nickname or email.',
+            schema: ['type' => 'string']
+        );
     }
 
-    protected function filterProperty(
-        string $property,
-        $value,
+    public function apply(
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
         ?Operation $operation = null,
         array $context = []
     ): void {
+        $value = $context['parameter']->getValue();
+
         if (Profile::class !== $resourceClass) {
             throw new \Exception("ProfileSearchFilter can only be applied to the Profile entity (received: {$resourceClass}).");
-        }
-
-        if (self::QUERY_PARAM_NAME !== $property) {
-            return;
         }
 
         if (!is_string($value) || '' === trim($value)) {

@@ -4,40 +4,24 @@ declare(strict_types=1);
 
 namespace App\Doctrine\Filter;
 
-use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
+use ApiPlatform\Doctrine\Orm\Filter\FilterInterface;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\BackwardCompatibleFilterDescriptionTrait;
+use ApiPlatform\Metadata\OpenApiParameterFilterInterface;
 use ApiPlatform\Metadata\Operation;
+use ApiPlatform\Metadata\Parameter;
+use ApiPlatform\OpenApi\Model\Parameter as OpenApiParameter;
 use App\Entity\ContentNode;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\Persistence\ManagerRegistry;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
-use Symfony\Component\TypeInfo\Type;
 
-final class ContentNodeIsRootFilter extends AbstractFilter {
-    public const string IS_ROOT_QUERY_NAME = 'isRoot';
+final class ContentNodeIsRootFilter implements FilterInterface, OpenApiParameterFilterInterface {
+    use BackwardCompatibleFilterDescriptionTrait;
 
-    public function __construct(
-        ManagerRegistry $managerRegistry,
-        ?LoggerInterface $logger = null,
-        ?array $properties = null,
-        ?NameConverterInterface $nameConverter = null
-    ) {
-        parent::__construct($managerRegistry, $logger, $properties, $nameConverter);
+    public function getOpenApiParameters(Parameter $parameter): OpenApiParameter {
+        return new OpenApiParameter(name: $parameter->getKey(), in: 'query', schema: ['type' => 'boolean']);
     }
 
-    // This function is only used to hook in documentation generators (supported by Swagger and Hydra)
-    public function getDescription(string $resourceClass): array {
-        return ['isRoot' => [
-            'property' => self::IS_ROOT_QUERY_NAME,
-            'type' => Type::bool()->__toString(),
-            'required' => false,
-        ]];
-    }
-
-    protected function filterProperty(
-        string $property,
-        $value,
+    public function apply(
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
@@ -47,11 +31,7 @@ final class ContentNodeIsRootFilter extends AbstractFilter {
         if (ContentNode::class !== $resourceClass && !is_subclass_of($resourceClass, ContentNode::class)) {
             throw new \Exception("ContentNodeIsRootFilter can only be applied to entities of type ContentNode (received: {$resourceClass}).");
         }
-
-        if (self::IS_ROOT_QUERY_NAME !== $property) {
-            return;
-        }
-
+        $value = $context['parameter']->getValue();
         $isRootFilter = filter_var($value, FILTER_VALIDATE_BOOLEAN);
         $rootAlias = $queryBuilder->getRootAliases()[0];
 

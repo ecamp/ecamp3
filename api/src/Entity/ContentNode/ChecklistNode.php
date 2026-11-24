@@ -2,6 +2,7 @@
 
 namespace App\Entity\ContentNode;
 
+use ApiPlatform\Doctrine\Orm\Filter\IriFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
@@ -9,6 +10,10 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\QueryParameter;
+use App\Doctrine\Filter\ContentNodeCampFilter;
+use App\Doctrine\Filter\ContentNodeIsRootFilter;
+use App\Doctrine\Filter\ContentNodePeriodFilter;
 use App\Entity\Checklist;
 use App\Entity\ChecklistItem;
 use App\Entity\ContentNode;
@@ -38,6 +43,13 @@ use Symfony\Component\Serializer\Attribute\Groups;
         ),
         new GetCollection(
             security: 'is_authenticated()',
+            parameters: [
+                'contentType' => new QueryParameter(filter: new IriFilter()),
+                'root' => new QueryParameter(filter: new IriFilter()),
+                'camp' => new QueryParameter(filter: ContentNodeCampFilter::class),
+                'period' => new QueryParameter(filter: ContentNodePeriodFilter::class),
+                'isRoot' => new QueryParameter(filter: new ContentNodeIsRootFilter()),
+            ],
             extraProperties: [
                 'scoping_filters' => ['root', 'camp', 'period'],
             ]

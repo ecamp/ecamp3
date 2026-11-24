@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Doctrine\Filter;
 
-use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
+use ApiPlatform\Doctrine\Orm\Filter\FilterInterface;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\BackwardCompatibleFilterDescriptionTrait;
+use ApiPlatform\Metadata\OpenApiParameterFilterInterface;
 use ApiPlatform\Metadata\Operation;
+use ApiPlatform\Metadata\Parameter;
+use ApiPlatform\OpenApi\Model\Parameter as OpenApiParameter;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\TypeInfo\Type;
 
 /**
  * Boolean filter which only accepts the value true.
@@ -18,35 +21,27 @@ use Symfony\Component\TypeInfo\Type;
  * filtering e.g. for isPrototype=false would satisfy the scoping requirement without actually
  * narrowing down the collection, so other values are rejected.
  */
-final class IsTrueFilter extends AbstractFilter {
-    // This function is only used to hook in documentation generators (supported by Swagger and Hydra)
-    public function getDescription(string $resourceClass): array {
-        $description = [];
-        foreach (array_keys($this->getProperties() ?? []) as $property) {
-            $description[$property] = [
-                'property' => $property,
-                'type' => Type::bool()->__toString(),
-                'required' => false,
-                'description' => 'Only accepts the value true.',
-                'schema' => ['type' => 'boolean', 'enum' => [true]],
-            ];
-        }
+final class IsTrueFilter implements FilterInterface, OpenApiParameterFilterInterface {
+    use BackwardCompatibleFilterDescriptionTrait;
 
-        return $description;
+    public function getOpenApiParameters(Parameter $parameter): OpenApiParameter {
+        return new OpenApiParameter(
+            name: $parameter->getKey(),
+            in: 'query',
+            description: 'Only accepts the value true.',
+            schema: ['type' => 'boolean', 'enum' => [true]]
+        );
     }
 
-    protected function filterProperty(
-        string $property,
-        $value,
+    public function apply(
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
         ?Operation $operation = null,
         array $context = []
     ): void {
-        if (!$this->isPropertyEnabled($property, $resourceClass) || !$this->isPropertyMapped($property, $resourceClass)) {
-            return;
-        }
+        $property = $context['parameter']->getProperty();
+        $value = $context['parameter']->getValue();
 
         if ('true' !== $value) {
             throw new BadRequestHttpException("Filter {$property} only accepts the value true.");

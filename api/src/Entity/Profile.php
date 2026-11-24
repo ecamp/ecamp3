@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\IriFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Doctrine\Filter\ProfileSearchFilter;
 use App\InputFilter;
 use App\Repository\ProfileRepository;
@@ -34,16 +34,18 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new GetCollection(
             security: 'is_authenticated()',
+            parameters: [
+                'user.collaborations.camp' => new QueryParameter(filter: new IriFilter(), property: 'user.collaborations.camp'),
+                'search' => new QueryParameter(filter: new ProfileSearchFilter()),
+            ],
             extraProperties: [
-                'scoping_filters' => ['user', 'user.collaborations.camp', 'search'],
+                'scoping_filters' => ['user.collaborations.camp', 'search'],
             ]
         ),
     ],
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['user.collaborations.camp', 'user'])]
-#[ApiFilter(filterClass: ProfileSearchFilter::class)]
 #[ORM\Entity(repositoryClass: ProfileRepository::class)]
 #[ORM\Table(name: '`profile`')]
 class Profile extends BaseEntity {

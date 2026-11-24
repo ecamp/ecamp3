@@ -2,8 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\IriFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
@@ -12,6 +11,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\QueryParameter;
 use App\InputFilter;
 use App\Repository\CategoryRepository;
 use App\State\CategoryCreateProcessor;
@@ -53,6 +53,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new GetCollection(
             security: 'is_authenticated()',
+            parameters: [
+                'camp' => new QueryParameter(filter: new IriFilter()),
+            ],
             extraProperties: [
                 'scoping_filters' => ['camp'],
             ]
@@ -83,7 +86,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     order: ['camp.id', 'short'],
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     use ClassInfoTrait;

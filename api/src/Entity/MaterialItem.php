@@ -2,8 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\IriFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
@@ -11,6 +10,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Doctrine\Filter\MaterialItemPeriodFilter;
 use App\Entity\ContentNode\MaterialNode;
 use App\InputFilter;
@@ -44,6 +44,12 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new GetCollection(
             security: 'is_authenticated()',
+            parameters: [
+                'camp' => new QueryParameter(filter: new IriFilter()),
+                'materialList' => new QueryParameter(filter: new IriFilter()),
+                'materialNode' => new QueryParameter(filter: new IriFilter()),
+                'period' => new QueryParameter(filter: MaterialItemPeriodFilter::class),
+            ],
             extraProperties: [
                 'scoping_filters' => ['camp', 'period', 'materialList', 'materialNode'],
             ]
@@ -57,8 +63,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['camp', 'materialList', 'materialNode'])]
-#[ApiFilter(filterClass: MaterialItemPeriodFilter::class)]
 #[ORM\Entity(repositoryClass: MaterialItemRepository::class)]
 class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     /**

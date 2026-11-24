@@ -3,9 +3,16 @@
 namespace App\Tests\Doctrine\Filter;
 
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\IriConverterInterface;
+use ApiPlatform\Metadata\Parameters;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Doctrine\Filter\CampCollaboratorFilter;
+use App\Entity\Camp;
 use App\Entity\ContentNode;
+use App\Entity\Period;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
@@ -74,66 +81,56 @@ class CampCollaboratorFilterTest extends TestCase {
         ;
     }
 
-    public function testGetDescription() {
-        // given
-        $filter = new CampCollaboratorFilter($this->iriConverterMock, $this->managerRegistryMock);
+    public function testIsDeclaredAsQueryParameterOnMainCollectionOperation() {
+        $resourceClasses = [
+            Camp::class,
+            Period::class,
+        ];
 
-        // when
-        $description = $filter->getDescription('Dummy');
+        foreach ($resourceClasses as $resourceClass) {
+            $operations = (new \ReflectionClass($resourceClass))->getAttributes(ApiResource::class)[0]->newInstance()->getOperations();
+            $mainCollection = array_values(array_filter(iterator_to_array($operations), fn ($operation) => $operation instanceof GetCollection))[0];
+            $parameters = $mainCollection->getParameters();
+            $parameter = $parameters instanceof Parameters ? $parameters->get('campCollaborator') : $parameters['campCollaborator'];
 
-        // then
-        $this->assertEquals([
-            'campCollaborator' => [
-                'property' => 'campCollaborator',
-                'type' => 'string',
-                'required' => false,
-            ],
-        ], $description);
+            $this->assertSame(CampCollaboratorFilter::class, $parameter->getFilter(), $resourceClass);
+        }
     }
 
     public function testFailsForResouceClassNotImplementingBelongsToCampInterface() {
         // given
-        $filter = new CampCollaboratorFilter($this->iriConverterMock, $this->managerRegistryMock);
+        $filter = new CampCollaboratorFilter($this->iriConverterMock);
 
         // then
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('CampCollaboratorFilter can only be applied to entities which implement BelongsToCampInterface (received: App\Entity\User).');
 
         // when
-        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, User::class, null, ['filters' => [
-            'campCollaborator' => '/users/123',
-        ]]);
+        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, User::class, null, ['parameter' => $this->parameter('/users/123')]);
     }
 
-    public function testDoesNothingForPropertiesOtherThanCampCollaborator() {
+    public function testPropagatesUnresolvableIri() {
         // given
-        $filter = new CampCollaboratorFilter($this->iriConverterMock, $this->managerRegistryMock);
+        $filter = new CampCollaboratorFilter($this->iriConverterMock);
+        $this->iriConverterMock
+            ->method('getResourceFromIri')
+            ->willThrowException(new InvalidArgumentException('Not found'))
+        ;
 
         // then
+        $this->expectException(InvalidArgumentException::class);
         $this->queryBuilderMock
             ->expects($this->never())
-            ->method('getRootAliases')
-        ;
-
-        $this->queryBuilderMock
-            ->expects($this->never())
-            ->method('join')
-        ;
-
-        $this->queryBuilderMock
-            ->expects($this->never())
-            ->method('andWhere')
+            ->method('setParameter')
         ;
 
         // when
-        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, ContentNode::class, null, ['filters' => [
-            'dummyProperty' => 'abc',
-        ]]);
+        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, ContentNode::class, null, ['parameter' => $this->parameter('/users/123')]);
     }
 
     public function testAddsFilterForPeriodProperty() {
         // given
-        $filter = new CampCollaboratorFilter($this->iriConverterMock, $this->managerRegistryMock);
+        $filter = new CampCollaboratorFilter($this->iriConverterMock);
         $collaborator = new User();
 
         // then
@@ -150,8 +147,10 @@ class CampCollaboratorFilterTest extends TestCase {
         ;
 
         // when
-        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, ContentNode::class, null, ['filters' => [
-            'campCollaborator' => '/users/123',
-        ]]);
+        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, ContentNode::class, null, ['parameter' => $this->parameter('/users/123')]);
+    }
+
+    private function parameter(string $value): QueryParameter {
+        return (new QueryParameter(key: 'campCollaborator'))->withValue($value);
     }
 }

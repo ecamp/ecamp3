@@ -59,7 +59,6 @@ services:
         decorates: 'api_platform.hal.normalizer.item'
         arguments:
             - '@.inner'
-            - '@api_platform.filter_locator'
             - '@serializer.name_converter.metadata_aware'
             - '@Rize\UriTemplate'
 

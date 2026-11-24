@@ -17,7 +17,7 @@
             "templated": true
         },
         "camps": {
-            "href": "/camps{/id}{?isPrototype,campCollaborator}",
+            "href": "/camps{/id}{?campCollaborator,isPrototype}",
             "templated": true
         },
         "categories": {
@@ -112,7 +112,7 @@
             "templated": true
         },
         "profiles": {
-            "href": "/profiles{/id}{?user.collaborations.camp,user.collaborations.camp[],user,user[],search}",
+            "href": "/profiles{/id}{?user.collaborations.camp,user.collaborations.camp[],search}",
             "templated": true
         },
         "refreshToken": {

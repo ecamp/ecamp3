@@ -49610,8 +49610,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'Activity camp'
+          explode: true
           in: query
           name: camp
           required: false
@@ -49620,7 +49620,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'Activity camp'
           explode: true
           in: query
           name: 'camp[]'
@@ -49629,7 +49629,7 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
       responses:
         200:
           content:
@@ -49769,50 +49769,6 @@ paths:
       description: 'Retrieves the collection of Comment resources.'
       operationId: api_activities_activityIdcomments_get_collection
       parameters:
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: activity
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'activity[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
         -
           deprecated: false
           description: 'Activity identifier'
@@ -50087,8 +50043,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'ActivityProgressLabel camp'
+          explode: true
           in: query
           name: camp
           required: false
@@ -50097,7 +50053,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'ActivityProgressLabel camp'
           explode: true
           in: query
           name: 'camp[]'
@@ -50106,7 +50062,7 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
       responses:
         200:
           content:
@@ -50456,8 +50412,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'ActivityResponsible activity'
+          explode: true
           in: query
           name: activity
           required: false
@@ -50466,29 +50422,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: activity.camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'activity.camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'ActivityResponsible activity'
           explode: true
           in: query
           name: 'activity[]'
@@ -50497,7 +50431,29 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'ActivityResponsible activity.camp'
+          explode: true
+          in: query
+          name: activity.camp
+          required: false
+          schema:
+            type: string
           style: form
+        -
+          deprecated: false
+          description: 'ActivityResponsible activity.camp'
+          explode: true
+          in: query
+          name: 'activity.camp[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: deepObject
       responses:
         200:
           content:
@@ -51169,8 +51125,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'CampCollaboration activityResponsibles.activity'
+          explode: true
           in: query
           name: activityResponsibles.activity
           required: false
@@ -51179,17 +51135,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'CampCollaboration activityResponsibles.activity'
           explode: true
           in: query
           name: 'activityResponsibles.activity[]'
@@ -51198,10 +51144,20 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'CampCollaboration camp'
+          explode: true
+          in: query
+          name: camp
+          required: false
+          schema:
+            type: string
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'CampCollaboration camp'
           explode: true
           in: query
           name: 'camp[]'
@@ -51210,7 +51166,7 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
       responses:
         200:
           content:
@@ -51660,8 +51616,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'Camp campCollaborator'
+          explode: true
           in: query
           name: campCollaborator
           required: false
@@ -51671,7 +51627,7 @@ paths:
         -
           deprecated: false
           description: 'Only accepts the value true.'
-          explode: false
+          explode: true
           in: query
           name: isPrototype
           required: false
@@ -51821,28 +51777,6 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          deprecated: false
           description: 'Camp identifier'
           explode: false
           in: path
@@ -51905,28 +51839,6 @@ paths:
       description: 'Retrieves the collection of ActivityProgressLabel resources.'
       operationId: api_camps_campIdactivity_progress_labels_get_collection
       parameters:
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
         -
           deprecated: false
           description: 'Camp identifier'
@@ -51993,50 +51905,6 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: activityResponsibles.activity
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'activityResponsibles.activity[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          deprecated: false
           description: 'Camp identifier'
           explode: false
           in: path
@@ -52099,28 +51967,6 @@ paths:
       description: 'Retrieves the collection of Category resources.'
       operationId: api_camps_campIdcategories_get_collection
       parameters:
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
         -
           deprecated: false
           description: 'Camp identifier'
@@ -52187,28 +52033,6 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          deprecated: false
           description: 'Camp identifier'
           explode: false
           in: path
@@ -52217,18 +52041,6 @@ paths:
           schema:
             type: string
           style: simple
-        -
-          deprecated: false
-          description: 'Only accepts the value true.'
-          explode: false
-          in: query
-          name: isPrototype
-          required: false
-          schema:
-            enum:
-              - true
-            type: boolean
-          style: form
       responses:
         200:
           content:
@@ -52493,8 +52305,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'Category camp'
+          explode: true
           in: query
           name: camp
           required: false
@@ -52503,7 +52315,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'Category camp'
           explode: true
           in: query
           name: 'camp[]'
@@ -52512,7 +52324,7 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
       responses:
         200:
           content:
@@ -52862,8 +52674,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'ChecklistItem checklist'
+          explode: true
           in: query
           name: checklist
           required: false
@@ -52872,29 +52684,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: checklist.camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'checklist.camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'ChecklistItem checklist'
           explode: true
           in: query
           name: 'checklist[]'
@@ -52903,7 +52693,29 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'ChecklistItem checklist.camp'
+          explode: true
+          in: query
+          name: checklist.camp
+          required: false
+          schema:
+            type: string
           style: form
+        -
+          deprecated: false
+          description: 'ChecklistItem checklist.camp'
+          explode: true
+          in: query
+          name: 'checklist.camp[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: deepObject
       responses:
         200:
           content:
@@ -53253,8 +53065,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'Checklist camp'
+          explode: true
           in: query
           name: camp
           required: false
@@ -53263,7 +53075,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'Checklist camp'
           explode: true
           in: query
           name: 'camp[]'
@@ -53272,11 +53084,11 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
         -
           deprecated: false
           description: 'Only accepts the value true.'
-          explode: false
+          explode: true
           in: query
           name: isPrototype
           required: false
@@ -53424,50 +53236,6 @@ paths:
       description: 'Retrieves the collection of ChecklistItem resources.'
       operationId: api_checklists_checklistIdchecklist_items_get_collection
       parameters:
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: checklist
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: checklist.camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'checklist.camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'checklist[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
         -
           deprecated: false
           description: 'Checklist identifier'
@@ -53742,8 +53510,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'Comment activity'
+          explode: true
           in: query
           name: activity
           required: false
@@ -53752,17 +53520,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'Comment activity'
           explode: true
           in: query
           name: 'activity[]'
@@ -53771,10 +53529,20 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'Comment camp'
+          explode: true
+          in: query
+          name: camp
+          required: false
+          schema:
+            type: string
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'Comment camp'
           explode: true
           in: query
           name: 'camp[]'
@@ -53783,7 +53551,7 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
       responses:
         200:
           content:
@@ -54133,8 +53901,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'ChecklistNode camp'
+          explode: true
           in: query
           name: camp
           required: false
@@ -54143,8 +53911,8 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'ChecklistNode contentType'
+          explode: true
           in: query
           name: contentType
           required: false
@@ -54153,37 +53921,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: isRoot
-          required: false
-          schema:
-            type: boolean
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: root
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'ChecklistNode contentType'
           explode: true
           in: query
           name: 'contentType[]'
@@ -54192,10 +53930,40 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'ChecklistNode isRoot'
+          explode: true
+          in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'ChecklistNode period'
+          explode: true
+          in: query
+          name: period
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'ChecklistNode root'
+          explode: true
+          in: query
+          name: root
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'ChecklistNode root'
           explode: true
           in: query
           name: 'root[]'
@@ -54204,7 +53972,7 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
       responses:
         200:
           content:
@@ -54344,50 +54112,6 @@ paths:
       description: 'Retrieves the collection of ChecklistItem resources.'
       operationId: api_content_nodechecklist_nodes_checklistNodeIdchecklist_items_get_collection
       parameters:
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: checklist
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: checklist.camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'checklist.camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'checklist[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
         -
           deprecated: false
           description: 'ChecklistNode identifier'
@@ -54662,8 +54386,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'ColumnLayout camp'
+          explode: true
           in: query
           name: camp
           required: false
@@ -54672,8 +54396,8 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'ColumnLayout contentType'
+          explode: true
           in: query
           name: contentType
           required: false
@@ -54682,37 +54406,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: isRoot
-          required: false
-          schema:
-            type: boolean
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: root
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'ColumnLayout contentType'
           explode: true
           in: query
           name: 'contentType[]'
@@ -54721,10 +54415,40 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'ColumnLayout isRoot'
+          explode: true
+          in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'ColumnLayout period'
+          explode: true
+          in: query
+          name: period
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'ColumnLayout root'
+          explode: true
+          in: query
+          name: root
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'ColumnLayout root'
           explode: true
           in: query
           name: 'root[]'
@@ -54733,7 +54457,7 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
       responses:
         200:
           content:
@@ -55083,8 +54807,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'MaterialNode camp'
+          explode: true
           in: query
           name: camp
           required: false
@@ -55093,8 +54817,8 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'MaterialNode contentType'
+          explode: true
           in: query
           name: contentType
           required: false
@@ -55103,37 +54827,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: isRoot
-          required: false
-          schema:
-            type: boolean
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: root
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'MaterialNode contentType'
           explode: true
           in: query
           name: 'contentType[]'
@@ -55142,10 +54836,40 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'MaterialNode isRoot'
+          explode: true
+          in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'MaterialNode period'
+          explode: true
+          in: query
+          name: period
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'MaterialNode root'
+          explode: true
+          in: query
+          name: root
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'MaterialNode root'
           explode: true
           in: query
           name: 'root[]'
@@ -55154,7 +54878,7 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
       responses:
         200:
           content:
@@ -55504,8 +55228,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'MultiSelect camp'
+          explode: true
           in: query
           name: camp
           required: false
@@ -55514,8 +55238,8 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'MultiSelect contentType'
+          explode: true
           in: query
           name: contentType
           required: false
@@ -55524,37 +55248,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: isRoot
-          required: false
-          schema:
-            type: boolean
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: root
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'MultiSelect contentType'
           explode: true
           in: query
           name: 'contentType[]'
@@ -55563,10 +55257,40 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'MultiSelect isRoot'
+          explode: true
+          in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'MultiSelect period'
+          explode: true
+          in: query
+          name: period
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'MultiSelect root'
+          explode: true
+          in: query
+          name: root
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'MultiSelect root'
           explode: true
           in: query
           name: 'root[]'
@@ -55575,7 +55299,7 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
       responses:
         200:
           content:
@@ -55925,8 +55649,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'NoData camp'
+          explode: true
           in: query
           name: camp
           required: false
@@ -55935,8 +55659,8 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'NoData contentType'
+          explode: true
           in: query
           name: contentType
           required: false
@@ -55945,37 +55669,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: isRoot
-          required: false
-          schema:
-            type: boolean
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: root
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'NoData contentType'
           explode: true
           in: query
           name: 'contentType[]'
@@ -55984,10 +55678,40 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'NoData isRoot'
+          explode: true
+          in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'NoData period'
+          explode: true
+          in: query
+          name: period
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'NoData root'
+          explode: true
+          in: query
+          name: root
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'NoData root'
           explode: true
           in: query
           name: 'root[]'
@@ -55996,7 +55720,7 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
       responses:
         200:
           content:
@@ -56346,8 +56070,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'ResponsiveLayout camp'
+          explode: true
           in: query
           name: camp
           required: false
@@ -56356,8 +56080,8 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'ResponsiveLayout contentType'
+          explode: true
           in: query
           name: contentType
           required: false
@@ -56366,37 +56090,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: isRoot
-          required: false
-          schema:
-            type: boolean
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: root
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'ResponsiveLayout contentType'
           explode: true
           in: query
           name: 'contentType[]'
@@ -56405,10 +56099,40 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'ResponsiveLayout isRoot'
+          explode: true
+          in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'ResponsiveLayout period'
+          explode: true
+          in: query
+          name: period
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'ResponsiveLayout root'
+          explode: true
+          in: query
+          name: root
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'ResponsiveLayout root'
           explode: true
           in: query
           name: 'root[]'
@@ -56417,7 +56141,7 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
       responses:
         200:
           content:
@@ -56767,8 +56491,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'SingleText camp'
+          explode: true
           in: query
           name: camp
           required: false
@@ -56777,8 +56501,8 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'SingleText contentType'
+          explode: true
           in: query
           name: contentType
           required: false
@@ -56787,37 +56511,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: isRoot
-          required: false
-          schema:
-            type: boolean
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: root
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'SingleText contentType'
           explode: true
           in: query
           name: 'contentType[]'
@@ -56826,10 +56520,40 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'SingleText isRoot'
+          explode: true
+          in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'SingleText period'
+          explode: true
+          in: query
+          name: period
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'SingleText root'
+          explode: true
+          in: query
+          name: root
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'SingleText root'
           explode: true
           in: query
           name: 'root[]'
@@ -56838,7 +56562,7 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
       responses:
         200:
           content:
@@ -57188,8 +56912,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'Storyboard camp'
+          explode: true
           in: query
           name: camp
           required: false
@@ -57198,8 +56922,8 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'Storyboard contentType'
+          explode: true
           in: query
           name: contentType
           required: false
@@ -57208,37 +56932,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: isRoot
-          required: false
-          schema:
-            type: boolean
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: root
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'Storyboard contentType'
           explode: true
           in: query
           name: 'contentType[]'
@@ -57247,10 +56941,40 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'Storyboard isRoot'
+          explode: true
+          in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'Storyboard period'
+          explode: true
+          in: query
+          name: period
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'Storyboard root'
+          explode: true
+          in: query
+          name: root
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'Storyboard root'
           explode: true
           in: query
           name: 'root[]'
@@ -57259,7 +56983,7 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
       responses:
         200:
           content:
@@ -57609,8 +57333,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'ContentNode camp'
+          explode: true
           in: query
           name: camp
           required: false
@@ -57619,8 +57343,8 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'ContentNode contentType'
+          explode: true
           in: query
           name: contentType
           required: false
@@ -57629,37 +57353,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: isRoot
-          required: false
-          schema:
-            type: boolean
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: root
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'ContentNode contentType'
           explode: true
           in: query
           name: 'contentType[]'
@@ -57668,10 +57362,40 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'ContentNode isRoot'
+          explode: true
+          in: query
+          name: isRoot
+          required: false
+          schema:
+            type: boolean
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'ContentNode period'
+          explode: true
+          in: query
+          name: period
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'ContentNode root'
+          explode: true
+          in: query
+          name: root
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'ContentNode root'
           explode: true
           in: query
           name: 'root[]'
@@ -57680,7 +57404,7 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
       responses:
         200:
           content:
@@ -57737,8 +57461,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'ContentType categories'
+          explode: true
           in: query
           name: categories
           required: false
@@ -57747,17 +57471,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: name
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'ContentType categories'
           explode: true
           in: query
           name: 'categories[]'
@@ -57766,10 +57480,20 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'ContentType name'
+          explode: true
+          in: query
+          name: name
+          required: false
+          schema:
+            type: string
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'ContentType name'
           explode: true
           in: query
           name: 'name[]'
@@ -57778,7 +57502,7 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
       responses:
         200:
           content:
@@ -57872,8 +57596,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'DayResponsible day'
+          explode: true
           in: query
           name: day
           required: false
@@ -57882,29 +57606,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: day.period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'day.period[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'DayResponsible day'
           explode: true
           in: query
           name: 'day[]'
@@ -57913,7 +57615,29 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'DayResponsible day.period'
+          explode: true
+          in: query
+          name: day.period
+          required: false
+          schema:
+            type: string
           style: form
+        -
+          deprecated: false
+          description: 'DayResponsible day.period'
+          explode: true
+          in: query
+          name: 'day.period[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: deepObject
       responses:
         200:
           content:
@@ -58164,8 +57888,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'Day period'
+          explode: true
           in: query
           name: period
           required: false
@@ -58174,29 +57898,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period.camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'period.camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'Day period'
           explode: true
           in: query
           name: 'period[]'
@@ -58205,7 +57907,29 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'Day period.camp'
+          explode: true
+          in: query
+          name: period.camp
+          required: false
+          schema:
+            type: string
           style: form
+        -
+          deprecated: false
+          description: 'Day period.camp'
+          explode: true
+          in: query
+          name: 'period.camp[]'
+          required: false
+          schema:
+            items:
+              type: string
+            type: array
+          style: deepObject
       responses:
         200:
           content:
@@ -58260,50 +57984,6 @@ paths:
       description: 'Retrieves the collection of DayResponsible resources.'
       operationId: api_days_dayIdday_responsibles_get_collection
       parameters:
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: day
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: day.period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'day.period[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'day[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
         -
           deprecated: false
           description: 'Day identifier'
@@ -58954,8 +58634,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'MaterialItem camp'
+          explode: true
           in: query
           name: camp
           required: false
@@ -58964,37 +58644,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: materialList
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: materialNode
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'MaterialItem camp'
           explode: true
           in: query
           name: 'camp[]'
@@ -59003,10 +58653,20 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'MaterialItem materialList'
+          explode: true
+          in: query
+          name: materialList
+          required: false
+          schema:
+            type: string
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'MaterialItem materialList'
           explode: true
           in: query
           name: 'materialList[]'
@@ -59015,10 +58675,20 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'MaterialItem materialNode'
+          explode: true
+          in: query
+          name: materialNode
+          required: false
+          schema:
+            type: string
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'MaterialItem materialNode'
           explode: true
           in: query
           name: 'materialNode[]'
@@ -59027,6 +58697,16 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'MaterialItem period'
+          explode: true
+          in: query
+          name: period
+          required: false
+          schema:
+            type: string
           style: form
       responses:
         200:
@@ -59377,8 +59057,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'MaterialList camp'
+          explode: true
           in: query
           name: camp
           required: false
@@ -59387,7 +59067,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'MaterialList camp'
           explode: true
           in: query
           name: 'camp[]'
@@ -59396,7 +59076,7 @@ paths:
             items:
               type: string
             type: array
-          style: form
+          style: deepObject
       responses:
         200:
           content:
@@ -59746,8 +59426,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'Period camp'
+          explode: true
           in: query
           name: camp
           required: false
@@ -59756,17 +59436,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: campCollaborator
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'Period camp'
           explode: true
           in: query
           name: 'camp[]'
@@ -59775,6 +59445,16 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'Period campCollaborator'
+          explode: true
+          in: query
+          name: campCollaborator
+          required: false
+          schema:
+            type: string
           style: form
       responses:
         200:
@@ -60125,50 +59805,6 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period.camp
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'period.camp[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'period[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          deprecated: false
           description: 'Period identifier'
           explode: false
           in: path
@@ -60231,130 +59867,6 @@ paths:
       description: 'Retrieves the collection of ScheduleEntry resources.'
       operationId: api_periods_periodIdschedule_entries_get_collection
       parameters:
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: activity
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'end[after]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'end[before]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'end[strictly_after]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'end[strictly_before]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'start[after]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'start[before]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'start[strictly_after]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'start[strictly_before]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'activity[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'period[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
         -
           deprecated: false
           description: 'Period identifier'
@@ -60712,18 +60224,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: user
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
+          description: 'Profile user.collaborations.camp'
+          explode: true
           in: query
           name: user.collaborations.camp
           required: false
@@ -60732,7 +60234,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'Profile user.collaborations.camp'
           explode: true
           in: query
           name: 'user.collaborations.camp[]'
@@ -60741,23 +60243,11 @@ paths:
             items:
               type: string
             type: array
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: true
-          in: query
-          name: 'user[]'
-          required: false
-          schema:
-            items:
-              type: string
-            type: array
-          style: form
+          style: deepObject
         -
           deprecated: false
           description: 'Search profiles by a part of their firstname, surname, nickname or email.'
-          explode: false
+          explode: true
           in: query
           name: search
           required: false
@@ -60982,8 +60472,8 @@ paths:
       parameters:
         -
           deprecated: false
-          description: ''
-          explode: false
+          description: 'ScheduleEntry activity'
+          explode: true
           in: query
           name: activity
           required: false
@@ -60992,97 +60482,7 @@ paths:
           style: form
         -
           deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'end[after]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'end[before]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'end[strictly_after]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'end[strictly_before]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: period
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'start[after]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'start[before]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'start[strictly_after]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
-          explode: false
-          in: query
-          name: 'start[strictly_before]'
-          required: false
-          schema:
-            type: string
-          style: form
-        -
-          deprecated: false
-          description: ''
+          description: 'ScheduleEntry activity'
           explode: true
           in: query
           name: 'activity[]'
@@ -61091,10 +60491,60 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'ScheduleEntry end'
+          explode: true
+          in: query
+          name: 'end[after]'
+          required: false
+          schema:
+            type: string
           style: form
         -
           deprecated: false
-          description: ''
+          description: 'ScheduleEntry end'
+          explode: true
+          in: query
+          name: 'end[before]'
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'ScheduleEntry end'
+          explode: true
+          in: query
+          name: 'end[strictly_after]'
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'ScheduleEntry end'
+          explode: true
+          in: query
+          name: 'end[strictly_before]'
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'ScheduleEntry period'
+          explode: true
+          in: query
+          name: period
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'ScheduleEntry period'
           explode: true
           in: query
           name: 'period[]'
@@ -61103,6 +60553,46 @@ paths:
             items:
               type: string
             type: array
+          style: deepObject
+        -
+          deprecated: false
+          description: 'ScheduleEntry start'
+          explode: true
+          in: query
+          name: 'start[after]'
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'ScheduleEntry start'
+          explode: true
+          in: query
+          name: 'start[before]'
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'ScheduleEntry start'
+          explode: true
+          in: query
+          name: 'start[strictly_after]'
+          required: false
+          schema:
+            type: string
+          style: form
+        -
+          deprecated: false
+          description: 'ScheduleEntry start'
+          explode: true
+          in: query
+          name: 'start[strictly_before]'
+          required: false
+          schema:
+            type: string
           style: form
       responses:
         200:

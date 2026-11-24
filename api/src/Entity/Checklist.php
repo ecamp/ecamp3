@@ -2,8 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\IriFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
@@ -12,6 +11,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Doctrine\Filter\IsTrueFilter;
 use App\InputFilter;
 use App\Repository\ChecklistRepository;
@@ -49,6 +49,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new GetCollection(
             security: 'is_authenticated()',
+            parameters: [
+                'camp' => new QueryParameter(filter: new IriFilter()),
+                'isPrototype' => new QueryParameter(filter: new IsTrueFilter()),
+            ],
             extraProperties: [
                 'scoping_filters' => ['camp', 'isPrototype'],
             ]
@@ -80,8 +84,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     order: ['camp.id', 'name'],
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
-#[ApiFilter(filterClass: IsTrueFilter::class, properties: ['isPrototype'])]
 #[ORM\Entity(repositoryClass: ChecklistRepository::class)]
 class Checklist extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     public const CAMP_SUBRESOURCE_URI_TEMPLATE = '/camps/{campId}/checklists{._format}';

@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\IriFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Repository\ActivityResponsibleRepository;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\ORM\Mapping as ORM;
@@ -30,6 +30,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new GetCollection(
             security: 'is_authenticated()',
+            parameters: [
+                'activity' => new QueryParameter(filter: new IriFilter()),
+                'activity.camp' => new QueryParameter(filter: new IriFilter(), property: 'activity.camp'),
+            ],
             extraProperties: [
                 'scoping_filters' => ['activity', 'activity.camp'],
             ]
@@ -44,7 +48,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     fields: ['campCollaboration', 'activity'],
     message: 'This campCollaboration (user) is already responsible for this activity.',
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['activity', 'activity.camp'])]
 #[ORM\Entity(repositoryClass: ActivityResponsibleRepository::class)]
 #[ORM\UniqueConstraint(name: 'activity_campCollaboration_unique', columns: ['activityId', 'campCollaborationId'])]
 class ActivityResponsible extends BaseEntity implements BelongsToCampInterface {
