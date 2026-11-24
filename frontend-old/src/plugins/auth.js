@@ -134,11 +134,10 @@ async function loadUser() {
   }
 
   try {
-    const profiles = await apiStore
-      .get()
-      .profiles({ user: parseJWTPayload(getJWTPayloadFromCookie()).user })._meta.load
-    store.commit('login', profiles.items[0].user())
-    return profiles.items[0].user()
+    const user = await apiStore.get(parseJWTPayload(getJWTPayloadFromCookie()).user)._meta
+      .load
+    store.commit('login', user)
+    return user
   } catch (e) {
     if (e.response && [401, 403, 404].includes(e.response.status)) {
       // 401 means no complete token was submitted, so we may be missing the JWT signature cookie
