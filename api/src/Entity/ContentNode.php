@@ -100,7 +100,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     #[ORM\OrderBy(['slot' => \SortDirection::Ascending, 'position' => \SortDirection::Ascending])]
     public Collection $children;
 
-    #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    #[ORM\Column(type: 'jsonb', nullable: true)]
     public ?array $data = null;
 
     /**
