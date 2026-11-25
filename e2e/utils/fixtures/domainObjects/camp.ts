@@ -147,7 +147,7 @@ export class Camp {
     await dialog.fillPrompt(this._campTitle)
     await dialog.submit()
 
-    const campListPage = await new CampListPage(this._page).goto()
+    const campListPage = await new CampListPage(this._page).loaded()
     await campListPage.expectCampNotListed(this._campTitle)
   }
 }

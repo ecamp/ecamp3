@@ -33,7 +33,10 @@ export class CreateCampDialogStep2 {
       'Link zum gewünschten Vorlage-Lager' // components.campCreate.campCreateStep2.prototypeCampUrl
     ),
     _previewBlock = _form.locator('.dashborder'),
-    private readonly _previewContent = _previewBlock.locator('.v-list-item'),
+    private readonly _previewContent = _previewBlock
+      .locator('.v-list')
+      .first()
+      .locator('.v-list-item'),
     private readonly _previewHeading = _previewBlock.getByRole('heading', {
       name: PREVIEW_HEADING,
     }),
