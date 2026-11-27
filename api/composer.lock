@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f9e1fcb18ea91b3a463a6bb742c237b4",
+    "content-hash": "df1bcdfc0a3e52b3b758f115b9f87644",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -3448,28 +3448,27 @@
         },
         {
             "name": "google/recaptcha",
-            "version": "2.1.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/recaptcha.git",
-                "reference": "05a576b66e1a356c7a3ad8a3beff09ff91b50961"
+                "reference": "5dd511e6f1f586984066f932c7293ccd571d42cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/recaptcha/zipball/05a576b66e1a356c7a3ad8a3beff09ff91b50961",
-                "reference": "05a576b66e1a356c7a3ad8a3beff09ff91b50961",
+                "url": "https://api.github.com/repos/google/recaptcha/zipball/5dd511e6f1f586984066f932c7293ccd571d42cc",
+                "reference": "5dd511e6f1f586984066f932c7293ccd571d42cc",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.4"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.95.27",
-                "php-coveralls/php-coveralls": "^2.9.1",
-                "phpstan/phpstan": "^2.2.15",
-                "phpstan/phpstan-phpunit": "^2.0.18",
-                "phpstan/phpstan-strict-rules": "^2.0.12",
-                "phpunit/phpunit": "^13.3.4"
+                "friendsofphp/php-cs-fixer": "^3.95.32",
+                "phpstan/phpstan": "^2.3.6",
+                "phpstan/phpstan-phpunit": "^2.1.2",
+                "phpstan/phpstan-strict-rules": "^2.1.1",
+                "phpunit/phpunit": "^13.4.7"
             },
             "suggest": {
                 "ext-curl": "Recommended for sending requests via CurlPost",
@@ -3478,7 +3477,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.1.x-dev"
+                    "dev-main": "2.2.x-dev"
                 }
             },
             "autoload": {
@@ -3503,8 +3502,8 @@
                 "issues": "https://github.com/google/recaptcha/issues",
                 "source": "https://github.com/google/recaptcha"
             },
-            "time": "2026-09-23T21:32:33+00:00",
-            "published-time": "2026-09-23T21:34:22+00:00"
+            "time": "2026-11-19T11:21:43+00:00",
+            "published-time": "2026-11-19T11:22:55+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
