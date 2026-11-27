@@ -159,6 +159,17 @@ export default {
       this.close()
       this.api.reload(this.activity)
       this.api.reload(this.scheduleEntry.period().scheduleEntries())
+      const originalPeriodUri = this.scheduleEntry.period()._meta.self
+      const reloadedPeriods = new Set([originalPeriodUri])
+      this.entityData.scheduleEntries
+        .filter((entry) => typeof entry.period === 'function')
+        .forEach((entry) => {
+          const targetPeriodUri = entry.period()._meta.self
+          if (!reloadedPeriods.has(targetPeriodUri)) {
+            reloadedPeriods.add(targetPeriodUri)
+            this.api.reload(this.api.get(targetPeriodUri).scheduleEntries())
+          }
+        })
       this.$emit('activityUpdated', data)
     },
   },
