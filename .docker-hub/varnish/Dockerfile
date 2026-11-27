@@ -10,4 +10,5 @@ RUN set -e; \
 
 RUN rm -rf /var/lib/apt/lists/*;
 
-USER varnish
+# From https://github.com/varnish/docker-varnish/blob/835e048a302313efad1c9be5f09061303792083f/stable/debian/Dockerfile#L30
+USER 1000

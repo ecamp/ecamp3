@@ -108,10 +108,15 @@ COPY --link templates templates/
 COPY --link translations translations/
 
 RUN set -eux; \
+    setcap -r /usr/local/bin/frankenphp; \
 	mkdir -p var/cache var/log; \
+    chgrp -R 0 var/cache var/log; \
+    chmod +w var/log; \
+    setfacl -R -m u:www-data:rwX -m g:0:rwX var; \
+    setfacl -dR -m u:www-data:rwX -m g:0:rwX var; \
 	composer dump-autoload --classmap-authoritative --no-dev; \
 	composer dump-env prod; \
 	composer run-script --no-dev post-install-cmd; \
 	chmod +x bin/console; sync;
 
-
+USER 31859
