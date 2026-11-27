@@ -8,6 +8,7 @@ import StoryConfig from '../config/StoryConfig.vue'
 import SafetyConsiderationsConfig from '../config/SafetyConsiderationsConfig.vue'
 import TocConfig from '../config/TocConfig.vue'
 import ActivityListConfig from '../config/ActivityListConfig.vue'
+import InsertPdfConfig from '../config/InsertPdfConfig.vue'
 
 describe('repairConfig', () => {
   const camp = {
@@ -95,6 +96,7 @@ describe('repairConfig', () => {
       StoryConfig,
       TocConfig,
       ActivityListConfig,
+      InsertPdfConfig,
     ].map((component) => [component.name.replace(/Config$/, ''), component.repairConfig])
   )
   const defaultFilter = {
@@ -4607,6 +4609,70 @@ describe('repairConfig', () => {
           language: 'en-GB',
         })
       })
+    })
+  })
+
+  describe('insertPdf', () => {
+    const configWithOptions = (options) => ({
+      camp: '/camps/1a2b3c4d',
+      contents: [{ type: 'InsertPdf', options }],
+      documentName: 'test camp',
+      options: defaultOptions,
+      language: 'en-GB',
+    })
+    const validOptions = {
+      file: {
+        assetId: 'f81d4fae-7dec-11d0-a765-00a0c91e6bf6',
+        name: 'packing-list.pdf',
+        pages: [{ width: 595.28, height: 841.89 }],
+      },
+      tocTitle: 'Packing list',
+      pageRange: '1',
+      fitToPageSize: false,
+    }
+    const emptyOptions = {
+      file: null,
+      tocTitle: '',
+      pageRange: '',
+      fitToPageSize: true,
+    }
+
+    test('leaves valid config alone', () => {
+      // given
+      const config = configWithOptions(validOptions)
+
+      // when
+      const result = repairConfig(config, ...args)
+
+      // then
+      expect(result).toEqual(configWithOptions(validOptions))
+    })
+
+    test('adds missing options', () => {
+      // given
+      const config = configWithOptions(undefined)
+
+      // when
+      const result = repairConfig(config, ...args)
+
+      // then
+      expect(result).toEqual(configWithOptions(emptyOptions))
+    })
+
+    test('resets invalid options', () => {
+      // given
+      const config = configWithOptions({
+        file: { name: 'packing-list.pdf' },
+        tocTitle: 1,
+        pageRange: null,
+        fitToPageSize: 'yes',
+      })
+
+      // when
+      const result = repairConfig(config, ...args)
+
+      // then
+      expect(result).toEqual(configWithOptions(emptyOptions))
     })
   })
 })
