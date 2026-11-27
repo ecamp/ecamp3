@@ -119,6 +119,14 @@ export default {
     },
   },
   methods: {
+    onSuccess(response) {
+      // dates of schedule entries and days are calculated from the period start by the API
+      // and days are added or removed, so the cached collections are outdated now
+      this.api.reload(this.period.scheduleEntries())
+      this.api.reload(this.period.days())
+      this.api.reload(this.period.dayResponsibles())
+      return DialogBase.methods.onSuccess.call(this, response)
+    },
     updateStartAndNotify(start) {
       this.entityData.start = start
       this.startChanged()
