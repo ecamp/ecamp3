@@ -27,7 +27,13 @@ export class DialogDeleteCamp {
 
   @boxedStep
   async submit() {
+    const deleteResponse = this._page.waitForResponse(
+      (response) =>
+        response.request().method() === 'DELETE' &&
+        /\/api\/camps\/[^/]+$/.test(new URL(response.url()).pathname)
+    )
     await this._deleteButton.click()
+    expect((await deleteResponse).ok()).toBe(true)
     await this._page.waitForURL(/\/camps$/, { timeout: 15000 })
   }
 }

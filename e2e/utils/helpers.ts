@@ -225,31 +225,3 @@ export async function createCampViaUI(page: Page, campTitle: string): Promise<st
 
   return page.url().replace(/\/info$/, '')
 }
-
-export async function deleteCampViaUI(
-  page: Page,
-  campAdminBaseUrl: string,
-  campTitle: string
-): Promise<void> {
-  await page.goto(`${campAdminBaseUrl}/info`)
-
-  await page
-    .locator('.v-expansion-panel')
-    .filter({ hasText: 'Gefahrenzone' })
-    .locator('.v-expansion-panel-title')
-    .click()
-
-  await page
-    .locator('.v-expansion-panel-text')
-    .getByRole('button', { name: /Löschen/i })
-    .click()
-
-  await page.locator('[name="promptText"] input').fill(campTitle)
-
-  await page
-    .locator('.v-overlay--active')
-    .getByRole('button', { name: /Löschen/i })
-    .click()
-
-  await expect(page).toHaveURL((url) => url.pathname === '/camps', { timeout: 15000 })
-}
