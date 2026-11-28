@@ -33,7 +33,10 @@ export class CreateCampDialogStep2 {
       'Link zum gewünschten Vorlage-Lager' // components.campCreate.campCreateStep2.prototypeCampUrl
     ),
     _previewBlock = _form.locator('.dashborder'),
-    private readonly _previewContent = _previewBlock.locator('.v-list-item'),
+    private readonly _previewContent = _previewBlock
+      .locator('.v-list')
+      .first()
+      .locator('.v-list-item'),
     private readonly _previewHeading = _previewBlock.getByRole('heading', {
       name: PREVIEW_HEADING,
     }),
@@ -53,6 +56,13 @@ export class CreateCampDialogStep2 {
   async selectPrototype(prototype: string) {
     await this._prototypeSelect.open()
     await this._prototypeSelect.select(prototype)
+    return this
+  }
+
+  @boxedStep
+  async expectPrototypeOptionCount(prototype: string, count: number) {
+    await this._prototypeSelect.open()
+    await expect(this._prototypeSelect.option(prototype)).toHaveCount(count)
     return this
   }
 
@@ -85,6 +95,35 @@ export class CreateCampDialogStep2 {
   @boxedStep
   async fillManualPrototypeUrl(url: string) {
     await this._manualPrototypeUrlField.fill(url)
+    return this
+  }
+
+  @boxedStep
+  async typeManualPrototypeUrl(url: string) {
+    await this._manualPrototypeUrlField.pressSequentially(url)
+    return this
+  }
+
+  @boxedStep
+  async expectManualPrototypeUrl(url: string) {
+    await expect(this._manualPrototypeUrlField).toHaveValue(url)
+    return this
+  }
+
+  @boxedStep
+  async fillUnknownManualPrototypeUrl(campId: string) {
+    const waitForFailedCampResponse = this._page.waitForResponse(
+      (response) =>
+        new URL(response.url()).pathname === `/api/camps/${campId}` && !response.ok()
+    )
+    await this.fillManualPrototypeUrl(`http://localhost:3000/camps/${campId}`)
+    await waitForFailedCampResponse
+    return this
+  }
+
+  @boxedStep
+  async expectCreateCampBlocked() {
+    await expect(this._createCampButton).toBeHidden()
     return this
   }
 

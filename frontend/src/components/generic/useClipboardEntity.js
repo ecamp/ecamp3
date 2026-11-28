@@ -9,6 +9,7 @@ export function useClipboardEntity({
   const clipboardEntity = ref(null)
   const _clipoardEntityUrl = ref(null)
   const loading = ref(false)
+  let latestRequest = 0
 
   const clipboardEntityUrl = computed({
     get() {
@@ -18,6 +19,7 @@ export function useClipboardEntity({
   })
 
   async function setClipboardEntityUrl(url) {
+    const request = ++latestRequest
     loading.value = true
     _clipoardEntityUrl.value = url
 
@@ -27,11 +29,13 @@ export function useClipboardEntity({
         return entityProxy?._meta.load
       })
       .then((entity) => {
+        if (request !== latestRequest) return
         clipboardEntity.value = entity
         onEntityLoaded(entity)
         loading.value = false
       })
       .catch(() => {
+        if (request !== latestRequest) return
         clipboardEntity.value = null
         onEntityLoadFailed(url)
         loading.value = false
