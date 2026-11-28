@@ -35,6 +35,8 @@ test.describe('The filters in the dashboard', { tag: '@mature' }, () => {
       page.locator('span.v-chip:has-text("Status: Geplant oder Coach OK")')
     ).toBeVisible()
 
+    await expectUrlParamCount(page, 'category', 2)
+    await expectUrlParamCount(page, 'progressLabel', 2)
     await page.reload()
 
     await expect(
@@ -54,6 +56,7 @@ test.describe('The filters in the dashboard', { tag: '@mature' }, () => {
       page.locator('span.v-chip:has-text("Kategorie: ES oder LS")')
     ).toBeVisible()
 
+    await expectUrlParamCount(page, 'category', 2)
     await page.reload()
 
     await expect(
@@ -70,6 +73,7 @@ test.describe('The filters in the dashboard', { tag: '@mature' }, () => {
     ).toBeHidden()
     await expect(page.locator('span.v-chip:has-text("Kategorie")')).toBeVisible()
 
+    await expectUrlParamCount(page, 'category', 0)
     await page.reload()
 
     await expect(
@@ -86,6 +90,7 @@ test.describe('The filters in the dashboard', { tag: '@mature' }, () => {
       page.locator('span.v-chip:has-text("Verantwortlich: Keine Verantwortlichen")')
     ).toBeVisible()
 
+    await expectUrlParamCount(page, 'responsible', 1)
     await page.reload()
 
     await expect(
@@ -93,6 +98,10 @@ test.describe('The filters in the dashboard', { tag: '@mature' }, () => {
     ).toBeVisible()
   })
 })
+
+async function expectUrlParamCount(page: Page, param: string, count: number) {
+  await expect(page).toHaveURL((url) => url.searchParams.getAll(param).length === count)
+}
 
 async function clickOnItemWithLabel(page: Page, label: string) {
   const item = page
