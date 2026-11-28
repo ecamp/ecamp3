@@ -29,12 +29,12 @@ class PeriodPersistProcessorTest extends TestCase {
      */
     protected function setUp(): void {
         $this->emptyPeriod = new Period();
-        $this->emptyPeriod->start = new \DateTime('2000-01-10');
-        $this->emptyPeriod->end = new \DateTime('2000-01-12');
+        $this->emptyPeriod->start = new \DateTimeImmutable('2000-01-10');
+        $this->emptyPeriod->end = new \DateTimeImmutable('2000-01-12');
 
         $this->period = new Period();
-        $this->period->start = new \DateTime('2000-01-10');
-        $this->period->end = new \DateTime('2000-01-12');
+        $this->period->start = new \DateTimeImmutable('2000-01-10');
+        $this->period->end = new \DateTimeImmutable('2000-01-12');
 
         for ($i = 0; $i < 3; ++$i) {
             $day = new Day();
@@ -71,7 +71,7 @@ class PeriodPersistProcessorTest extends TestCase {
         // given
         $patchData = clone $this->period;
         $patchData->moveScheduleEntries = true;
-        $patchData->start = new \DateTime('2000-01-09');
+        $patchData->start = new \DateTimeImmutable('2000-01-09');
 
         // when
         $this->processor->onBefore($patchData, new Patch(), [], ['previous_data' => $this->period]);
@@ -92,7 +92,7 @@ class PeriodPersistProcessorTest extends TestCase {
         // given
         $patchData = clone $this->period;
         $patchData->moveScheduleEntries = false;
-        $patchData->start = new \DateTime('2000-01-09');
+        $patchData->start = new \DateTimeImmutable('2000-01-09');
 
         // when
         $this->processor->onBefore($patchData, new Patch(), [], ['previous_data' => $this->period]);
@@ -113,7 +113,7 @@ class PeriodPersistProcessorTest extends TestCase {
         // given
         $patchData = clone $this->period;
         $patchData->moveScheduleEntries = true;
-        $patchData->start = new \DateTime('2000-01-11');
+        $patchData->start = new \DateTimeImmutable('2000-01-11');
 
         // when
         $this->processor->onBefore($patchData, new Patch(), [], ['previous_data' => $this->period]);
@@ -132,7 +132,7 @@ class PeriodPersistProcessorTest extends TestCase {
         // given
         $patchData = clone $this->period;
         $patchData->moveScheduleEntries = false;
-        $patchData->start = new \DateTime('2000-01-11');
+        $patchData->start = new \DateTimeImmutable('2000-01-11');
 
         // when
         $this->processor->onBefore($patchData, new Patch(), [], ['previous_data' => $this->period]);
@@ -151,7 +151,7 @@ class PeriodPersistProcessorTest extends TestCase {
         // given
         $patchData = clone $this->period;
         $patchData->moveScheduleEntries = true;
-        $patchData->end = new \DateTime('2000-01-14');
+        $patchData->end = new \DateTimeImmutable('2000-01-14');
 
         // when
         $this->processor->onBefore($patchData, new Patch(), [], ['previous_data' => $this->period]);
@@ -169,7 +169,7 @@ class PeriodPersistProcessorTest extends TestCase {
         // given
         $patchData = clone $this->period;
         $patchData->moveScheduleEntries = false;
-        $patchData->end = new \DateTime('2000-01-14');
+        $patchData->end = new \DateTimeImmutable('2000-01-14');
 
         // when
         $this->processor->onBefore($patchData, new Patch(), [], ['previous_data' => $this->period]);
@@ -187,7 +187,7 @@ class PeriodPersistProcessorTest extends TestCase {
         // given
         $patchData = clone $this->period;
         $patchData->moveScheduleEntries = true;
-        $patchData->end = new \DateTime('2000-01-10');
+        $patchData->end = new \DateTimeImmutable('2000-01-10');
 
         // when
         $this->processor->onBefore($patchData, new Patch(), [], ['previous_data' => $this->period]);

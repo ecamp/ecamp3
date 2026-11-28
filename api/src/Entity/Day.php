@@ -158,12 +158,9 @@ class Day extends BaseEntity implements BelongsToCampInterface, CanGenerateTagsI
      */
     #[ApiProperty(example: '2022-01-02T00:00:00+00:00', openapiContext: ['format' => 'date'])]
     #[Groups(['read'])]
-    public function getStart(): ?\DateTime {
+    public function getStart(): ?\DateTimeImmutable {
         try {
-            $start = $this->period?->start ? \DateTime::createFromInterface($this->period->start) : null;
-            $start?->add(new \DateInterval('P'.$this->dayOffset.'D'));
-
-            return $start;
+            return $this->period?->start?->add(new \DateInterval('P'.$this->dayOffset.'D'));
         } catch (\Exception) {
             return null;
         }
@@ -174,12 +171,9 @@ class Day extends BaseEntity implements BelongsToCampInterface, CanGenerateTagsI
      */
     #[ApiProperty(example: '2022-01-03T00:00:00+00:00', openapiContext: ['format' => 'date'])]
     #[Groups(['read'])]
-    public function getEnd(): ?\DateTime {
+    public function getEnd(): ?\DateTimeImmutable {
         try {
-            $end = $this->period?->start ? \DateTime::createFromInterface($this->period->start) : null;
-            $end?->add(new \DateInterval('P'.($this->dayOffset + 1).'D'));
-
-            return $end;
+            return $this->period?->start?->add(new \DateInterval('P'.($this->dayOffset + 1).'D'));
         } catch (\Exception) {
             return null;
         }

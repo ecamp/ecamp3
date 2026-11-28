@@ -25,7 +25,7 @@ class OAuthStateRepository extends ServiceEntityRepository {
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function findOneUnexpiredBy(string $state, \DateTime $expiresAfter): ?OAuthState {
+    public function findOneUnexpiredBy(string $state, \DateTimeImmutable $expiresAfter): ?OAuthState {
         return $this->createQueryBuilder('o')
             ->where('o.expireTime > :now AND o.state = :state')
             ->setParameter('now', $expiresAfter)
@@ -36,7 +36,7 @@ class OAuthStateRepository extends ServiceEntityRepository {
         ;
     }
 
-    public function deleteAllExpiredBefore(\DateTime $expiry) {
+    public function deleteAllExpiredBefore(\DateTimeImmutable $expiry) {
         $this->createQueryBuilder('o')
             ->delete(OAuthState::class, 'o')
             ->where('o.expireTime < :expiry')

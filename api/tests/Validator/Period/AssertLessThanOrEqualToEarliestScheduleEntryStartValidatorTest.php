@@ -38,7 +38,7 @@ class AssertLessThanOrEqualToEarliestScheduleEntryStartValidatorTest extends Con
 
         $this->setObject($period);
 
-        $this->validator->validate(new \DateTime(), new AssertLessThanOrEqualToEarliestScheduleEntryStart());
+        $this->validator->validate(new \DateTimeImmutable(), new AssertLessThanOrEqualToEarliestScheduleEntryStart());
         $this->assertNoViolation();
     }
 
@@ -55,7 +55,7 @@ class AssertLessThanOrEqualToEarliestScheduleEntryStartValidatorTest extends Con
         $this->setObject($period);
 
         // when
-        $this->validator->validate(new \DateTime('2023-08-02'), new AssertLessThanOrEqualToEarliestScheduleEntryStart());
+        $this->validator->validate(new \DateTimeImmutable('2023-08-02'), new AssertLessThanOrEqualToEarliestScheduleEntryStart());
         // then
         $this->assertNoViolation();
     }
@@ -74,12 +74,12 @@ class AssertLessThanOrEqualToEarliestScheduleEntryStartValidatorTest extends Con
         $this->setObject($period);
 
         // when
-        $this->validator->validate(new \DateTime('2023-07-31'), new AssertLessThanOrEqualToEarliestScheduleEntryStart());
+        $this->validator->validate(new \DateTimeImmutable('2023-07-31'), new AssertLessThanOrEqualToEarliestScheduleEntryStart());
         // then
         $this->assertNoViolation();
 
         // when
-        $this->validator->validate(new \DateTime('2023-08-02'), new AssertLessThanOrEqualToEarliestScheduleEntryStart());
+        $this->validator->validate(new \DateTimeImmutable('2023-08-02'), new AssertLessThanOrEqualToEarliestScheduleEntryStart());
         // then
         $this->expectNoValidate();
     }
@@ -88,7 +88,7 @@ class AssertLessThanOrEqualToEarliestScheduleEntryStartValidatorTest extends Con
         /** @var MockObject|UnitOfWork $uow */
         $uow = $this->createStub(UnitOfWork::class);
         $uow->method('getOriginalEntityData')->willReturn([
-            'start' => new \DateTime('2023-08-01'),
+            'start' => new \DateTimeImmutable('2023-08-01'),
         ]);
 
         /** @var EntityManagerInterface|MockObject $em */

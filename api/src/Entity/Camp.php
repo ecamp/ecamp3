@@ -23,6 +23,7 @@ use App\Util\EntityMap;
 use App\Validator\AssertContainsAtLeastOneManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Serializer\Attribute\SerializedName;
@@ -221,8 +222,8 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      */
     #[ApiProperty(example: '2025-10-01T00:00:00+00:00', openapiContext: ['format' => 'date-time'])]
     #[Groups(['read'])]
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    public ?\DateTimeInterface $sharedSince = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    public ?\DateTimeImmutable $sharedSince = null;
 
     /**
      * The person who last set the camp to be shared publicly.

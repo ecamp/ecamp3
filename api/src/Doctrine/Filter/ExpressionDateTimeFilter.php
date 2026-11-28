@@ -133,11 +133,11 @@ class ExpressionDateTimeFilter extends AbstractFilter implements DateFilterInter
         string $resourceClass
     ) {
         try {
-            $value = new \DateTime($value);
+            $value = new \DateTimeImmutable($value);
         } catch (\Exception) {
-            // Silently ignore this filter if it can not be transformed to a \DateTime
+            // Silently ignore this filter if it can not be transformed to a \DateTimeImmutable
             $this->logger->notice('Invalid filter ignored', [
-                'exception' => new InvalidArgumentException(sprintf('The field "%s" has a wrong date format. Use one accepted by the \DateTime constructor', $field)),
+                'exception' => new InvalidArgumentException(sprintf('The field "%s" has a wrong date format. Use one accepted by the \DateTimeImmutable constructor', $field)),
             ]);
 
             return;

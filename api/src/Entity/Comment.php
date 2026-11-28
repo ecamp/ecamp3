@@ -20,6 +20,7 @@ use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\Comment\AssertSameAnchorAsParent;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -183,8 +184,8 @@ class Comment extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(writable: false, example: '2022-01-01T00:00:00+00:00')]
     #[Groups(['read'])]
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    public ?\DateTimeInterface $resolvedAt = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    public ?\DateTimeImmutable $resolvedAt = null;
 
     /**
      * The camp collaboration of the person who resolved the thread. Null if the comment is
@@ -231,7 +232,7 @@ class Comment extends BaseEntity implements BelongsToCampInterface {
 
     #[ApiProperty(writable: false)]
     #[Groups(['read'])]
-    public function getCreateTime(): \DateTime {
+    public function getCreateTime(): \DateTimeImmutable {
         return $this->createTime;
     }
 }
