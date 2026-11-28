@@ -70,7 +70,7 @@ jobs:
       - run: docker compose -f docker-compose.yml run --rm api migrate-database
 
       # start necessary containers
-      - run: docker compose -f docker-compose.yml up -d api frontend database docker-host http-cache http-cache-logs mail pg-admin reverse-proxy
+      - run: docker compose -f docker-compose.yml up -d --scale frontend-old=0 api frontend database docker-host http-cache http-cache-logs mail pg-admin reverse-proxy
 
       # pull playwright while container are starting up
       - run: |
