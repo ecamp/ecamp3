@@ -73,7 +73,12 @@ jobs:
       - run: docker compose -f docker-compose.yml up -d api frontend database docker-host http-cache http-cache-logs mail pg-admin reverse-proxy
 
       # pull playwright while container are starting up
-      - run: docker compose pull e2e
+      - run: |
+          for attempt in 1 2 3; do
+            docker compose pull e2e && exit 0
+            if [ "$attempt" -lt 3 ]; then sleep $((attempt * 15)); fi
+          done
+          exit 1
 
       - run: docker compose run --entrypoint="npm ci" --rm e2e
 
