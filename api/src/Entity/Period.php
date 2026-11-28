@@ -22,6 +22,7 @@ use App\Validator\Period\AssertLessThanOrEqualToEarliestScheduleEntryStart;
 use App\Validator\Period\AssertNotOverlappingWithOtherPeriods;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Context;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -161,8 +162,8 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         denormalizationContext: [DateTimeNormalizer::FORMAT_KEY => '!Y-m-d']
     )]
     #[Groups(['read', 'write'])]
-    #[ORM\Column(type: 'date')]
-    public ?\DateTimeInterface $start = null;
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    public ?\DateTimeImmutable $start = null;
 
     /**
      * The (inclusive) day at the end of which the period ends, as an ISO date string. Should
@@ -178,8 +179,8 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         denormalizationContext: [DateTimeNormalizer::FORMAT_KEY => '!Y-m-d']
     )]
     #[Groups(['read', 'write'])]
-    #[ORM\Column(name: '`end`', type: 'date')]
-    public ?\DateTimeInterface $end = null;
+    #[ORM\Column(name: '`end`', type: Types::DATE_IMMUTABLE)]
+    public ?\DateTimeImmutable $end = null;
 
     /**
      * The id of the corresponding event date in Hitobito, if this period was created from one.
@@ -394,14 +395,11 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     /**
      * returns the end time of the last day of the period.
      */
-    public function getEndOfLastDay(): ?\DateTime {
+    public function getEndOfLastDay(): ?\DateTimeImmutable {
         if (null === $this->end) {
             return null;
         }
 
-        $endTime = \DateTime::createFromInterface($this->end);
-        $endTime->modify('+1 day');
-
-        return $endTime;
+        return $this->end->modify('+1 day');
     }
 }

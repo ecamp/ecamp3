@@ -31,7 +31,7 @@ class ScheduleEntryTest extends TestCase {
         $this->day2->dayOffset = 1;
 
         $this->period = new Period();
-        $this->period->start = new \DateTime('2020-07-14');
+        $this->period->start = new \DateTimeImmutable('2020-07-14');
         $this->period->addDay($this->day1);
         $this->period->addDay($this->day2);
 
@@ -44,7 +44,7 @@ class ScheduleEntryTest extends TestCase {
         $this->period->addScheduleEntry($this->scheduleEntry2);
         $reflection = new \ReflectionClass($this->scheduleEntry2);
         $property = $reflection->getProperty('createTime');
-        $date = new \DateTime('2026-01-01 10:00:00');
+        $date = new \DateTimeImmutable('2026-01-01 10:00:00');
         $property->setValue($this->scheduleEntry2, $date);
 
         $this->scheduleEntry3 = new ScheduleEntry();
@@ -58,13 +58,13 @@ class ScheduleEntryTest extends TestCase {
         $this->period->addScheduleEntry($this->scheduleEntry1);
         $reflection = new \ReflectionClass($this->scheduleEntry1);
         $property = $reflection->getProperty('createTime');
-        $date = new \DateTime('2026-11-11 10:00:00');
+        $date = new \DateTimeImmutable('2026-11-11 10:00:00');
         $property->setValue($this->scheduleEntry1, $date);
     }
 
     public function testGetStart() {
-        $this->assertEquals(new \DateTime('2020-07-14T16:00:00+00:00'), $this->scheduleEntry2->getStart());
-        $this->assertEquals(new \DateTime('2020-07-15T16:00:00+00:00'), $this->scheduleEntry3->getStart());
+        $this->assertEquals(new \DateTimeImmutable('2020-07-14T16:00:00+00:00'), $this->scheduleEntry2->getStart());
+        $this->assertEquals(new \DateTimeImmutable('2020-07-15T16:00:00+00:00'), $this->scheduleEntry3->getStart());
     }
 
     public function testGetStartReturnsNullOnError() {
@@ -74,8 +74,8 @@ class ScheduleEntryTest extends TestCase {
     }
 
     public function testGetEnd() {
-        $this->assertEquals(new \DateTime('2020-07-14T17:30:00+00:00'), $this->scheduleEntry2->getEnd());
-        $this->assertEquals(new \DateTime('2020-07-15T17:30:00+00:00'), $this->scheduleEntry3->getEnd());
+        $this->assertEquals(new \DateTimeImmutable('2020-07-14T17:30:00+00:00'), $this->scheduleEntry2->getEnd());
+        $this->assertEquals(new \DateTimeImmutable('2020-07-15T17:30:00+00:00'), $this->scheduleEntry3->getEnd());
     }
 
     public function testGetEndReturnsNullOnError() {
@@ -186,7 +186,7 @@ class ScheduleEntryTest extends TestCase {
         $this->assertNull($day);
     }
 
-    protected function setCreateTime(ScheduleEntry $scheduleEntry, \DateTime $createTime) {
+    protected function setCreateTime(ScheduleEntry $scheduleEntry, \DateTimeImmutable $createTime) {
         $createTimeProperty = new \ReflectionClass(ScheduleEntry::class)->getProperty('createTime');
         $createTimeProperty->setValue($scheduleEntry, $createTime);
     }

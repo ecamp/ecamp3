@@ -602,8 +602,7 @@ class UpdateCampTest extends ECampApiTestCase {
         ]);
         $camp = $this->getEntityManager()->getRepository(Camp::class)->find($camp->getId());
         $this->assertNotNull($camp->sharedSince);
-        $shortlyAgo = new \DateTime();
-        $shortlyAgo->sub(new \DateInterval('PT30S'));
+        $shortlyAgo = new \DateTimeImmutable()->sub(new \DateInterval('PT30S'));
         $this->assertGreaterThan($shortlyAgo, $camp->sharedSince);
     }
 

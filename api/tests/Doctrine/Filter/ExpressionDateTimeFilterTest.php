@@ -192,7 +192,7 @@ class ExpressionDateTimeFilterTest extends TestCase {
         $this->queryBuilderMock
             ->expects($this->once())
             ->method('setParameter')
-            ->with('incrementedSomething_a1', new \DateTime('2022-02-02'))
+            ->with('incrementedSomething_a1', new \DateTimeImmutable('2022-02-02'))
         ;
 
         // when
@@ -216,7 +216,7 @@ class ExpressionDateTimeFilterTest extends TestCase {
         $this->queryBuilderMock
             ->expects($this->once())
             ->method('setParameter')
-            ->with('incrementedSomething_a1', new \DateTime('2022-02-02'))
+            ->with('incrementedSomething_a1', new \DateTimeImmutable('2022-02-02'))
         ;
 
         // when
@@ -240,7 +240,7 @@ class ExpressionDateTimeFilterTest extends TestCase {
         $this->queryBuilderMock
             ->expects($this->once())
             ->method('setParameter')
-            ->with('incrementedSomething_a1', new \DateTime('2022-02-02'))
+            ->with('incrementedSomething_a1', new \DateTimeImmutable('2022-02-02'))
         ;
 
         $this->queryBuilderMock
@@ -270,7 +270,7 @@ class ExpressionDateTimeFilterTest extends TestCase {
         $this->queryBuilderMock
             ->expects($this->once())
             ->method('setParameter')
-            ->with('incrementedSomething_a1', new \DateTime('2022-02-02'))
+            ->with('incrementedSomething_a1', new \DateTimeImmutable('2022-02-02'))
         ;
 
         $this->queryBuilderMock
@@ -299,7 +299,7 @@ class ExpressionDateTimeFilterTest extends TestCase {
         $this->queryBuilderMock
             ->expects($this->once())
             ->method('setParameter')
-            ->with('incrementedSomething_a1', new \DateTime('2022-02-02'))
+            ->with('incrementedSomething_a1', new \DateTimeImmutable('2022-02-02'))
         ;
 
         $this->queryBuilderMock

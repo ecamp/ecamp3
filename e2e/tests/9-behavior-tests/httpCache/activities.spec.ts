@@ -2,63 +2,61 @@ import { test, expect } from '@playwright/test'
 import {
   bipiUser,
   bruceWayneUser,
-  felicitySmoakUser,
   grgrCampId,
   grgrPeriodId,
   loremIpsumCampId,
   skilagerCampId,
+  castorUser,
 } from '@/utils/constants'
 import collectionResponse from '@/test-data/httpCache/activities_collection.json'
 import {
   getAuthContext,
   expectCacheHit,
-  expectCacheMiss,
   waitForCacheMiss,
   apiGet,
+  purgeCache,
   apiPatch,
   apiPost,
   apiDelete,
+  getCacheInfo,
 } from '@/utils/helpers'
 
 const collectionXKeys =
-  /* campCollaboration for bipiUser */
-  '10d8f02ce5b4 ' +
   /**
    * activitiy "Snowboardfahren"
    */
-  'a13fadc97610 a13fadc97610#scheduleEntries a13fadc97610#camp a13fadc97610#category a13fadc97610#progressLabel a13fadc97610#activityResponsibles a13fadc97610#rootContentNode ' +
+  'a13fadc97610 a13fadc97610#scheduleEntries a13fadc97610#activityResponsibles ' +
   /* embedded progress labels: */
-  'af92782262d7 af92782262d7#camp ' +
+  'af92782262d7 ' +
   /* embedded schedule entries: */
   /* (the first schedule entry also includes the period id and related custom cache tags) */
-  '29c9e9a07d82 7fa4564a5d5d 7fa4564a5d5d^scheduleEntryNumbers 70ca971c992f^dayNumbers 29c9e9a07d82#period 29c9e9a07d82#activity 29c9e9a07d82#day ' +
-  'f08d69cae18a f08d69cae18a#period f08d69cae18a#activity f08d69cae18a#day ' +
-  '7e8086d94633 7e8086d94633#period 7e8086d94633#activity 7e8086d94633#day ' +
+  '29c9e9a07d82 7fa4564a5d5d 7fa4564a5d5d^scheduleEntryNumbers 70ca971c992f^dayNumbers ' +
+  'f08d69cae18a ' +
+  '7e8086d94633 ' +
   /* embedded activitiy responsibles: */
-  '06743ccfeedd 06743ccfeedd#activity 06743ccfeedd#campCollaboration ' +
-  '21bc6661c569 21bc6661c569#activity 21bc6661c569#campCollaboration ' +
-  'a13fadc97610#contentNodes ' +
+  '06743ccfeedd ' +
+  '21bc6661c569 ' +
   /**
    * activity "Skifahren"
    */
-  'b29d387cc403 b29d387cc403#scheduleEntries b29d387cc403#camp b29d387cc403#category b29d387cc403#progressLabel b29d387cc403#activityResponsibles ' +
+  'b29d387cc403 b29d387cc403#scheduleEntries b29d387cc403#activityResponsibles ' +
   /* embedded progress labels: */
-  'b29d387cc403#rootContentNode ' +
   /* embedded schedule entries: */
-  'e68f4e47517a e68f4e47517a#period e68f4e47517a#activity e68f4e47517a#day ' +
-  'f0883e931649 f0883e931649#period f0883e931649#activity f0883e931649#day ' +
-  'ee85308a97d1 ee85308a97d1#period ee85308a97d1#activity ee85308a97d1#day ' +
-  'f89a1501dbb6 f89a1501dbb6#period f89a1501dbb6#activity f89a1501dbb6#day ' +
+  'e68f4e47517a ' +
+  'f0883e931649 ' +
+  'ee85308a97d1 ' +
+  'f89a1501dbb6 ' +
   /* embedded activitiy responsibles: */
-  'a9a760e36fd8 a9a760e36fd8#activity a9a760e36fd8#campCollaboration ' +
-  'b29d387cc403#contentNodes ' +
+  'a9a760e36fd8 ' +
   /* collection URI (for detecting addition of new activities) */
   '/api/camps/70ca971c992f/activities'
 
 test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () => {
   test.describe.configure({ mode: 'serial' })
 
-  test('caches /camps/{campId}/activities separately for each login', async () => {
+  test.beforeEach(purgeCache)
+
+  test('shares cache for /camps/{campId}/activities between users with camp access', async () => {
     const uri = `/api/camps/${skilagerCampId}/activities`
 
     const bipiApi = await getAuthContext(bipiUser)
@@ -73,12 +71,19 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
     // second request is a cache hit
     await expectCacheHit(bipiApi, uri)
 
-    // request with a new user is a cache miss
+    // request with another user with access is a cache hit
     const bruceApi = await getAuthContext(bruceWayneUser)
-    await expectCacheMiss(bruceApi, uri)
+    await expectCacheHit(bruceApi, uri)
+
+    // a user without access to the camp does not get the shared response
+    const outsiderApi = await getAuthContext(castorUser)
+    expect(await getCacheInfo(outsiderApi, uri)).toMatchObject({
+      status: 404,
+      cache: 'PASS',
+    })
   })
 
-  test('invalidates /camps/{campId}/activities for all users on activity patch', async () => {
+  test('invalidates /camps/{campId}/activities on activity patch', async () => {
     const uri = `/api/camps/${loremIpsumCampId}/activities`
     const activityId = '3d1e5c91ceb2'
 
@@ -92,10 +97,6 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
     await apiGet(bruceApi, uri)
     await expectCacheHit(bruceApi, uri)
 
-    const felicityApi = await getAuthContext(felicitySmoakUser)
-    await expectCacheMiss(felicityApi, uri)
-    await expectCacheHit(felicityApi, uri)
-
     // touch activity
     await apiPatch(bruceApi, `/api/activities/${activityId}`, {
       title: 'Frühstück',
@@ -104,9 +105,6 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
     // ensure cache was invalidated
     await waitForCacheMiss(bruceApi, uri)
     await expectCacheHit(bruceApi, uri)
-
-    const bruceApi2 = await getAuthContext(bruceWayneUser)
-    await expectCacheMiss(bruceApi2, uri)
   })
 
   test('invalidates /activities/{activityId} when a schedule entry of another activity shifts its numbers', async () => {

@@ -35,7 +35,7 @@ class CampUpdateProcessor extends AbstractPersistProcessor {
         $data->isPublic = $data->isShared || $data->isPrototype;
 
         if ($data->isShared) {
-            $data->sharedSince = new \DateTime('now', new \DateTimeZone('UTC'));
+            $data->sharedSince = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
 
             /** @var User $user */
             $user = $this->security->getUser();

@@ -103,21 +103,12 @@ class DeletePeriodTest extends ECampApiTestCase {
             $camp->getId().'^dayNumbers',
             $campCollaboration->getId().'#dayResponsibles',
             $day1->getId(),
-            $day1->getId().'#period',
             $day1->getId().'#dayResponsibles',
             $day2->getId(),
-            $day2->getId().'#period',
             $day2->getId().'#dayResponsibles',
             $day3->getId(),
-            $day3->getId().'#period',
             $dayResponsible1->getId(),
-            $dayResponsible1->getId().'#day',
             $dayResponsible2->getId(),
-            $dayResponsible2->getId().'#day',
-            static::getFixture('scheduleEntry1')->getId().'#period',
-            static::getFixture('scheduleEntry2')->getId().'#period',
-            static::getFixture('scheduleEntry1period1camp1')->getId().'#period',
-            static::getFixture('materialItem1period1')->getId().'#period',
         ], $cacheManager->getInvalidatedTags());
     }
 

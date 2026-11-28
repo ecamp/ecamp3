@@ -10,28 +10,27 @@ import {
 } from '@/utils/constants'
 import {
   expectCacheHit,
-  expectCacheMiss,
   waitForCacheMiss,
   apiGet,
+  purgeCache,
   apiPatch,
   apiPost,
   apiDelete,
   getAuthContext,
+  getCacheInfo,
 } from '@/utils/helpers'
 import collectionResponse from '@/test-data/httpCache/schedule_entries_collection.json'
 
 const collectionXKeys =
-  /* campCollaboration for bipiUser */
-  '10d8f02ce5b4 ' +
   /* scheduleEntries + links */
-  /* the first scheduleEntry also includes the period id 7fa4564a5d5d and related custom cache tass */
-  'e68f4e47517a 7fa4564a5d5d 7fa4564a5d5d^scheduleEntryNumbers 70ca971c992f^dayNumbers e68f4e47517a#period e68f4e47517a#activity e68f4e47517a#day ' +
-  'f0883e931649 f0883e931649#period f0883e931649#activity f0883e931649#day ' +
-  '29c9e9a07d82 29c9e9a07d82#period 29c9e9a07d82#activity 29c9e9a07d82#day ' +
-  'ee85308a97d1 ee85308a97d1#period ee85308a97d1#activity ee85308a97d1#day ' +
-  'f08d69cae18a f08d69cae18a#period f08d69cae18a#activity f08d69cae18a#day ' +
-  '7e8086d94633 7e8086d94633#period 7e8086d94633#activity 7e8086d94633#day ' +
-  'f89a1501dbb6 f89a1501dbb6#period f89a1501dbb6#activity f89a1501dbb6#day ' +
+  /* the first scheduleEntry also includes the period id 7fa4564a5d5d and related custom cache tags */
+  'e68f4e47517a 7fa4564a5d5d 7fa4564a5d5d^scheduleEntryNumbers 70ca971c992f^dayNumbers ' +
+  'f0883e931649 ' +
+  '29c9e9a07d82 ' +
+  'ee85308a97d1 ' +
+  'f08d69cae18a ' +
+  '7e8086d94633 ' +
+  'f89a1501dbb6 ' +
   /* collection URI (for detecting addition of new schedule entries) */
   '/api/periods/7fa4564a5d5d/schedule_entries'
 
@@ -41,7 +40,9 @@ test.describe(
   () => {
     test.describe.configure({ mode: 'serial' })
 
-    test('caches /periods/{periodId}/schedule_entries separately for each login', async () => {
+    test.beforeEach(purgeCache)
+
+    test('shares cache for /periods/{periodId}/schedule_entries between users with camp access', async () => {
       const uri = `/api/periods/${skilagerPeriodId}/schedule_entries`
 
       const bipiApi = await getAuthContext(bipiUser)
@@ -56,12 +57,19 @@ test.describe(
       // second request is a cache hit
       await expectCacheHit(bipiApi, uri)
 
-      // request with a new user is a cache miss
+      // request with another user with access is a cache hit
       const bruceApi = await getAuthContext(bruceWayneUser)
-      await expectCacheMiss(bruceApi, uri)
+      await expectCacheHit(bruceApi, uri)
+
+      // a user without access to the camp does not get the shared response
+      const outsiderApi = await getAuthContext(castorUser)
+      expect(await getCacheInfo(outsiderApi, uri)).toMatchObject({
+        status: 404,
+        cache: 'PASS',
+      })
     })
 
-    test('invalidates /periods/{periodId}/schedule_entries for all users on scheduleEntry patch', async () => {
+    test('invalidates /periods/{periodId}/schedule_entries on scheduleEntry patch', async () => {
       const uri = `/api/periods/${grgrPeriodId}/schedule_entries`
       const scheduleEntryId = '12f34c89ce11'
 
@@ -75,20 +83,14 @@ test.describe(
       await apiGet(bipiApi, uri)
       await expectCacheHit(bipiApi, uri)
 
-      const castorApi = await getAuthContext(castorUser)
-      await apiGet(castorApi, uri)
-      await expectCacheHit(castorApi, uri)
-
       // touch scheduleEntry
-      await apiPatch(castorApi, `/api/schedule_entries/${scheduleEntryId}`, {
+      await apiPatch(bipiApi, `/api/schedule_entries/${scheduleEntryId}`, {
         start: '2036-05-10T17:00:00+00:00',
       })
 
       // ensure cache was invalidated
-      await waitForCacheMiss(castorApi, uri)
-      await expectCacheHit(castorApi, uri)
-
-      await expectCacheMiss(bipiApi, uri)
+      await waitForCacheMiss(bipiApi, uri)
+      await expectCacheHit(bipiApi, uri)
     })
 
     test('invalidates /periods/{periodId}/schedule_entries for new scheduleEntry', async () => {

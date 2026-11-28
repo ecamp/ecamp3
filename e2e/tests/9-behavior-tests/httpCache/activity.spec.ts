@@ -2,49 +2,50 @@ import { test, expect } from '@playwright/test'
 import {
   bipiUser,
   bruceWayneUser,
-  felicitySmoakUser,
+  castorUser,
+  grgrCampId,
   grgrPeriodId,
 } from '@/utils/constants'
 import entityResponse from '@/test-data/httpCache/activities_entity.json'
 import {
   getAuthContext,
   expectCacheHit,
-  expectCacheMiss,
   waitForCacheMiss,
   apiGet,
+  purgeCache,
   apiPatch,
   apiPost,
   apiDelete,
+  getCacheInfo,
 } from '@/utils/helpers'
 
 const collectionXKeys =
-  /* campCollaboration for bipiUser */
-  '10d8f02ce5b4 ' +
   /* activity "Snowboardfahren" + embedded relations */
-  'a13fadc97610 a13fadc97610#scheduleEntries a13fadc97610#camp a13fadc97610#category a13fadc97610#progressLabel a13fadc97610#activityResponsibles a13fadc97610#rootContentNode ' +
+  'a13fadc97610 a13fadc97610#scheduleEntries a13fadc97610#activityResponsibles ' +
   /* category "Snowboard" */
-  'eddb2cd8cee0 eddb2cd8cee0#camp eddb2cd8cee0#preferredContentTypes eddb2cd8cee0#rootContentNode eddb2cd8cee0#contentNodes ' +
+  'eddb2cd8cee0 eddb2cd8cee0#preferredContentTypes ' +
   /* progressLabel "Rudolf OK" */
-  'af92782262d7 af92782262d7#camp ' +
+  'af92782262d7 ' +
   /* contentNodes */
-  '9ace4f6be500 9ace4f6be500#root 9ace4f6be500#parent 9ace4f6be500#children 9ace4f6be500#contentType ' +
-  '0f20419761b6 0f20419761b6#root 0f20419761b6#parent 0f20419761b6#children 0f20419761b6#contentType ' +
-  '160f007bd04f 160f007bd04f#root 160f007bd04f#parent 160f007bd04f#children 160f007bd04f#contentType ' +
-  'aa0738bc61de aa0738bc61de#root aa0738bc61de#parent aa0738bc61de#children aa0738bc61de#contentType ' +
-  'a13fadc97610#contentNodes ' +
+  '9ace4f6be500 9ace4f6be500#children ' +
+  '0f20419761b6 0f20419761b6#children ' +
+  '160f007bd04f 160f007bd04f#children ' +
+  'aa0738bc61de aa0738bc61de#children ' +
   /* scheduleEntries */
   /* (the first schedule entry also includes the period id and related custom cache tags) */
-  '29c9e9a07d82 7fa4564a5d5d 7fa4564a5d5d^scheduleEntryNumbers 70ca971c992f^dayNumbers 29c9e9a07d82#period 29c9e9a07d82#activity 29c9e9a07d82#day ' +
-  'f08d69cae18a f08d69cae18a#period f08d69cae18a#activity f08d69cae18a#day ' +
-  '7e8086d94633 7e8086d94633#period 7e8086d94633#activity 7e8086d94633#day ' +
+  '29c9e9a07d82 7fa4564a5d5d 7fa4564a5d5d^scheduleEntryNumbers 70ca971c992f^dayNumbers ' +
+  'f08d69cae18a ' +
+  '7e8086d94633 ' +
   /* activityResponsible */
-  '06743ccfeedd 06743ccfeedd#activity 06743ccfeedd#campCollaboration ' +
-  '21bc6661c569 21bc6661c569#activity 21bc6661c569#campCollaboration'
+  '06743ccfeedd ' +
+  '21bc6661c569'
 
 test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () => {
   test.describe.configure({ mode: 'serial' })
 
-  test('caches /activities/{activitiyId} separately for each login', async () => {
+  test.beforeEach(purgeCache)
+
+  test('shares cache for /activities/{activitiyId} between users with camp access', async () => {
     const snowboardfahrenActivityId = 'a13fadc97610'
     const uri = `/api/activities/${snowboardfahrenActivityId}`
 
@@ -60,12 +61,19 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
     // second request is a cache hit
     await expectCacheHit(bipiApi, uri)
 
-    // request with a new user is a cache miss
+    // request with another user with access is a cache hit
     const bruceApi = await getAuthContext(bruceWayneUser)
-    await expectCacheMiss(bruceApi, uri)
+    await expectCacheHit(bruceApi, uri)
+
+    // a user without access to the camp does not get the shared response
+    const outsiderApi = await getAuthContext(castorUser)
+    expect(await getCacheInfo(outsiderApi, uri)).toMatchObject({
+      status: 404,
+      cache: 'PASS',
+    })
   })
 
-  test('invalidates /activities/{activitiyId} for all users on activity patch', async () => {
+  test('invalidates /activities/{activitiyId} on activity patch', async () => {
     const activityId = '3d1e5c91ceb2'
     const uri = `/api/activities/${activityId}`
 
@@ -79,10 +87,6 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
     await apiGet(bruceApi, uri)
     await expectCacheHit(bruceApi, uri)
 
-    const felicityApi = await getAuthContext(felicitySmoakUser)
-    await expectCacheMiss(felicityApi, uri)
-    await expectCacheHit(felicityApi, uri)
-
     // touch activity
     await apiPatch(bruceApi, `/api/activities/${activityId}`, {
       title: 'Frühstück',
@@ -91,9 +95,6 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
     // ensure cache was invalidated
     await waitForCacheMiss(bruceApi, uri)
     await expectCacheHit(bruceApi, uri)
-
-    const bruceApi2 = await getAuthContext(bruceWayneUser)
-    await expectCacheMiss(bruceApi2, uri)
   })
 
   test('invalidates /activities/{activitiyId} when adding a scheduleEntry', async () => {
@@ -272,6 +273,39 @@ test.describe('cache test: /camps/{campId}/activities', { tag: '@mature' }, () =
 
     // delete newly created contentNode
     await apiDelete(bipiApi, newContentNodeUri)
+
+    // ensure cache was invalidated
+    await waitForCacheMiss(bipiApi, uri)
+    await expectCacheHit(bipiApi, uri)
+  })
+
+  test('invalidates /activities/{activitiyId} when deleting a period with one of its scheduleEntries', async () => {
+    const activityId = 'ffd08c52288c'
+    const uri = `/api/activities/${activityId}`
+
+    const bipiApi = await getAuthContext(bipiUser)
+
+    // create an additional period with a scheduleEntry of the activity
+    const periodRes = await apiPost(bipiApi, '/api/periods', {
+      camp: `/camps/${grgrCampId}`,
+      description: 'Temporary period',
+      start: '2037-05-09',
+      end: '2037-05-12',
+    })
+    const periodUri = (await periodRes.json())._links.self.href
+    await apiPost(bipiApi, '/api/schedule_entries', {
+      activity: `/activities/${activityId}`,
+      period: periodUri,
+      start: '2037-05-10T05:00:00+00:00',
+      end: '2037-05-10T06:00:00+00:00',
+    })
+
+    // warm up cache
+    await apiGet(bipiApi, uri)
+    await expectCacheHit(bipiApi, uri)
+
+    // delete the period, which removes the scheduleEntry in the database
+    await apiDelete(bipiApi, periodUri)
 
     // ensure cache was invalidated
     await waitForCacheMiss(bipiApi, uri)

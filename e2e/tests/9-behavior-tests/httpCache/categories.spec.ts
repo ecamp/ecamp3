@@ -3,7 +3,6 @@ import {
   bipiUser,
   bruceWayneUser,
   castorUser,
-  felicitySmoakUser,
   grgrCampId,
   loremIpsumCampId,
 } from '@/utils/constants'
@@ -13,10 +12,13 @@ import {
   expectCacheMiss,
   waitForCacheMiss,
   apiGet,
+  apiCheckAccess,
+  purgeCache,
   apiPatch,
   apiPost,
   apiDelete,
   getAuthContext,
+  getCacheInfo,
 } from '@/utils/helpers'
 import collectionResponse from '@/test-data/httpCache/categories_collection.json'
 
@@ -26,18 +28,20 @@ const collectionXKeys =
   /* campCollaboration for bipiUser */
   'b0bdb7202a9d ' +
   /* Category ES */
-  'ebfd46a1c181 ebfd46a1c181#camp ebfd46a1c181#preferredContentTypes ebfd46a1c181#rootContentNode ebfd46a1c181#contentNodes ' +
+  'ebfd46a1c181 ebfd46a1c181#preferredContentTypes ' +
   /* Category LA */
-  '1a869b162875 1a869b162875#camp 1a869b162875#preferredContentTypes 1a869b162875#rootContentNode f17470519474 1a0f84e322c8 3ef17bd1df72 4f0c657fecef a4211c112939 44dcc7493c65 cfccaecd4bad 318e064ea0c9 1a869b162875#contentNodes ' +
+  '1a869b162875 1a869b162875#preferredContentTypes f17470519474 1a0f84e322c8 3ef17bd1df72 4f0c657fecef a4211c112939 44dcc7493c65 cfccaecd4bad 318e064ea0c9 ' +
   /* Category LP */
-  'dfa531302823 dfa531302823#camp dfa531302823#preferredContentTypes dfa531302823#rootContentNode dfa531302823#contentNodes ' +
+  'dfa531302823 dfa531302823#preferredContentTypes ' +
   /* Category LS */
-  'a023e85227ac a023e85227ac#camp a023e85227ac#preferredContentTypes a023e85227ac#rootContentNode a023e85227ac#contentNodes ' +
+  'a023e85227ac a023e85227ac#preferredContentTypes ' +
   /* collection URI (for detecting addition of new categories) */
   '/api/camps/3c79b99ab424/categories'
 
 test.describe('cache test: /camps/{campId}/categories', () => {
   test.describe.configure({ mode: 'serial' })
+
+  test.beforeEach(purgeCache)
 
   test(
     'caches /camps/{campId}/categories separately for each login',
@@ -57,43 +61,44 @@ test.describe('cache test: /camps/{campId}/categories', () => {
       // second request is a cache hit
       await expectCacheHit(bipiApi, uri)
 
-      // request with a new user is a cache miss
+      // request with another user with access is a cache miss, as the response is cached per user
       const castorApi = await getAuthContext(castorUser)
       await expectCacheMiss(castorApi, uri)
+      await expectCacheHit(castorApi, uri)
+
+      // a user without access to the camp does not get a cached response
+      const outsiderApi = await getAuthContext(bruceWayneUser)
+      expect(await getCacheInfo(outsiderApi, uri)).toMatchObject({
+        status: 404,
+        cache: 'PASS',
+      })
     }
   )
 
   test(
-    'invalidates /camps/{campId}/categories for all users on category patch',
+    'invalidates /camps/{campId}/categories on category patch',
     { tag: '@mature' },
     async () => {
       const uri = `/api/camps/${loremIpsumCampId}/categories`
 
       // bring data into defined state
       const bruceApi = await getAuthContext(bruceWayneUser)
-      const felicityApi = await getAuthContext(felicitySmoakUser)
       await apiPatch(bruceApi, '/api/categories/c5e1bc565094', {
         name: 'old_name',
       })
 
-      // warm up cache (bruce)
+      // warm up cache
       await apiGet(bruceApi, uri)
       await expectCacheHit(bruceApi, uri)
 
-      // warm up cache (felicity)
-      await apiGet(felicityApi, uri)
-      await expectCacheHit(felicityApi, uri)
-
-      // touch category (bruce)
+      // touch category
       await apiPatch(bruceApi, '/api/categories/c5e1bc565094', {
         name: 'new_name',
       })
 
       // ensure cache was invalidated
-      await waitForCacheMiss(felicityApi, uri)
-      await expectCacheHit(felicityApi, uri)
-
-      await expectCacheMiss(bruceApi, uri)
+      await waitForCacheMiss(bruceApi, uri)
+      await expectCacheHit(bruceApi, uri)
     }
   )
 
@@ -167,6 +172,9 @@ test.describe('cache test: /camps/{campId}/categories', () => {
     // ensure cache was invalidated
     const notFoundRes = await apiGet(castorApi, uri)
     expect(notFoundRes.status()).toBe(404)
+    expect(notFoundRes.headers()['x-cache']).toBe('PASS')
+    const accessRes = await apiCheckAccess(castorApi, `/api/camps/${grgrCampId}`)
+    expect(accessRes.status()).toBe(404)
 
     // delete old emails
     const deleteMailsRes = await bipiApi.delete('/mail/api/email/all')

@@ -30,7 +30,7 @@ abstract class BaseDateTypeTestCase extends TestCase {
     }
 
     public function testDateConvertsToDatabaseValue(): void {
-        self::assertIsString($this->type->convertToDatabaseValue(new \DateTime(), $this->platform));
+        self::assertIsString($this->type->convertToDatabaseValue(new \DateTimeImmutable(), $this->platform));
     }
 
     #[DataProvider('invalidPHPValuesProvider')]
@@ -72,7 +72,7 @@ abstract class BaseDateTypeTestCase extends TestCase {
     }
 
     public function testConvertDateTimeToPHPValue(): void {
-        $date = new \DateTime('now');
+        $date = new \DateTimeImmutable('now');
 
         self::assertSame($date, $this->type->convertToPHPValue($date, $this->platform));
     }

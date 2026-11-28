@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\OAuthStateRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,6 +16,6 @@ class OAuthState extends BaseEntity {
     #[ORM\Column(type: 'string', length: 32)]
     public string $state;
 
-    #[ORM\Column(type: 'datetime')]
-    public \DateTime $expireTime;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    public \DateTimeImmutable $expireTime;
 }

@@ -19,13 +19,13 @@ class PeriodTest extends TestCase {
         $camp = new Camp();
 
         $period1 = new Period();
-        $period1->start = new \DateTime('2020-09-14');
+        $period1->start = new \DateTimeImmutable('2020-09-14');
         $camp->addPeriod($period1);
         $period1->addDay(new Day());
         $period1->addDay(new Day());
 
         $period2 = new Period();
-        $period2->start = new \DateTime('2020-08-14');
+        $period2->start = new \DateTimeImmutable('2020-08-14');
         $camp->addPeriod($period2);
         $period2->addDay(new Day());
         $period2->addDay(new Day());
