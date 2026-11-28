@@ -37,7 +37,7 @@ export class CampInfo {
       await this._dangerZoneTitle.click({ timeout: 10_000 })
     }
     await expect(this._deleteCampButton).toBeVisible({ timeout: 10_000 })
-    await this._deleteCampButton.click({ timeout: 10_000 })
+    await this._deleteCampButton.press('Enter', { timeout: 10_000 })
 
     const dialog = new DialogDeleteCamp(this._page)
     await dialog.loaded()
