@@ -3,7 +3,12 @@
 namespace App\Tests\Doctrine\Filter;
 
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\IriConverterInterface;
+use ApiPlatform\Metadata\Parameters;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Doctrine\Filter\MaterialItemPeriodFilter;
 use App\Entity\MaterialItem;
 use App\Entity\Period;
@@ -107,61 +112,55 @@ class MaterialItemPeriodFilterTest extends TestCase {
         ;
     }
 
-    public function testGetDescription() {
-        // given
-        $filter = new MaterialItemPeriodFilter($this->iriConverterMock, $this->managerRegistryMock);
+    public function testIsDeclaredAsQueryParameterOnMainCollectionOperation() {
+        $resourceClasses = [
+            MaterialItem::class,
+        ];
 
-        // when
-        $description = $filter->getDescription('Dummy');
+        foreach ($resourceClasses as $resourceClass) {
+            $operations = (new \ReflectionClass($resourceClass))->getAttributes(ApiResource::class)[0]->newInstance()->getOperations();
+            $mainCollection = array_values(array_filter(iterator_to_array($operations), fn ($operation) => $operation instanceof GetCollection))[0];
+            $parameters = $mainCollection->getParameters();
+            $parameter = $parameters instanceof Parameters ? $parameters->get('period') : $parameters['period'];
 
-        // then
-        $this->assertEquals([
-            'period' => [
-                'property' => 'period',
-                'type' => 'string',
-                'required' => false,
-            ],
-        ], $description);
+            $this->assertSame(MaterialItemPeriodFilter::class, $parameter->getFilter(), $resourceClass);
+        }
     }
 
     public function testFailsForResouceClassOtherThanMaterialItem() {
         // given
-        $filter = new MaterialItemPeriodFilter($this->iriConverterMock, $this->managerRegistryMock);
+        $filter = new MaterialItemPeriodFilter($this->iriConverterMock);
 
         // then
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('MaterialItemPeriodFilter can only be applied to entities of type MaterialItem (received: DummyClass).');
 
         // when
-        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, 'DummyClass', null, ['filters' => [
-            'period' => '/period/123',
-        ]]);
+        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, 'DummyClass', null, ['parameter' => $this->parameter('/period/123')]);
     }
 
-    public function testDoesNothingForPropertiesOtherThanPeriod() {
+    public function testPropagatesUnresolvableIri() {
         // given
-        $filter = new MaterialItemPeriodFilter($this->iriConverterMock, $this->managerRegistryMock);
-
-        // then
-        $this->queryBuilderMock
-            ->expects($this->never())
-            ->method('getRootAliases')
+        $filter = new MaterialItemPeriodFilter($this->iriConverterMock);
+        $this->iriConverterMock
+            ->method('getResourceFromIri')
+            ->willThrowException(new InvalidArgumentException('Not found'))
         ;
 
+        // then
+        $this->expectException(InvalidArgumentException::class);
         $this->queryBuilderMock
             ->expects($this->never())
-            ->method('andWhere')
+            ->method('setParameter')
         ;
 
         // when
-        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, MaterialItem::class, null, ['filters' => [
-            'dummyProperty' => 'abc',
-        ]]);
+        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, MaterialItem::class, null, ['parameter' => $this->parameter('/periods/123')]);
     }
 
     public function testAddsFilterForPeriodProperty() {
         // given
-        $filter = new MaterialItemPeriodFilter($this->iriConverterMock, $this->managerRegistryMock);
+        $filter = new MaterialItemPeriodFilter($this->iriConverterMock);
         $period = new Period();
 
         // then
@@ -184,8 +183,10 @@ class MaterialItemPeriodFilterTest extends TestCase {
         ;
 
         // when
-        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, MaterialItem::class, null, ['filters' => [
-            'period' => '/period/123',
-        ]]);
+        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, MaterialItem::class, null, ['parameter' => $this->parameter('/period/123')]);
+    }
+
+    private function parameter(string $value): QueryParameter {
+        return (new QueryParameter(key: 'period'))->withValue($value);
     }
 }

@@ -3,43 +3,90 @@
 namespace App\Doctrine\Filter;
 
 use ApiPlatform\Doctrine\Common\Filter\DateFilterInterface;
-use ApiPlatform\Doctrine\Common\Filter\DateFilterTrait;
-use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
+use ApiPlatform\Doctrine\Common\Filter\LoggerAwareInterface;
+use ApiPlatform\Doctrine\Common\Filter\ManagerRegistryAwareInterface;
+use ApiPlatform\Doctrine\Common\Filter\PropertyAwareFilterInterface;
+use ApiPlatform\Doctrine\Common\PropertyHelperTrait;
+use ApiPlatform\Doctrine\Orm\Filter\FilterInterface;
+use ApiPlatform\Doctrine\Orm\PropertyHelperTrait as OrmPropertyHelperTrait;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\BackwardCompatibleFilterDescriptionTrait;
 use ApiPlatform\Metadata\Exception\InvalidArgumentException;
+use ApiPlatform\Metadata\Exception\RuntimeException;
+use ApiPlatform\Metadata\OpenApiParameterFilterInterface;
 use ApiPlatform\Metadata\Operation;
+use ApiPlatform\Metadata\Parameter;
+use ApiPlatform\OpenApi\Model\Parameter as OpenApiParameter;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Filters a computed property on the collection by date intervals.
  */
-class ExpressionDateTimeFilter extends AbstractFilter implements DateFilterInterface {
-    use DateFilterTrait;
+class ExpressionDateTimeFilter implements FilterInterface, DateFilterInterface, PropertyAwareFilterInterface, ManagerRegistryAwareInterface, LoggerAwareInterface, OpenApiParameterFilterInterface {
+    use BackwardCompatibleFilterDescriptionTrait;
+    use OrmPropertyHelperTrait;
+    use PropertyHelperTrait;
+
+    protected ?LoggerInterface $logger;
+
+    public function __construct(
+        protected ?ManagerRegistry $managerRegistry = null,
+        ?LoggerInterface $logger = null,
+        protected ?array $properties = null
+    ) {
+        $this->logger = $logger;
+    }
+
+    public function apply(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, ?Operation $operation = null, array $context = []): void {
+        foreach ($context['filters'] as $property => $value) {
+            $this->filterProperty((string) $property, $value, $queryBuilder, $queryNameGenerator, $resourceClass, $operation, $context);
+        }
+    }
+
+    public function hasManagerRegistry(): bool {
+        return $this->managerRegistry instanceof ManagerRegistry;
+    }
+
+    public function getManagerRegistry(): ManagerRegistry {
+        return $this->managerRegistry ?? throw new RuntimeException('ManagerRegistry must be initialized before accessing it.');
+    }
+
+    public function setManagerRegistry(ManagerRegistry $managerRegistry): void {
+        $this->managerRegistry = $managerRegistry;
+    }
+
+    public function hasLogger(): bool {
+        return null !== $this->logger;
+    }
+
+    public function getLogger(): LoggerInterface {
+        return $this->logger ?? new NullLogger();
+    }
+
+    public function setLogger(LoggerInterface $logger): void {
+        $this->logger = $logger;
+    }
+
+    public function getProperties(): ?array {
+        return $this->properties;
+    }
+
+    public function setProperties(array $properties): void {
+        $this->properties = $properties;
+    }
 
     /**
-     * {@inheritdoc}
+     * @return OpenApiParameter[]
      */
-    public function getDescription(string $resourceClass): array {
-        $description = [];
-
-        $properties = $this->getProperties();
-        if (null === $properties) {
-            $properties = [];
-        }
-
-        foreach ($properties as $property => $expression) {
-            if (!$expression) {
-                continue;
-            }
-
-            $description += $this->getFilterDescription($property, DateFilterInterface::PARAMETER_BEFORE);
-            $description += $this->getFilterDescription($property, DateFilterInterface::PARAMETER_STRICTLY_BEFORE);
-            $description += $this->getFilterDescription($property, DateFilterInterface::PARAMETER_AFTER);
-            $description += $this->getFilterDescription($property, DateFilterInterface::PARAMETER_STRICTLY_AFTER);
-        }
-
-        return $description;
+    public function getOpenApiParameters(Parameter $parameter): array {
+        return array_map(
+            fn (string $period) => new OpenApiParameter(name: "{$parameter->getKey()}[{$period}]", in: 'query', schema: ['type' => 'string']),
+            [self::PARAMETER_BEFORE, self::PARAMETER_STRICTLY_BEFORE, self::PARAMETER_AFTER, self::PARAMETER_STRICTLY_AFTER]
+        );
     }
 
     /**
@@ -56,7 +103,7 @@ class ExpressionDateTimeFilter extends AbstractFilter implements DateFilterInter
     ): void {
         if (
             !\is_array($value)
-            || !$this->isPropertyEnabled($property, $resourceClass)
+            || !$this->isPropertyEnabled($property)
         ) {
             return;
         }
@@ -135,8 +182,8 @@ class ExpressionDateTimeFilter extends AbstractFilter implements DateFilterInter
         try {
             $value = new \DateTimeImmutable($value);
         } catch (\Exception) {
-            // Silently ignore this filter if it can not be transformed to a \DateTimeImmutable
-            $this->logger->notice('Invalid filter ignored', [
+            // Silently ignore this filter if it can not be transformed to a \DateTime
+            $this->getLogger()->notice('Invalid filter ignored', [
                 'exception' => new InvalidArgumentException(sprintf('The field "%s" has a wrong date format. Use one accepted by the \DateTimeImmutable constructor', $field)),
             ]);
 
@@ -184,5 +231,9 @@ class ExpressionDateTimeFilter extends AbstractFilter implements DateFilterInter
         }
 
         return $expression;
+    }
+
+    private function isPropertyEnabled(string $property): bool {
+        return \array_key_exists($property, $this->properties ?? []);
     }
 }

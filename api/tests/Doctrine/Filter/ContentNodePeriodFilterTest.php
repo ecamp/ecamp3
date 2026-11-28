@@ -3,9 +3,22 @@
 namespace App\Tests\Doctrine\Filter;
 
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\IriConverterInterface;
+use ApiPlatform\Metadata\Parameters;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Doctrine\Filter\ContentNodePeriodFilter;
 use App\Entity\ContentNode;
+use App\Entity\ContentNode\ChecklistNode;
+use App\Entity\ContentNode\ColumnLayout;
+use App\Entity\ContentNode\MaterialNode;
+use App\Entity\ContentNode\MultiSelect;
+use App\Entity\ContentNode\NoData;
+use App\Entity\ContentNode\ResponsiveLayout;
+use App\Entity\ContentNode\SingleText;
+use App\Entity\ContentNode\Storyboard;
 use App\Entity\Period;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
@@ -90,66 +103,63 @@ class ContentNodePeriodFilterTest extends TestCase {
         ;
     }
 
-    public function testGetDescription() {
-        // given
-        $filter = new ContentNodePeriodFilter($this->iriConverterMock, $this->managerRegistryMock);
+    public function testIsDeclaredAsQueryParameterOnMainCollectionOperation() {
+        $resourceClasses = [
+            ContentNode::class,
+            ChecklistNode::class,
+            ColumnLayout::class,
+            MaterialNode::class,
+            MultiSelect::class,
+            NoData::class,
+            ResponsiveLayout::class,
+            SingleText::class,
+            Storyboard::class,
+        ];
 
-        // when
-        $description = $filter->getDescription('Dummy');
+        foreach ($resourceClasses as $resourceClass) {
+            $operations = (new \ReflectionClass($resourceClass))->getAttributes(ApiResource::class)[0]->newInstance()->getOperations();
+            $mainCollection = array_values(array_filter(iterator_to_array($operations), fn ($operation) => $operation instanceof GetCollection))[0];
+            $parameters = $mainCollection->getParameters();
+            $parameter = $parameters instanceof Parameters ? $parameters->get('period') : $parameters['period'];
 
-        // then
-        $this->assertEquals([
-            'period' => [
-                'property' => 'period',
-                'type' => 'string',
-                'required' => false,
-            ],
-        ], $description);
+            $this->assertSame(ContentNodePeriodFilter::class, $parameter->getFilter(), $resourceClass);
+        }
     }
 
     public function testFailsForResouceClassOtherThanContentNode() {
         // given
-        $filter = new ContentNodePeriodFilter($this->iriConverterMock, $this->managerRegistryMock);
+        $filter = new ContentNodePeriodFilter($this->iriConverterMock);
 
         // then
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('ContentNodePeriodFilter can only be applied to entities of type ContentNode (received: DummyClass).');
 
         // when
-        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, 'DummyClass', null, ['filters' => [
-            'period' => '/period/123',
-        ]]);
+        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, 'DummyClass', null, ['parameter' => $this->parameter('/period/123')]);
     }
 
-    public function testDoesNothingForPropertiesOtherThanPeriod() {
+    public function testPropagatesUnresolvableIri() {
         // given
-        $filter = new ContentNodePeriodFilter($this->iriConverterMock, $this->managerRegistryMock);
+        $filter = new ContentNodePeriodFilter($this->iriConverterMock);
+        $this->iriConverterMock
+            ->method('getResourceFromIri')
+            ->willThrowException(new InvalidArgumentException('Not found'))
+        ;
 
         // then
+        $this->expectException(InvalidArgumentException::class);
         $this->queryBuilderMock
             ->expects($this->never())
-            ->method('getRootAliases')
-        ;
-
-        $this->queryBuilderMock
-            ->expects($this->never())
-            ->method('join')
-        ;
-
-        $this->queryBuilderMock
-            ->expects($this->never())
-            ->method('andWhere')
+            ->method('setParameter')
         ;
 
         // when
-        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, ContentNode::class, null, ['filters' => [
-            'dummyProperty' => 'abc',
-        ]]);
+        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, ContentNode::class, null, ['parameter' => $this->parameter('/period/123')]);
     }
 
     public function testAddsFilterForPeriodProperty() {
         // given
-        $filter = new ContentNodePeriodFilter($this->iriConverterMock, $this->managerRegistryMock);
+        $filter = new ContentNodePeriodFilter($this->iriConverterMock);
         $period = new Period();
 
         // then
@@ -177,8 +187,10 @@ class ContentNodePeriodFilterTest extends TestCase {
         ;
 
         // when
-        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, ContentNode::class, null, ['filters' => [
-            'period' => '/period/123',
-        ]]);
+        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, ContentNode::class, null, ['parameter' => $this->parameter('/period/123')]);
+    }
+
+    private function parameter(string $value): QueryParameter {
+        return (new QueryParameter(key: 'period'))->withValue($value);
     }
 }

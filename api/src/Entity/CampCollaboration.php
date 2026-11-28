@@ -2,8 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\IriFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
@@ -12,6 +11,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\QueryParameter;
 use ApiPlatform\OpenApi\Model\Operation as OpenApiOperation;
 use App\InputFilter;
 use App\Repository\CampCollaborationRepository;
@@ -62,6 +62,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection(
             normalizationContext: self::COLLECTION_NORMALIZATION_CONTEXT,
             security: 'is_fully_authenticated()',
+            parameters: [
+                'camp' => new QueryParameter(filter: new IriFilter()),
+                'activityResponsibles.activity' => new QueryParameter(filter: new IriFilter(), property: 'activityResponsibles.activity'),
+            ],
             extraProperties: [
                 'scoping_filters' => ['camp', 'activityResponsibles.activity'],
             ]
@@ -90,7 +94,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['camp', 'activityResponsibles.activity'])]
 #[UniqueEntity(
     fields: ['user', 'camp'],
     message: 'This user is already present in the camp.',

@@ -2,8 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\IriFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
@@ -12,6 +11,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\QueryParameter;
 use App\InputFilter;
 use App\Repository\ActivityProgressLabelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -44,6 +44,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new GetCollection(
             security: 'is_authenticated()',
+            parameters: [
+                'camp' => new QueryParameter(filter: new IriFilter()),
+            ],
             extraProperties: [
                 'scoping_filters' => ['camp'],
             ]
@@ -74,7 +77,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     order: ['camp.id', 'position']
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: ActivityProgressLabelRepository::class)]
 #[ORM\UniqueConstraint(name: 'activity_progress_label_unique', columns: ['campid', 'position'])]
 class ActivityProgressLabel extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {

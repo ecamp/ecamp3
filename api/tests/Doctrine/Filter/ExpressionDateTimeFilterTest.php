@@ -3,6 +3,8 @@
 namespace App\Tests\Doctrine\Filter;
 
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\QueryParameter;
+use ApiPlatform\OpenApi\Model\Parameter as OpenApiParameter;
 use App\Doctrine\Filter\ExpressionDateTimeFilter;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
@@ -12,6 +14,7 @@ use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
  * @internal
@@ -68,36 +71,23 @@ class ExpressionDateTimeFilterTest extends TestCase {
         $this->assertSame([], $description);
     }
 
-    public function testGetDescription() {
+    public function testGetOpenApiParametersDocumentsAllOperators() {
         // given
         $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, ['incrementedSomething' => 'something + 1']);
 
         // when
-        $description = $filter->getDescription('Dummy');
+        $parameters = $filter->getOpenApiParameters(new QueryParameter(key: 'incrementedSomething'));
 
         // then
-        $this->assertEquals([
-            'incrementedSomething[before]' => [
-                'property' => 'incrementedSomething',
-                'type' => 'DateTimeInterface',
-                'required' => false,
+        $this->assertSame(
+            [
+                'incrementedSomething[before]',
+                'incrementedSomething[strictly_before]',
+                'incrementedSomething[after]',
+                'incrementedSomething[strictly_after]',
             ],
-            'incrementedSomething[strictly_before]' => [
-                'property' => 'incrementedSomething',
-                'type' => 'DateTimeInterface',
-                'required' => false,
-            ],
-            'incrementedSomething[after]' => [
-                'property' => 'incrementedSomething',
-                'type' => 'DateTimeInterface',
-                'required' => false,
-            ],
-            'incrementedSomething[strictly_after]' => [
-                'property' => 'incrementedSomething',
-                'type' => 'DateTimeInterface',
-                'required' => false,
-            ],
-        ], $description);
+            array_map(fn (OpenApiParameter $parameter) => $parameter->getName(), $parameters)
+        );
     }
 
     public function testGetDescriptionDisallowsEmptyExpression() {
@@ -157,6 +147,34 @@ class ExpressionDateTimeFilterTest extends TestCase {
         $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, 'Dummy', null, ['filters' => [
             'incrementedSomething' => ['before' => 'the beginning of all time'],
         ]]);
+    }
+
+    public function testApplyLogsInvalidDate() {
+        // given
+        $logger = $this->createMock(LoggerInterface::class);
+        $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, $logger, ['incrementedSomething' => 'something + 1']);
+
+        // then
+        $logger->expects($this->once())->method('notice')->with('Invalid filter ignored');
+
+        // when
+        $filter->apply($this->queryBuilderMock, $this->queryNameGeneratorInterfaceMock, 'Dummy', null, ['filters' => [
+            'incrementedSomething' => ['before' => 'the beginning of all time'],
+        ]]);
+    }
+
+    public function testHasLoggerOnlyWhenOneWasSet() {
+        // given
+        $filter = new ExpressionDateTimeFilter($this->managerRegistryMock);
+
+        // then
+        $this->assertFalse($filter->hasLogger());
+
+        // when
+        $filter->setLogger($this->createStub(LoggerInterface::class));
+
+        // then
+        $this->assertTrue($filter->hasLogger());
     }
 
     #[DataProvider('getOperators')]

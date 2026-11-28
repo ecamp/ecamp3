@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\IriFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Doctrine\Filter\ContentNodeCampFilter;
 use App\Doctrine\Filter\ContentNodeIsRootFilter;
 use App\Doctrine\Filter\ContentNodePeriodFilter;
@@ -39,6 +39,13 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new GetCollection(
             security: 'is_authenticated()',
+            parameters: [
+                'contentType' => new QueryParameter(filter: new IriFilter()),
+                'root' => new QueryParameter(filter: new IriFilter()),
+                'camp' => new QueryParameter(filter: ContentNodeCampFilter::class),
+                'period' => new QueryParameter(filter: ContentNodePeriodFilter::class),
+                'isRoot' => new QueryParameter(filter: new ContentNodeIsRootFilter()),
+            ],
             extraProperties: [
                 'scoping_filters' => ['root', 'camp', 'period'],
             ]
@@ -48,10 +55,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     order: ['root.id', 'parent.id', 'slot', 'position']
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['contentType', 'root'])]
-#[ApiFilter(filterClass: ContentNodeCampFilter::class)]
-#[ApiFilter(filterClass: ContentNodePeriodFilter::class)]
-#[ApiFilter(filterClass: ContentNodeIsRootFilter::class)]
 #[ORM\Entity(repositoryClass: ContentNodeRepository::class)]
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'strategy', type: 'string')]

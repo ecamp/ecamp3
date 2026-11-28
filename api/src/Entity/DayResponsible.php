@@ -2,8 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\IriFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
@@ -11,6 +10,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Repository\DayResponsibleRepository;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\ORM\Mapping as ORM;
@@ -32,6 +32,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new GetCollection(
             security: 'is_authenticated()',
+            parameters: [
+                'day' => new QueryParameter(filter: new IriFilter()),
+                'day.period' => new QueryParameter(filter: new IriFilter(), property: 'day.period'),
+            ],
             extraProperties: [
                 'scoping_filters' => ['day', 'day.period'],
             ]
@@ -57,7 +61,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['day', 'day.period'])]
 #[UniqueEntity(
     fields: ['campCollaboration', 'day'],
     message: 'This campCollaboration (user) is already responsible for this day.',

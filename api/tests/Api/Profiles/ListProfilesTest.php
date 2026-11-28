@@ -26,26 +26,6 @@ class ListProfilesTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(400);
     }
 
-    public function testListProfilesForLoggedInUserWithoutCampCollaborationShowsOnlyThemself() {
-        $profile = static::getFixture('profileWithoutCampCollaborations');
-        $response = static::createClientWithCredentials(['email' => $profile->email])
-            ->request('GET', '/profiles?user=%2Fusers%2F'.$profile->user->getId())
-        ;
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 1,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('profileWithoutCampCollaborations')],
-        ], $response->toArray()['_links']['items']);
-    }
-
     public function testListProfilesFilteredByCampIsAllowedForCollaborator() {
         $camp = static::getFixture('camp1');
         $response = static::createClientWithCredentials()->request('GET', '/profiles?user.collaborations.camp=%2Fcamps%2F'.$camp->getId());

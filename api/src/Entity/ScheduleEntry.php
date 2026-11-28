@@ -2,8 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\IriFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
@@ -12,6 +11,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Doctrine\Filter\ExpressionDateTimeFilter;
 use App\HttpCache\CacheTag;
 use App\HttpCache\CanGenerateTagsInterface;
@@ -50,6 +50,18 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new GetCollection(
             security: 'is_authenticated()',
+            parameters: [
+                'period' => new QueryParameter(filter: new IriFilter()),
+                'activity' => new QueryParameter(filter: new IriFilter()),
+                'start' => new QueryParameter(
+                    filter: new ExpressionDateTimeFilter(),
+                    filterContext: 'DATE_ADD({period.start}, {}.startOffset, \'minute\')',
+                ),
+                'end' => new QueryParameter(
+                    filter: new ExpressionDateTimeFilter(),
+                    filterContext: 'DATE_ADD({period.start}, {}.endOffset, \'minute\')',
+                ),
+            ],
             extraProperties: [
                 'scoping_filters' => ['period', 'activity'],
             ]
@@ -81,11 +93,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['period', 'activity'])]
-#[ApiFilter(filterClass: ExpressionDateTimeFilter::class, properties: [
-    'start' => 'DATE_ADD({period.start}, {}.startOffset, \'minute\')',
-    'end' => 'DATE_ADD({period.start}, {}.endOffset, \'minute\')',
-])]
 #[ORM\Entity(repositoryClass: ScheduleEntryRepository::class)]
 #[ORM\Index(columns: ['startOffset'])]
 #[ORM\Index(columns: ['endOffset'])]

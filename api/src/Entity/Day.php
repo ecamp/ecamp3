@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\IriFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\QueryParameter;
 use App\HttpCache\CacheTag;
 use App\HttpCache\CanGenerateTagsInterface;
 use App\Repository\DayRepository;
@@ -36,6 +36,10 @@ use Symfony\Component\Serializer\Attribute\SerializedName;
         new GetCollection(
             normalizationContext: self::COLLECTION_NORMALIZATION_CONTEXT,
             security: 'is_authenticated()',
+            parameters: [
+                'period' => new QueryParameter(filter: new IriFilter()),
+                'period.camp' => new QueryParameter(filter: new IriFilter(), property: 'period.camp'),
+            ],
             extraProperties: [
                 'scoping_filters' => ['period', 'period.camp'],
             ]
@@ -62,7 +66,6 @@ use Symfony\Component\Serializer\Attribute\SerializedName;
     denormalizationContext: ['groups' => ['write']],
     order: ['period.start', 'dayOffset']
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['period', 'period.camp'])]
 #[UniqueEntity(fields: ['period', 'dayOffset'])]
 #[ORM\Entity(repositoryClass: DayRepository::class)]
 #[ORM\UniqueConstraint(name: 'offset_period_idx', columns: ['periodId', 'dayOffset'])]
