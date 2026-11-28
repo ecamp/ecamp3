@@ -1,10 +1,5 @@
 {
   "components": {
-    "summary": {
-      "summaryDay": {
-        "noContent": "The activities on this day do not contain any {contentType} content."
-      }
-    },
     "activity": {
       "content": {
         "checklist": {
@@ -16,8 +11,14 @@
             "removeColumn": "Remove empty column"
           }
         },
-        "lAThematicArea": {
+        "laThematicArea": {
           "placeholder": "Choose thematic area"
+        },
+        "pbsMethods": {
+          "placeholder": "Select methods"
+        },
+        "pbsRelations": {
+          "placeholder": "Select relationships"
         },
         "storyboard": {
           "controls": "Controls",
@@ -116,6 +117,7 @@
       },
       "campHitobitoSync": {
         "linked": "This camp is linked with {provider}.",
+        "openInProvider": "Open in {provider}",
         "sync": "Synchronize",
         "title": "Synchronize camp info"
       },
@@ -317,14 +319,14 @@
     },
     "collaborator": {
       "collaboratorBulkCreate": {
-        "validationFailed": "Already in camp or invalid email:",
         "emailsHint": "Enter one email address per line, or separate with commas",
         "emailsLabel": "Email addresses",
         "failedEmails": "Failed to invite: {emails}",
         "invite": "Send invitations",
         "inviteCta": "Invite multiple people",
         "successCount": "{count} invitation(s) sent",
-        "title": "Invite multiple people"
+        "title": "Invite multiple people",
+        "validationFailed": "Already in camp or invalid email:"
       },
       "collaboratorCreate": {
         "emailLabel": "Email address",
@@ -384,9 +386,9 @@
       },
       "commentsList": {
         "empty": "No comments yet.",
-        "noResolvedComments": "No resolved comments.",
         "noOpenComments": "No open comments.",
-        "noOpenCommentsWithResolved": "No open comments. See Resolved."
+        "noOpenCommentsWithResolved": "No open comments. See Resolved.",
+        "noResolvedComments": "No resolved comments."
       },
       "commentsPanel": {
         "activityCommentsElsewhere": "One more open comment is on an activity. | {count} more open comments are on individual activities.",
@@ -512,13 +514,13 @@
           "title": "Filter activities"
         },
         "picassoConfig": {
-          "orientation": "Page layout",
           "landscape": "Landscape",
+          "orientation": "Page layout",
           "periods": "Period(s)",
           "portrait": "Portrait",
           "responsibles": "Responsibles",
-          "responsiblesNames": "Names",
-          "responsiblesAvatars": "Avatars"
+          "responsiblesAvatars": "As avatars",
+          "responsiblesNames": "As names"
         },
         "programConfig": {
           "dayOverview": "print day overview"
@@ -542,15 +544,15 @@
         "generatePdfMixin": {
           "error": "Something did not work. Please try again, or try reloading the page.",
           "progress": {
-            "loadingData": "Loading the latest data of the camp…",
-            "setupTranslationsAndFonts": "Loading fonts and static texts…",
             "assembleContent": "Assembling {type} ({content} of {totalContents})…",
+            "done": "Done",
+            "downloadingPdf": "Downloading pdf file…",
+            "failed": "Failed",
             "layoutDocument": "Calculating document layout…",
             "layoutPage": "Calculating layout of page {page}…",
+            "loadingData": "Loading the latest data of the camp…",
             "renderingPdfPage": "Rendering pdf page {page} of {totalPages}…",
-            "downloadingPdf": "Downloading pdf file…",
-            "done": "Done",
-            "failed": "Failed"
+            "setupTranslationsAndFonts": "Loading fonts and static texts…"
           }
         },
         "printPreview": {
@@ -560,9 +562,9 @@
       },
       "printConfigurator": {
         "add": "Add content",
-        "layoutInfoTitle": "Where is the print layout selection?",
-        "layoutInfo": "We've combined the strengths of both print layouts into one new layout. Under «Settings», you can enable the compact layout, which is similar to the previous layout #2. Have we overlooked something, or has something stopped working? {contactLink}.",
-        "contactLink": "Get in touch with us",
+        "collapsePreview": "Collapse preview",
+        "compact": "Compact layout",
+        "compactDescription": "Less spacing, hide empty fields",
         "config": {
           "Activity": "Single activity",
           "ActivityList": "Activity list (courses)",
@@ -573,15 +575,27 @@
           "Story": "Story",
           "Toc": "Table of contents"
         },
+        "configuration": "Print settings",
+        "contactLink": "Get in touch with us",
+        "fontSize": "Font size",
+        "fontSizeDescriptions": {
+          "A3": "For printing on A4 or A3",
+          "A4": "For printing on A4 or A5",
+          "A5": "For printing on A6"
+        },
+        "fontSizes": {
+          "A3": "Smaller",
+          "A4": "Normal",
+          "A5": "Bigger"
+        },
+        "layoutInfo": "We've combined the strengths of both print layouts into one new layout. Under «Settings», you can enable the compact layout, which is similar to the previous layout #2. Have we overlooked something, or has something stopped working? {contactLink}.",
+        "layoutInfoTitle": "Where is the print layout selection?",
+        "moveDown": "Move down",
+        "moveUp": "Move up",
         "options": "Settings",
         "pageNumbers": "Page numbers",
-        "compact": "Compact layout (less spacing, hide empty fields)",
-        "fontSize": "Font size",
-        "fontSizes": {
-          "A3": "Smaller (for printing on A4 or A3)",
-          "A4": "Normal (for printing on A4 or A5)",
-          "A5": "Bigger (for printing on A6)"
-        }
+        "preview": "Preview",
+        "showPreview": "Turn preview on"
       }
     },
     "program": {
@@ -631,11 +645,11 @@
         }
       },
       "scheduleEntryFilters": {
+        "allMyActivities": "All my activities",
         "category": "Category",
         "clearFilters": "Clear filters",
         "day": "Date",
         "dayLabel": "Day {dayNumber} ({date})",
-        "allMyActivities": "All my activities",
         "onlyMyActivities": "Only my activities",
         "period": "Period",
         "progressLabel": "State",
@@ -652,6 +666,11 @@
     "story": {
       "storyDay": {
         "noStory": "The activities on this day do not contain any story content."
+      }
+    },
+    "summary": {
+      "summaryDay": {
+        "noContent": "The activities on this day do not contain any {contentType} content."
       }
     },
     "toast": {
@@ -675,12 +694,12 @@
         "title": "Changing email address"
       },
       "dialogChangePassword": {
-        "title": "Change password",
         "currentPassword": "Current password",
+        "error": "An error has occurred.",
         "newPassword": "New password",
         "newPasswordConfirmation": "Confirm new password",
         "success": "Your password has been changed successfully.",
-        "error": "An error has occurred."
+        "title": "Change password"
       }
     }
   },
@@ -744,6 +763,74 @@
     "notes": {
       "info": "Here you can enter any notes.{br}e.g. ideas, todo's, open questions, contacts, public transport connections, etc.",
       "name": "Notes"
+    },
+    "pbsMethods": {
+      "entity": {
+        "option": {
+          "gamesAndMovement": {
+            "description": "Enjoy games and support your health through regular physical activity.",
+            "name": "Games and movement"
+          },
+          "lawAndPromise": {
+            "description": "Reflect on Scout values and put them into practice in everyday life.",
+            "name": "Law and Promise"
+          },
+          "learningByDoing": {
+            "description": "Try things for yourself and learn from your successes and mistakes.",
+            "name": "Learning by doing"
+          },
+          "lifeInTheLittleGroup": {
+            "description": "Live and work in small groups, play an active part and take responsibility.",
+            "name": "Life in the little group"
+          },
+          "outdoorLife": {
+            "description": "Get to know and protect nature and learn to live outdoors with simple resources.",
+            "name": "Outdoor life"
+          },
+          "personalDevelopment": {
+            "description": "Develop your abilities at your own pace with guidance from experienced people.",
+            "name": "Personal development"
+          },
+          "ritualsAndSymbolism": {
+            "description": "Explore Scout principles through symbols and give Scout life structure through rituals and traditions.",
+            "name": "Rituals and symbolism"
+          },
+          "serviceToTheCommunity": {
+            "description": "Take part in projects that help others and benefit the community.",
+            "name": "Service to the community"
+          }
+        }
+      },
+      "info": "Select the Scout methods used in this activity.",
+      "name": "Scout methods"
+    },
+    "pbsRelations": {
+      "entity": {
+        "option": {
+          "body": {
+            "description": "Accept your body, recognise your needs and limits, and express yourself.",
+            "name": "Body"
+          },
+          "environment": {
+            "description": "Explore and shape your environment creatively while using natural resources responsibly.",
+            "name": "Environment"
+          },
+          "otherPeople": {
+            "description": "Meet others with openness and respect and share responsibility.",
+            "name": "Other people"
+          },
+          "personality": {
+            "description": "Discover your strengths, make decisions with confidence and reflect on your actions.",
+            "name": "Personality"
+          },
+          "spirituality": {
+            "description": "Reflect on your values and beliefs and be open to different forms of spirituality.",
+            "name": "Spirituality"
+          }
+        }
+      },
+      "info": "Select the Scout relationships developed in this activity.",
+      "name": "Scout relationships"
     },
     "responsiveLayout": {
       "mainContent": "Main content",
@@ -935,26 +1022,6 @@
     }
   },
   "global": {
-    "datetime": {
-      "dateLong": "dd L",
-      "dateRangeStart": "dd DD/MM",
-      "dateRangeEnd": "dd L",
-      "dateShort": "dd D/M",
-      "dateTimeLong": "dd L LT",
-      "duration": {
-        "daysAndHours": "{days} d {hours} h",
-        "daysAndHoursAndMinutes": "{days} d {hours} h {minutes} min",
-        "daysAndMinutes": "{days} d {minutes} min",
-        "hoursAndMinutes": "{hours} h {minutes} m",
-        "daysOnly": "{days} s",
-        "hoursOnly": "{hours} h",
-        "minutesOnly": "{minutes} m"
-      },
-      "hourLong": "LT",
-      "hourShort": "H:mm",
-      "vuetifyTimePickerFormat": "ampm"
-    },
-    "shortScheduleEntryDescription": "day {dayNumber} {startTime}",
     "button": {
       "add": "Add",
       "back": "Back",
@@ -998,6 +1065,25 @@
       "manager": "Read, write & camp management",
       "member": "Read & write"
     },
+    "datetime": {
+      "dateLong": "dd L",
+      "dateRangeEnd": "dd L",
+      "dateRangeStart": "dd DD/MM",
+      "dateShort": "dd D/M",
+      "dateTimeLong": "dd L LT",
+      "duration": {
+        "daysAndHours": "{days} d {hours} h",
+        "daysAndHoursAndMinutes": "{days} d {hours} h {minutes} min",
+        "daysAndMinutes": "{days} d {minutes} min",
+        "hoursAndMinutes": "{hours} h {minutes} m",
+        "daysOnly": "{days} s",
+        "hoursOnly": "{hours} h",
+        "minutesOnly": "{minutes} m"
+      },
+      "hourLong": "LT",
+      "hourShort": "H:mm",
+      "vuetifyTimePickerFormat": "ampm"
+    },
     "hitobito": {
       "providers": {
         "pbsmidata": "MiData"
@@ -1019,19 +1105,20 @@
       "news": "News"
     },
     "newVersion": {
-      "title": "A new version is available",
       "description": "This feature is not available until you update to the latest version.",
+      "title": "A new version is available",
       "update": "Update now",
       "updateLater": "Update later"
     },
     "selfXssWarning": {
-      "title": "Stop!",
-      "message": "This browser console is meant for developers. If somebody asked you to copy and paste something in here, they are almost certainly trying to scam you: whatever you paste runs as you, and can read and change every camp you have access to. Never paste code here that you do not fully understand yourself."
+      "message": "This browser console is meant for developers. If somebody asked you to copy and paste something in here, they are almost certainly trying to scam you: whatever you paste runs as you, and can read and change every camp you have access to. Never paste code here that you do not fully understand yourself.",
+      "title": "Stop!"
     },
     "serverError": {
       "409": "Uuuups... This action caused an server-side error.",
       "short": "Server error"
     },
+    "shortScheduleEntryDescription": "day {dayNumber} {startTime}",
     "toast": {
       "copied": "{source} copied"
     },
@@ -1288,10 +1375,10 @@
         "desktop": {
           "navTopbar": {
             "campIsLoading": "Camp is loading",
+            "checklist": "Checklist",
             "material": "Materials",
             "program": "Program",
-            "story": "Story",
-            "checklist": "Checklist"
+            "story": "Story"
           }
         },
         "mobile": {
@@ -1347,8 +1434,8 @@
       "detail": "Oops. You've lost your way…{br}Unfortunately, this link does not work."
     },
     "profile": {
-      "profile": "Profile",
-      "password": "Password"
+      "password": "Password",
+      "profile": "Profile"
     }
   }
 }

@@ -26,6 +26,12 @@
         "href": "/api/content_types/4f0c657fecef"
       },
       {
+        "href": "/api/content_types/bd916d78ceea"
+      },
+      {
+        "href": "/api/content_types/3656a8e17c4c"
+      },
+      {
         "href": "/api/content_types/a4211c112939"
       },
       {
@@ -45,7 +51,7 @@
       }
     ]
   },
-  "totalItems": 13,
+  "totalItems": 15,
   "_embedded": {
     "items": [
       {
@@ -138,6 +144,32 @@
         "name": "Notes",
         "active": true,
         "id": "4f0c657fecef"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/content_types/bd916d78ceea"
+          },
+          "contentNodes": {
+            "href": "/api/content_node/multi_selects?contentType=%2Fapi%2Fcontent_types%2Fbd916d78ceea"
+          }
+        },
+        "name": "PBSMethods",
+        "active": true,
+        "id": "bd916d78ceea"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/api/content_types/3656a8e17c4c"
+          },
+          "contentNodes": {
+            "href": "/api/content_node/multi_selects?contentType=%2Fapi%2Fcontent_types%2F3656a8e17c4c"
+          }
+        },
+        "name": "PBSRelations",
+        "active": true,
+        "id": "3656a8e17c4c"
       },
       {
         "_links": {

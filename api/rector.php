@@ -5,10 +5,8 @@ declare(strict_types=1);
 use Rector\CodeQuality\Rector\Catch_\ThrowWithPreviousExceptionRector;
 use Rector\CodeQuality\Rector\ClassMethod\LocallyCalledStaticMethodToNonStaticRector;
 use Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector;
-use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector;
 use Rector\Config\RectorConfig;
-use Rector\DeadCode\Rector\ClassMethod\RemoveParentDelegatingConstructorRector;
 use Rector\DeadCode\Rector\If_\RemoveDeadInstanceOfRector;
 use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
 use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
@@ -23,7 +21,6 @@ use Rector\PHPUnit\PHPUnit120\Rector\Class_\AllowMockObjectsWhereParentClassRect
 use Rector\Privatization\Rector\Class_\FinalizeTestCaseClassRector;
 use Rector\Renaming\Rector\FuncCall\RenameFunctionRector;
 use Rector\Symfony\Symfony73\Rector\Class_\ConstraintOptionsToNamedArgumentsRector;
-use Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector;
 
 // @noinspection PhpUnhandledExceptionInspection
 return RectorConfig::configure()
@@ -49,16 +46,13 @@ return RectorConfig::configure()
         AssertEmptyNullableObjectToAssertInstanceofRector::class,
         ClosureToArrowFunctionRector::class,
         ConstraintOptionsToNamedArgumentsRector::class,
-        DeclareStrictTypesRector::class,
         DeclareStrictTypesTestsRector::class,
         FinalizeTestCaseClassRector::class,
-        FlipTypeControlToUseExclusiveTypeRector::class,
         LocallyCalledStaticMethodToNonStaticRector::class,
         NoSetupWithParentCallOverrideRector::class,
         NullToStrictStringFuncCallArgRector::class,
         PreferPHPUnitThisCallRector::class,
         RemoveDeadInstanceOfRector::class,
-        RemoveParentDelegatingConstructorRector::class,
         SimplifyIfReturnBoolRector::class,
         ThrowWithPreviousExceptionRector::class,
         UseIdenticalOverEqualWithSameTypeRector::class,

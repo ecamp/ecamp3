@@ -56,8 +56,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'strategy', type: 'string')]
 #[ORM\UniqueConstraint(name: 'contentnode_parentid_slot_position_unique', columns: ['parentid', 'slot', 'position'])]
-#[ORM\Index(columns: ['createTime'])]
-#[ORM\Index(columns: ['updateTime'])]
 #[ORM\Index(columns: ['id'], options: ['where' => '((strategy)::text = \'checklistnode\'::text)'])]
 abstract class ContentNode extends BaseEntity implements BelongsToCampInterface, BelongsToContentNodeTreeInterface, CopyFromPrototypeInterface, HasParentInterface {
     use ClassInfoTrait;
@@ -102,7 +100,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     #[ORM\OrderBy(['slot' => \SortDirection::Ascending, 'position' => \SortDirection::Ascending])]
     public Collection $children;
 
-    #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    #[ORM\Column(type: 'jsonb', nullable: true)]
     public ?array $data = null;
 
     /**

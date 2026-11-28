@@ -1,18 +1,20 @@
 <template>
   <div class="px-md-4 flex-grow-1 d-flex flex-column justify-content-between">
     <e-select
+      v-if="periods.length !== 1"
       v-model="options.periods"
       :items="periods"
       path="periods"
       :label="$t('print.config.periods')"
       multiple
-      :variant="periods.length === 1 ? 'plain' : 'underlined'"
-      :readonly="periods.length === 1"
+      variant="underlined"
       @update:model-value="$emit('update:modelValue', modelValue)"
     />
     <e-checkbox
       v-model="options.dayOverview"
       path="dayOverview"
+      input-class="ml-n2"
+      density="comfortable"
       :label="$t('components.print.config.programConfig.dayOverview')"
       @update:model-value="$emit('update:modelValue', modelValue)"
     />

@@ -622,7 +622,6 @@ class CreateCategoryTest extends ECampApiTestCase {
 
         $camp1 = static::getFixture('camp1');
         $contentType = static::getFixture('contentTypeSafetyConsiderations');
-        $rootContentNodeId = basename($response->toArray()['_links']['rootContentNode']['href']);
         self::assertEqualsCanonicalizing([
             '/categories',
             '/camps/'.$camp1->getId().'/categories',
@@ -630,7 +629,6 @@ class CreateCategoryTest extends ECampApiTestCase {
             '/content_node/column_layouts',
             $camp1->getId().'#categories',
             $contentType->getId().'#categories',
-            $rootContentNodeId.'#root',
         ], $cacheManager->getInvalidatedTags());
     }
 

@@ -48,8 +48,9 @@
         }"
       >
         <template #item="{ item }">
-          <span class="tabular-nums">{{ item.label }}</span
-          >&nbsp;<span class="opacity-60">({{ item.duration }})</span>
+          <span class="tabular-nums">{{ item.label }}</span>&nbsp;<span class="opacity-60"
+            >({{ item.duration }})</span
+          >
         </template>
       </e-time-dropdown>
     </div>

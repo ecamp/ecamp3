@@ -1,6 +1,9 @@
 import { expect, Page } from '@playwright/test'
 import { boxedStep } from '@/utils/decorators/boxedStep'
-import { CreateCampDialogStep2 } from '@/utils/fixtures/pageObjects/createCamp/createCampDialogStep2'
+import {
+  CreatedCampCallback,
+  CreateCampDialogStep2,
+} from '@/utils/fixtures/pageObjects/createCamp/createCampDialogStep2'
 
 export class CreateCampDialogStep1 {
   constructor(
@@ -33,9 +36,22 @@ export class CreateCampDialogStep1 {
   }
 
   @boxedStep
-  async next() {
+  async next(onCreatedCamp?: CreatedCampCallback) {
     await this._nextButton.click()
-    const createCampDialogStep2 = new CreateCampDialogStep2(this._page)
+    const createCampDialogStep2 = new CreateCampDialogStep2(
+      this._page,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      onCreatedCamp
+    )
     await createCampDialogStep2.loaded()
     return createCampDialogStep2
   }

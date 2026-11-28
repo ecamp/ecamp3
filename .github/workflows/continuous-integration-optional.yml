@@ -21,8 +21,8 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.5.12'
-          tools: composer:2.10.3
+          php-version: '8.5.13'
+          tools: composer:2.11.2
           coverage: xdebug
 
       - run: composer validate -n --no-check-all --no-check-publish --strict
@@ -36,8 +36,8 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.5.12'
-          tools: composer:2.10.3
+          php-version: '8.5.13'
+          tools: composer:2.11.2
           coverage: xdebug
 
       - name: Get Composer Cache Directory
@@ -66,8 +66,8 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.5.12'
-          tools: composer:2.10.3
+          php-version: '8.5.13'
+          tools: composer:2.11.2
           coverage: xdebug
 
       - name: Get Composer Cache Directory

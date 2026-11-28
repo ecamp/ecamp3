@@ -13,11 +13,12 @@
       <slot name="activator" v-bind="{ props }" />
     </template>
     <v-alert
-      color="surface"
+      :color="type"
+      variant="tonal"
       border="bottom"
       :border-color="type"
       elevation="8"
-      class="mb-0 pb-5"
+      class="bg-surface v-card-text mb-0 pb-5"
       :class="{
         'rounded-tr-0': position === 'bottom' && align === 'right',
         'rounded-tl-0': position === 'bottom' && align === 'left',

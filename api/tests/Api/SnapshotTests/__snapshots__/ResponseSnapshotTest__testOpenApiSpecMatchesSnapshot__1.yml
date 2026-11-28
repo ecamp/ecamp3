@@ -6,6 +6,7 @@ components:
   responses: []
   schemas:
     Activity:
+      description: 'A piece of programme that will be carried out once or multiple times in a camp.'
       properties:
         activityResponsibles:
           items:
@@ -555,6 +556,7 @@ components:
         - title
       type: object
     Activity-read_ScheduleEntry.Activity:
+      description: 'A piece of programme that will be carried out once or multiple times in a camp.'
       properties:
         activityResponsibles:
           description: 'The list of people that are responsible for planning or carrying out this activity.'
@@ -1444,6 +1446,7 @@ components:
         - title
       type: object
     Activity.html-read_ScheduleEntry.Activity:
+      description: 'A piece of programme that will be carried out once or multiple times in a camp.'
       properties:
         activityResponsibles:
           description: 'The list of people that are responsible for planning or carrying out this activity.'
@@ -1561,6 +1564,7 @@ components:
                 $ref: '#/components/schemas/ScheduleEntry.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Activity.jsonapi-validation.Default_create:
       properties:
         data:
@@ -1589,10 +1593,12 @@ components:
                 $ref: '#/components/schemas/ScheduleEntry.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Activity.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/Activity.jsonapi-validation.Default_create.input.resource'
+      type: object
     Activity.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -1774,10 +1780,12 @@ components:
                 $ref: '#/components/schemas/ScheduleEntry.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Activity.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/Activity.jsonapi-validation.Default_update.input.resource'
+      type: object
     Activity.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -2620,7 +2628,11 @@ components:
             - scheduleEntries
             - title
           type: object
+      description: 'A piece of programme that will be carried out once or multiple times in a camp.'
     ActivityProgressLabel:
+      description: |-
+        Progress labels in a camp.
+        To each activity one label can be assigned.
       properties:
         camp:
           description: 'The camp to which this label belongs.'
@@ -2694,6 +2706,9 @@ components:
         - title
       type: object
     ActivityProgressLabel-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
+      description: |-
+        Progress labels in a camp.
+        To each activity one label can be assigned.
       properties:
         camp:
           description: 'The camp to which this label belongs.'
@@ -2720,6 +2735,9 @@ components:
         - title
       type: object
     ActivityProgressLabel-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: |-
+        Progress labels in a camp.
+        To each activity one label can be assigned.
       properties:
         camp:
           description: 'The camp to which this label belongs.'
@@ -3015,6 +3033,9 @@ components:
         - title
       type: object
     ActivityProgressLabel.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
+      description: |-
+        Progress labels in a camp.
+        To each activity one label can be assigned.
       properties:
         camp:
           description: 'The camp to which this label belongs.'
@@ -3041,6 +3062,9 @@ components:
         - title
       type: object
     ActivityProgressLabel.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: |-
+        Progress labels in a camp.
+        To each activity one label can be assigned.
       properties:
         camp:
           description: 'The camp to which this label belongs.'
@@ -3161,6 +3185,7 @@ components:
                 $ref: '#/components/schemas/Camp.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ActivityProgressLabel.jsonapi-validation.Default_create:
       properties:
         data:
@@ -3175,10 +3200,12 @@ components:
                 $ref: '#/components/schemas/Camp.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ActivityProgressLabel.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/ActivityProgressLabel.jsonapi-validation.Default_create.input.resource'
+      type: object
     ActivityProgressLabel.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -3260,10 +3287,12 @@ components:
                 $ref: '#/components/schemas/Camp.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ActivityProgressLabel.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/ActivityProgressLabel.jsonapi-validation.Default_update.input.resource'
+      type: object
     ActivityProgressLabel.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -3346,6 +3375,7 @@ components:
                 $ref: '#/components/schemas/Camp.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ActivityProgressLabel.jsonapi-validation.delete.resource:
       properties:
         attributes:
@@ -3555,6 +3585,9 @@ components:
             - position
             - title
           type: object
+      description: |-
+        Progress labels in a camp.
+        To each activity one label can be assigned.
     ActivityProgressLabel.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       allOf:
         -
@@ -3585,6 +3618,9 @@ components:
             - position
             - title
           type: object
+      description: |-
+        Progress labels in a camp.
+        To each activity one label can be assigned.
     ActivityProgressLabel.jsonld-read_validation.Default_create:
       allOf:
         -
@@ -3679,6 +3715,7 @@ components:
         Progress labels in a camp.
         To each activity one label can be assigned.
     ActivityResponsible:
+      description: 'A person that is responsible for planning or carrying out an activity.'
       properties:
         activity:
           description: 'The activity that the person is responsible for.'
@@ -3724,6 +3761,7 @@ components:
         - campCollaboration
       type: object
     ActivityResponsible-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
+      description: 'A person that is responsible for planning or carrying out an activity.'
       properties:
         activity:
           description: 'The activity that the person is responsible for.'
@@ -3746,6 +3784,7 @@ components:
         - campCollaboration
       type: object
     ActivityResponsible-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: 'A person that is responsible for planning or carrying out an activity.'
       properties:
         activity:
           description: 'The activity that the person is responsible for.'
@@ -3806,6 +3845,7 @@ components:
         - campCollaboration
       type: object
     ActivityResponsible.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
+      description: 'A person that is responsible for planning or carrying out an activity.'
       properties:
         activity:
           description: 'The activity that the person is responsible for.'
@@ -3828,6 +3868,7 @@ components:
         - campCollaboration
       type: object
     ActivityResponsible.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: 'A person that is responsible for planning or carrying out an activity.'
       properties:
         activity:
           description: 'The activity that the person is responsible for.'
@@ -3865,10 +3906,12 @@ components:
                 $ref: '#/components/schemas/CampCollaboration.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ActivityResponsible.jsonapi.input:
       properties:
         data:
           $ref: '#/components/schemas/ActivityResponsible.jsonapi.input.resource'
+      type: object
     ActivityResponsible.jsonapi.input.resource:
       properties:
         attributes:
@@ -4009,6 +4052,7 @@ components:
             - activity
             - campCollaboration
           type: object
+      description: 'A person that is responsible for planning or carrying out an activity.'
     ActivityResponsible.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       allOf:
         -
@@ -4035,6 +4079,7 @@ components:
             - activity
             - campCollaboration
           type: object
+      description: 'A person that is responsible for planning or carrying out an activity.'
     Camp:
       description: |-
         The main entity that eCamp is designed to manage. Contains programme which may be
@@ -5300,6 +5345,9 @@ components:
         - title
       type: object
     Camp-read_CampCollaboration.Camp_CampCollaboration.User:
+      description: |-
+        The main entity that eCamp is designed to manage. Contains programme which may be
+        distributed across multiple time periods.
       properties:
         activities:
           description: |-
@@ -5563,6 +5611,9 @@ components:
         - title
       type: object
     Camp-read_Period.Camp_Period.Days:
+      description: |-
+        The main entity that eCamp is designed to manage. Contains programme which may be
+        distributed across multiple time periods.
       properties:
         activities:
           description: |-
@@ -7408,6 +7459,9 @@ components:
         - title
       type: object
     Camp.html-read_CampCollaboration.Camp_CampCollaboration.User:
+      description: |-
+        The main entity that eCamp is designed to manage. Contains programme which may be
+        distributed across multiple time periods.
       properties:
         activities:
           description: |-
@@ -7671,6 +7725,9 @@ components:
         - title
       type: object
     Camp.html-read_Period.Camp_Period.Days:
+      description: |-
+        The main entity that eCamp is designed to manage. Contains programme which may be
+        distributed across multiple time periods.
       properties:
         activities:
           description: |-
@@ -8116,7 +8173,7 @@ components:
         materialItems:
           description: 'List of MaterialItems that belong to this Camp.'
           items:
-            $ref: '#/components/schemas/MaterialItem-validation.App.Validator.MaterialItemUpdateGroupSequence.jsonMergePatch'
+            $ref: '#/components/schemas/MaterialItem.jsonMergePatch'
           type: array
         materialLists:
           description: |-
@@ -8255,6 +8312,7 @@ components:
                 $ref: '#/components/schemas/User.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Camp.jsonapi-validation.Default_create_Camp.create:
       properties:
         data:
@@ -8289,10 +8347,12 @@ components:
                 $ref: '#/components/schemas/User.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Camp.jsonapi-validation.Default_create_Camp.create.input:
       properties:
         data:
           $ref: '#/components/schemas/Camp.jsonapi-validation.Default_create_Camp.create.input.resource'
+      type: object
     Camp.jsonapi-validation.Default_create_Camp.create.input.resource:
       properties:
         attributes:
@@ -8830,6 +8890,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Camp.jsonapi.input.resource'
+      type: object
     Camp.jsonapi.input.resource:
       properties:
         attributes:
@@ -10487,6 +10548,9 @@ components:
             - progressLabels
             - title
           type: object
+      description: |-
+        The main entity that eCamp is designed to manage. Contains programme which may be
+        distributed across multiple time periods.
     Camp.jsonld-read_Period.Camp_Period.Days:
       allOf:
         -
@@ -10754,7 +10818,11 @@ components:
             - progressLabels
             - title
           type: object
+      description: |-
+        The main entity that eCamp is designed to manage. Contains programme which may be
+        distributed across multiple time periods.
     CampCollaboration:
+      description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
         abbreviation:
           description: 'The abbreviation in the avatar.'
@@ -10919,6 +10987,7 @@ components:
           example: /users/1a2b3c4d
       type: object
     CampCollaboration-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
+      description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
         abbreviation:
           description: 'The abbreviation in the avatar.'
@@ -12005,6 +12074,7 @@ components:
           type: string
       type: object
     CampCollaboration.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
+      description: 'A user participating in some way in the planning or realization of a camp.'
       properties:
         abbreviation:
           description: 'The abbreviation in the avatar.'
@@ -12482,6 +12552,7 @@ components:
                 $ref: '#/components/schemas/User.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     CampCollaboration.jsonapi-validation.Default_resend_invitation:
       properties:
         data:
@@ -12502,10 +12573,12 @@ components:
                 $ref: '#/components/schemas/User.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     CampCollaboration.jsonapi-validation.Default_resend_invitation.input:
       properties:
         data:
           $ref: '#/components/schemas/CampCollaboration.jsonapi-validation.Default_resend_invitation.input.resource'
+      type: object
     CampCollaboration.jsonapi-validation.Default_resend_invitation.input.resource:
       properties:
         attributes:
@@ -12724,10 +12797,12 @@ components:
                 $ref: '#/components/schemas/User.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     CampCollaboration.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/CampCollaboration.jsonapi-validation.Default_update.input.resource'
+      type: object
     CampCollaboration.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -12946,6 +13021,7 @@ components:
                 $ref: '#/components/schemas/User.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     CampCollaboration.jsonapi-validation.delete.resource:
       properties:
         attributes:
@@ -13030,6 +13106,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/CampCollaboration.jsonapi.input.resource'
+      type: object
     CampCollaboration.jsonapi.input.resource:
       properties:
         attributes:
@@ -13393,6 +13470,7 @@ components:
             - role
             - status
           type: object
+      description: 'A user participating in some way in the planning or realization of a camp.'
     CampCollaboration.jsonld-read_CampCollaboration.Camp_CampCollaboration.User:
       allOf:
         -
@@ -13809,6 +13887,11 @@ components:
         - rootContentNode
       type: object
     Category:
+      description: |-
+        A type of programme, such as sports activities or meal times, is called a category. A category
+        determines color and numbering scheme of the associated activities, and is used for marking
+        "similar" activities. A category may contain some skeleton programme which is used as a blueprint
+        when creating a new activity in the category.
       properties:
         camp:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
@@ -14044,6 +14127,11 @@ components:
         - short
       type: object
     Category-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: |-
+        A type of programme, such as sports activities or meal times, is called a category. A category
+        determines color and numbering scheme of the associated activities, and is used for marking
+        "similar" activities. A category may contain some skeleton programme which is used as a blueprint
+        when creating a new activity in the category.
       properties:
         camp:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
@@ -14731,6 +14819,11 @@ components:
         - short
       type: object
     Category.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: |-
+        A type of programme, such as sports activities or meal times, is called a category. A category
+        determines color and numbering scheme of the associated activities, and is used for marking
+        "similar" activities. A category may contain some skeleton programme which is used as a blueprint
+        when creating a new activity in the category.
       properties:
         camp:
           description: 'The camp to which this category belongs. May not be changed once the category is created.'
@@ -15137,6 +15230,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Category.jsonapi-validation.delete:
       properties:
         data:
@@ -15159,6 +15253,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Category.jsonapi-validation.delete.resource:
       properties:
         attributes:
@@ -15231,6 +15326,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Category.jsonapi.input.resource'
+      type: object
     Category.jsonapi.input.resource:
       properties:
         attributes:
@@ -15652,6 +15748,11 @@ components:
             - preferredContentTypes
             - short
           type: object
+      description: |-
+        A type of programme, such as sports activities or meal times, is called a category. A category
+        determines color and numbering scheme of the associated activities, and is used for marking
+        "similar" activities. A category may contain some skeleton programme which is used as a blueprint
+        when creating a new activity in the category.
     Category.jsonld-read_Category.PreferredContentTypes:
       allOf:
         -
@@ -15981,6 +16082,44 @@ components:
         - checklistItems
         - name
       type: object
+    Checklist-read_validation.Default_create:
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
+      properties:
+        camp:
+          description: 'The camp this checklist belongs to.'
+          example: /camps/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        checklistItems:
+          description: 'All ChecklistItems that belong to this Checklist.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        isPrototype:
+          default: false
+          description: 'Whether this checklist is a template.'
+          example: true
+          type: boolean
+        name:
+          description: 'The human readable name of the checklist.'
+          example: 'PBS Ausbildungsziele'
+          maxLength: 32
+          type: string
+      required:
+        - checklistItems
+        - name
+      type: object
     Checklist-read_validation.delete:
       description: |-
         A Checklist
@@ -16013,6 +16152,59 @@ components:
           description: 'The human readable name of the checklist.'
           example: 'PBS Ausbildungsziele'
           type: string
+      type: object
+    Checklist-validation.Default_create:
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
+      properties:
+        camp:
+          description: 'The camp this checklist belongs to.'
+          example: /camps/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        checklistItems:
+          description: 'All ChecklistItems that belong to this Checklist.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
+        checklistPrototypeId:
+          description: |-
+            The id of the checklist that was used as a template for creating this checklist. Internal for now, is
+            not published through the API.
+          maxLength: 16
+          type:
+            - 'null'
+            - string
+        copyChecklistSource:
+          description: 'Copy contents from this source checklist.'
+          example: /checklists/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        isPrototype:
+          default: false
+          description: 'Whether this checklist is a template.'
+          example: true
+          type: boolean
+        name:
+          description: 'The human readable name of the checklist.'
+          example: 'PBS Ausbildungsziele'
+          maxLength: 32
+          type: string
+      required:
+        - checklistItems
+        - name
       type: object
     Checklist-validation.delete:
       description: |-
@@ -16072,7 +16264,39 @@ components:
           maxLength: 32
           type: string
       type: object
-    Checklist-write_create:
+    Checklist-write_create.jsonMergePatch:
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
+      properties:
+        camp:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Camp-write_create.jsonMergePatch'
+            -
+              type: 'null'
+          description: 'The camp this checklist belongs to.'
+          example: /camps/1a2b3c4d
+        copyChecklistSource:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Checklist-write_create.jsonMergePatch'
+            -
+              type: 'null'
+          description: 'Copy contents from this source checklist.'
+          example: /checklists/1a2b3c4d
+        isPrototype:
+          default: false
+          description: 'Whether this checklist is a template.'
+          example: true
+          type: boolean
+        name:
+          description: 'The human readable name of the checklist.'
+          example: 'PBS Ausbildungsziele'
+          maxLength: 32
+          type: string
+      type: object
+    Checklist-write_create_validation.Default_create:
       description: |-
         A Checklist
         Tree-Structure with ChecklistItems.
@@ -16106,27 +16330,30 @@ components:
       required:
         - name
       type: object
-    Checklist-write_create.jsonMergePatch:
+    Checklist.html-read:
       description: |-
         A Checklist
         Tree-Structure with ChecklistItems.
       properties:
         camp:
-          anyOf:
-            -
-              $ref: '#/components/schemas/Camp-write_create.jsonMergePatch'
-            -
-              type: 'null'
           description: 'The camp this checklist belongs to.'
           example: /camps/1a2b3c4d
-        copyChecklistSource:
-          anyOf:
-            -
-              $ref: '#/components/schemas/Checklist-write_create.jsonMergePatch'
-            -
-              type: 'null'
-          description: 'Copy contents from this source checklist.'
-          example: /checklists/1a2b3c4d
+          format: iri-reference
+          type:
+            - 'null'
+            - string
+        checklistItems:
+          description: 'All ChecklistItems that belong to this Checklist.'
+          example: 'https://example.com/'
+          format: iri-reference
+          readOnly: true
+          type: string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
         isPrototype:
           default: false
           description: 'Whether this checklist is a template.'
@@ -16137,8 +16364,11 @@ components:
           example: 'PBS Ausbildungsziele'
           maxLength: 32
           type: string
+      required:
+        - checklistItems
+        - name
       type: object
-    Checklist.html-read:
+    Checklist.html-read_validation.Default_create:
       description: |-
         A Checklist
         Tree-Structure with ChecklistItems.
@@ -16279,6 +16509,136 @@ components:
                 $ref: '#/components/schemas/ChecklistItem.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
+    Checklist.jsonapi-validation.Default_create:
+      properties:
+        data:
+          $ref: '#/components/schemas/Checklist.jsonapi-validation.Default_create.resource'
+        included:
+          description: 'Related resources requested via the "include" query parameter.'
+          externalDocs:
+            url: 'https://jsonapi.org/format/#fetching-includes'
+          items:
+            anyOf:
+              -
+                $ref: '#/components/schemas/Camp.jsonapi.resource'
+              -
+                $ref: '#/components/schemas/Checklist.jsonapi.resource'
+              -
+                $ref: '#/components/schemas/ChecklistItem.jsonapi.resource'
+          readOnly: true
+          type: array
+      type: object
+    Checklist.jsonapi-validation.Default_create.input:
+      properties:
+        data:
+          $ref: '#/components/schemas/Checklist.jsonapi-validation.Default_create.input.resource'
+      type: object
+    Checklist.jsonapi-validation.Default_create.input.resource:
+      properties:
+        attributes:
+          properties:
+            _id:
+              description: 'An internal, unique, randomly generated identifier of this entity.'
+              example: 1a2b3c4d
+              maxLength: 16
+              readOnly: true
+              type: string
+            checklistPrototypeId:
+              description: |-
+                The id of the checklist that was used as a template for creating this checklist. Internal for now, is
+                not published through the API.
+              maxLength: 16
+              type:
+                - 'null'
+                - string
+            isPrototype:
+              default: false
+              description: 'Whether this checklist is a template.'
+              example: true
+              type: boolean
+            name:
+              description: 'The human readable name of the checklist.'
+              example: 'PBS Ausbildungsziele'
+              maxLength: 32
+              type: string
+          type: object
+        id:
+          type: string
+        relationships:
+          properties:
+            camp:
+              properties:
+                data:
+                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
+            checklistItems:
+              properties:
+                data:
+                  items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }
+                  type: array
+            copyChecklistSource:
+              properties:
+                data:
+                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
+          type: object
+        type:
+          type: string
+      required:
+        - type
+      type: object
+    Checklist.jsonapi-validation.Default_create.resource:
+      properties:
+        attributes:
+          properties:
+            _id:
+              description: 'An internal, unique, randomly generated identifier of this entity.'
+              example: 1a2b3c4d
+              maxLength: 16
+              readOnly: true
+              type: string
+            checklistPrototypeId:
+              description: |-
+                The id of the checklist that was used as a template for creating this checklist. Internal for now, is
+                not published through the API.
+              maxLength: 16
+              type:
+                - 'null'
+                - string
+            isPrototype:
+              default: false
+              description: 'Whether this checklist is a template.'
+              example: true
+              type: boolean
+            name:
+              description: 'The human readable name of the checklist.'
+              example: 'PBS Ausbildungsziele'
+              maxLength: 32
+              type: string
+          type: object
+        id:
+          type: string
+        relationships:
+          properties:
+            camp:
+              properties:
+                data:
+                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
+            checklistItems:
+              properties:
+                data:
+                  items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }
+                  type: array
+            copyChecklistSource:
+              properties:
+                data:
+                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
+          type: object
+        type:
+          type: string
+      required:
+        - id
+        - type
+      type: object
     Checklist.jsonapi-validation.delete:
       properties:
         data:
@@ -16297,6 +16657,7 @@ components:
                 $ref: '#/components/schemas/ChecklistItem.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Checklist.jsonapi-validation.delete.resource:
       properties:
         attributes:
@@ -16351,6 +16712,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Checklist.jsonapi.input.resource'
+      type: object
     Checklist.jsonapi.input.resource:
       properties:
         attributes:
@@ -16473,6 +16835,22 @@ components:
       description: |-
         A Checklist
         Tree-Structure with ChecklistItems.
+    Checklist.jsonhal-read_validation.Default_create:
+      allOf:
+        -
+          $ref: '#/components/schemas/Checklist-read_validation.Default_create'
+        -
+          properties:
+            _links:
+              properties:
+                self:
+                  properties: { href: { format: iri-reference, type: string } }
+                  type: object
+              type: object
+          type: object
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
     Checklist.jsonhal-read_validation.delete:
       allOf:
         -
@@ -16489,10 +16867,10 @@ components:
       description: |-
         A Checklist
         Tree-Structure with ChecklistItems.
-    Checklist.jsonhal-write_create:
+    Checklist.jsonhal-write_create_validation.Default_create:
       allOf:
         -
-          $ref: '#/components/schemas/Checklist-write_create'
+          $ref: '#/components/schemas/Checklist-write_create_validation.Default_create'
         -
           properties:
             _links:
@@ -16506,6 +16884,48 @@ components:
         A Checklist
         Tree-Structure with ChecklistItems.
     Checklist.jsonld-read:
+      allOf:
+        -
+          $ref: '#/components/schemas/HydraItemBaseSchema'
+        -
+          properties:
+            camp:
+              description: 'The camp this checklist belongs to.'
+              example: /camps/1a2b3c4d
+              format: iri-reference
+              type:
+                - 'null'
+                - string
+            checklistItems:
+              description: 'All ChecklistItems that belong to this Checklist.'
+              example: 'https://example.com/'
+              format: iri-reference
+              readOnly: true
+              type: string
+            id:
+              description: 'An internal, unique, randomly generated identifier of this entity.'
+              example: 1a2b3c4d
+              maxLength: 16
+              readOnly: true
+              type: string
+            isPrototype:
+              default: false
+              description: 'Whether this checklist is a template.'
+              example: true
+              type: boolean
+            name:
+              description: 'The human readable name of the checklist.'
+              example: 'PBS Ausbildungsziele'
+              maxLength: 32
+              type: string
+          required:
+            - checklistItems
+            - name
+          type: object
+      description: |-
+        A Checklist
+        Tree-Structure with ChecklistItems.
+    Checklist.jsonld-read_validation.Default_create:
       allOf:
         -
           $ref: '#/components/schemas/HydraItemBaseSchema'
@@ -17137,6 +17557,7 @@ components:
                 $ref: '#/components/schemas/ChecklistNode.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ChecklistItem.jsonapi-validation.delete:
       properties:
         data:
@@ -17155,6 +17576,7 @@ components:
                 $ref: '#/components/schemas/ChecklistNode.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ChecklistItem.jsonapi-validation.delete.resource:
       properties:
         attributes:
@@ -17219,6 +17641,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/ChecklistItem.jsonapi.input.resource'
+      type: object
     ChecklistItem.jsonapi.input.resource:
       properties:
         attributes:
@@ -18695,6 +19118,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ChecklistNode.jsonapi-validation.Default_create:
       properties:
         data:
@@ -18717,10 +19141,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ChecklistNode.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/ChecklistNode.jsonapi-validation.Default_create.input.resource'
+      type: object
     ChecklistNode.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -18946,10 +19372,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ChecklistNode.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/ChecklistNode.jsonapi-validation.Default_update.input.resource'
+      type: object
     ChecklistNode.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -20719,6 +21147,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ColumnLayout.jsonapi-validation.Default_create:
       properties:
         data:
@@ -20739,10 +21168,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ColumnLayout.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/ColumnLayout.jsonapi-validation.Default_create.input.resource'
+      type: object
     ColumnLayout.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -20940,10 +21371,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ColumnLayout.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/ColumnLayout.jsonapi-validation.Default_update.input.resource'
+      type: object
     ColumnLayout.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -22497,6 +22930,7 @@ components:
                 $ref: '#/components/schemas/Comment.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Comment.jsonapi-validation.delete:
       properties:
         data:
@@ -22517,6 +22951,7 @@ components:
                 $ref: '#/components/schemas/Comment.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Comment.jsonapi-validation.delete.resource:
       properties:
         attributes:
@@ -22616,6 +23051,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Comment.jsonapi.input.resource'
+      type: object
     Comment.jsonapi.input.resource:
       properties:
         attributes:
@@ -23174,6 +23610,12 @@ components:
           type: object
       description: 'Unprocessable entity'
     ContentNode:
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
       properties:
         camp:
           example: 'https://example.com/'
@@ -23365,6 +23807,12 @@ components:
         - root
       type: object
     ContentNode-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
       properties:
         children:
           description: 'All content nodes that are direct children of this content node.'
@@ -23452,6 +23900,12 @@ components:
         - root
       type: object
     ContentNode-read_Category.PreferredContentTypes_Category.ContentNodes:
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
       properties:
         children:
           description: 'All content nodes that are direct children of this content node.'
@@ -23539,6 +23993,12 @@ components:
         - root
       type: object
     ContentNode-write:
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
       properties:
         data:
           description: 'Holds the actual data of the content node.'
@@ -23588,6 +24048,12 @@ components:
         - position
       type: object
     ContentNode-write_create:
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
       properties:
         contentType:
           $ref: '#/components/schemas/ContentType-write_create'
@@ -23645,6 +24111,12 @@ components:
         - position
       type: object
     ContentNode-write_update:
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
       properties:
         data:
           description: 'Holds the actual data of the content node.'
@@ -23787,6 +24259,12 @@ components:
         - root
       type: object
     ContentNode.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
       properties:
         children:
           description: 'All content nodes that are direct children of this content node.'
@@ -23874,6 +24352,12 @@ components:
         - root
       type: object
     ContentNode.html-read_Category.PreferredContentTypes_Category.ContentNodes:
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
       properties:
         children:
           description: 'All content nodes that are direct children of this content node.'
@@ -23980,6 +24464,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ContentNode.jsonapi.resource:
       properties:
         attributes:
@@ -24272,6 +24757,12 @@ components:
             - position
             - root
           type: object
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
     ContentNode.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes:
       allOf:
         -
@@ -24363,7 +24854,17 @@ components:
             - position
             - root
           type: object
+      description: |-
+        A piece of information that is part of a programme. ContentNodes may store content such as
+        one or multiple free text fields, or any other necessary data. Content nodes may also be used
+        to define layouts. For this purpose, a content node may offer so-called slots, into which other
+        content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+        container content node. This way, a tree of content nodes makes up a complete programme.
     ContentType:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       properties:
         active:
           default: true
@@ -24420,6 +24921,10 @@ components:
         - name
       type: object
     ContentType-create_write:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       type: object
     ContentType-read:
       description: |-
@@ -24458,6 +24963,10 @@ components:
         - name
       type: object
     ContentType-read_Category.PreferredContentTypes:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       properties:
         active:
           default: true
@@ -24490,6 +24999,10 @@ components:
         - name
       type: object
     ContentType-read_Category.PreferredContentTypes_Category.ContentNodes:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       properties:
         active:
           default: true
@@ -24522,10 +25035,22 @@ components:
         - name
       type: object
     ContentType-write:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       type: object
     ContentType-write_create:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       type: object
     ContentType-write_update:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       type: object
     ContentType.html-read:
       description: |-
@@ -24564,6 +25089,10 @@ components:
         - name
       type: object
     ContentType.html-read_Category.PreferredContentTypes:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       properties:
         active:
           default: true
@@ -24596,6 +25125,10 @@ components:
         - name
       type: object
     ContentType.html-read_Category.PreferredContentTypes_Category.ContentNodes:
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
       properties:
         active:
           default: true
@@ -24641,6 +25174,7 @@ components:
                 $ref: '#/components/schemas/Category.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ContentType.jsonapi.resource:
       properties:
         attributes:
@@ -24796,6 +25330,10 @@ components:
             - active
             - name
           type: object
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
     ContentType.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes:
       allOf:
         -
@@ -24832,6 +25370,10 @@ components:
             - active
             - name
           type: object
+      description: |-
+        Defines a type of content that can be present in a content node tree. A content type
+        determines what data can be stored in content nodes of this type, as well as validation,
+        available slots and jsonConfig settings.
     Credentials:
       properties:
         identifier:
@@ -24842,6 +25384,11 @@ components:
           type: string
       type: object
     Day:
+      description: |-
+        A day in a time period of a camp. This is represented as a reference to the time period
+        along with a number of days offset from the period's starting date. This is to make it
+        easier to move the whole periods to different dates. Days are created automatically when
+        creating or updating periods, and are not writable through the API directly.
       properties:
         cacheTags:
           items: []
@@ -24905,6 +25452,11 @@ components:
         - period
       type: object
     Day-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
+      description: |-
+        A day in a time period of a camp. This is represented as a reference to the time period
+        along with a number of days offset from the period's starting date. This is to make it
+        easier to move the whole periods to different dates. Days are created automatically when
+        creating or updating periods, and are not writable through the API directly.
       properties:
         dayOffset:
           default: 0
@@ -25029,6 +25581,11 @@ components:
         - period
       type: object
     Day-read_Period.Camp_Period.Days:
+      description: |-
+        A day in a time period of a camp. This is represented as a reference to the time period
+        along with a number of days offset from the period's starting date. This is to make it
+        easier to move the whole periods to different dates. Days are created automatically when
+        creating or updating periods, and are not writable through the API directly.
       properties:
         dayOffset:
           default: 0
@@ -25089,8 +25646,18 @@ components:
         - period
       type: object
     Day-write:
+      description: |-
+        A day in a time period of a camp. This is represented as a reference to the time period
+        along with a number of days offset from the period's starting date. This is to make it
+        easier to move the whole periods to different dates. Days are created automatically when
+        creating or updating periods, and are not writable through the API directly.
       type: object
     Day.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
+      description: |-
+        A day in a time period of a camp. This is represented as a reference to the time period
+        along with a number of days offset from the period's starting date. This is to make it
+        easier to move the whole periods to different dates. Days are created automatically when
+        creating or updating periods, and are not writable through the API directly.
       properties:
         dayOffset:
           default: 0
@@ -25215,6 +25782,11 @@ components:
         - period
       type: object
     Day.html-read_Period.Camp_Period.Days:
+      description: |-
+        A day in a time period of a camp. This is represented as a reference to the time period
+        along with a number of days offset from the period's starting date. This is to make it
+        easier to move the whole periods to different dates. Days are created automatically when
+        creating or updating periods, and are not writable through the API directly.
       properties:
         dayOffset:
           default: 0
@@ -25292,6 +25864,7 @@ components:
                 $ref: '#/components/schemas/ScheduleEntry.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Day.jsonapi.resource:
       properties:
         attributes:
@@ -25441,6 +26014,11 @@ components:
             - dayResponsibles
             - period
           type: object
+      description: |-
+        A day in a time period of a camp. This is represented as a reference to the time period
+        along with a number of days offset from the period's starting date. This is to make it
+        easier to move the whole periods to different dates. Days are created automatically when
+        creating or updating periods, and are not writable through the API directly.
     Day.jsonld-read_Day.DayResponsibles:
       allOf:
         -
@@ -25573,7 +26151,13 @@ components:
             - dayResponsibles
             - period
           type: object
+      description: |-
+        A day in a time period of a camp. This is represented as a reference to the time period
+        along with a number of days offset from the period's starting date. This is to make it
+        easier to move the whole periods to different dates. Days are created automatically when
+        creating or updating periods, and are not writable through the API directly.
     DayResponsible:
+      description: 'A person that has some whole-day responsibility on a day in the camp.'
       properties:
         campCollaboration:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
@@ -25619,6 +26203,7 @@ components:
         - day
       type: object
     DayResponsible-read_Day.DayResponsibles:
+      description: 'A person that has some whole-day responsibility on a day in the camp.'
       properties:
         campCollaboration:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
@@ -25679,6 +26264,7 @@ components:
         - day
       type: object
     DayResponsible.html-read_Day.DayResponsibles:
+      description: 'A person that has some whole-day responsibility on a day in the camp.'
       properties:
         campCollaboration:
           description: "The person that is responsible. Must belong to the same camp as the day's period."
@@ -25716,10 +26302,12 @@ components:
                 $ref: '#/components/schemas/Day.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     DayResponsible.jsonapi.input:
       properties:
         data:
           $ref: '#/components/schemas/DayResponsible.jsonapi.input.resource'
+      type: object
     DayResponsible.jsonapi.input.resource:
       properties:
         attributes:
@@ -25860,6 +26448,7 @@ components:
             - campCollaboration
             - day
           type: object
+      description: 'A person that has some whole-day responsibility on a day in the camp.'
     Error:
       description: 'A representation of common errors.'
       properties:
@@ -25952,7 +26541,7 @@ components:
                 next:
                   properties: { href: { format: iri-reference, type: string } }
                   type: object
-                previous:
+                prev:
                   properties: { href: { format: iri-reference, type: string } }
                   type: object
             itemsPerPage:
@@ -25972,6 +26561,12 @@ components:
               type: object
         _links:
           properties:
+            item:
+              items:
+                properties:
+                  href: { format: iri-reference, type: string }
+                type: object
+              type: array
             self:
               properties:
                 href:
@@ -25983,7 +26578,6 @@ components:
           minimum: 0
           type: integer
       required:
-        - _embedded
         - _links
       type: object
     HitobitoEvent:
@@ -26098,6 +26692,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/HitobitoEvent.jsonapi.resource'
+      type: object
     HitobitoEvent.jsonapi.resource:
       properties:
         attributes:
@@ -26271,6 +26866,7 @@ components:
                 $ref: '#/components/schemas/Camp.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     HitobitoEventCamp.jsonapi.resource:
       properties:
         attributes:
@@ -26878,14 +27474,17 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Invitation.jsonapi.resource'
+      type: object
     Invitation.jsonapi-validation.Default_accept:
       properties:
         data:
           $ref: '#/components/schemas/Invitation.jsonapi-validation.Default_accept.resource'
+      type: object
     Invitation.jsonapi-validation.Default_accept.input:
       properties:
         data:
           $ref: '#/components/schemas/Invitation.jsonapi-validation.Default_accept.input.resource'
+      type: object
     Invitation.jsonapi-validation.Default_accept.input.resource:
       properties:
         attributes:
@@ -26972,6 +27571,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Invitation.jsonapi.input.resource'
+      type: object
     Invitation.jsonapi.input.resource:
       properties:
         attributes:
@@ -27298,6 +27898,7 @@ components:
         - periodMaterialItems
       type: object
     MaterialItem-read:
+      description: 'A physical item that is needed for carrying out a programme or camp.'
       properties:
         article:
           description: 'The name of the item that is required.'
@@ -27364,157 +27965,23 @@ components:
         - done
         - materialList
       type: object
-    MaterialItem-read_validation.App.Validator.MaterialItemUpdateGroupSequence:
+    MaterialItem-write.jsonMergePatch:
       description: 'A physical item that is needed for carrying out a programme or camp.'
       properties:
         article:
           description: 'The name of the item that is required.'
           example: Volleyball
-          type: string
-        camp:
-          description: 'The Camp to which this item belongs.'
-          example: /camps/1a2b3c4d
-          format: iri-reference
-          readOnly: true
+          maxLength: 64
           type: string
         done:
           default: false
           description: 'Whether the item has been prepared and is ready to be brought to the camp.'
           example: true
           type: boolean
-        id:
-          description: 'An internal, unique, randomly generated identifier of this entity.'
-          example: 1a2b3c4d
-          readOnly: true
-          type: string
-        materialList:
-          description: |-
-            The list to which this item belongs. Lists are used to keep track of who is
-            responsible to prepare and bring the item to the camp.
-          example: /material_lists/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
-        materialNode:
-          description: 'The content node to which this item belongs, if it does not belong to a period.'
-          example: /content_node/material_nodes/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
-        period:
-          description: 'The period to which this item belongs, if it does not belong to a content node.'
-          example: /periods/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
-        quantity:
-          description: 'The number of items or the amount in the unit of items that are required.'
-          example: 1.5
-          type:
-            - 'null'
-            - number
-        unit:
-          description: 'An optional unit for measuring the amount of items required.'
-          example: kg
-          type:
-            - 'null'
-            - string
-      type: object
-    MaterialItem-validation.App.Validator.MaterialItemUpdateGroupSequence:
-      description: 'A physical item that is needed for carrying out a programme or camp.'
-      properties:
-        article:
-          description: 'The name of the item that is required.'
-          example: Volleyball
-          type: string
-        camp:
-          description: 'The Camp to which this item belongs.'
-          example: /camps/1a2b3c4d
-          format: iri-reference
-          readOnly: true
-          type: string
-        done:
-          default: false
-          description: 'Whether the item has been prepared and is ready to be brought to the camp.'
-          example: true
-          type: boolean
-        id:
-          description: 'An internal, unique, randomly generated identifier of this entity.'
-          example: 1a2b3c4d
-          readOnly: true
-          type: string
-        materialList:
-          description: |-
-            The list to which this item belongs. Lists are used to keep track of who is
-            responsible to prepare and bring the item to the camp.
-          example: /material_lists/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
-        materialNode:
-          description: 'The content node to which this item belongs, if it does not belong to a period.'
-          example: /content_node/material_nodes/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
-        period:
-          description: 'The period to which this item belongs, if it does not belong to a content node.'
-          example: /periods/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
-        periodMaterialItems:
-          description: |-
-            List of PeriodMaterailItems
-            one entry for each affected Period.
-          items:
-            $ref: '#/components/schemas/PeriodMaterialItem'
-          type: array
-        quantity:
-          description: 'The number of items or the amount in the unit of items that are required.'
-          example: 1.5
-          type:
-            - 'null'
-            - number
-        unit:
-          description: 'An optional unit for measuring the amount of items required.'
-          example: kg
-          type:
-            - 'null'
-            - string
-      type: object
-    MaterialItem-validation.App.Validator.MaterialItemUpdateGroupSequence.jsonMergePatch:
-      description: 'A physical item that is needed for carrying out a programme or camp.'
-      properties:
-        article:
-          description: 'The name of the item that is required.'
-          example: Volleyball
-          type: string
-        camp:
-          $ref: '#/components/schemas/Camp.jsonMergePatch'
-          description: 'The Camp to which this item belongs.'
-          example: /camps/1a2b3c4d
-          readOnly: true
-        done:
-          default: false
-          description: 'Whether the item has been prepared and is ready to be brought to the camp.'
-          example: true
-          type: boolean
-        id:
-          description: 'An internal, unique, randomly generated identifier of this entity.'
-          example: 1a2b3c4d
-          readOnly: true
-          type: string
         materialList:
           anyOf:
             -
-              $ref: '#/components/schemas/MaterialList.jsonMergePatch'
+              $ref: '#/components/schemas/MaterialList-write.jsonMergePatch'
             -
               type: 'null'
           description: |-
@@ -27524,7 +27991,7 @@ components:
         materialNode:
           anyOf:
             -
-              $ref: '#/components/schemas/MaterialNode-validation.Default_update.jsonMergePatch'
+              $ref: '#/components/schemas/MaterialNode-write_validation.Default_update.jsonMergePatch'
             -
               type: 'null'
           description: 'The content node to which this item belongs, if it does not belong to a period.'
@@ -27532,27 +27999,23 @@ components:
         period:
           anyOf:
             -
-              $ref: '#/components/schemas/Period.jsonMergePatch'
+              $ref: '#/components/schemas/Period-write.jsonMergePatch'
             -
               type: 'null'
           description: 'The period to which this item belongs, if it does not belong to a content node.'
           example: /periods/1a2b3c4d
-        periodMaterialItems:
-          description: |-
-            List of PeriodMaterailItems
-            one entry for each affected Period.
-          items:
-            $ref: '#/components/schemas/PeriodMaterialItem'
-          type: array
         quantity:
           description: 'The number of items or the amount in the unit of items that are required.'
           example: 1.5
+          exclusiveMinimum: 0
+          minimum: 0
           type:
             - 'null'
             - number
         unit:
           description: 'An optional unit for measuring the amount of items required.'
           example: kg
+          maxLength: 32
           type:
             - 'null'
             - string
@@ -27616,58 +28079,8 @@ components:
         - done
         - materialList
       type: object
-    MaterialItem-write_validation.App.Validator.MaterialItemUpdateGroupSequence.jsonMergePatch:
-      description: 'A physical item that is needed for carrying out a programme or camp.'
-      properties:
-        article:
-          description: 'The name of the item that is required.'
-          example: Volleyball
-          type: string
-        done:
-          default: false
-          description: 'Whether the item has been prepared and is ready to be brought to the camp.'
-          example: true
-          type: boolean
-        materialList:
-          anyOf:
-            -
-              $ref: '#/components/schemas/MaterialList-write.jsonMergePatch'
-            -
-              type: 'null'
-          description: |-
-            The list to which this item belongs. Lists are used to keep track of who is
-            responsible to prepare and bring the item to the camp.
-          example: /material_lists/1a2b3c4d
-        materialNode:
-          anyOf:
-            -
-              $ref: '#/components/schemas/MaterialNode-write_validation.Default_update.jsonMergePatch'
-            -
-              type: 'null'
-          description: 'The content node to which this item belongs, if it does not belong to a period.'
-          example: /content_node/material_nodes/1a2b3c4d
-        period:
-          anyOf:
-            -
-              $ref: '#/components/schemas/Period-write.jsonMergePatch'
-            -
-              type: 'null'
-          description: 'The period to which this item belongs, if it does not belong to a content node.'
-          example: /periods/1a2b3c4d
-        quantity:
-          description: 'The number of items or the amount in the unit of items that are required.'
-          example: 1.5
-          type:
-            - 'null'
-            - number
-        unit:
-          description: 'An optional unit for measuring the amount of items required.'
-          example: kg
-          type:
-            - 'null'
-            - string
-      type: object
     MaterialItem.html-read:
+      description: 'A physical item that is needed for carrying out a programme or camp.'
       properties:
         article:
           description: 'The name of the item that is required.'
@@ -27734,19 +28147,19 @@ components:
         - done
         - materialList
       type: object
-    MaterialItem.html-read_validation.App.Validator.MaterialItemUpdateGroupSequence:
+    MaterialItem.jsonMergePatch:
       description: 'A physical item that is needed for carrying out a programme or camp.'
       properties:
         article:
           description: 'The name of the item that is required.'
           example: Volleyball
+          maxLength: 64
           type: string
         camp:
+          $ref: '#/components/schemas/Camp.jsonMergePatch'
           description: 'The Camp to which this item belongs.'
           example: /camps/1a2b3c4d
-          format: iri-reference
           readOnly: true
-          type: string
         done:
           default: false
           description: 'Whether the item has been prepared and is ready to be brought to the camp.'
@@ -27755,40 +28168,54 @@ components:
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
+          maxLength: 16
           readOnly: true
           type: string
         materialList:
+          anyOf:
+            -
+              $ref: '#/components/schemas/MaterialList.jsonMergePatch'
+            -
+              type: 'null'
           description: |-
             The list to which this item belongs. Lists are used to keep track of who is
             responsible to prepare and bring the item to the camp.
           example: /material_lists/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
         materialNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/MaterialNode-validation.Default_update.jsonMergePatch'
+            -
+              type: 'null'
           description: 'The content node to which this item belongs, if it does not belong to a period.'
           example: /content_node/material_nodes/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
         period:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Period.jsonMergePatch'
+            -
+              type: 'null'
           description: 'The period to which this item belongs, if it does not belong to a content node.'
           example: /periods/1a2b3c4d
-          format: iri-reference
-          type:
-            - 'null'
-            - string
+        periodMaterialItems:
+          description: |-
+            List of PeriodMaterailItems
+            one entry for each affected Period.
+          items:
+            $ref: '#/components/schemas/PeriodMaterialItem'
+          type: array
         quantity:
           description: 'The number of items or the amount in the unit of items that are required.'
           example: 1.5
+          exclusiveMinimum: 0
+          minimum: 0
           type:
             - 'null'
             - number
         unit:
           description: 'An optional unit for measuring the amount of items required.'
           example: kg
+          maxLength: 32
           type:
             - 'null'
             - string
@@ -27813,164 +28240,12 @@ components:
                 $ref: '#/components/schemas/Period.jsonapi.resource'
           readOnly: true
           type: array
-    MaterialItem.jsonapi-validation.App.Validator.MaterialItemUpdateGroupSequence:
-      properties:
-        data:
-          $ref: '#/components/schemas/MaterialItem.jsonapi-validation.App.Validator.MaterialItemUpdateGroupSequence.resource'
-        included:
-          description: 'Related resources requested via the "include" query parameter.'
-          externalDocs:
-            url: 'https://jsonapi.org/format/#fetching-includes'
-          items:
-            anyOf:
-              -
-                $ref: '#/components/schemas/Camp.jsonapi.resource'
-              -
-                $ref: '#/components/schemas/MaterialList.jsonapi.resource'
-              -
-                $ref: '#/components/schemas/MaterialNode.jsonapi.resource'
-              -
-                $ref: '#/components/schemas/Period.jsonapi.resource'
-          readOnly: true
-          type: array
-    MaterialItem.jsonapi-validation.App.Validator.MaterialItemUpdateGroupSequence.input:
-      properties:
-        data:
-          $ref: '#/components/schemas/MaterialItem.jsonapi-validation.App.Validator.MaterialItemUpdateGroupSequence.input.resource'
-    MaterialItem.jsonapi-validation.App.Validator.MaterialItemUpdateGroupSequence.input.resource:
-      properties:
-        attributes:
-          properties:
-            _id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              readOnly: true
-              type: string
-            article:
-              description: 'The name of the item that is required.'
-              example: Volleyball
-              type: string
-            done:
-              default: false
-              description: 'Whether the item has been prepared and is ready to be brought to the camp.'
-              example: true
-              type: boolean
-            periodMaterialItems:
-              description: |-
-                List of PeriodMaterailItems
-                one entry for each affected Period.
-              items:
-                $ref: '#/components/schemas/PeriodMaterialItem'
-              type: array
-            quantity:
-              description: 'The number of items or the amount in the unit of items that are required.'
-              example: 1.5
-              type:
-                - 'null'
-                - number
-            unit:
-              description: 'An optional unit for measuring the amount of items required.'
-              example: kg
-              type:
-                - 'null'
-                - string
-          type: object
-        id:
-          type: string
-        relationships:
-          properties:
-            camp:
-              properties:
-                data:
-                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
-            materialList:
-              properties:
-                data:
-                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
-            materialNode:
-              properties:
-                data:
-                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
-            period:
-              properties:
-                data:
-                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
-          type: object
-        type:
-          type: string
-      required:
-        - id
-        - type
-      type: object
-    MaterialItem.jsonapi-validation.App.Validator.MaterialItemUpdateGroupSequence.resource:
-      properties:
-        attributes:
-          properties:
-            _id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              readOnly: true
-              type: string
-            article:
-              description: 'The name of the item that is required.'
-              example: Volleyball
-              type: string
-            done:
-              default: false
-              description: 'Whether the item has been prepared and is ready to be brought to the camp.'
-              example: true
-              type: boolean
-            periodMaterialItems:
-              description: |-
-                List of PeriodMaterailItems
-                one entry for each affected Period.
-              items:
-                $ref: '#/components/schemas/PeriodMaterialItem'
-              type: array
-            quantity:
-              description: 'The number of items or the amount in the unit of items that are required.'
-              example: 1.5
-              type:
-                - 'null'
-                - number
-            unit:
-              description: 'An optional unit for measuring the amount of items required.'
-              example: kg
-              type:
-                - 'null'
-                - string
-          type: object
-        id:
-          type: string
-        relationships:
-          properties:
-            camp:
-              properties:
-                data:
-                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
-            materialList:
-              properties:
-                data:
-                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
-            materialNode:
-              properties:
-                data:
-                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
-            period:
-              properties:
-                data:
-                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
-          type: object
-        type:
-          type: string
-      required:
-        - id
-        - type
       type: object
     MaterialItem.jsonapi.input:
       properties:
         data:
           $ref: '#/components/schemas/MaterialItem.jsonapi.input.resource'
+      type: object
     MaterialItem.jsonapi.input.resource:
       properties:
         attributes:
@@ -28038,6 +28313,7 @@ components:
         type:
           type: string
       required:
+        - id
         - type
       type: object
     MaterialItem.jsonapi.resource:
@@ -28114,19 +28390,6 @@ components:
       allOf:
         -
           $ref: '#/components/schemas/MaterialItem-read'
-        -
-          properties:
-            _links:
-              properties:
-                self:
-                  properties: { href: { format: iri-reference, type: string } }
-                  type: object
-              type: object
-          type: object
-    MaterialItem.jsonhal-read_validation.App.Validator.MaterialItemUpdateGroupSequence:
-      allOf:
-        -
-          $ref: '#/components/schemas/MaterialItem-read_validation.App.Validator.MaterialItemUpdateGroupSequence'
         -
           properties:
             _links:
@@ -28221,68 +28484,6 @@ components:
             - article
             - done
             - materialList
-          type: object
-    MaterialItem.jsonld-read_validation.App.Validator.MaterialItemUpdateGroupSequence:
-      allOf:
-        -
-          $ref: '#/components/schemas/HydraItemBaseSchema'
-        -
-          properties:
-            article:
-              description: 'The name of the item that is required.'
-              example: Volleyball
-              type: string
-            camp:
-              description: 'The Camp to which this item belongs.'
-              example: /camps/1a2b3c4d
-              format: iri-reference
-              readOnly: true
-              type: string
-            done:
-              default: false
-              description: 'Whether the item has been prepared and is ready to be brought to the camp.'
-              example: true
-              type: boolean
-            id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              readOnly: true
-              type: string
-            materialList:
-              description: |-
-                The list to which this item belongs. Lists are used to keep track of who is
-                responsible to prepare and bring the item to the camp.
-              example: /material_lists/1a2b3c4d
-              format: iri-reference
-              type:
-                - 'null'
-                - string
-            materialNode:
-              description: 'The content node to which this item belongs, if it does not belong to a period.'
-              example: /content_node/material_nodes/1a2b3c4d
-              format: iri-reference
-              type:
-                - 'null'
-                - string
-            period:
-              description: 'The period to which this item belongs, if it does not belong to a content node.'
-              example: /periods/1a2b3c4d
-              format: iri-reference
-              type:
-                - 'null'
-                - string
-            quantity:
-              description: 'The number of items or the amount in the unit of items that are required.'
-              example: 1.5
-              type:
-                - 'null'
-                - number
-            unit:
-              description: 'An optional unit for measuring the amount of items required.'
-              example: kg
-              type:
-                - 'null'
-                - string
           type: object
       description: 'A physical item that is needed for carrying out a programme or camp.'
     MaterialList:
@@ -28649,7 +28850,7 @@ components:
           description: 'The items that are part of this list.'
           example: '["/material_items/1a2b3c4d"]'
           items:
-            $ref: '#/components/schemas/MaterialItem-validation.App.Validator.MaterialItemUpdateGroupSequence.jsonMergePatch'
+            $ref: '#/components/schemas/MaterialItem.jsonMergePatch'
           readOnly: true
           type: array
         name:
@@ -28678,6 +28879,7 @@ components:
                 $ref: '#/components/schemas/MaterialItem.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MaterialList.jsonapi-validation.delete:
       properties:
         data:
@@ -28696,6 +28898,7 @@ components:
                 $ref: '#/components/schemas/MaterialItem.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MaterialList.jsonapi-validation.delete.resource:
       properties:
         attributes:
@@ -28744,6 +28947,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/MaterialList.jsonapi.input.resource'
+      type: object
     MaterialList.jsonapi.input.resource:
       properties:
         attributes:
@@ -30174,6 +30378,7 @@ components:
                 $ref: '#/components/schemas/MaterialItem.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MaterialNode.jsonapi-validation.Default_create:
       properties:
         data:
@@ -30196,10 +30401,12 @@ components:
                 $ref: '#/components/schemas/MaterialItem.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MaterialNode.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/MaterialNode.jsonapi-validation.Default_create.input.resource'
+      type: object
     MaterialNode.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -30401,10 +30608,12 @@ components:
                 $ref: '#/components/schemas/MaterialItem.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MaterialNode.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/MaterialNode.jsonapi-validation.Default_update.input.resource'
+      type: object
     MaterialNode.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -32125,6 +32334,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MultiSelect.jsonapi-validation.Default_create:
       properties:
         data:
@@ -32145,10 +32355,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MultiSelect.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/MultiSelect.jsonapi-validation.Default_create.input.resource'
+      type: object
     MultiSelect.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -32346,10 +32558,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     MultiSelect.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/MultiSelect.jsonapi-validation.Default_update.input.resource'
+      type: object
     MultiSelect.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -34026,6 +34240,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     NoData.jsonapi-validation.Default_create:
       properties:
         data:
@@ -34046,10 +34261,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     NoData.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/NoData.jsonapi-validation.Default_create.input.resource'
+      type: object
     NoData.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -34239,10 +34456,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     NoData.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/NoData.jsonapi-validation.Default_update.input.resource'
+      type: object
     NoData.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -34846,6 +35065,9 @@ components:
         A content node which does not store any data itself. Useful for content types which only
         display or edit data that is stored elsewhere, e.g. on the schedule entries of the activity.
     Period:
+      description: |-
+        A time period in which the programme of a camp will take place. There may be multiple
+        periods in a camp, but they may not overlap. A period is made up of one or more full days.
       properties:
         camp:
           anyOf:
@@ -35119,6 +35341,9 @@ components:
         - start
       type: object
     Period-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
+      description: |-
+        A time period in which the programme of a camp will take place. There may be multiple
+        periods in a camp, but they may not overlap. A period is made up of one or more full days.
       properties:
         camp:
           description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
@@ -35735,6 +35960,9 @@ components:
         - start
       type: object
     Period.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
+      description: |-
+        A time period in which the programme of a camp will take place. There may be multiple
+        periods in a camp, but they may not overlap. A period is made up of one or more full days.
       properties:
         camp:
           description: 'The camp that this time period belongs to. Cannot be changed once the period is created.'
@@ -36081,7 +36309,7 @@ components:
             activities.
           example: '["/material_items/1a2b3c4d"]'
           items:
-            $ref: '#/components/schemas/MaterialItem-validation.App.Validator.MaterialItemUpdateGroupSequence.jsonMergePatch'
+            $ref: '#/components/schemas/MaterialItem.jsonMergePatch'
           readOnly: true
           type: array
         moveScheduleEntries:
@@ -36148,6 +36376,7 @@ components:
                 $ref: '#/components/schemas/ScheduleEntry.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Period.jsonapi-validation.delete_Period.delete:
       properties:
         data:
@@ -36172,6 +36401,7 @@ components:
                 $ref: '#/components/schemas/ScheduleEntry.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Period.jsonapi-validation.delete_Period.delete.resource:
       properties:
         attributes:
@@ -36290,6 +36520,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Period.jsonapi.input.resource'
+      type: object
     Period.jsonapi.input.resource:
       properties:
         attributes:
@@ -36780,6 +37011,9 @@ components:
             - scheduleEntries
             - start
           type: object
+      description: |-
+        A time period in which the programme of a camp will take place. There may be multiple
+        periods in a camp, but they may not overlap. A period is made up of one or more full days.
     Period.jsonld-read_Period.Camp_Period.Days:
       allOf:
         -
@@ -37148,14 +37382,17 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/PersonalInvitation.jsonapi.resource'
+      type: object
     PersonalInvitation.jsonapi-validation.Default_accept:
       properties:
         data:
           $ref: '#/components/schemas/PersonalInvitation.jsonapi-validation.Default_accept.resource'
+      type: object
     PersonalInvitation.jsonapi-validation.Default_accept.input:
       properties:
         data:
           $ref: '#/components/schemas/PersonalInvitation.jsonapi-validation.Default_accept.input.resource'
+      type: object
     PersonalInvitation.jsonapi-validation.Default_accept.input.resource:
       properties:
         attributes:
@@ -37216,6 +37453,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/PersonalInvitation.jsonapi.input.resource'
+      type: object
     PersonalInvitation.jsonapi.input.resource:
       properties:
         attributes:
@@ -37347,6 +37585,10 @@ components:
           type: object
       description: 'An invitation for a person who already has an account to collaborate in a camp.'
     Profile:
+      description: |-
+        The profile of a person using eCamp.
+        The properties available to related eCamp users are here.
+        Related means that they were or are collaborators in the same camp.
       properties:
         abbreviation:
           description: 'The default abbreviation in the avatar.'
@@ -37649,6 +37891,10 @@ components:
         - email
       type: object
     Profile-read_User.create:
+      description: |-
+        The profile of a person using eCamp.
+        The properties available to related eCamp users are here.
+        Related means that they were or are collaborators in the same camp.
       properties:
         abbreviation:
           description: 'The default abbreviation in the avatar.'
@@ -37993,6 +38239,10 @@ components:
         - email
       type: object
     Profile.html-read_User.create:
+      description: |-
+        The profile of a person using eCamp.
+        The properties available to related eCamp users are here.
+        Related means that they were or are collaborators in the same camp.
       properties:
         abbreviation:
           description: 'The default abbreviation in the avatar.'
@@ -38225,10 +38475,12 @@ components:
                 $ref: '#/components/schemas/User.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Profile.jsonapi.input:
       properties:
         data:
           $ref: '#/components/schemas/Profile.jsonapi.input.resource'
+      type: object
     Profile.jsonapi.input.resource:
       properties:
         attributes:
@@ -38683,6 +38935,10 @@ components:
           required:
             - email
           type: object
+      description: |-
+        The profile of a person using eCamp.
+        The properties available to related eCamp users are here.
+        Related means that they were or are collaborators in the same camp.
       properties:
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
@@ -38813,10 +39069,12 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/ResetPassword.jsonapi.resource'
+      type: object
     ResetPassword.jsonapi.input:
       properties:
         data:
           $ref: '#/components/schemas/ResetPassword.jsonapi.input.resource'
+      type: object
     ResetPassword.jsonapi.input.resource:
       properties:
         attributes:
@@ -40094,6 +40352,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ResponsiveLayout.jsonapi-validation.Default_create:
       properties:
         data:
@@ -40114,10 +40373,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ResponsiveLayout.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/ResponsiveLayout.jsonapi-validation.Default_create.input.resource'
+      type: object
     ResponsiveLayout.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -40319,10 +40580,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ResponsiveLayout.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/ResponsiveLayout.jsonapi-validation.Default_update.input.resource'
+      type: object
     ResponsiveLayout.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -41256,6 +41519,9 @@ components:
         - start
       type: object
     ScheduleEntry-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
+      description: |-
+        A calendar event in a period of the camp, at which some activity will take place. The start time
+        is specified as an offset in minutes from the period's start time.
       properties:
         activity:
           description: |-
@@ -41362,6 +41628,9 @@ components:
         - start
       type: object
     ScheduleEntry-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: |-
+        A calendar event in a period of the camp, at which some activity will take place. The start time
+        is specified as an offset in minutes from the period's start time.
       properties:
         activity:
           description: |-
@@ -41576,105 +41845,6 @@ components:
         - end
         - start
       type: object
-    ScheduleEntry-read_ScheduleEntry.Activity_validation.App.Validator.ScheduleEntryPostGroupSequence:
-      description: |-
-        A calendar event in a period of the camp, at which some activity will take place. The start time
-        is specified as an offset in minutes from the period's start time.
-      properties:
-        activity:
-          anyOf:
-            -
-              $ref: '#/components/schemas/Activity-read_ScheduleEntry.Activity'
-            -
-              type: 'null'
-          readOnly: true
-        day:
-          description: 'The day on which this schedule entry starts.'
-          example: /days/1a2b3c4d
-          format: iri-reference
-          readOnly: true
-          type:
-            - 'null'
-            - string
-        dayNumber:
-          description: 'The day number of the day on which this schedule entry starts.'
-          example: '1'
-          readOnly: true
-          type: integer
-        end:
-          description: 'End date and time of the schedule entry.'
-          example: '2022-01-02T01:30:00+00:00'
-          format: date-time
-          type: string
-        id:
-          description: 'An internal, unique, randomly generated identifier of this entity.'
-          example: 1a2b3c4d
-          readOnly: true
-          type: string
-        left:
-          default: 0
-          description: |-
-            When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
-            should be from the left border of the day column, as a fractional amount of the width of the whole
-            day. This is useful to arrange multiple overlapping schedule entries such that all of them are
-            visible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the
-            API currently does not enforce this.
-          example: 0.6
-          type:
-            - 'null'
-            - number
-        number:
-          description: |-
-            Uniquely identifies this schedule entry in the period. This uses the day number, followed
-            by a period, followed by the cardinal number of the schedule entry in the numbering scheme
-            defined by the activity's category.
-          example: 1.b
-          readOnly: true
-          type: string
-        period:
-          description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
-          example: /periods/1a2b3c4d
-          format: iri-reference
-          type: string
-        scheduleEntryNumber:
-          description: |-
-            The cardinal number of this schedule entry, when chronologically ordering all
-            schedule entries WITH THE SAME NUMBERING STYLE that start on the same day. I.e. if
-            the schedule entry is the second entry with roman numbering on a given day, its
-            number will be 2.
-          example: '2'
-          readOnly: true
-          type: integer
-        start:
-          description: 'Start date and time of the schedule entry.'
-          example: '2022-01-02T00:00:00+00:00'
-          format: date-time
-          type: string
-        width:
-          default: 1
-          description: |-
-            When rendering a period in a calendar view: Specifies how wide the rendered calendar event should
-            be, as a fractional amount of the width of the whole day. This is useful to arrange multiple
-            overlapping schedule entries such that all of them are visible. Should be a decimal number
-            between 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.
-          example: 0.4
-          type:
-            - 'null'
-            - number
-        ysPhysicalActivityDurationMinutes:
-          description: |-
-            The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry. Null
-            if not specified. Each schedule entry of an activity has its own value, because e.g. a repeated
-            activity or an activity split into multiple schedule entries may contain different amounts of
-            physical activity.
-          example: 60
-          type:
-            - integer
-            - 'null'
-      required:
-        - end
-        - start
-      type: object
     ScheduleEntry-read_validation.delete_ScheduleEntry.delete:
       description: |-
         A calendar event in a period of the camp, at which some activity will take place. The start time
@@ -41749,130 +41919,6 @@ components:
           example: '2022-01-02T00:00:00+00:00'
           format: date-time
           type: string
-        width:
-          default: 1
-          description: |-
-            When rendering a period in a calendar view: Specifies how wide the rendered calendar event should
-            be, as a fractional amount of the width of the whole day. This is useful to arrange multiple
-            overlapping schedule entries such that all of them are visible. Should be a decimal number
-            between 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.
-          example: 0.4
-          type:
-            - 'null'
-            - number
-        ysPhysicalActivityDurationMinutes:
-          description: |-
-            The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry. Null
-            if not specified. Each schedule entry of an activity has its own value, because e.g. a repeated
-            activity or an activity split into multiple schedule entries may contain different amounts of
-            physical activity.
-          example: 60
-          type:
-            - integer
-            - 'null'
-      required:
-        - end
-        - start
-      type: object
-    ScheduleEntry-validation.App.Validator.ScheduleEntryPostGroupSequence:
-      description: |-
-        A calendar event in a period of the camp, at which some activity will take place. The start time
-        is specified as an offset in minutes from the period's start time.
-      properties:
-        _end:
-          format: date-time
-          type:
-            - 'null'
-            - string
-        _start:
-          description: |-
-            internal cache of 'start' and 'end' property during denormalization
-            this is necessary in case period is denormalized after 'start' or 'end'.
-          format: date-time
-          type:
-            - 'null'
-            - string
-        activity:
-          anyOf:
-            -
-              $ref: '#/components/schemas/Activity'
-            -
-              type: 'null'
-          readOnly: true
-        cacheTags:
-          items: []
-          readOnly: true
-          type: array
-        day:
-          description: 'The day on which this schedule entry starts.'
-          example: /days/1a2b3c4d
-          format: iri-reference
-          readOnly: true
-          type:
-            - 'null'
-            - string
-        dayNumber:
-          description: 'The day number of the day on which this schedule entry starts.'
-          example: '1'
-          readOnly: true
-          type: integer
-        end:
-          description: 'End date and time of the schedule entry.'
-          example: '2022-01-02T01:30:00+00:00'
-          format: date-time
-          type: string
-        endOffset:
-          default: 60
-          description: 'The offset in minutes between start of the period and end of this scheduleEntry.'
-          type: integer
-        id:
-          description: 'An internal, unique, randomly generated identifier of this entity.'
-          example: 1a2b3c4d
-          readOnly: true
-          type: string
-        left:
-          default: 0
-          description: |-
-            When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
-            should be from the left border of the day column, as a fractional amount of the width of the whole
-            day. This is useful to arrange multiple overlapping schedule entries such that all of them are
-            visible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the
-            API currently does not enforce this.
-          example: 0.6
-          type:
-            - 'null'
-            - number
-        number:
-          description: |-
-            Uniquely identifies this schedule entry in the period. This uses the day number, followed
-            by a period, followed by the cardinal number of the schedule entry in the numbering scheme
-            defined by the activity's category.
-          example: 1.b
-          readOnly: true
-          type: string
-        period:
-          description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
-          example: /periods/1a2b3c4d
-          format: iri-reference
-          type: string
-        scheduleEntryNumber:
-          description: |-
-            The cardinal number of this schedule entry, when chronologically ordering all
-            schedule entries WITH THE SAME NUMBERING STYLE that start on the same day. I.e. if
-            the schedule entry is the second entry with roman numbering on a given day, its
-            number will be 2.
-          example: '2'
-          readOnly: true
-          type: integer
-        start:
-          description: 'Start date and time of the schedule entry.'
-          example: '2022-01-02T00:00:00+00:00'
-          format: date-time
-          type: string
-        startOffset:
-          default: 0
-          description: 'The offset in minutes between start of the period and start of this scheduleEntry.'
-          type: integer
         width:
           default: 1
           description: |-
@@ -42083,6 +42129,77 @@ components:
             - integer
             - 'null'
       type: object
+    ScheduleEntry-write_create:
+      description: |-
+        A calendar event in a period of the camp, at which some activity will take place. The start time
+        is specified as an offset in minutes from the period's start time.
+      properties:
+        activity:
+          $ref: '#/components/schemas/Activity-write_create_validation.Default_update.jsonMergePatch'
+          description: |-
+            The activity that will take place at the time defined by this schedule entry. Can not be changed
+            once the schedule entry is created.
+          example: /activities/1a2b3c4d
+        end:
+          description: 'End date and time of the schedule entry.'
+          example: '2022-01-02T01:30:00+00:00'
+          format: date-time
+          type: string
+        left:
+          default: 0
+          description: |-
+            When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
+            should be from the left border of the day column, as a fractional amount of the width of the whole
+            day. This is useful to arrange multiple overlapping schedule entries such that all of them are
+            visible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the
+            API currently does not enforce this.
+          example: 0.6
+          type:
+            - 'null'
+            - number
+        period:
+          $ref: '#/components/schemas/Period-write_create.jsonMergePatch'
+          description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
+          example: /periods/1a2b3c4d
+        start:
+          description: 'Start date and time of the schedule entry.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          type: string
+        width:
+          default: 1
+          description: |-
+            When rendering a period in a calendar view: Specifies how wide the rendered calendar event should
+            be, as a fractional amount of the width of the whole day. This is useful to arrange multiple
+            overlapping schedule entries such that all of them are visible. Should be a decimal number
+            between 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.
+          example: 0.4
+          type:
+            - 'null'
+            - number
+        ysPhysicalActivityDurationMinutes:
+          description: |-
+            The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry. Null
+            if not specified. Each schedule entry of an activity has its own value, because e.g. a repeated
+            activity or an activity split into multiple schedule entries may contain different amounts of
+            physical activity.
+          enum:
+            - 105
+            - 120
+            - 30
+            - 45
+            - 60
+            - 75
+            - 90
+          example: 60
+          type:
+            - integer
+            - 'null'
+      required:
+        - activity
+        - end
+        - start
+      type: object
     ScheduleEntry-write_create.jsonMergePatch:
       description: |-
         A calendar event in a period of the camp, at which some activity will take place. The start time
@@ -42149,68 +42266,6 @@ components:
           type:
             - integer
             - 'null'
-      type: object
-    ScheduleEntry-write_create_validation.App.Validator.ScheduleEntryPostGroupSequence:
-      description: |-
-        A calendar event in a period of the camp, at which some activity will take place. The start time
-        is specified as an offset in minutes from the period's start time.
-      properties:
-        activity:
-          $ref: '#/components/schemas/Activity-write_create_validation.Default_update.jsonMergePatch'
-          description: |-
-            The activity that will take place at the time defined by this schedule entry. Can not be changed
-            once the schedule entry is created.
-          example: /activities/1a2b3c4d
-        end:
-          description: 'End date and time of the schedule entry.'
-          example: '2022-01-02T01:30:00+00:00'
-          format: date-time
-          type: string
-        left:
-          default: 0
-          description: |-
-            When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
-            should be from the left border of the day column, as a fractional amount of the width of the whole
-            day. This is useful to arrange multiple overlapping schedule entries such that all of them are
-            visible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the
-            API currently does not enforce this.
-          example: 0.6
-          type:
-            - 'null'
-            - number
-        period:
-          $ref: '#/components/schemas/Period-write_create.jsonMergePatch'
-          description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
-          example: /periods/1a2b3c4d
-        start:
-          description: 'Start date and time of the schedule entry.'
-          example: '2022-01-02T00:00:00+00:00'
-          format: date-time
-          type: string
-        width:
-          default: 1
-          description: |-
-            When rendering a period in a calendar view: Specifies how wide the rendered calendar event should
-            be, as a fractional amount of the width of the whole day. This is useful to arrange multiple
-            overlapping schedule entries such that all of them are visible. Should be a decimal number
-            between 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.
-          example: 0.4
-          type:
-            - 'null'
-            - number
-        ysPhysicalActivityDurationMinutes:
-          description: |-
-            The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry. Null
-            if not specified. Each schedule entry of an activity has its own value, because e.g. a repeated
-            activity or an activity split into multiple schedule entries may contain different amounts of
-            physical activity.
-          example: 60
-          type:
-            - integer
-            - 'null'
-      required:
-        - end
-        - start
       type: object
     ScheduleEntry.html-read:
       description: |-
@@ -42322,6 +42377,9 @@ components:
         - start
       type: object
     ScheduleEntry.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
+      description: |-
+        A calendar event in a period of the camp, at which some activity will take place. The start time
+        is specified as an offset in minutes from the period's start time.
       properties:
         activity:
           description: |-
@@ -42428,6 +42486,9 @@ components:
         - start
       type: object
     ScheduleEntry.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
+      description: |-
+        A calendar event in a period of the camp, at which some activity will take place. The start time
+        is specified as an offset in minutes from the period's start time.
       properties:
         activity:
           description: |-
@@ -42639,105 +42700,6 @@ components:
             - 'null'
       required:
         - activity
-        - end
-        - start
-      type: object
-    ScheduleEntry.html-read_ScheduleEntry.Activity_validation.App.Validator.ScheduleEntryPostGroupSequence:
-      description: |-
-        A calendar event in a period of the camp, at which some activity will take place. The start time
-        is specified as an offset in minutes from the period's start time.
-      properties:
-        activity:
-          anyOf:
-            -
-              $ref: '#/components/schemas/Activity.html-read_ScheduleEntry.Activity'
-            -
-              type: 'null'
-          readOnly: true
-        day:
-          description: 'The day on which this schedule entry starts.'
-          example: /days/1a2b3c4d
-          format: iri-reference
-          readOnly: true
-          type:
-            - 'null'
-            - string
-        dayNumber:
-          description: 'The day number of the day on which this schedule entry starts.'
-          example: '1'
-          readOnly: true
-          type: integer
-        end:
-          description: 'End date and time of the schedule entry.'
-          example: '2022-01-02T01:30:00+00:00'
-          format: date-time
-          type: string
-        id:
-          description: 'An internal, unique, randomly generated identifier of this entity.'
-          example: 1a2b3c4d
-          readOnly: true
-          type: string
-        left:
-          default: 0
-          description: |-
-            When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
-            should be from the left border of the day column, as a fractional amount of the width of the whole
-            day. This is useful to arrange multiple overlapping schedule entries such that all of them are
-            visible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the
-            API currently does not enforce this.
-          example: 0.6
-          type:
-            - 'null'
-            - number
-        number:
-          description: |-
-            Uniquely identifies this schedule entry in the period. This uses the day number, followed
-            by a period, followed by the cardinal number of the schedule entry in the numbering scheme
-            defined by the activity's category.
-          example: 1.b
-          readOnly: true
-          type: string
-        period:
-          description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
-          example: /periods/1a2b3c4d
-          format: iri-reference
-          type: string
-        scheduleEntryNumber:
-          description: |-
-            The cardinal number of this schedule entry, when chronologically ordering all
-            schedule entries WITH THE SAME NUMBERING STYLE that start on the same day. I.e. if
-            the schedule entry is the second entry with roman numbering on a given day, its
-            number will be 2.
-          example: '2'
-          readOnly: true
-          type: integer
-        start:
-          description: 'Start date and time of the schedule entry.'
-          example: '2022-01-02T00:00:00+00:00'
-          format: date-time
-          type: string
-        width:
-          default: 1
-          description: |-
-            When rendering a period in a calendar view: Specifies how wide the rendered calendar event should
-            be, as a fractional amount of the width of the whole day. This is useful to arrange multiple
-            overlapping schedule entries such that all of them are visible. Should be a decimal number
-            between 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.
-          example: 0.4
-          type:
-            - 'null'
-            - number
-        ysPhysicalActivityDurationMinutes:
-          description: |-
-            The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry. Null
-            if not specified. Each schedule entry of an activity has its own value, because e.g. a repeated
-            activity or an activity split into multiple schedule entries may contain different amounts of
-            physical activity.
-          example: 60
-          type:
-            - integer
-            - 'null'
-      required:
         - end
         - start
       type: object
@@ -42988,272 +42950,6 @@ components:
                 $ref: '#/components/schemas/Period.jsonapi.resource'
           readOnly: true
           type: array
-    ScheduleEntry.jsonapi-validation.App.Validator.ScheduleEntryPostGroupSequence:
-      properties:
-        data:
-          $ref: '#/components/schemas/ScheduleEntry.jsonapi-validation.App.Validator.ScheduleEntryPostGroupSequence.resource'
-        included:
-          description: 'Related resources requested via the "include" query parameter.'
-          externalDocs:
-            url: 'https://jsonapi.org/format/#fetching-includes'
-          items:
-            anyOf:
-              -
-                $ref: '#/components/schemas/Activity.jsonapi.resource'
-              -
-                $ref: '#/components/schemas/Day.jsonapi.resource'
-              -
-                $ref: '#/components/schemas/Period.jsonapi.resource'
-          readOnly: true
-          type: array
-    ScheduleEntry.jsonapi-validation.App.Validator.ScheduleEntryPostGroupSequence.input:
-      properties:
-        data:
-          $ref: '#/components/schemas/ScheduleEntry.jsonapi-validation.App.Validator.ScheduleEntryPostGroupSequence.input.resource'
-    ScheduleEntry.jsonapi-validation.App.Validator.ScheduleEntryPostGroupSequence.input.resource:
-      properties:
-        attributes:
-          properties:
-            _end:
-              format: date-time
-              type:
-                - 'null'
-                - string
-            _id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              readOnly: true
-              type: string
-            _start:
-              description: |-
-                internal cache of 'start' and 'end' property during denormalization
-                this is necessary in case period is denormalized after 'start' or 'end'.
-              format: date-time
-              type:
-                - 'null'
-                - string
-            cacheTags:
-              items: []
-              readOnly: true
-              type: array
-            dayNumber:
-              description: 'The day number of the day on which this schedule entry starts.'
-              example: '1'
-              readOnly: true
-              type: integer
-            end:
-              description: 'End date and time of the schedule entry.'
-              example: '2022-01-02T01:30:00+00:00'
-              format: date-time
-              type: string
-            endOffset:
-              default: 60
-              description: 'The offset in minutes between start of the period and end of this scheduleEntry.'
-              type: integer
-            left:
-              default: 0
-              description: |-
-                When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
-                should be from the left border of the day column, as a fractional amount of the width of the whole
-                day. This is useful to arrange multiple overlapping schedule entries such that all of them are
-                visible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the
-                API currently does not enforce this.
-              example: 0.6
-              type:
-                - 'null'
-                - number
-            number:
-              description: |-
-                Uniquely identifies this schedule entry in the period. This uses the day number, followed
-                by a period, followed by the cardinal number of the schedule entry in the numbering scheme
-                defined by the activity's category.
-              example: 1.b
-              readOnly: true
-              type: string
-            scheduleEntryNumber:
-              description: |-
-                The cardinal number of this schedule entry, when chronologically ordering all
-                schedule entries WITH THE SAME NUMBERING STYLE that start on the same day. I.e. if
-                the schedule entry is the second entry with roman numbering on a given day, its
-                number will be 2.
-              example: '2'
-              readOnly: true
-              type: integer
-            start:
-              description: 'Start date and time of the schedule entry.'
-              example: '2022-01-02T00:00:00+00:00'
-              format: date-time
-              type: string
-            startOffset:
-              default: 0
-              description: 'The offset in minutes between start of the period and start of this scheduleEntry.'
-              type: integer
-            width:
-              default: 1
-              description: |-
-                When rendering a period in a calendar view: Specifies how wide the rendered calendar event should
-                be, as a fractional amount of the width of the whole day. This is useful to arrange multiple
-                overlapping schedule entries such that all of them are visible. Should be a decimal number
-                between 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.
-              example: 0.4
-              type:
-                - 'null'
-                - number
-            ysPhysicalActivityDurationMinutes:
-              description: |-
-                The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry. Null
-                if not specified. Each schedule entry of an activity has its own value, because e.g. a repeated
-                activity or an activity split into multiple schedule entries may contain different amounts of
-                physical activity.
-              example: 60
-              type:
-                - integer
-                - 'null'
-          type: object
-        id:
-          type: string
-        relationships:
-          properties:
-            activity:
-              properties:
-                data:
-                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
-            day:
-              properties:
-                data:
-                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
-            period:
-              properties:
-                data:
-                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
-          type: object
-        type:
-          type: string
-      required:
-        - type
-      type: object
-    ScheduleEntry.jsonapi-validation.App.Validator.ScheduleEntryPostGroupSequence.resource:
-      properties:
-        attributes:
-          properties:
-            _end:
-              format: date-time
-              type:
-                - 'null'
-                - string
-            _id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              readOnly: true
-              type: string
-            _start:
-              description: |-
-                internal cache of 'start' and 'end' property during denormalization
-                this is necessary in case period is denormalized after 'start' or 'end'.
-              format: date-time
-              type:
-                - 'null'
-                - string
-            cacheTags:
-              items: []
-              readOnly: true
-              type: array
-            dayNumber:
-              description: 'The day number of the day on which this schedule entry starts.'
-              example: '1'
-              readOnly: true
-              type: integer
-            end:
-              description: 'End date and time of the schedule entry.'
-              example: '2022-01-02T01:30:00+00:00'
-              format: date-time
-              type: string
-            endOffset:
-              default: 60
-              description: 'The offset in minutes between start of the period and end of this scheduleEntry.'
-              type: integer
-            left:
-              default: 0
-              description: |-
-                When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
-                should be from the left border of the day column, as a fractional amount of the width of the whole
-                day. This is useful to arrange multiple overlapping schedule entries such that all of them are
-                visible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the
-                API currently does not enforce this.
-              example: 0.6
-              type:
-                - 'null'
-                - number
-            number:
-              description: |-
-                Uniquely identifies this schedule entry in the period. This uses the day number, followed
-                by a period, followed by the cardinal number of the schedule entry in the numbering scheme
-                defined by the activity's category.
-              example: 1.b
-              readOnly: true
-              type: string
-            scheduleEntryNumber:
-              description: |-
-                The cardinal number of this schedule entry, when chronologically ordering all
-                schedule entries WITH THE SAME NUMBERING STYLE that start on the same day. I.e. if
-                the schedule entry is the second entry with roman numbering on a given day, its
-                number will be 2.
-              example: '2'
-              readOnly: true
-              type: integer
-            start:
-              description: 'Start date and time of the schedule entry.'
-              example: '2022-01-02T00:00:00+00:00'
-              format: date-time
-              type: string
-            startOffset:
-              default: 0
-              description: 'The offset in minutes between start of the period and start of this scheduleEntry.'
-              type: integer
-            width:
-              default: 1
-              description: |-
-                When rendering a period in a calendar view: Specifies how wide the rendered calendar event should
-                be, as a fractional amount of the width of the whole day. This is useful to arrange multiple
-                overlapping schedule entries such that all of them are visible. Should be a decimal number
-                between 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.
-              example: 0.4
-              type:
-                - 'null'
-                - number
-            ysPhysicalActivityDurationMinutes:
-              description: |-
-                The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry. Null
-                if not specified. Each schedule entry of an activity has its own value, because e.g. a repeated
-                activity or an activity split into multiple schedule entries may contain different amounts of
-                physical activity.
-              example: 60
-              type:
-                - integer
-                - 'null'
-          type: object
-        id:
-          type: string
-        relationships:
-          properties:
-            activity:
-              properties:
-                data:
-                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
-            day:
-              properties:
-                data:
-                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
-            period:
-              properties:
-                data:
-                  oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, required: [id, type], type: object }, { type: 'null' }]
-          type: object
-        type:
-          type: string
-      required:
-        - id
-        - type
       type: object
     ScheduleEntry.jsonapi-validation.delete_ScheduleEntry.delete:
       properties:
@@ -43273,6 +42969,7 @@ components:
                 $ref: '#/components/schemas/Period.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     ScheduleEntry.jsonapi-validation.delete_ScheduleEntry.delete.resource:
       properties:
         attributes:
@@ -43400,6 +43097,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/ScheduleEntry.jsonapi.input.resource'
+      type: object
     ScheduleEntry.jsonapi.input.resource:
       properties:
         attributes:
@@ -43696,22 +43394,6 @@ components:
       description: |-
         A calendar event in a period of the camp, at which some activity will take place. The start time
         is specified as an offset in minutes from the period's start time.
-    ScheduleEntry.jsonhal-read_ScheduleEntry.Activity_validation.App.Validator.ScheduleEntryPostGroupSequence:
-      allOf:
-        -
-          $ref: '#/components/schemas/ScheduleEntry-read_ScheduleEntry.Activity_validation.App.Validator.ScheduleEntryPostGroupSequence'
-        -
-          properties:
-            _links:
-              properties:
-                self:
-                  properties: { href: { format: iri-reference, type: string } }
-                  type: object
-              type: object
-          type: object
-      description: |-
-        A calendar event in a period of the camp, at which some activity will take place. The start time
-        is specified as an offset in minutes from the period's start time.
     ScheduleEntry.jsonhal-read_validation.delete_ScheduleEntry.delete:
       allOf:
         -
@@ -43728,10 +43410,10 @@ components:
       description: |-
         A calendar event in a period of the camp, at which some activity will take place. The start time
         is specified as an offset in minutes from the period's start time.
-    ScheduleEntry.jsonhal-write_create_validation.App.Validator.ScheduleEntryPostGroupSequence:
+    ScheduleEntry.jsonhal-write_create:
       allOf:
         -
-          $ref: '#/components/schemas/ScheduleEntry-write_create_validation.App.Validator.ScheduleEntryPostGroupSequence'
+          $ref: '#/components/schemas/ScheduleEntry-write_create'
         -
           properties:
             _links:
@@ -43967,6 +43649,9 @@ components:
             - end
             - start
           type: object
+      description: |-
+        A calendar event in a period of the camp, at which some activity will take place. The start time
+        is specified as an offset in minutes from the period's start time.
     ScheduleEntry.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       allOf:
         -
@@ -44077,6 +43762,9 @@ components:
             - end
             - start
           type: object
+      description: |-
+        A calendar event in a period of the camp, at which some activity will take place. The start time
+        is specified as an offset in minutes from the period's start time.
     ScheduleEntry.jsonld-read_ScheduleEntry.Activity:
       allOf:
         -
@@ -44184,109 +43872,6 @@ components:
                 - 'null'
           required:
             - activity
-            - end
-            - start
-          type: object
-      description: |-
-        A calendar event in a period of the camp, at which some activity will take place. The start time
-        is specified as an offset in minutes from the period's start time.
-    ScheduleEntry.jsonld-read_ScheduleEntry.Activity_validation.App.Validator.ScheduleEntryPostGroupSequence:
-      allOf:
-        -
-          $ref: '#/components/schemas/HydraItemBaseSchema'
-        -
-          properties:
-            activity:
-              anyOf:
-                -
-                  $ref: '#/components/schemas/Activity.jsonld-read_ScheduleEntry.Activity'
-                -
-                  type: 'null'
-              readOnly: true
-            day:
-              description: 'The day on which this schedule entry starts.'
-              example: /days/1a2b3c4d
-              format: iri-reference
-              readOnly: true
-              type:
-                - 'null'
-                - string
-            dayNumber:
-              description: 'The day number of the day on which this schedule entry starts.'
-              example: '1'
-              readOnly: true
-              type: integer
-            end:
-              description: 'End date and time of the schedule entry.'
-              example: '2022-01-02T01:30:00+00:00'
-              format: date-time
-              type: string
-            id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              readOnly: true
-              type: string
-            left:
-              default: 0
-              description: |-
-                When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
-                should be from the left border of the day column, as a fractional amount of the width of the whole
-                day. This is useful to arrange multiple overlapping schedule entries such that all of them are
-                visible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the
-                API currently does not enforce this.
-              example: 0.6
-              type:
-                - 'null'
-                - number
-            number:
-              description: |-
-                Uniquely identifies this schedule entry in the period. This uses the day number, followed
-                by a period, followed by the cardinal number of the schedule entry in the numbering scheme
-                defined by the activity's category.
-              example: 1.b
-              readOnly: true
-              type: string
-            period:
-              description: 'The time period which this schedule entry is part of. Must belong to the same camp as the activity.'
-              example: /periods/1a2b3c4d
-              format: iri-reference
-              type: string
-            scheduleEntryNumber:
-              description: |-
-                The cardinal number of this schedule entry, when chronologically ordering all
-                schedule entries WITH THE SAME NUMBERING STYLE that start on the same day. I.e. if
-                the schedule entry is the second entry with roman numbering on a given day, its
-                number will be 2.
-              example: '2'
-              readOnly: true
-              type: integer
-            start:
-              description: 'Start date and time of the schedule entry.'
-              example: '2022-01-02T00:00:00+00:00'
-              format: date-time
-              type: string
-            width:
-              default: 1
-              description: |-
-                When rendering a period in a calendar view: Specifies how wide the rendered calendar event should
-                be, as a fractional amount of the width of the whole day. This is useful to arrange multiple
-                overlapping schedule entries such that all of them are visible. Should be a decimal number
-                between 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.
-              example: 0.4
-              type:
-                - 'null'
-                - number
-            ysPhysicalActivityDurationMinutes:
-              description: |-
-                The J+S physical activity duration ("Bewegungszeit") in minutes during this schedule entry. Null
-                if not specified. Each schedule entry of an activity has its own value, because e.g. a repeated
-                activity or an activity split into multiple schedule entries may contain different amounts of
-                physical activity.
-              example: 60
-              type:
-                - integer
-                - 'null'
-          required:
             - end
             - start
           type: object
@@ -45476,6 +45061,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     SingleText.jsonapi-validation.Default_create:
       properties:
         data:
@@ -45496,10 +45082,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     SingleText.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/SingleText.jsonapi-validation.Default_create.input.resource'
+      type: object
     SingleText.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -45695,10 +45283,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     SingleText.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/SingleText.jsonapi-validation.Default_update.input.resource'
+      type: object
     SingleText.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -47422,6 +47012,7 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Storyboard.jsonapi-validation.Default_create:
       properties:
         data:
@@ -47442,10 +47033,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Storyboard.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/Storyboard.jsonapi-validation.Default_create.input.resource'
+      type: object
     Storyboard.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -47641,10 +47234,12 @@ components:
                 $ref: '#/components/schemas/ContentType.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     Storyboard.jsonapi-validation.Default_update.input:
       properties:
         data:
           $ref: '#/components/schemas/Storyboard.jsonapi-validation.Default_update.input.resource'
+      type: object
     Storyboard.jsonapi-validation.Default_update.input.resource:
       properties:
         attributes:
@@ -48246,6 +47841,9 @@ components:
             - root
           type: object
     User:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48384,6 +47982,9 @@ components:
           writeOnly: true
       type: object
     User-read:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48423,6 +48024,9 @@ components:
           type: string
       type: object
     User-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48462,6 +48066,9 @@ components:
           type: string
       type: object
     User-read_CampCollaboration.Camp_CampCollaboration.User:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48501,6 +48108,9 @@ components:
           type: string
       type: object
     User-read_CampCollaboration.User:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48540,6 +48150,9 @@ components:
           type: string
       type: object
     User-read_User.create:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48805,6 +48418,9 @@ components:
         - profile
       type: object
     User.html-read:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48844,6 +48460,9 @@ components:
           type: string
       type: object
     User.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48883,6 +48502,9 @@ components:
           type: string
       type: object
     User.html-read_CampCollaboration.Camp_CampCollaboration.User:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48922,6 +48544,9 @@ components:
           type: string
       type: object
     User.html-read_CampCollaboration.User:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -48961,6 +48586,9 @@ components:
           type: string
       type: object
     User.html-read_User.create:
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
       properties:
         abbreviation:
           description: 'A displayable name of the user.'
@@ -49135,6 +48763,7 @@ components:
                 $ref: '#/components/schemas/Profile.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     User.jsonapi-validation.Default_create:
       properties:
         data:
@@ -49149,10 +48778,12 @@ components:
                 $ref: '#/components/schemas/Profile.jsonapi.resource'
           readOnly: true
           type: array
+      type: object
     User.jsonapi-validation.Default_create.input:
       properties:
         data:
           $ref: '#/components/schemas/User.jsonapi-validation.Default_create.input.resource'
+      type: object
     User.jsonapi-validation.Default_create.input.resource:
       properties:
         attributes:
@@ -49358,6 +48989,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/User.jsonapi.input.resource'
+      type: object
     User.jsonapi.input.resource:
       properties:
         attributes:
@@ -49573,6 +49205,9 @@ components:
                   type: object
               type: object
           type: object
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
     User.jsonhal-read_User.create_validation.Default_create:
       allOf:
         -
@@ -49648,6 +49283,9 @@ components:
               format: iri-reference
               type: string
           type: object
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
     User.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       allOf:
         -
@@ -49691,6 +49329,9 @@ components:
               format: iri-reference
               type: string
           type: object
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
     User.jsonld-read_CampCollaboration.Camp_CampCollaboration.User:
       allOf:
         -
@@ -49734,6 +49375,9 @@ components:
               format: iri-reference
               type: string
           type: object
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
     User.jsonld-read_CampCollaboration.User:
       allOf:
         -
@@ -49777,6 +49421,9 @@ components:
               format: iri-reference
               type: string
           type: object
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
     User.jsonld-read_User.create:
       allOf:
         -
@@ -49814,6 +49461,9 @@ components:
               $ref: '#/components/schemas/Profile.jsonld-read_User.create'
               readOnly: true
           type: object
+      description: |-
+        A person using eCamp.
+        The properties available for all other eCamp users are here.
     User.jsonld-read_User.create_validation.Default_create:
       allOf:
         -
@@ -49886,6 +49536,7 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/UserActivation.jsonapi.input.resource'
+      type: object
     UserActivation.jsonapi.input.resource:
       properties:
         attributes:
@@ -50083,6 +49734,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -50548,6 +50212,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -50925,6 +50602,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -51625,6 +51315,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -52461,6 +52164,19 @@ paths:
                   $ref: '#/components/schemas/Category.html-read_Category.PreferredContentTypes'
                 type: array
           description: 'Category collection'
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
       summary: 'Retrieves the collection of Category resources.'
       tags:
         - Category
@@ -52546,6 +52262,19 @@ paths:
                   $ref: '#/components/schemas/Checklist.html-read'
                 type: array
           description: 'Checklist collection'
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
       summary: 'Retrieves the collection of Checklist resources.'
       tags:
         - Checklist
@@ -52888,6 +52617,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -53267,6 +53009,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -53587,19 +53342,19 @@ paths:
         content:
           application/hal+json:
             schema:
-              $ref: '#/components/schemas/Checklist.jsonhal-write_create'
+              $ref: '#/components/schemas/Checklist.jsonhal-write_create_validation.Default_create'
           application/json:
             schema:
-              $ref: '#/components/schemas/Checklist-write_create'
+              $ref: '#/components/schemas/Checklist-write_create_validation.Default_create'
           application/ld+json:
             schema:
-              $ref: '#/components/schemas/Checklist-write_create'
+              $ref: '#/components/schemas/Checklist-write_create_validation.Default_create'
           application/vnd.api+json:
             schema:
-              $ref: '#/components/schemas/Checklist.jsonapi.input'
+              $ref: '#/components/schemas/Checklist.jsonapi-validation.Default_create.input'
           text/html:
             schema:
-              $ref: '#/components/schemas/Checklist-write_create'
+              $ref: '#/components/schemas/Checklist-write_create_validation.Default_create'
         description: 'The new Checklist resource'
         required: true
       responses:
@@ -53607,19 +53362,19 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/Checklist.jsonhal-read'
+                $ref: '#/components/schemas/Checklist.jsonhal-read_validation.Default_create'
             application/json:
               schema:
-                $ref: '#/components/schemas/Checklist-read'
+                $ref: '#/components/schemas/Checklist-read_validation.Default_create'
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/Checklist.jsonld-read'
+                $ref: '#/components/schemas/Checklist.jsonld-read_validation.Default_create'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/Checklist.jsonapi'
+                $ref: '#/components/schemas/Checklist.jsonapi-validation.Default_create'
             text/html:
               schema:
-                $ref: '#/components/schemas/Checklist.html-read'
+                $ref: '#/components/schemas/Checklist.html-read_validation.Default_create'
           description: 'Checklist resource created'
           links: []
         400:
@@ -53634,6 +53389,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -53743,6 +53511,19 @@ paths:
                   $ref: '#/components/schemas/ChecklistItem.html-read'
                 type: array
           description: 'ChecklistItem collection'
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
       summary: 'Retrieves the collection of ChecklistItem resources.'
       tags:
         - ChecklistItem
@@ -54107,6 +53888,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -54516,6 +54310,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -54624,6 +54431,19 @@ paths:
                   $ref: '#/components/schemas/ChecklistItem.html-read'
                 type: array
           description: 'ChecklistItem collection'
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
       summary: 'Retrieves the collection of ChecklistItem resources.'
       tags:
         - ChecklistItem
@@ -55018,6 +54838,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -55427,6 +55260,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -55834,6 +55680,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -56243,6 +56102,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -56650,6 +56522,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -57059,6 +56944,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -57466,6 +57364,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -58108,6 +58019,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -58423,6 +58347,19 @@ paths:
                   $ref: '#/components/schemas/DayResponsible.html-read'
                 type: array
           description: 'DayResponsible collection'
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
       summary: 'Retrieves the collection of DayResponsible resources.'
       tags:
         - DayResponsible
@@ -59196,6 +59133,19 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
           links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
         422:
           content:
             application/json:
@@ -59339,10 +59289,10 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/MaterialItem-write_validation.App.Validator.MaterialItemUpdateGroupSequence.jsonMergePatch'
+              $ref: '#/components/schemas/MaterialItem-write.jsonMergePatch'
           application/vnd.api+json:
             schema:
-              $ref: '#/components/schemas/MaterialItem.jsonapi-validation.App.Validator.MaterialItemUpdateGroupSequence.input'
+              $ref: '#/components/schemas/MaterialItem.jsonapi.input'
         description: 'The updated MaterialItem resource'
         required: true
       responses:
@@ -59350,19 +59300,19 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/MaterialItem.jsonhal-read_validation.App.Validator.MaterialItemUpdateGroupSequence'
+                $ref: '#/components/schemas/MaterialItem.jsonhal-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/MaterialItem-read_validation.App.Validator.MaterialItemUpdateGroupSequence'
+                $ref: '#/components/schemas/MaterialItem-read'
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/MaterialItem.jsonld-read_validation.App.Validator.MaterialItemUpdateGroupSequence'
+                $ref: '#/components/schemas/MaterialItem.jsonld-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/MaterialItem.jsonapi-validation.App.Validator.MaterialItemUpdateGroupSequence'
+                $ref: '#/components/schemas/MaterialItem.jsonapi'
             text/html:
               schema:
-                $ref: '#/components/schemas/MaterialItem.html-read_validation.App.Validator.MaterialItemUpdateGroupSequence'
+                $ref: '#/components/schemas/MaterialItem.html-read'
           description: 'MaterialItem resource updated'
           links: []
         400:
@@ -59551,6 +59501,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -59917,6 +59880,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:
@@ -61185,19 +61161,19 @@ paths:
         content:
           application/hal+json:
             schema:
-              $ref: '#/components/schemas/ScheduleEntry.jsonhal-write_create_validation.App.Validator.ScheduleEntryPostGroupSequence'
+              $ref: '#/components/schemas/ScheduleEntry.jsonhal-write_create'
           application/json:
             schema:
-              $ref: '#/components/schemas/ScheduleEntry-write_create_validation.App.Validator.ScheduleEntryPostGroupSequence'
+              $ref: '#/components/schemas/ScheduleEntry-write_create'
           application/ld+json:
             schema:
-              $ref: '#/components/schemas/ScheduleEntry-write_create_validation.App.Validator.ScheduleEntryPostGroupSequence'
+              $ref: '#/components/schemas/ScheduleEntry-write_create'
           application/vnd.api+json:
             schema:
-              $ref: '#/components/schemas/ScheduleEntry.jsonapi-validation.App.Validator.ScheduleEntryPostGroupSequence.input'
+              $ref: '#/components/schemas/ScheduleEntry.jsonapi.input'
           text/html:
             schema:
-              $ref: '#/components/schemas/ScheduleEntry-write_create_validation.App.Validator.ScheduleEntryPostGroupSequence'
+              $ref: '#/components/schemas/ScheduleEntry-write_create'
         description: 'The new ScheduleEntry resource'
         required: true
       responses:
@@ -61205,19 +61181,19 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/ScheduleEntry.jsonhal-read_ScheduleEntry.Activity_validation.App.Validator.ScheduleEntryPostGroupSequence'
+                $ref: '#/components/schemas/ScheduleEntry.jsonhal-read_ScheduleEntry.Activity'
             application/json:
               schema:
-                $ref: '#/components/schemas/ScheduleEntry-read_ScheduleEntry.Activity_validation.App.Validator.ScheduleEntryPostGroupSequence'
+                $ref: '#/components/schemas/ScheduleEntry-read_ScheduleEntry.Activity'
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/ScheduleEntry.jsonld-read_ScheduleEntry.Activity_validation.App.Validator.ScheduleEntryPostGroupSequence'
+                $ref: '#/components/schemas/ScheduleEntry.jsonld-read_ScheduleEntry.Activity'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/ScheduleEntry.jsonapi-validation.App.Validator.ScheduleEntryPostGroupSequence'
+                $ref: '#/components/schemas/ScheduleEntry.jsonapi'
             text/html:
               schema:
-                $ref: '#/components/schemas/ScheduleEntry.html-read_ScheduleEntry.Activity_validation.App.Validator.ScheduleEntryPostGroupSequence'
+                $ref: '#/components/schemas/ScheduleEntry.html-read_ScheduleEntry.Activity'
           description: 'ScheduleEntry resource created'
           links: []
         400:
@@ -61232,6 +61208,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
           links: []
         422:
           content:

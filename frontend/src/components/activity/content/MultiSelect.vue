@@ -28,7 +28,7 @@
               item.description ? (selectedItems.length <= 3 ? 'three' : 'two') : 'one'
             "
             :ripple="false"
-            class="px-0 ec-multi-select__item"
+            class="pa-0 ec-multi-select__item"
           />
         </v-list>
       </template>
@@ -37,7 +37,7 @@
           v-bind="props"
           :subtitle="item.raw.description"
           :lines="item.raw.description ? 'three' : 'one'"
-          class="ec-multi-select__item"
+          class="ec-multi-select__item ec-multi-select__menu-item"
           active-class="text-blue-darken-2"
         >
           <template #prepend>
@@ -150,15 +150,31 @@ export default {
   margin-inline-end: 0;
 }
 
+.ec-multi-select :deep(.v-field__field) {
+  align-items: center;
+}
+
 .ec-multi-select :deep(.v-list-item + .v-list-item) {
   margin-top: 10px;
 }
 
 .ec-multi-select__item {
   min-height: 0 !important;
+}
 
-  :deep(.v-list-item-title) {
-    white-space: normal;
-  }
+.ec-multi-select__item :deep(.v-list-item-title) {
+  white-space: normal;
+}
+
+.ec-multi-select__item.v-list-item--one-line :deep(.v-list-item-title) {
+  line-height: inherit;
+}
+
+.ec-multi-select__menu-item.v-list-item--one-line :deep(.v-list-item-title) {
+  margin: 10px 0;
+}
+
+.ec-multi-select__menu-item :deep(.v-list-item-subtitle) {
+  -webkit-line-clamp: unset;
 }
 </style>

@@ -87,8 +87,7 @@
         <small class="e-picasso-entry__responsible">
           <span class="d-sr-only">{{
             $t('components.program.picasso.picassoEntry.responsible')
-          }}</span
-          >{{ campCollaborationText }}</small
+          }}</span>{{ campCollaborationText }}</small
         >
       </template>
       <AvatarRow v-else :camp-collaborations="campCollaborations" />
@@ -144,8 +143,7 @@
         <small>
           <span class="d-sr-only">{{
             $t('components.program.picasso.picassoEntry.responsible')
-          }}</span
-          >{{ campCollaborationText }}
+          }}</span>{{ campCollaborationText }}
         </small>
       </template>
       <AvatarRow v-else :camp-collaborations="campCollaborations" />

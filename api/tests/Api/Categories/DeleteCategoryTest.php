@@ -151,7 +151,6 @@ class DeleteCategoryTest extends ECampApiTestCase {
             '/content_node/column_layouts',
             $rootContentNode->getId(),
             $rootContentNode->getId().'#rootDescendants',
-            $rootContentNode->getId().'#root',
         ], $cacheManager->getInvalidatedTags());
     }
 }
