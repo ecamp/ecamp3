@@ -8,6 +8,8 @@ doctrine:
         types:
             datetime_immutable: Doctrine\DBAL\Types\DateTimeUtcImmutableType
             date_immutable: App\Types\Doctrine\UTCDateImmutableType
+        mapping_types:
+            jsonb: jsonb
 
         schema_filter: ~^(?!view_)~
 
@@ -18,6 +20,7 @@ doctrine:
         identity_generation_preferences:
             Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
         auto_mapping: true
+        use_schema_editor_api: true
         validate_xml_mapping: false
         mappings:
             App:

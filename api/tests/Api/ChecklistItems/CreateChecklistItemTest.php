@@ -4,6 +4,7 @@ namespace App\Tests\Api\ChecklistItems;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
+use App\Entity\Checklist;
 use App\Entity\ChecklistItem;
 use App\Tests\Api\ECampApiTestCase;
 use App\Tests\Constraints\CompatibleHalResponse;
@@ -70,6 +71,38 @@ class CreateChecklistItemTest extends ECampApiTestCase {
     }
 
     public function testCreateChecklistItemIsAllowedForManager() {
+        static::createClientWithCredentials()->request('POST', '/checklist_items', ['json' => $this->getExampleWritePayload()]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload(['position' => 2]));
+    }
+
+    public function testCreateChecklistItemInPrototypeChecklistIsDeniedForUser() {
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
+            ->request('POST', '/checklist_items', ['json' => $this->getExampleWritePayload([
+                'checklist' => $this->getIriFor('checklistPrototype'),
+            ])])
+        ;
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
+    public function testCreateChecklistItemInPrototypeChecklistAttachedToCampIsAllowedForMember() {
+        $this->markAsPrototype('checklist1');
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
+            ->request('POST', '/checklist_items', ['json' => $this->getExampleWritePayload()])
+        ;
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload(['position' => 2]));
+    }
+
+    public function testCreateChecklistItemInPrototypeChecklistAttachedToCampIsAllowedForManager() {
+        $this->markAsPrototype('checklist1');
         static::createClientWithCredentials()->request('POST', '/checklist_items', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -315,5 +348,11 @@ class CreateChecklistItemTest extends ECampApiTestCase {
             ['parent', 'checklist', 'checklistNodes'],
             $except
         );
+    }
+
+    private function markAsPrototype(string $checklistFixtureName): void {
+        $checklist = $this->getEntityManager()->getRepository(Checklist::class)->find(static::getFixture($checklistFixtureName)->getId());
+        $checklist->isPrototype = true;
+        $this->getEntityManager()->flush();
     }
 }
