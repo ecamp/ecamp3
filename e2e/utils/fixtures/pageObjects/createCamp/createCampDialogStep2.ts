@@ -10,6 +10,8 @@ const CLOSE_BUTTON_LABEL = 'Schliessen'
 const PREVIEW_HEADING = 'Vorschau der Lagervorlage'
 const OTHER_PROTOTYPE_OPTION = 'Einstellungen von einem anderen Lager kopieren…'
 const PASTE_BUTTON_TITLE = 'Kopierte Lagereinstellungen einfügen'
+// one entry per separately loaded preview list of the GRGR camp
+const COPIED_PREVIEW_ENTRIES = ['Lageraktivität', 'Coach OK', 'Pfadiheim']
 
 export class CreateCampDialogStep2 {
   constructor(
@@ -99,6 +101,11 @@ export class CreateCampDialogStep2 {
     await this.expectSelectedPrototype('GRGR')
     await expect(this._previewHeading).toBeVisible({ timeout: 30_000 })
     await expect(this._previewContent.first()).toBeVisible({ timeout: 30_000 })
+    for (const entry of COPIED_PREVIEW_ENTRIES) {
+      await expect(this._previewContent.filter({ hasText: entry })).toBeVisible({
+        timeout: 30_000,
+      })
+    }
     return this
   }
 
@@ -106,15 +113,17 @@ export class CreateCampDialogStep2 {
   async submit(onCreatedCamp = this._onCreatedCamp) {
     const isCreateCamp = (request: Request) =>
       request.method() === 'POST' && new URL(request.url()).pathname === '/api/camps'
-    const waitForCreateCampRequest = this._page.waitForRequest(isCreateCamp)
+    const waitForCreateCampRequest = this._page.waitForRequest(isCreateCamp, {
+      timeout: 10_000,
+    })
     const waitForCreateCampResponse = this._page.waitForResponse(
       (response) =>
         response.request().method() === 'POST' && isCreateCamp(response.request())
     )
-    await this._createCampButton.click()
     const [createCampRequest, createCampResponse] = await Promise.all([
       waitForCreateCampRequest,
       waitForCreateCampResponse,
+      this._createCampButton.click(),
     ])
     expect(createCampResponse.ok()).toBe(true)
     const campPrototype = createCampRequest.postDataJSON().campPrototype
