@@ -29,12 +29,12 @@ use App\Entity\HasId;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping\AssociationMapping;
-use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\InverseSideMapping;
+use Doctrine\ORM\Mapping\OwningSideMapping;
 use Doctrine\ORM\PersistentCollection;
 use FOS\HttpCacheBundle\CacheManager;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 /**
  * Purges responses containing modified entities from the proxy cache.
@@ -49,7 +49,7 @@ final readonly class PurgeHttpCacheListener {
         private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
         private CacheManager $cacheManager,
         private EntityManagerInterface $em,
-        private NameConverterInterface $nameConverter,
+        private RelationTagResolver $relationTagResolver,
     ) {}
 
     /**
@@ -64,8 +64,7 @@ final readonly class PurgeHttpCacheListener {
             if (!isset($associationMappings[$key])) {
                 continue;
             }
-            $mappings = $associationMappings[$key];
-            $relatedProperty = $mappings['isOwningSide'] ? $mappings['inversedBy'] : $mappings['mappedBy'];
+            $relatedProperty = $this->getRelatedProperty($associationMappings[$key]);
             if (!$relatedProperty) {
                 continue;
             }
@@ -120,18 +119,29 @@ final readonly class PurgeHttpCacheListener {
     private function addTagsForManyToManyRelations($collection, $entities) {
         $associationMapping = $collection->getMapping();
 
-        if (ClassMetadata::MANY_TO_MANY !== $associationMapping['type']) {
+        if (!$associationMapping->isManyToMany()) {
             return;
         }
 
         foreach ($entities as $entity) {
-            $relatedProperty = $associationMapping['isOwningSide'] ? $associationMapping['inversedBy'] : $associationMapping['mappedBy'];
+            $relatedProperty = $this->getRelatedProperty($associationMapping);
             if (!$relatedProperty) {
                 continue;
             }
 
             $this->addTagForItem($entity, $relatedProperty);
         }
+    }
+
+    /**
+     * Name of the property on the other side of the association, if the association is bidirectional.
+     */
+    private function getRelatedProperty(AssociationMapping $associationMapping): ?string {
+        if ($associationMapping instanceof InverseSideMapping) {
+            return $associationMapping->mappedBy;
+        }
+
+        return $associationMapping instanceof OwningSideMapping ? $associationMapping->inversedBy : null;
     }
 
     /**
@@ -229,19 +239,21 @@ final readonly class PurgeHttpCacheListener {
 
     /**
      * Invalidate all relation tags of foreign objects ($relatedObject), in which $entity appears.
-     *
-     * @psalm-suppress UndefinedClass
      */
     private function gatherRelationTags(object $entity): void {
         $associationMappings = $this->em->getClassMetadata($entity::class)->getAssociationMappings();
 
         foreach ($associationMappings as $property => $associationMapping) {
-            if ($associationMapping instanceof AssociationMapping && $associationMapping->targetEntity && !$this->resourceClassResolver->isResourceClass($associationMapping->targetEntity)) {
+            if (!$this->resourceClassResolver->isResourceClass($associationMapping->targetEntity)) {
                 continue;
             }
 
-            $relatedProperty = $associationMapping['isOwningSide'] ? $associationMapping['inversedBy'] : $associationMapping['mappedBy'];
+            $relatedProperty = $this->getRelatedProperty($associationMapping);
             if (!$relatedProperty) {
+                continue;
+            }
+
+            if (!$this->relationTagResolver->shouldTagProperty($associationMapping->targetEntity, $relatedProperty)) {
                 continue;
             }
 
@@ -292,7 +304,7 @@ final readonly class PurgeHttpCacheListener {
                 $iri = $this->iriConverter->getIriFromResource($value);
             }
             if ($iri && $property) {
-                $iri = CacheTag::forRelation($iri, $this->nameConverter->normalize($property, $this->getObjectClass($value)));
+                $iri = $this->relationTagResolver->createRelationTag($iri, $this->getObjectClass($value), $property);
             }
             if ($iri) {
                 $this->cacheManager->invalidateTags([$iri]);
